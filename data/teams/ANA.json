@@ -9,28 +9,129 @@
     "colorSecondary": "#B09862"
   },
   "roster": [
-    { "id": "ANA-carlsson", "name": "Leo Carlsson", "pos": "C", "age": 21, "shoots": "L", "overall": 87, "potential": 93, "nationality": "SWE", "contract": { "capHit": 18.0, "yearsLeft": 5, "expiry": "RFA" } },
-    { "id": "ANA-gauthier", "name": "Cutter Gauthier", "pos": "LW", "age": 22, "shoots": "L", "overall": 84, "potential": 91, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "ANA-terry", "name": "Troy Terry", "pos": "RW", "age": 28, "shoots": "R", "overall": 83, "potential": 83, "nationality": "USA", "contract": { "capHit": 7.0, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "ANA-sennecke", "name": "Beckett Sennecke", "pos": "RW", "age": 20, "shoots": "R", "overall": 80, "potential": 90, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "ANA-granlund", "name": "Mikael Granlund", "pos": "C", "age": 34, "shoots": "L", "overall": 80, "potential": 80, "nationality": "FIN", "contract": { "capHit": 7.0, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "ANA-vatrano", "name": "Frank Vatrano", "pos": "RW", "age": 32, "shoots": "L", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 3.65, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "ANA-kreider", "name": "Chris Kreider", "pos": "LW", "age": 35, "shoots": "L", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 6.5, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "ANA-killorn", "name": "Alex Killorn", "pos": "LW", "age": 36, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 1, "expiry": "UFA", "ntc": true } },
-    { "id": "ANA-strome", "name": "Ryan Strome", "pos": "C", "age": 33, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "ANA-fabbri", "name": "Robby Fabbri", "pos": "LW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "ANA-colangelo", "name": "Sam Colangelo", "pos": "RW", "age": 24, "shoots": "R", "overall": 77, "potential": 82, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "ANA-greer", "name": "A.J. Greer", "pos": "LW", "age": 29, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 4.25, "yearsLeft": 4, "expiry": "UFA" } },
-    { "id": "ANA-gaucher", "name": "Nathan Gaucher", "pos": "C", "age": 23, "shoots": "R", "overall": 73, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "ANA-malott", "name": "Jeff Malott", "pos": "LW", "age": 29, "shoots": "L", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "ANA-lacombe", "name": "Jackson LaCombe", "pos": "D", "age": 25, "shoots": "L", "overall": 86, "potential": 88, "nationality": "USA", "contract": { "capHit": 9.0, "yearsLeft": 8, "expiry": "UFA" } },
-    { "id": "ANA-mintyukov", "name": "Pavel Mintyukov", "pos": "D", "age": 22, "shoots": "L", "overall": 80, "potential": 87, "nationality": "RUS", "contract": { "capHit": 4.0, "yearsLeft": 5, "expiry": "UFA" } },
-    { "id": "ANA-jensen", "name": "Nick Jensen", "pos": "D", "age": 35, "shoots": "R", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 2.25, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "ANA-helleson", "name": "Drew Helleson", "pos": "D", "age": 25, "shoots": "R", "overall": 75, "potential": 78, "nationality": "USA", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "ANA-luneau", "name": "Tristan Luneau", "pos": "D", "age": 22, "shoots": "R", "overall": 74, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-carlsson", "name": "Leo Carlsson", "pos": "C", "age": 21, "shoots": "L", "overall": 87, "potential": 93, "nationality": "SWE", "contract": { "capHit": 18.0, "yearsLeft": 5, "expiry": "RFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 55, "goals": 12, "assists": 17, "points": 29, "plusMinus": -5, "pim": 8 },
+      { "year": 2024, "team": "ANA", "gp": 76, "goals": 21, "assists": 24, "points": 45, "plusMinus": -8, "pim": 14 },
+      { "year": 2025, "team": "ANA", "gp": 70, "goals": 29, "assists": 38, "points": 67, "plusMinus": 4, "pim": 20 }
+    ] },
+    { "id": "ANA-gauthier", "name": "Cutter Gauthier", "pos": "LW", "age": 22, "shoots": "L", "overall": 84, "potential": 91, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2024, "team": "ANA", "gp": 82, "goals": 20, "assists": 24, "points": 44, "plusMinus": -12, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 76, "goals": 41, "assists": 28, "points": 69, "plusMinus": 6, "pim": 34 }
+    ] },
+    { "id": "ANA-terry", "name": "Troy Terry", "pos": "RW", "age": 28, "shoots": "R", "overall": 83, "potential": 83, "nationality": "USA", "contract": { "capHit": 7.0, "yearsLeft": 2, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "ANA", "gp": 75, "goals": 37, "assists": 30, "points": 67, "plusMinus": 9, "pim": 32 },
+      { "year": 2022, "team": "ANA", "gp": 70, "goals": 23, "assists": 38, "points": 61, "plusMinus": -21, "pim": 41 },
+      { "year": 2023, "team": "ANA", "gp": 77, "goals": 22, "assists": 33, "points": 55, "plusMinus": -8, "pim": 38 },
+      { "year": 2024, "team": "ANA", "gp": 76, "goals": 20, "assists": 35, "points": 55, "plusMinus": 2, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 61, "goals": 19, "assists": 38, "points": 57, "plusMinus": 2, "pim": 20 }
+    ] },
+    { "id": "ANA-sennecke", "name": "Beckett Sennecke", "pos": "RW", "age": 20, "shoots": "R", "overall": 80, "potential": 90, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2025, "team": "ANA", "gp": 82, "goals": 23, "assists": 37, "points": 60, "plusMinus": 4, "pim": 28 }
+    ] },
+    { "id": "ANA-granlund", "name": "Mikael Granlund", "pos": "C", "age": 34, "shoots": "L", "overall": 80, "potential": 80, "nationality": "FIN", "contract": { "capHit": 7.0, "yearsLeft": 2, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NSH", "gp": 66, "goals": 11, "assists": 40, "points": 51, "plusMinus": -5, "pim": 24 },
+      { "year": 2022, "team": "PIT", "gp": 80, "goals": 12, "assists": 52, "points": 64, "plusMinus": -8, "pim": 36 },
+      { "year": 2023, "team": "SJS", "gp": 69, "goals": 16, "assists": 44, "points": 60, "plusMinus": -20, "pim": 30 },
+      { "year": 2024, "team": "DAL", "gp": 82, "goals": 22, "assists": 44, "points": 66, "plusMinus": 0, "pim": 40 },
+      { "year": 2025, "team": "ANA", "gp": 58, "goals": 19, "assists": 22, "points": 41, "plusMinus": -4, "pim": 30 }
+    ] },
+    { "id": "ANA-vatrano", "name": "Frank Vatrano", "pos": "RW", "age": 32, "shoots": "L", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 3.65, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NYR", "gp": 79, "goals": 18, "assists": 16, "points": 34, "plusMinus": 5, "pim": 20 },
+      { "year": 2022, "team": "ANA", "gp": 81, "goals": 19, "assists": 22, "points": 41, "plusMinus": -15, "pim": 24 },
+      { "year": 2023, "team": "ANA", "gp": 82, "goals": 37, "assists": 23, "points": 60, "plusMinus": -6, "pim": 20 },
+      { "year": 2024, "team": "ANA", "gp": 76, "goals": 17, "assists": 18, "points": 35, "plusMinus": -10, "pim": 18 },
+      { "year": 2025, "team": "ANA", "gp": 50, "goals": 5, "assists": 4, "points": 9, "plusMinus": -6, "pim": 12 }
+    ] },
+    { "id": "ANA-kreider", "name": "Chris Kreider", "pos": "LW", "age": 35, "shoots": "L", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 6.5, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NYR", "gp": 81, "goals": 52, "assists": 25, "points": 77, "plusMinus": 7, "pim": 38 },
+      { "year": 2022, "team": "NYR", "gp": 79, "goals": 36, "assists": 16, "points": 52, "plusMinus": 1, "pim": 40 },
+      { "year": 2023, "team": "NYR", "gp": 82, "goals": 39, "assists": 36, "points": 75, "plusMinus": 20, "pim": 39 },
+      { "year": 2024, "team": "NYR", "gp": 68, "goals": 22, "assists": 8, "points": 30, "plusMinus": -18, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 75, "goals": 22, "assists": 28, "points": 50, "plusMinus": -4, "pim": 34 }
+    ] },
+    { "id": "ANA-killorn", "name": "Alex Killorn", "pos": "LW", "age": 36, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 1, "expiry": "UFA", "ntc": true }, "history": [
+      { "year": 2021, "team": "TBL", "gp": 82, "goals": 25, "assists": 34, "points": 59, "plusMinus": 20, "pim": 60 },
+      { "year": 2022, "team": "TBL", "gp": 82, "goals": 27, "assists": 37, "points": 64, "plusMinus": 6, "pim": 42 },
+      { "year": 2023, "team": "ANA", "gp": 74, "goals": 19, "assists": 17, "points": 36, "plusMinus": -12, "pim": 40 },
+      { "year": 2024, "team": "ANA", "gp": 78, "goals": 15, "assists": 22, "points": 37, "plusMinus": -8, "pim": 40 },
+      { "year": 2025, "team": "ANA", "gp": 82, "goals": 15, "assists": 18, "points": 33, "plusMinus": -2, "pim": 40 }
+    ] },
+    { "id": "ANA-strome", "name": "Ryan Strome", "pos": "C", "age": 33, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NYR", "gp": 74, "goals": 21, "assists": 33, "points": 54, "plusMinus": 9, "pim": 38 },
+      { "year": 2022, "team": "ANA", "gp": 80, "goals": 15, "assists": 33, "points": 48, "plusMinus": -18, "pim": 40 },
+      { "year": 2023, "team": "ANA", "gp": 82, "goals": 16, "assists": 41, "points": 57, "plusMinus": -6, "pim": 46 },
+      { "year": 2024, "team": "ANA", "gp": 78, "goals": 12, "assists": 25, "points": 37, "plusMinus": -10, "pim": 40 },
+      { "year": 2025, "team": "CGY", "gp": 52, "goals": 7, "assists": 14, "points": 21, "plusMinus": -8, "pim": 28 }
+    ] },
+    { "id": "ANA-fabbri", "name": "Robby Fabbri", "pos": "LW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "DET", "gp": 30, "goals": 7, "assists": 9, "points": 16, "plusMinus": -2, "pim": 14 },
+      { "year": 2022, "team": "DET", "gp": 53, "goals": 12, "assists": 16, "points": 28, "plusMinus": 2, "pim": 26 },
+      { "year": 2023, "team": "DET", "gp": 47, "goals": 10, "assists": 11, "points": 21, "plusMinus": -4, "pim": 24 },
+      { "year": 2024, "team": "ANA", "gp": 61, "goals": 13, "assists": 17, "points": 30, "plusMinus": -6, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 44, "goals": 8, "assists": 8, "points": 16, "plusMinus": -6, "pim": 24 }
+    ] },
+    { "id": "ANA-colangelo", "name": "Sam Colangelo", "pos": "RW", "age": 24, "shoots": "R", "overall": 77, "potential": 82, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 3, "goals": 1, "assists": 0, "points": 1, "plusMinus": 0, "pim": 2 },
+      { "year": 2024, "team": "ANA", "gp": 32, "goals": 10, "assists": 2, "points": 12, "plusMinus": 3, "pim": 2 },
+      { "year": 2025, "team": "ANA", "gp": 30, "goals": 9, "assists": 2, "points": 11, "plusMinus": -4, "pim": 10 }
+    ] },
+    { "id": "ANA-greer", "name": "A.J. Greer", "pos": "LW", "age": 29, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 4.25, "yearsLeft": 4, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NJD", "gp": 15, "goals": 1, "assists": 2, "points": 3, "plusMinus": -2, "pim": 20 },
+      { "year": 2022, "team": "BOS", "gp": 54, "goals": 5, "assists": 8, "points": 13, "plusMinus": 6, "pim": 66 },
+      { "year": 2023, "team": "FLA", "gp": 52, "goals": 4, "assists": 8, "points": 12, "plusMinus": 5, "pim": 60 },
+      { "year": 2024, "team": "FLA", "gp": 68, "goals": 8, "assists": 10, "points": 18, "plusMinus": 8, "pim": 70 },
+      { "year": 2025, "team": "FLA", "gp": 78, "goals": 17, "assists": 15, "points": 32, "plusMinus": 14, "pim": 113 }
+    ] },
+    { "id": "ANA-gaucher", "name": "Nathan Gaucher", "pos": "C", "age": 23, "shoots": "R", "overall": 73, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2025, "team": "ANA", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2 }
+    ] },
+    { "id": "ANA-malott", "name": "Jeff Malott", "pos": "LW", "age": 29, "shoots": "L", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "WPG", "gp": 1, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0 },
+      { "year": 2024, "team": "LAK", "gp": 15, "goals": 2, "assists": 1, "points": 3, "plusMinus": -2, "pim": 14 },
+      { "year": 2025, "team": "LAK", "gp": 58, "goals": 3, "assists": 6, "points": 9, "plusMinus": -4, "pim": 55 }
+    ] },
+    { "id": "ANA-lacombe", "name": "Jackson LaCombe", "pos": "D", "age": 25, "shoots": "L", "overall": 86, "potential": 88, "nationality": "USA", "contract": { "capHit": 9.0, "yearsLeft": 8, "expiry": "UFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 61, "goals": 3, "assists": 16, "points": 19, "plusMinus": -12, "pim": 20 },
+      { "year": 2024, "team": "ANA", "gp": 75, "goals": 14, "assists": 29, "points": 43, "plusMinus": 2, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 82, "goals": 10, "assists": 48, "points": 58, "plusMinus": -2, "pim": 30 }
+    ] },
+    { "id": "ANA-mintyukov", "name": "Pavel Mintyukov", "pos": "D", "age": 22, "shoots": "L", "overall": 80, "potential": 87, "nationality": "RUS", "contract": { "capHit": 4.0, "yearsLeft": 5, "expiry": "UFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 62, "goals": 7, "assists": 21, "points": 28, "plusMinus": -17, "pim": 34 },
+      { "year": 2024, "team": "ANA", "gp": 45, "goals": 4, "assists": 14, "points": 18, "plusMinus": -6, "pim": 30 },
+      { "year": 2025, "team": "ANA", "gp": 73, "goals": 8, "assists": 14, "points": 22, "plusMinus": -3, "pim": 40 }
+    ] },
+    { "id": "ANA-jensen", "name": "Nick Jensen", "pos": "D", "age": 35, "shoots": "R", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 2.25, "yearsLeft": 2, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "WSH", "gp": 78, "goals": 5, "assists": 16, "points": 21, "plusMinus": 6, "pim": 30 },
+      { "year": 2022, "team": "WSH", "gp": 80, "goals": 5, "assists": 21, "points": 26, "plusMinus": 12, "pim": 26 },
+      { "year": 2023, "team": "WSH", "gp": 82, "goals": 3, "assists": 20, "points": 23, "plusMinus": -5, "pim": 28 },
+      { "year": 2024, "team": "OTT", "gp": 78, "goals": 4, "assists": 23, "points": 27, "plusMinus": 10, "pim": 26 },
+      { "year": 2025, "team": "OTT", "gp": 61, "goals": 4, "assists": 13, "points": 17, "plusMinus": 4, "pim": 20 }
+    ] },
+    { "id": "ANA-helleson", "name": "Drew Helleson", "pos": "D", "age": 25, "shoots": "R", "overall": 75, "potential": 78, "nationality": "USA", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 3, "goals": 1, "assists": 0, "points": 1, "plusMinus": 0, "pim": 0 },
+      { "year": 2024, "team": "ANA", "gp": 56, "goals": 4, "assists": 9, "points": 13, "plusMinus": 6, "pim": 47 },
+      { "year": 2025, "team": "ANA", "gp": 60, "goals": 2, "assists": 13, "points": 15, "plusMinus": -4, "pim": 34 }
+    ] },
+    { "id": "ANA-luneau", "name": "Tristan Luneau", "pos": "D", "age": 22, "shoots": "R", "overall": 74, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2023, "team": "ANA", "gp": 5, "goals": 1, "assists": 1, "points": 2, "plusMinus": 0, "pim": 2 },
+      { "year": 2024, "team": "ANA", "gp": 8, "goals": 0, "assists": 3, "points": 3, "plusMinus": -2, "pim": 2 },
+      { "year": 2025, "team": "ANA", "gp": 7, "goals": 1, "assists": 0, "points": 1, "plusMinus": 0, "pim": 2 }
+    ] },
     { "id": "ANA-solberg", "name": "Stian Solberg", "pos": "D", "age": 20, "shoots": "L", "overall": 74, "potential": 84, "nationality": "NOR", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "ANA-dostal", "name": "Lukas Dostal", "pos": "G", "age": 25, "shoots": "L", "overall": 86, "potential": 87, "nationality": "CZE", "contract": { "capHit": 6.5, "yearsLeft": 4, "expiry": "UFA" } },
-    { "id": "ANA-mrazek", "name": "Petr Mrazek", "pos": "G", "age": 34, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CZE", "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" } }
+    { "id": "ANA-dostal", "name": "Lukas Dostal", "pos": "G", "age": 25, "shoots": "L", "overall": 86, "potential": 87, "nationality": "CZE", "contract": { "capHit": 6.5, "yearsLeft": 4, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "ANA", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 1, "losses": 2, "otl": 0, "shutouts": 0, "gaa": 3.57, "svPct": 0.889 },
+      { "year": 2022, "team": "ANA", "gp": 19, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 6, "losses": 9, "otl": 1, "shutouts": 0, "gaa": 3.57, "svPct": 0.893 },
+      { "year": 2023, "team": "ANA", "gp": 44, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 12, "losses": 21, "otl": 6, "shutouts": 2, "gaa": 3.33, "svPct": 0.911 },
+      { "year": 2024, "team": "ANA", "gp": 54, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 2, "wins": 23, "losses": 23, "otl": 7, "shutouts": 2, "gaa": 3.10, "svPct": 0.903 },
+      { "year": 2025, "team": "ANA", "gp": 56, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 2, "wins": 30, "losses": 20, "otl": 4, "shutouts": 2, "gaa": 3.10, "svPct": 0.888 }
+    ] },
+    { "id": "ANA-mrazek", "name": "Petr Mrazek", "pos": "G", "age": 34, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CZE", "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "TOR", "gp": 20, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 12, "losses": 6, "otl": 0, "shutouts": 1, "gaa": 3.34, "svPct": 0.888 },
+      { "year": 2022, "team": "CHI", "gp": 24, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 10, "losses": 12, "otl": 1, "shutouts": 2, "gaa": 3.19, "svPct": 0.894 },
+      { "year": 2023, "team": "CHI", "gp": 34, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 9, "losses": 19, "otl": 3, "shutouts": 1, "gaa": 3.37, "svPct": 0.895 },
+      { "year": 2024, "team": "DET", "gp": 33, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 12, "losses": 16, "otl": 2, "shutouts": 1, "gaa": 3.30, "svPct": 0.893 },
+      { "year": 2025, "team": "ANA", "gp": 10, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 3, "losses": 5, "otl": 0, "shutouts": 0, "gaa": 4.07, "svPct": 0.858 }
+    ] }
   ],
   "prospects": [
     { "id": "ANA-klepov", "name": "Nikita Klepov", "pos": "RW", "age": 18, "shoots": "R", "overall": 62, "potential": 86, "nationality": "RUS", "devLeague": "CHL", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
