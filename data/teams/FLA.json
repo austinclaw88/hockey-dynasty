@@ -1,384 +1,104 @@
 {
-  "info": {
-    "abbrev": "FLA",
-    "city": "Florida",
-    "name": "Panthers",
-    "conference": "East",
-    "division": "Atlantic",
-    "color": "#C8102E",
-    "colorSecondary": "#041E42"
-  },
+  "info": { "abbrev": "FLA", "city": "Florida", "name": "Panthers", "conference": "East",
+            "division": "Atlantic", "color": "#C8102E", "colorSecondary": "#041E42" },
   "roster": [
-    {
-      "id": "FLA-barkov",
-      "name": "Aleksander Barkov",
-      "pos": "C",
-      "age": 30,
-      "shoots": "L",
-      "overall": 93,
-      "potential": 93,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 10,
-        "yearsLeft": 5,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-tkachuk",
-      "name": "Matthew Tkachuk",
-      "pos": "LW",
-      "age": 27,
-      "shoots": "L",
-      "overall": 91,
-      "potential": 91,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 9.5,
-        "yearsLeft": 5,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-reinhart",
-      "name": "Sam Reinhart",
-      "pos": "C",
-      "age": 29,
-      "shoots": "R",
-      "overall": 89,
-      "potential": 89,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 8.625,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-bennett",
-      "name": "Sam Bennett",
-      "pos": "C",
-      "age": 29,
-      "shoots": "L",
-      "overall": 85,
-      "potential": 85,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 8,
-        "yearsLeft": 8,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-verhaeghe",
-      "name": "Carter Verhaeghe",
-      "pos": "LW",
-      "age": 30,
-      "shoots": "L",
-      "overall": 85,
-      "potential": 85,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 7,
-        "yearsLeft": 8,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-marchand",
-      "name": "Brad Marchand",
-      "pos": "LW",
-      "age": 37,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 82,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 5.25,
-        "yearsLeft": 6,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-lundell",
-      "name": "Anton Lundell",
-      "pos": "C",
-      "age": 24,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 86,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 5,
-        "yearsLeft": 6,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-luostarinen",
-      "name": "Eetu Luostarinen",
-      "pos": "C",
-      "age": 27,
-      "shoots": "L",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 3,
-        "yearsLeft": 4,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-samoskevich",
-      "name": "Mackie Samoskevich",
-      "pos": "RW",
-      "age": 22,
-      "shoots": "R",
-      "overall": 77,
-      "potential": 83,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "FLA-boqvist",
-      "name": "Jesper Boqvist",
-      "pos": "C",
-      "age": 27,
-      "shoots": "L",
-      "overall": 75,
-      "potential": 75,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 0.775,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-greer",
-      "name": "A.J. Greer",
-      "pos": "LW",
-      "age": 29,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.8,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-gadjovich",
-      "name": "Jonah Gadjovich",
-      "pos": "LW",
-      "age": 27,
-      "shoots": "L",
-      "overall": 73,
-      "potential": 73,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.775,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-forsling",
-      "name": "Gustav Forsling",
-      "pos": "D",
-      "age": 29,
-      "shoots": "L",
-      "overall": 85,
-      "potential": 85,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 5.75,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-ekblad",
-      "name": "Aaron Ekblad",
-      "pos": "D",
-      "age": 29,
-      "shoots": "R",
-      "overall": 84,
-      "potential": 84,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 6.1,
-        "yearsLeft": 8,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-jones",
-      "name": "Seth Jones",
-      "pos": "D",
-      "age": 30,
-      "shoots": "R",
-      "overall": 83,
-      "potential": 83,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 7,
-        "yearsLeft": 5,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-mikkola",
-      "name": "Niko Mikkola",
-      "pos": "D",
-      "age": 29,
-      "shoots": "L",
-      "overall": 79,
-      "potential": 79,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 2.5,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-kulikov",
-      "name": "Dmitry Kulikov",
-      "pos": "D",
-      "age": 34,
-      "shoots": "L",
-      "overall": 76,
-      "potential": 76,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 1.15,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-balinskis",
-      "name": "Uvis Balinskis",
-      "pos": "D",
-      "age": 29,
-      "shoots": "L",
-      "overall": 73,
-      "potential": 73,
-      "nationality": "LAT",
-      "contract": {
-        "capHit": 0.9,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "FLA-bobrovsky",
-      "name": "Sergei Bobrovsky",
-      "pos": "G",
-      "age": 36,
-      "shoots": "L",
-      "overall": 88,
-      "potential": 88,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 10,
-        "yearsLeft": 1,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "FLA-tarasov",
-      "name": "Daniil Tarasov",
-      "pos": "G",
-      "age": 26,
-      "shoots": "L",
-      "overall": 76,
-      "potential": 79,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 1.05,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "FLA-nosek",
-      "name": "Tomas Nosek",
-      "pos": "C",
-      "age": 33,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "CZE",
-      "contract": {
-        "capHit": 1.05,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    }
+    { "id": "FLA-barkov", "name": "Aleksander Barkov", "pos": "C", "age": 31, "shoots": "L",
+      "overall": 90, "potential": 90, "nationality": "FIN",
+      "contract": { "capHit": 10.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-tkachuk", "name": "Matthew Tkachuk", "pos": "LW", "age": 28, "shoots": "L",
+      "overall": 89, "potential": 89, "nationality": "USA",
+      "contract": { "capHit": 9.5, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-tkachuk2", "name": "Brady Tkachuk", "pos": "LW", "age": 27, "shoots": "L",
+      "overall": 88, "potential": 89, "nationality": "USA",
+      "contract": { "capHit": 8.21, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-reinhart", "name": "Sam Reinhart", "pos": "C", "age": 30, "shoots": "R",
+      "overall": 89, "potential": 89, "nationality": "CAN",
+      "contract": { "capHit": 8.625, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-bennett", "name": "Sam Bennett", "pos": "C", "age": 30, "shoots": "L",
+      "overall": 85, "potential": 85, "nationality": "CAN",
+      "contract": { "capHit": 8.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-verhaeghe", "name": "Carter Verhaeghe", "pos": "LW", "age": 31, "shoots": "L",
+      "overall": 83, "potential": 83, "nationality": "CAN",
+      "contract": { "capHit": 7.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-marchand", "name": "Brad Marchand", "pos": "LW", "age": 38, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 5.25, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "FLA-lundell", "name": "Anton Lundell", "pos": "C", "age": 25, "shoots": "L",
+      "overall": 83, "potential": 86, "nationality": "FIN",
+      "contract": { "capHit": 5.0, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "FLA-luostarinen", "name": "Eetu Luostarinen", "pos": "C", "age": 28, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "FIN",
+      "contract": { "capHit": 3.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "FLA-gadjovich", "name": "Jonah Gadjovich", "pos": "LW", "age": 28, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "CAN",
+      "contract": { "capHit": 0.905, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "FLA-nosek", "name": "Tomas Nosek", "pos": "C", "age": 34, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "CZE",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "FLA-crookshank", "name": "Angus Crookshank", "pos": "LW", "age": 27, "shoots": "L",
+      "overall": 72, "potential": 73, "nationality": "CAN",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "FLA-forsling", "name": "Gustav Forsling", "pos": "D", "age": 30, "shoots": "L",
+      "overall": 85, "potential": 85, "nationality": "SWE",
+      "contract": { "capHit": 5.75, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-ekblad", "name": "Aaron Ekblad", "pos": "D", "age": 30, "shoots": "R",
+      "overall": 83, "potential": 83, "nationality": "CAN",
+      "contract": { "capHit": 6.1, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-jones", "name": "Seth Jones", "pos": "D", "age": 31, "shoots": "R",
+      "overall": 82, "potential": 82, "nationality": "USA",
+      "contract": { "capHit": 7.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "FLA-mikkola", "name": "Niko Mikkola", "pos": "D", "age": 30, "shoots": "L",
+      "overall": 79, "potential": 79, "nationality": "FIN",
+      "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "FLA-gudas", "name": "Radko Gudas", "pos": "D", "age": 36, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CZE",
+      "contract": { "capHit": 1.5, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "FLA-kulikov", "name": "Dmitry Kulikov", "pos": "D", "age": 35, "shoots": "L",
+      "overall": 75, "potential": 75, "nationality": "RUS",
+      "contract": { "capHit": 1.15, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "FLA-balinskis", "name": "Uvis Balinskis", "pos": "D", "age": 30, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "LAT",
+      "contract": { "capHit": 0.875, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "FLA-petrovic", "name": "Alexander Petrovic", "pos": "D", "age": 34, "shoots": "R",
+      "overall": 71, "potential": 71, "nationality": "CAN",
+      "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "FLA-markstrom", "name": "Jacob Markstrom", "pos": "G", "age": 36, "shoots": "L",
+      "overall": 81, "potential": 81, "nationality": "SWE",
+      "contract": { "capHit": 6.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "FLA-schmid", "name": "Akira Schmid", "pos": "G", "age": 26, "shoots": "L",
+      "overall": 76, "potential": 79, "nationality": "SUI",
+      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "UFA" } }
   ],
   "prospects": [
-    {
-      "id": "FLA-vilmanis",
-      "name": "Sandis Vilmanis",
-      "pos": "LW",
-      "age": 21,
-      "shoots": "L",
-      "overall": 64,
-      "potential": 78,
-      "nationality": "LAT",
-      "contract": {
-        "capHit": 0.85,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "FLA-sawchyn",
-      "name": "Gracyn Sawchyn",
-      "pos": "C",
-      "age": 20,
-      "shoots": "R",
-      "overall": 61,
-      "potential": 78,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.828,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "FLA-alscher",
-      "name": "Marek Alscher",
-      "pos": "D",
-      "age": 21,
-      "shoots": "L",
-      "overall": 62,
-      "potential": 77,
-      "nationality": "CZE",
-      "contract": {
-        "capHit": 0.828,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    }
+    { "id": "FLA-vilmanis", "name": "Sandis Vilmanis", "pos": "LW", "age": 22, "shoots": "L",
+      "overall": 66, "potential": 78, "nationality": "LAT", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "FLA-sawchyn", "name": "Gracyn Sawchyn", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 63, "potential": 78, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.828, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "FLA-alscher", "name": "Marek Alscher", "pos": "D", "age": 22, "shoots": "L",
+      "overall": 63, "potential": 76, "nationality": "CZE", "devLeague": "AHL",
+      "contract": { "capHit": 0.828, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "FLA-shuravin", "name": "Matvei Shuravin", "pos": "D", "age": 20, "shoots": "L",
+      "overall": 64, "potential": 82, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.895, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "FLA-devine", "name": "Jack Devine", "pos": "RW", "age": 23, "shoots": "R",
+      "overall": 68, "potential": 79, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "FLA-hovorka", "name": "Mikulas Hovorka", "pos": "D", "age": 22, "shoots": "R",
+      "overall": 60, "potential": 74, "nationality": "CZE", "devLeague": "Czechia",
+      "contract": { "capHit": 0.82, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "FLA-ignatavicius", "name": "Simas Ignatavicius", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 58, "potential": 81, "nationality": "LTU", "devLeague": "NL",
+      "contract": { "capHit": 0.875, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "FLA-cali", "name": "Ryder Cali", "pos": "C", "age": 18, "shoots": "R",
+      "overall": 57, "potential": 79, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.85, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "FLA-kemps", "name": "Jonas Kemps", "pos": "D", "age": 18, "shoots": "R",
+      "overall": 54, "potential": 76, "nationality": "USA", "devLeague": "USHL",
+      "contract": { "capHit": 0.8, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "FLA-denault", "name": "Louis-Antoine Denault", "pos": "G", "age": 18, "shoots": "L",
+      "overall": 52, "potential": 74, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.78, "yearsLeft": 3, "expiry": "RFA" } }
   ]
 }

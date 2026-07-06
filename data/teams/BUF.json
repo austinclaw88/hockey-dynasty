@@ -1,392 +1,92 @@
 {
-  "info": {
-    "abbrev": "BUF",
-    "city": "Buffalo",
-    "name": "Sabres",
-    "conference": "East",
-    "division": "Atlantic",
-    "color": "#003087",
-    "colorSecondary": "#FFB81C"
-  },
+  "info": { "abbrev": "BUF", "city": "Buffalo", "name": "Sabres", "conference": "East",
+            "division": "Atlantic", "color": "#003087", "colorSecondary": "#FFB81C" },
   "roster": [
-    {
-      "id": "BUF-thompson",
-      "name": "Tage Thompson",
-      "pos": "C",
-      "age": 27,
-      "shoots": "R",
-      "overall": 87,
-      "potential": 88,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 7.14,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "BUF-tuch",
-      "name": "Alex Tuch",
-      "pos": "RW",
-      "age": 29,
-      "shoots": "R",
-      "overall": 85,
-      "potential": 85,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4.75,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-norris",
-      "name": "Josh Norris",
-      "pos": "C",
-      "age": 26,
-      "shoots": "L",
-      "overall": 80,
-      "potential": 82,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 7.95,
-        "yearsLeft": 3,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-mcleod",
-      "name": "Ryan McLeod",
-      "pos": "C",
-      "age": 26,
-      "shoots": "L",
-      "overall": 79,
-      "potential": 81,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 5,
-        "yearsLeft": 4,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-quinn",
-      "name": "Jack Quinn",
-      "pos": "RW",
-      "age": 24,
-      "shoots": "R",
-      "overall": 78,
-      "potential": 83,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 3.375,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-zucker",
-      "name": "Jason Zucker",
-      "pos": "LW",
-      "age": 33,
-      "shoots": "L",
-      "overall": 77,
-      "potential": 77,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-greenway",
-      "name": "Jordan Greenway",
-      "pos": "LW",
-      "age": 28,
-      "shoots": "L",
-      "overall": 76,
-      "potential": 76,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 3,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-doan",
-      "name": "Josh Doan",
-      "pos": "RW",
-      "age": 23,
-      "shoots": "R",
-      "overall": 76,
-      "potential": 81,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.863,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-krebs",
-      "name": "Peyton Krebs",
-      "pos": "C",
-      "age": 24,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 77,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.4,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-malenstyn",
-      "name": "Beck Malenstyn",
-      "pos": "LW",
-      "age": 27,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.4,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-lafferty",
-      "name": "Sam Lafferty",
-      "pos": "C",
-      "age": 30,
-      "shoots": "R",
-      "overall": 73,
-      "potential": 73,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.775,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-kozak",
-      "name": "Tyson Kozak",
-      "pos": "C",
-      "age": 22,
-      "shoots": "L",
-      "overall": 71,
-      "potential": 76,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.813,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-dahlin",
-      "name": "Rasmus Dahlin",
-      "pos": "D",
-      "age": 25,
-      "shoots": "L",
-      "overall": 88,
-      "potential": 90,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 11,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "BUF-power",
-      "name": "Owen Power",
-      "pos": "D",
-      "age": 22,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 88,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 8.35,
-        "yearsLeft": 7,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-byram",
-      "name": "Bowen Byram",
-      "pos": "D",
-      "age": 24,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 85,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 6.25,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-samuelsson",
-      "name": "Mattias Samuelsson",
-      "pos": "D",
-      "age": 25,
-      "shoots": "L",
-      "overall": 76,
-      "potential": 78,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4.285,
-        "yearsLeft": 5,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-kesselring",
-      "name": "Michael Kesselring",
-      "pos": "D",
-      "age": 25,
-      "shoots": "R",
-      "overall": 76,
-      "potential": 80,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 1.5,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-bernard-docker",
-      "name": "Jacob Bernard-Docker",
-      "pos": "D",
-      "age": 25,
-      "shoots": "R",
-      "overall": 73,
-      "potential": 75,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.9,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-luukkonen",
-      "name": "Ukko-Pekka Luukkonen",
-      "pos": "G",
-      "age": 26,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 84,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 4.75,
-        "yearsLeft": 4,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-lyon",
-      "name": "Alex Lyon",
-      "pos": "G",
-      "age": 32,
-      "shoots": "L",
-      "overall": 75,
-      "potential": 75,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 1.5,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "BUF-timmins",
-      "name": "Conor Timmins",
-      "pos": "D",
-      "age": 27,
-      "shoots": "R",
-      "overall": 76,
-      "potential": 76,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 2.2,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    }
+    { "id": "BUF-thompson", "name": "Tage Thompson", "pos": "C", "age": 28, "shoots": "R",
+      "overall": 89, "potential": 89, "nationality": "USA",
+      "contract": { "capHit": 7.14, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "BUF-norris", "name": "Josh Norris", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 81, "nationality": "USA",
+      "contract": { "capHit": 7.95, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "BUF-mcleod", "name": "Ryan McLeod", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 81, "nationality": "CAN",
+      "contract": { "capHit": 5.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "BUF-quinn", "name": "Jack Quinn", "pos": "RW", "age": 25, "shoots": "R",
+      "overall": 79, "potential": 83, "nationality": "CAN",
+      "contract": { "capHit": 3.375, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "BUF-doan", "name": "Josh Doan", "pos": "RW", "age": 24, "shoots": "R",
+      "overall": 80, "potential": 84, "nationality": "USA",
+      "contract": { "capHit": 6.95, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "BUF-zucker", "name": "Jason Zucker", "pos": "LW", "age": 34, "shoots": "L",
+      "overall": 76, "potential": 76, "nationality": "USA",
+      "contract": { "capHit": 4.75, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "BUF-kulich", "name": "Jiri Kulich", "pos": "C", "age": 22, "shoots": "L",
+      "overall": 75, "potential": 83, "nationality": "CZE",
+      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "BUF-ostlund", "name": "Noah Ostlund", "pos": "C", "age": 22, "shoots": "L",
+      "overall": 73, "potential": 80, "nationality": "SWE",
+      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "BUF-krebs", "name": "Peyton Krebs", "pos": "C", "age": 25, "shoots": "L",
+      "overall": 76, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 1.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "BUF-malenstyn", "name": "Beck Malenstyn", "pos": "LW", "age": 28, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 1.4, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "BUF-kampf", "name": "David Kampf", "pos": "C", "age": 31, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "CZE",
+      "contract": { "capHit": 2.4, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "BUF-sheary", "name": "Conor Sheary", "pos": "LW", "age": 34, "shoots": "L",
+      "overall": 72, "potential": 72, "nationality": "USA",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "BUF-kozak", "name": "Tyson Kozak", "pos": "C", "age": 23, "shoots": "L",
+      "overall": 72, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 0.775, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-dahlin", "name": "Rasmus Dahlin", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 90, "potential": 91, "nationality": "SWE",
+      "contract": { "capHit": 11.0, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "BUF-power", "name": "Owen Power", "pos": "D", "age": 23, "shoots": "L",
+      "overall": 84, "potential": 88, "nationality": "CAN",
+      "contract": { "capHit": 8.35, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "BUF-zellweger", "name": "Olen Zellweger", "pos": "D", "age": 23, "shoots": "L",
+      "overall": 78, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 3.1, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-samuelsson", "name": "Mattias Samuelsson", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 76, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 4.285, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "BUF-timmins", "name": "Conor Timmins", "pos": "D", "age": 28, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 2.2, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "BUF-gilbert", "name": "Dennis Gilbert", "pos": "D", "age": 29, "shoots": "L",
+      "overall": 71, "potential": 71, "nationality": "USA",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "BUF-crevier", "name": "Louis Crevier", "pos": "D", "age": 25, "shoots": "R",
+      "overall": 71, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "BUF-luukkonen", "name": "Ukko-Pekka Luukkonen", "pos": "G", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 82, "nationality": "FIN",
+      "contract": { "capHit": 4.75, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "BUF-lyon", "name": "Alex Lyon", "pos": "G", "age": 33, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "USA",
+      "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" } }
   ],
   "prospects": [
-    {
-      "id": "BUF-helenius",
-      "name": "Konsta Helenius",
-      "pos": "C",
-      "age": 19,
-      "shoots": "R",
-      "overall": 68,
-      "potential": 85,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 0.918,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-ostlund",
-      "name": "Noah Ostlund",
-      "pos": "C",
-      "age": 21,
-      "shoots": "L",
-      "overall": 66,
-      "potential": 81,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 0.863,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-kulich",
-      "name": "Jiri Kulich",
-      "pos": "C",
-      "age": 21,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 83,
-      "nationality": "CZE",
-      "contract": {
-        "capHit": 0.863,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "BUF-levi",
-      "name": "Devon Levi",
-      "pos": "G",
-      "age": 23,
-      "shoots": "L",
-      "overall": 73,
-      "potential": 82,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.863,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    }
+    { "id": "BUF-helenius", "name": "Konsta Helenius", "pos": "C", "age": 20, "shoots": "R",
+      "overall": 71, "potential": 85, "nationality": "FIN", "devLeague": "AHL",
+      "contract": { "capHit": 0.918, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "BUF-rudolph", "name": "Daxon Rudolph", "pos": "D", "age": 18, "shoots": "R",
+      "overall": 66, "potential": 89, "nationality": "CAN", "devLeague": "NCAA",
+      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-morozov", "name": "Ilia Morozov", "pos": "C", "age": 18, "shoots": "L",
+      "overall": 62, "potential": 84, "nationality": "RUS", "devLeague": "NCAA",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-murnieks", "name": "Olivers Murnieks", "pos": "C", "age": 18, "shoots": "L",
+      "overall": 56, "potential": 77, "nationality": "LAT", "devLeague": "NCAA",
+      "contract": { "capHit": 0.82, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-szongoth", "name": "Doman Szongoth", "pos": "C", "age": 18, "shoots": "L",
+      "overall": 55, "potential": 75, "nationality": "HUN", "devLeague": "Liiga",
+      "contract": { "capHit": 0.8, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "BUF-dumont", "name": "Dylan Dumont", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 54, "potential": 74, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.79, "yearsLeft": 3, "expiry": "RFA" } }
   ]
 }
