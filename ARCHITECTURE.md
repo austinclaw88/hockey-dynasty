@@ -47,7 +47,9 @@ simPlayoffRound(s: GameState): GameState                // advances playoffs one
 // derived views (read-only helpers)
 getStandings(s: GameState): { league: StandingsRow[]; byDivision: Record<Division, StandingsRow[]> }
 getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each
-getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number }
+// cap/space reported on the SAME basis the engine enforces: during 'offseason'
+// cap = next season's cap and capYear = seasonYear+1; otherwise current season.
+getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number }
 findPlayer(s: GameState, id: string): { player: Player; team?: string } | null
 
 // offseason — call advanceOffseason() to move through steps in order:
@@ -68,15 +70,32 @@ callUp(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: st
 sendDown(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string }   // roster -> prospects (age<=25 & overall<=78 only)
 
 // trades (regular season before day ~120 = deadline, and offseason freeAgency step)
+// Cap legality for trades is enforced on capForPhase(s): offseason trades count
+// against next season's cap, in-season trades against the current cap.
 evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolean; verdict: string; delta: number }
 executeTrade(s: GameState, offer: TradeOffer): { s: GameState; ok: boolean; reason?: string }
 getAiTradeSuggestion(s: GameState, partner: string): TradeOffer | null
+// player-seeded suggestion: playerId on partner -> what user must PAY to get him;
+// playerId on user -> what partner would GIVE for him. Null if NTC/untradeable/no fair package.
+getAiTradeSuggestionFor(s: GameState, partner: string, playerId: string): TradeOffer | null
 
 interface TradeOffer {
   from: string; to: string                 // team abbrevs; from = user
   fromPlayers: string[]; toPlayers: string[]   // player ids
   fromPicks: DraftPick[]; toPicks: DraftPick[]
 }
+
+// trade block — shop your own players; only user-team roster players may be added.
+// Ids are auto-pruned when a player leaves the roster (traded / retired / sent down).
+toggleTradeBlock(s: GameState, playerId: string): GameState
+
+// incoming AI offers — GameState.pendingOffers (max 3, oldest dropped). AI teams
+// generate offers for user players (~once/sim-week per interested team before the
+// deadline, once per FA day in the offseason); interest is strongly boosted for
+// trade-block players. Offers are always expressed from the USER's perspective
+// (offer.from === userTeam) and auto-expire (>~14 days, deadline, season end) or
+// when a referenced player leaves either roster.
+respondToOffer(s: GameState, offerId: number, accept: boolean): { s: GameState; ok: boolean; reason?: string }
 
 // persistence
 saveGame(s: GameState): void
@@ -152,6 +171,13 @@ Roughly 1312 games/season; must sim a full season in well under a second.
 - AI accepts if `valueReceived >= valueGiven * 1.05` AND fits strategy (contenders want now-value, rebuilders want picks/prospects/U24)
   AND cap works both ways AND roster sizes stay legal. `verdict` strings: "insulting", "not close", "close — sweeten it", "accepted".
 - `getAiTradeSuggestion`: builds a fair offer around a player the partner would move by strategy.
+- `getAiTradeSuggestionFor(partner, playerId)`: same machinery, seeded on a specific player (user pays for a
+  partner player / partner pays for a user player).
+- **Trade block** (`GameState.tradeBlock`): user shops their own players; boosts AI interest.
+- **Incoming AI offers** (`GameState.pendingOffers`): AI teams initiate firm offers for user players during the
+  season (before day 120) and during offseason free agency. Offers are net-fair to the user (value ratio ~1.0–1.15
+  in the user's favour) and legal both ways; because the AI commits to them, `respondToOffer(accept)` executes the
+  swap directly (bypassing the AI-acceptance threshold) after re-validating legality. Offers auto-expire.
 
 ## Awards (`src/engine/awards.ts`) — computed at season end
 
@@ -180,5 +206,8 @@ OVR badges color-coded (90+ gold, 85+ green, 80+ teal, 75+ gray, <75 dim).
 sim playoffs, run full offseason with AI-auto decisions for the user (re-sign anyone asking <= fair, draft best available,
 sign FAs to fill roster) — 10 seasons. Assert: no exceptions; every team 82 GP each season; standings points sum
 == 2 * games + OT bonus (just sanity: pts between 30 and 145); every team roster 20-23 and cap-legal each Oct;
-a Cup winner exists each season; league scoring leader between 70 and 165 points; no NaN anywhere in stats.
+a Cup winner exists each season; league scoring leader between 70 and 180 points (the upper bound is generous:
+late-dynasty leaders climb as young stars develop and elite scorers now stay in the league); no NaN anywhere in
+stats. It also shops a user player each season to exercise incoming AI offers, asserting every `pendingOffer`
+references live assets and that no >=88 OVR player reaches free agency in the first 3 offseasons.
 Print a 10-season summary table.
