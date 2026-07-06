@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react'
 import type { GameState, DraftPick } from '../types'
 import type { TradeOffer } from '../engine'
 import { getTradeOptionsFor } from '../engine'
-import { Modal, OvrBadge, PosTag, TeamLogo, TeamLink } from './components'
+import { Modal, OvrBadge, PosTag, TeamLogo, TeamLink, PlayerLink } from './components'
 import { buildPlayerIndex } from './util'
 import { seasonLabel } from './format'
 import { useUI } from './uiContext'
@@ -110,13 +110,16 @@ function AssetList({
   return (
     <div className="asset-list">
       {players.map((id) => {
-        const p = idx.get(id)?.player
+        const ref = idx.get(id)
+        const p = ref?.player
         return (
           <div className="asset-mini" key={id}>
             {p ? (
               <>
                 <PosTag pos={p.pos} />
-                <span className="a-name">{p.name}</span>
+                <PlayerLink id={id} player={p} team={ref?.team} className="a-name">
+                  {p.name}
+                </PlayerLink>
                 <OvrBadge overall={p.overall} />
               </>
             ) : (

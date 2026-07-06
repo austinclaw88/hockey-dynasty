@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { GameState } from './types'
+import type { GameState, Player } from './types'
 import type { TradeOffer } from './engine'
-import { newGame, loadGame, saveGame, hasSave, deleteSave, getStandings } from './engine'
+import { newGame, loadGame, saveGame, hasSave, deleteSave, getStandings, findPlayer } from './engine'
 import { Header } from './ui/Header'
 import { TabNav } from './ui/TabNav'
 import type { TabKey, TabDef } from './ui/TabNav'
@@ -17,6 +17,8 @@ import type { DevSnapshot } from './ui/OffseasonHub'
 import { History } from './ui/History'
 import { ToastViewport } from './ui/components'
 import { TeamViewer } from './ui/TeamViewer'
+import { PlayerModal } from './ui/PlayerModal'
+import { WhatWouldItTakeModal } from './ui/WhatWouldItTake'
 import { UIContext, type Toast, type ToastKind, type TradeIntent } from './ui/uiContext'
 
 export default function App() {
@@ -29,6 +31,8 @@ export default function App() {
   const [toasts, setToasts] = useState<Toast[]>([])
   const [viewTeam, setViewTeam] = useState<string | null>(null)
   const [tradeIntent, setTradeIntent] = useState<TradeIntent | null>(null)
+  const [viewPlayer, setViewPlayer] = useState<{ player: Player; team?: string } | null>(null)
+  const [wwit, setWwit] = useState<{ partner: string; playerId: string } | null>(null)
   const toastId = useRef(0)
   const nonce = useRef(0)
 
@@ -50,7 +54,13 @@ export default function App() {
   const startTrade = useCallback((partner: string, offer?: TradeOffer) => {
     setTradeIntent({ nonce: ++nonce.current, partner, offer })
     setViewTeam(null)
+    setViewPlayer(null)
+    setWwit(null)
     setTab('trades')
+  }, [])
+
+  const whatWouldItTake = useCallback((partner: string, playerId: string) => {
+    setWwit({ partner, playerId })
   }, [])
 
   // Auto-save after every state change.
@@ -105,6 +115,16 @@ export default function App() {
     )
   }
 
+  const runningState = state
+  const openPlayer = (idOrPlayer: string | Player, team?: string) => {
+    if (typeof idOrPlayer === 'string') {
+      const found = findPlayer(runningState, idOrPlayer)
+      if (found) setViewPlayer({ player: found.player, team: found.team })
+    } else {
+      setViewPlayer({ player: idOrPlayer, team })
+    }
+  }
+
   const team = state.teams[state.userTeam]
   const userRow = getStandings(state).league.find((r) => r.team === state.userTeam)
 
@@ -132,7 +152,7 @@ export default function App() {
   } as React.CSSProperties
 
   return (
-    <UIContext.Provider value={{ pushToast, openTeam, startTrade }}>
+    <UIContext.Provider value={{ pushToast, openTeam, startTrade, openPlayer, whatWouldItTake }}>
       <div className="app" style={rootStyle}>
         <Header s={state} userRow={userRow} />
         <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
@@ -160,6 +180,23 @@ export default function App() {
 
       {viewTeam && state.teams[viewTeam] && (
         <TeamViewer s={state} abbrev={viewTeam} onClose={() => setViewTeam(null)} />
+      )}
+      {viewPlayer && (
+        <PlayerModal
+          s={state}
+          player={viewPlayer.player}
+          team={viewPlayer.team}
+          onClose={() => setViewPlayer(null)}
+        />
+      )}
+      {wwit && (
+        <WhatWouldItTakeModal
+          s={state}
+          partner={wwit.partner}
+          playerId={wwit.playerId}
+          onClose={() => setWwit(null)}
+          onLoad={(offer) => startTrade(offer.to, offer)}
+        />
       )}
       <ToastViewport toasts={toasts} onDismiss={dismissToast} />
     </UIContext.Provider>

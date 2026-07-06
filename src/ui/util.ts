@@ -209,6 +209,73 @@ export function boxScoreLines(s: GameState, game: Game, idx: Map<string, PlayerR
   }))
 }
 
+/** One goal resolved to ids + names, keeping scoring-order index and period. */
+export interface ResolvedGoal {
+  /** Scoring-order index within the game (0-based). */
+  order: number
+  team: string
+  scorerId: string
+  scorerName: string
+  assists: { id: string; name: string }[]
+  /** 1-3, 4 = OT; undefined on legacy saves. */
+  period?: number
+}
+
+/** Human labels for the period groupings. */
+export const PERIOD_LABEL: Record<number, string> = {
+  1: '1st Period',
+  2: '2nd Period',
+  3: '3rd Period',
+  4: 'Overtime',
+}
+
+export interface PeriodGroup {
+  /** Period number, or null for the ungrouped (legacy, no-period) bucket. */
+  period: number | null
+  goals: ResolvedGoal[]
+}
+
+/** Resolve every goal in a game to ids + names, preserving scoring order. */
+export function resolveGoals(game: Game, idx: Map<string, PlayerRef>): ResolvedGoal[] {
+  if (!game.goals) return []
+  return game.goals.map((ev, i) => ({
+    order: i,
+    team: ev.team,
+    scorerId: ev.scorerId,
+    scorerName: nameFor(idx, ev.scorerId),
+    assists: ev.assistIds.map((a) => ({ id: a, name: nameFor(idx, a) })),
+    period: ev.period,
+  }))
+}
+
+/**
+ * Group resolved goals by period. If no goal carries a period (legacy save),
+ * returns a single ungrouped bucket (period: null). Otherwise returns periods
+ * 1..max (at least 1-3), plus a trailing null bucket if some goals lack one.
+ */
+export function groupGoalsByPeriod(goals: ResolvedGoal[]): PeriodGroup[] {
+  const anyPeriod = goals.some((g) => g.period != null)
+  if (!anyPeriod) return goals.length > 0 ? [{ period: null, goals }] : []
+  const maxP = Math.max(3, ...goals.map((g) => g.period ?? 0))
+  const groups: PeriodGroup[] = []
+  for (let p = 1; p <= maxP; p++) groups.push({ period: p, goals: goals.filter((g) => g.period === p) })
+  const noPeriod = goals.filter((g) => g.period == null)
+  if (noPeriod.length > 0) groups.push({ period: null, goals: noPeriod })
+  return groups
+}
+
+/** Cumulative [away, home] score after all goals up to and including `period`. */
+export function scoreThroughPeriod(goals: ResolvedGoal[], away: string, home: string, period: number): [number, number] {
+  let a = 0
+  let h = 0
+  for (const g of goals) {
+    if ((g.period ?? 3) > period) continue
+    if (g.team === away) a++
+    else if (g.team === home) h++
+  }
+  return [a, h]
+}
+
 /** One row of a player's per-game scoring log (games where they recorded a point). */
 export interface ScoringLogRow {
   game: Game

@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
-import type { GameState, Player, CareerSeason, SeasonStatLine } from '../types'
+import type { GameState, Player, CareerSeason, SeasonStatLine, FreeAgent } from '../types'
 import { Modal, OvrBadge, ExpiryTag } from './components'
 import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow, seasonLabel } from './format'
 import { buildScoringLog, dayLabel } from './util'
+import { useUI } from './uiContext'
 
 export function PlayerModal({
   s,
@@ -18,10 +19,13 @@ export function PlayerModal({
   /** optional action buttons (call up / send down etc.) */
   actions?: React.ReactNode
 }) {
+  const { whatWouldItTake } = useUI()
   const teamInfo = team ? s.teams[team] : undefined
   const line = s.stats[player.id]
   const isG = player.pos === 'G'
   const pot = potArrow(player.overall, player.potential)
+  const asking = 'asking' in player ? (player as FreeAgent).asking : undefined
+  const awayTeam = team && team !== s.userTeam ? team : undefined
 
   return (
     <Modal onClose={onClose}>
@@ -74,7 +78,19 @@ export function PlayerModal({
               {player.contract ? <ExpiryTag expiry={player.contract.expiry} /> : '—'}
             </div>
           </div>
+          {asking && (
+            <div className="cell">
+              <div className="k">Asking</div>
+              <div className="v">
+                {fmtM(asking.capHit)} <span className="muted">× {asking.years}yr</span>
+              </div>
+            </div>
+          )}
         </div>
+
+        {!player.contract && !asking && (
+          <div className="hint" style={{ marginBottom: 12 }}>Unsigned — no active contract.</div>
+        )}
 
         {player.contract?.ntc && (
           <div className="notice" style={{ marginBottom: 12 }}>
@@ -112,6 +128,18 @@ export function PlayerModal({
 
         <div className="mini-title">Career</div>
         <CareerTable s={s} player={player} team={team} />
+
+        {awayTeam && (
+          <div style={{ marginTop: 16 }}>
+            <button
+              className="btn btn-primary btn-block"
+              onClick={() => whatWouldItTake(awayTeam, player.id)}
+              title={`Ask ${teamInfo?.name ?? awayTeam} what it would take`}
+            >
+              💬 What would it take?
+            </button>
+          </div>
+        )}
 
         {actions && <div style={{ marginTop: 16 }}>{actions}</div>}
       </div>

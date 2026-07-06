@@ -91,9 +91,13 @@ export function evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolea
   const partnerGives = givenBack.val + givePicks
   const delta = partnerReceives - partnerGives
 
-  // Cap + roster legality for the partner after the swap.
-  const partnerRosterCount = partner.roster.length - givenBack.players.filter((p) => partner.roster.includes(p)).length + received.players.filter((p) => s.teams[offer.from].roster.includes(p)).length
-  const partnerCapAfter = teamCapUsed(partner) - givenBack.players.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0) + received.players.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0)
+  // Cap + roster legality for the partner after the swap. Prospects carry ELCs
+  // but do NOT count against the 23-man roster or the cap — only NHL-roster
+  // players moving in/out change the partner's roster size and cap hit.
+  const givenBackRoster = givenBack.players.filter((p) => partner.roster.includes(p))
+  const receivedRoster = received.players.filter((p) => s.teams[offer.from].roster.includes(p))
+  const partnerRosterCount = partner.roster.length - givenBackRoster.length + receivedRoster.length
+  const partnerCapAfter = teamCapUsed(partner) - givenBackRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0) + receivedRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0)
   const capOk = partnerCapAfter <= cap + 0.001
   const rosterOk = partnerRosterCount >= ROSTER_MIN - 3 && partnerRosterCount <= ROSTER_MAX
 
@@ -376,7 +380,8 @@ export function getTradeOptionsFor(s: GameState, playerId: string): TradeOffer[]
   const cap = capForPhase(s)
   const user = s.teams[s.userTeam]
   if (!user) return []
-  const target = user.roster.find((p) => p.id === playerId)
+  // Roster players AND prospects can be shopped.
+  const target = user.roster.find((p) => p.id === playerId) ?? user.prospects.find((p) => p.id === playerId)
   if (!target || target.contract?.ntc) return []
   const options: { offer: TradeOffer; value: number }[] = []
   for (const abbr of Object.keys(s.teams)) {
@@ -398,7 +403,7 @@ export function getTradeOptionsFor(s: GameState, playerId: string): TradeOffer[]
 export function generateBlockOffers(s: GameState, rng: Rng, playerId: string): void {
   if (!tradesAllowed(s)) return
   const user = s.teams[s.userTeam]
-  const target = user?.roster.find((p) => p.id === playerId)
+  const target = user?.roster.find((p) => p.id === playerId) ?? user?.prospects.find((p) => p.id === playerId)
   if (!target) return
   const options = getTradeOptionsFor(s, playerId)
   if (options.length === 0) return
@@ -475,7 +480,8 @@ export function maybeGenerateUserOffers(s: GameState, rng: Rng, day: number, off
   const user = s.teams[s.userTeam]
   if (!user) return
 
-  const blockTargets = user.roster.filter((p) => s.tradeBlock.includes(p.id) && !p.contract?.ntc)
+  // Shopped players may be NHL-roster players OR prospects; stars are roster-only.
+  const blockTargets = [...user.roster, ...user.prospects].filter((p) => s.tradeBlock.includes(p.id) && !p.contract?.ntc)
   const starTargets = user.roster.filter((p) => p.overall >= 85 && !p.contract?.ntc && !s.tradeBlock.includes(p.id))
 
   let target: Player | undefined

@@ -3,6 +3,7 @@ import type { GameState, Game } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
 import { Card, CapBar, TeamLogo, TeamLink } from './components'
 import { BoxScoreModal } from './BoxScore'
+import { LiveGameModal } from './LiveGame'
 import { nextGames, recentGames, teamOverall, dayLabel } from './util'
 import { seasonLabel, ordinal } from './format'
 import type { TabKey } from './TabNav'
@@ -33,6 +34,7 @@ export function Dashboard({
 }) {
   const team = s.teams[s.userTeam]
   const [boxGame, setBoxGame] = useState<Game | null>(null)
+  const [liveGame, setLiveGame] = useState<Game | null>(null)
   const standings = getStandings(s)
   const divRows = standings.byDivision[team.division] ?? []
   const rank = divRows.findIndex((r) => r.team === s.userTeam) + 1
@@ -45,6 +47,18 @@ export function Dashboard({
   }
 
   const canSim = s.phase === 'regular' && !regularDone
+  // The user's game on the CURRENT day, if one is scheduled and unplayed.
+  const todayGame = s.schedule.find(
+    (g) => g.day === s.day && !g.played && (g.home === s.userTeam || g.away === s.userTeam),
+  )
+
+  function playToday() {
+    if (!todayGame) return
+    const next = simDays(s, 1)
+    const played = next.schedule.find((g) => g.id === todayGame.id)
+    apply(next)
+    if (played && played.played) setLiveGame(played)
+  }
 
   return (
     <div className="stack">
@@ -60,6 +74,11 @@ export function Dashboard({
       {canSim && (
         <Card title="Simulate">
           <div className="card-pad row">
+            {todayGame && (
+              <button className="btn btn-accent" disabled={busy} onClick={playToday} title="Play out today's game period by period">
+                🏒 Play Today’s Game
+              </button>
+            )}
             <button className="btn btn-primary" disabled={busy} onClick={() => sim(1)}>
               Sim Day
             </button>
@@ -133,6 +152,7 @@ export function Dashboard({
       </div>
 
       {boxGame && <BoxScoreModal s={s} game={boxGame} onClose={() => setBoxGame(null)} />}
+      {liveGame && <LiveGameModal s={s} game={liveGame} onClose={() => setLiveGame(null)} />}
     </div>
   )
 }

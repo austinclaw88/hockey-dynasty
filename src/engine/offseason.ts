@@ -128,8 +128,13 @@ function finalizeResign(s: GameState): void {
 
 // ---- draft step -----------------------------------------------------------
 export function prepareDraft(s: GameState, rng: Rng): void {
+  const draftYear = s.seasonYear + 1
+  // The FIRST in-game draft seeds from the real projected class (if provided for
+  // this year); later drafts (and an empty file) are fully generated.
+  const file = ext(s)._draft2027
+  const real = file && file.year === draftYear && file.players.length > 0 ? file.players : undefined
   s.draftOrder = buildDraftOrder(s, rng)
-  s.draftClass = generateDraftClass(rng, s.seasonYear + 1)
+  s.draftClass = generateDraftClass(rng, draftYear, real)
   ext(s)._draftResults = []
   s.day = 0
   s.offseasonStep = 'draft'
@@ -192,6 +197,18 @@ function fixRoster(s: GameState, team: TeamState, rng: Rng, isUser: boolean): vo
     shedOverCap()
     fillMinimums()
     if (teamCapUsed(team) <= cap + 0.001) break
+  }
+  // A team CANNOT end the offseason over the cap. If every position is already
+  // at its minimum (nothing left to shed) yet the roster is still over, swap the
+  // least valuable non-minimum-salary player for a league-minimum journeyman of
+  // the same position until legal. Guaranteed to converge (each swap lowers cap).
+  let capGuard = 0
+  while (teamCapUsed(team) > cap + 0.001 && capGuard++ < 40) {
+    const victim = [...team.roster].sort((a, b) => a.overall - b.overall).find((p) => (p.contract?.capHit ?? 0) > 0.9)
+    if (!victim) break
+    team.roster = team.roster.filter((p) => p.id !== victim.id)
+    team.roster.push(makeJourneyman(s, victim.pos, rng))
+    if (isUser) added++
   }
   // Trim to max size (drop lowest-overall extras that keep minimums).
   let guard = 0

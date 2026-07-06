@@ -105,12 +105,12 @@ const RUS: NamePool = {
   first: [
     'Nikita', 'Andrei', 'Kirill', 'Artemi', 'Vladimir', 'Evgeni', 'Dmitri', 'Alexander', 'Ivan', 'Maxim',
     'Sergei', 'Pavel', 'Mikhail', 'Anton', 'Yakov', 'Yegor', 'Matvei', 'Danila', 'Arseni', 'Roman',
-    'Vasili', 'Nikolai', 'Kirill', 'Fyodor', 'Gleb', 'Timofei', 'Semyon', 'Ilya', 'Grigori', 'Denis',
+    'Vasili', 'Nikolai', 'Amir', 'Fyodor', 'Gleb', 'Timofei', 'Semyon', 'Ilya', 'Grigori', 'Denis',
     'Alexei', 'Boris', 'Vadim', 'Vitali', 'Valeri', 'Oleg', 'Igor', 'Konstantin', 'Leonid', 'Georgi',
     'Rodion', 'Yuri', 'Stepan', 'Makar', 'Miron', 'Savva', 'Timur', 'Bogdan', 'Daniil', 'German',
     'Klim', 'Lev', 'Mark', 'Platon', 'Ruslan', 'Svyatoslav', 'Trofim', 'Yaroslav', 'Zakhar', 'Arkadi',
-    'Prokhor', 'Rostislav', 'Vsevolod', 'Zinovi', 'Efim', 'Filipp', 'Gordei', 'Innokenti', 'Kuzma', 'Lavrenti',
-    'Miroslav', 'Nazar', 'Ostap', 'Radomir', 'Spartak', 'Terenti', 'Ustin', 'Varfolomei', 'Yevsei', 'Avdei',
+    'Prokhor', 'Rostislav', 'Vsevolod', 'Vladislav', 'Efim', 'Filipp', 'Damir', 'Innokenti', 'Kuzma', 'Artur',
+    'Miroslav', 'Nazar', 'Vyacheslav', 'Radomir', 'Stanislav', 'Rustam', 'Marat', 'Rinat', 'Bulat', 'Renat',
   ],
   last: [
     'Kucherov', 'Malkin', 'Ovechkin', 'Panarin', 'Vasilevskiy', 'Sorokin', 'Kaprizov', 'Tarasenko', 'Kuznetsov', 'Buchnevich',

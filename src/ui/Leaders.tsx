@@ -1,18 +1,28 @@
 import { useState } from 'react'
 import type { GameState, SeasonStatLine } from '../types'
 import { getLeaders } from '../engine'
-import { Card, Crest, TeamLink } from './components'
+import { Card, Crest, TeamLink, PlayerLink } from './components'
 import { buildPlayerIndex } from './util'
 import { fmtSigned, fmtGaa, fmtSvPct } from './format'
 
-type Tab = 'points' | 'goals' | 'goalies'
+type Tab = 'points' | 'goals' | 'assists' | 'goalies'
+
+const TAB_TITLE: Record<Tab, string> = {
+  points: 'Points',
+  goals: 'Goals',
+  assists: 'Assists',
+  goalies: 'Goaltending',
+}
 
 export function Leaders({ s }: { s: GameState }) {
   const [tab, setTab] = useState<Tab>('points')
   const leaders = getLeaders(s)
   const idx = buildPlayerIndex(s)
 
-  const rows = leaders[tab]
+  // `assists` is provided by the engine alongside points/goals; read defensively.
+  const assists = (leaders as { assists?: SeasonStatLine[] }).assists ?? []
+  const rows: SeasonStatLine[] =
+    tab === 'assists' ? assists : tab === 'goalies' ? leaders.goalies : tab === 'goals' ? leaders.goals : leaders.points
 
   return (
     <div className="stack">
@@ -23,12 +33,15 @@ export function Leaders({ s }: { s: GameState }) {
         <button className={`subtab ${tab === 'goals' ? 'active' : ''}`} onClick={() => setTab('goals')}>
           Goals
         </button>
+        <button className={`subtab ${tab === 'assists' ? 'active' : ''}`} onClick={() => setTab('assists')}>
+          Assists
+        </button>
         <button className={`subtab ${tab === 'goalies' ? 'active' : ''}`} onClick={() => setTab('goalies')}>
           Goalies
         </button>
       </div>
 
-      <Card title={`League Leaders · ${tab === 'goalies' ? 'Goaltending' : tab === 'goals' ? 'Goals' : 'Points'}`}>
+      <Card title={`League Leaders · ${TAB_TITLE[tab]}`}>
         <div className="table-wrap">
           <table className="tbl">
             <thead>
@@ -96,7 +109,11 @@ function LeaderRow({
   return (
     <tr className={isMe ? 'me' : ''}>
       <td className="num muted">{rank}</td>
-      <td className="name-cell">{name}</td>
+      <td className="name-cell">
+        <PlayerLink id={line.playerId} player={ref?.player}>
+          {name}
+        </PlayerLink>
+      </td>
       <td>
         {team ? (
           <TeamLink abbrev={team} className="team-link-inline">
@@ -123,8 +140,10 @@ function LeaderRow({
         <>
           <td className="num">{line.gp}</td>
           <td className="num">{line.goals}</td>
-          <td className="num">{line.assists}</td>
-          <td className="num" style={{ fontWeight: 800 }}>
+          <td className="num" style={tab === 'assists' ? { fontWeight: 800 } : undefined}>
+            {line.assists}
+          </td>
+          <td className="num" style={{ fontWeight: tab === 'assists' ? 500 : 800 }}>
             {line.points}
           </td>
           <td className="num">{fmtSigned(line.plusMinus)}</td>

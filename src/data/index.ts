@@ -1,8 +1,9 @@
 // Bundles all 32 team data files at build time so the app (and the
 // single-file build) is fully self-contained.
-import type { TeamDataFile, FreeAgentPoolFile } from '../types'
+import type { TeamDataFile, FreeAgentPoolFile, DraftClassFile } from '../types'
 
 import faData from '../../data/free-agents.json'
+import draft2027Data from '../../data/draft-2027.json'
 import ANA from '../../data/teams/ANA.json'
 import BOS from '../../data/teams/BOS.json'
 import BUF from '../../data/teams/BUF.json'
@@ -43,3 +44,6 @@ export const TEAM_DATA: TeamDataFile[] = [
 
 /** Real unsigned 2026 UFAs seeded into the first free-agency window. */
 export const FA_POOL: FreeAgentPoolFile = faData as FreeAgentPoolFile
+
+/** Real projected 2027 draft class seeding the FIRST in-game entry draft. */
+export const DRAFT_2027: DraftClassFile = draft2027Data as DraftClassFile

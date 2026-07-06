@@ -9,9 +9,9 @@ import {
   respondToOffer,
   toggleTradeBlock,
 } from '../engine'
-import { Card, OvrBadge, PosTag, TeamLogo, TeamLink } from './components'
+import { Card, OvrBadge, PosTag, TeamLogo, TeamLink, PlayerLink } from './components'
 import { TradeOptionsModal } from './TradeOptions'
-import { fmtM, seasonLabel } from './format'
+import { fmtM, seasonLabel, potArrow } from './format'
 import { buildPlayerIndex } from './util'
 import { useUI, type TradeIntent } from './uiContext'
 
@@ -361,13 +361,16 @@ function AssetList({ players, picks, idx }: { players: string[]; picks: DraftPic
   return (
     <div className="asset-list">
       {players.map((id) => {
-        const p = idx.get(id)?.player
+        const ref = idx.get(id)
+        const p = ref?.player
         return (
           <div className="asset-mini" key={id}>
             {p ? (
               <>
                 <PosTag pos={p.pos} />
-                <span className="a-name">{p.name}</span>
+                <PlayerLink id={id} player={p} team={ref?.team} className="a-name">
+                  {p.name}
+                </PlayerLink>
                 <OvrBadge overall={p.overall} />
               </>
             ) : (
@@ -392,7 +395,7 @@ function TradeBlockCard({ s, apply }: { s: GameState; apply: (n: GameState) => v
   const { pushToast } = useUI()
   const team = s.teams[s.userTeam]
   const blocked = s.tradeBlock
-    .map((id) => team.roster.find((p) => p.id === id))
+    .map((id) => team.roster.find((p) => p.id === id) ?? team.prospects.find((p) => p.id === id))
     .filter((p): p is Player => Boolean(p))
 
   return (
@@ -462,6 +465,7 @@ function AssetColumn({
           <PlayerAsset
             key={p.id}
             p={p}
+            teamAbbrev={team.abbrev}
             checked={selPlayers.has(p.id)}
             focused={focus === p.id}
             onBlock={block.has(p.id)}
@@ -476,6 +480,8 @@ function AssetColumn({
               <PlayerAsset
                 key={p.id}
                 p={p}
+                teamAbbrev={team.abbrev}
+                isProspect
                 checked={selPlayers.has(p.id)}
                 focused={focus === p.id}
                 onBlock={block.has(p.id)}
@@ -509,6 +515,8 @@ function AssetColumn({
 
 function PlayerAsset({
   p,
+  teamAbbrev,
+  isProspect,
   checked,
   focused,
   onBlock,
@@ -516,22 +524,50 @@ function PlayerAsset({
   onFocus,
 }: {
   p: Player
+  teamAbbrev: string
+  isProspect?: boolean
   checked: boolean
   focused: boolean
   onBlock: boolean
   onToggle: () => void
   onFocus: () => void
 }) {
+  const pot = potArrow(p.overall, p.potential)
+  // Row click selects the asset for the trade and focuses it (for build-around);
+  // the name is an explicit link that opens the player card instead.
+  function selectRow() {
+    onToggle()
+    onFocus()
+  }
   return (
-    <div className={`asset ${checked ? 'sel' : ''} ${focused ? 'focused' : ''}`}>
-      <input type="checkbox" checked={checked} onChange={onToggle} aria-label={`Include ${p.name}`} />
+    <div
+      className={`asset ${checked ? 'sel' : ''} ${focused ? 'focused' : ''}`}
+      role="button"
+      tabIndex={0}
+      aria-pressed={checked}
+      onClick={selectRow}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          selectRow()
+        }
+      }}
+    >
+      <input type="checkbox" checked={checked} readOnly tabIndex={-1} aria-label={`Include ${p.name}`} />
       <PosTag pos={p.pos} />
-      <button type="button" className="a-name asset-name-btn" onClick={onFocus} title="Build a deal around this player">
+      <PlayerLink id={p.id} player={p} team={teamAbbrev} className="a-name asset-name-btn" title="View player card">
         {p.name}
         {onBlock && <span className="shop-badge">SHOP</span>}
         {p.contract?.ntc && <span className="ntc-tag">NTC</span>}
-      </button>
-      <span className="strength">{p.contract ? fmtM(p.contract.capHit) : '—'}</span>
+      </PlayerLink>
+      {isProspect ? (
+        <span className="strength">
+          POT {p.potential}
+          <span className={pot.cls}> {pot.symbol}</span>
+        </span>
+      ) : (
+        <span className="strength">{p.contract ? fmtM(p.contract.capHit) : '—'}</span>
+      )}
       <OvrBadge overall={p.overall} />
     </div>
   )

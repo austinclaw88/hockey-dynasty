@@ -134,8 +134,9 @@ export function toggleTradeBlock(s: GameState, playerId: string): GameState {
       st.tradeBlock.splice(i, 1)
       return
     }
-    // Only user-team roster players may be added.
-    if (st.teams[st.userTeam]?.roster.some((p) => p.id === playerId)) {
+    // User-team roster players AND prospects may be added.
+    const team = st.teams[st.userTeam]
+    if (team?.roster.some((p) => p.id === playerId) || team?.prospects.some((p) => p.id === playerId)) {
       st.tradeBlock.push(playerId)
       // Immediately shop him — teams start calling right away.
       generateBlockOffers(st, rng, playerId)
@@ -158,7 +159,7 @@ function positionOf(s: GameState, id: string): Player['pos'] | undefined {
   return undefined
 }
 
-export function getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; goalies: SeasonStatLine[] } {
+export function getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; assists: SeasonStatLine[]; goalies: SeasonStatLine[] } {
   const skaters: SeasonStatLine[] = []
   const goalies: SeasonStatLine[] = []
   for (const id of Object.keys(s.stats)) {
@@ -169,8 +170,9 @@ export function getLeaders(s: GameState): { points: SeasonStatLine[]; goals: Sea
   }
   const points = [...skaters].sort((a, b) => b.points - a.points || b.goals - a.goals).slice(0, 20)
   const goals = [...skaters].sort((a, b) => b.goals - a.goals || b.points - a.points).slice(0, 20)
+  const assists = [...skaters].sort((a, b) => b.assists - a.assists || b.points - a.points).slice(0, 20)
   const goalieLeaders = [...goalies].sort((a, b) => (b.svPct ?? 0) - (a.svPct ?? 0) || (b.wins ?? 0) - (a.wins ?? 0)).slice(0, 20)
-  return { points, goals, goalies: goalieLeaders }
+  return { points, goals, assists, goalies: goalieLeaders }
 }
 
 export function getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number } {

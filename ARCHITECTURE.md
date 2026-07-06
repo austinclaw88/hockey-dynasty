@@ -37,7 +37,10 @@ The UI calls ONLY these functions. All are pure-ish: they take `GameState` and r
 
 ```ts
 // setup
-newGame(userTeam: string): GameState                    // builds full league from TEAM_DATA, generates schedule
+// data/faPool/draft2027 are threaded in by the caller (src/data/index.ts exports
+// TEAM_DATA, FA_POOL, DRAFT_2027). draft2027 (data/draft-2027.json) seeds the
+// FIRST in-game entry draft (June 2027); empty/absent => that draft is generated.
+newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile, draft2027?: DraftClassFile): GameState
 
 // simulation (regular season + playoffs)
 simDays(s: GameState, days: number): GameState          // plays all games in the next N calendar days
@@ -46,7 +49,7 @@ simPlayoffRound(s: GameState): GameState                // advances playoffs one
 
 // derived views (read-only helpers)
 getStandings(s: GameState): { league: StandingsRow[]; byDivision: Record<Division, StandingsRow[]> }
-getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each
+getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; assists: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each (assists tiebreak by points)
 // cap/space reported on the SAME basis the engine enforces: during 'offseason'
 // cap = next season's cap and capYear = seasonYear+1; otherwise current season.
 getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number }
@@ -115,8 +118,16 @@ No play-by-play. Each game is resolved statistically:
 2. **Expected goals**: league mean 3.05/team/game, scaled: `xg = 3.05 * 1.10^((off_A - def_B)/6) * 1.08^((78 - goalie_B)/6)`, clamp [1.4, 5.2]. Home team +4% xg.
 3. Sample goals from Poisson. If tied after regulation, one team wins in OT/SO (60/40 OT vs SO, better team 55%).
 4. **Attribution**: each goal assigned to a scorer on the winning-of-that-goal team weighted by
-   `(overall - 55)^2` with forwards 4x D weight; 0-2 assists similarly. +/- and PIM lightly randomized.
-   Goalie line gets the GA/SA (shots ~ 27-34) for SV% and GAA.
+   `(overall - 55)^2` with forwards 4x D weight; 0-2 assists similarly. Each weight is multiplied by a
+   per-skater **production factor = ageFactor × formFactor** (cached per game, not per goal):
+   - ageFactor: peak 21-31 ×1.0, 32-33 ×0.9, 34-35 ×0.78, 36-37 ×0.62, 38+ ×0.5, under-21 ×0.85.
+   - formFactor: from the player's most recent archived season (`s.careers`, incl. real history), ppg-driven
+     `clamp(0.75 + ppg*0.35, 0.8, 1.25)` with >= 20 GP last season; no data => 1.0.
+   Forward base uses a soft knee above 90 OVR and D assist weight saturates at 85 OVR, so once the factors
+   concentrate scoring onto in-form stars a single superstar/blueliner can't run past the NHL realism band.
+   +/- and PIM lightly randomized. Goalie line gets the GA/SA (shots ~ 27-34) for SV% and GAA (the shootout
+   decider is NOT charged to the goalie). Each `GoalEvent.period` is set: regulation goals ~31/34/35% across
+   periods 1-3; an OT winner is the final scored goal and gets period 4; a shootout adds NO scored-goal event.
 5. **Injuries**: per team-game ~3% chance a random player is injured 1-6 weeks (news item; auto next-man-up).
 
 Roughly 1312 games/season; must sim a full season in well under a second.
@@ -162,6 +173,11 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   age 18, overall 55-72, potential 68-96 skewed so ~3 franchise (90+ pot), ~10 top-6/top-4 (83+), rest mid.
   Position mix ~ 30 F / 22 D / 6 G per 64. Busts/steals: potential shown to user is a RANGE band (e.g. "Top-6 F"), actual number hidden.
 - Drafted players go to `prospects` with a 3-year cheap ELC (capHit 0.95, RFA expiry).
+- **Real 2027 class**: the FIRST in-game draft (June 2027) seeds from `data/draft-2027.json` (threaded via
+  `newGame`, stored on a private engine field). Real players convert to age-18 prospects (contract null,
+  hidden potential from the file, devLeague kept) anchoring the top of the board in file order (index 0 =
+  best), topped up with generated prospects to the usual class size. Drafts 2028+ (and an empty file) are
+  fully generated.
 
 ## Trades (`src/engine/trades.ts`)
 
@@ -173,7 +189,11 @@ Roughly 1312 games/season; must sim a full season in well under a second.
 - `getAiTradeSuggestion`: builds a fair offer around a player the partner would move by strategy.
 - `getAiTradeSuggestionFor(partner, playerId)`: same machinery, seeded on a specific player (user pays for a
   partner player / partner pays for a user player).
-- **Trade block** (`GameState.tradeBlock`): user shops their own players; boosts AI interest.
+- **Prospects are tradeable** exactly like roster players: their ids work in `evaluateTrade`/`executeTrade`
+  (moving prospect-to-prospect), `getTradeOptionsFor`, `getAiTradeSuggestionFor`, the trade block, and
+  incoming-offer generation. Prospects carry ELCs but do NOT count against the 23-man roster or the cap on
+  either side of a swap.
+- **Trade block** (`GameState.tradeBlock`): user shops their own roster players OR prospects; boosts AI interest.
 - **Incoming AI offers** (`GameState.pendingOffers`): AI teams initiate firm offers for user players during the
   season (before day 120) and during offseason free agency. Offers are net-fair to the user (value ratio ~1.0–1.15
   in the user's favour) and legal both ways; because the AI commits to them, `respondToOffer(accept)` executes the
@@ -182,7 +202,12 @@ Roughly 1312 games/season; must sim a full season in well under a second.
 ## Awards (`src/engine/awards.ts`) — computed at season end
 
 Hart (most points, tiebreak +/-), Art Ross (points), Rocket Richard (goals), Norris (top D by points),
-Vezina (best SV% among goalies with >= 41 starts... use >= 30 wins fallback), Calder (best points by age<=23 rookie flag: first NHL season).
+Vezina (best SV% among goalies with >= 41 starts... use >= 30 wins fallback).
+Calder (true rookies only): eligible = played >= 25 GP this season AND NO prior season with > 25 GP in
+`s.careers` (which includes the real bundled history, so multi-year NHLers like Bedard/Demidov/Misa are
+ineligible; a 2027 draftee's first NHL season qualifies). Awards are computed BEFORE the current season is
+archived, so `s.careers` holds only prior seasons at award time. Pick the top-scoring eligible skater, else
+the best eligible rookie goalie (>= 25 starts, best SV%), else no award.
 
 ## UI screens (`src/ui/`) — single-page, top tab nav, team-colored header
 

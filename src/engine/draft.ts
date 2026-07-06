@@ -7,9 +7,8 @@ import { reverseStandingsOrder } from './standings.ts'
 
 const CLASS_SIZE = 72
 
-/** Generate a fresh draft class with nationality-weighted names and a skewed
- *  potential distribution (a few franchise talents, some top-6/top-4, rest mid). */
-export function generateDraftClass(rng: Rng, year: number): Player[] {
+/** Generate `n` fictional prospects for slots [start, start+n). */
+function generateProspects(rng: Rng, year: number, start: number, n: number): Player[] {
   // Position pool ~ 34 F / 25 D / 7 G (skater forwards split C/LW/RW).
   const positions: Position[] = []
   for (let i = 0; i < 12; i++) positions.push('C')
@@ -17,18 +16,19 @@ export function generateDraftClass(rng: Rng, year: number): Player[] {
   for (let i = 0; i < 11; i++) positions.push('RW')
   for (let i = 0; i < 25; i++) positions.push('D')
   for (let i = 0; i < 7; i++) positions.push('G')
-  while (positions.length < CLASS_SIZE) positions.push('C')
+  while (positions.length < start + n) positions.push('C')
   rng.shuffle(positions)
 
   const players: Player[] = []
-  for (let i = 0; i < CLASS_SIZE; i++) {
+  for (let k = 0; k < n; k++) {
+    const i = start + k // global rank slot (0 = franchise talent)
     let potential: number
     if (i < 3) potential = rng.int(90, 96)
     else if (i < 13) potential = rng.int(83, 89)
     else potential = rng.int(68, 82)
     const overall = clamp(potential - rng.int(10, 28), 55, 72)
     const nationality = pickNationality(rng)
-    const pos = positions[i]
+    const pos = positions[k]
     players.push({
       id: `DP-${year}-${i}`,
       name: generateName(rng, nationality),
@@ -43,6 +43,39 @@ export function generateDraftClass(rng: Rng, year: number): Player[] {
       retired: false,
     })
   }
+  return players
+}
+
+/** Convert a real draft-class file entry into an 18-year-old draft prospect
+ *  (unsigned, hidden potential from the file, devLeague preserved, no history). */
+function toRealProspect(raw: Omit<Player, 'injuryWeeks' | 'retired'>): Player {
+  const { history: _history, ...rest } = raw
+  return {
+    ...rest,
+    age: 18,
+    contract: null,
+    potential: Math.max(raw.potential, raw.overall),
+    injuryWeeks: 0,
+    retired: false,
+  }
+}
+
+/** Generate a fresh draft class with nationality-weighted names and a skewed
+ *  potential distribution (a few franchise talents, some top-6/top-4, rest mid).
+ *  When `real` prospects are supplied (the real projected class from
+ *  data/draft-2027.json), they anchor the top of the board in file order
+ *  (index 0 = best) and the rest of the class is topped up with generated
+ *  prospects to the usual size. */
+export function generateDraftClass(rng: Rng, year: number, real?: Omit<Player, 'injuryWeeks' | 'retired'>[]): Player[] {
+  if (real && real.length > 0) {
+    const anchors = real.slice(0, CLASS_SIZE).map(toRealProspect)
+    const fillers = generateProspects(rng, year, anchors.length, Math.max(0, CLASS_SIZE - anchors.length))
+    // Keep the real players in file order at the front (file order ~ board rank);
+    // shuffle only the generated filler among themselves (busts/steals).
+    rng.shuffle(fillers)
+    return [...anchors, ...fillers]
+  }
+  const players = generateProspects(rng, year, 0, CLASS_SIZE)
   // Shuffle so the "best available" order isn't index order (busts/steals).
   rng.shuffle(players)
   return players

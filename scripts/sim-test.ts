@@ -10,7 +10,7 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import type { TeamDataFile, GameState, Player, Position } from '../src/types.ts'
+import type { TeamDataFile, GameState, Player, Position, DraftClassFile } from '../src/types.ts'
 import { newGame } from '../src/engine/newGame.ts'
 import {
   simDays,
@@ -26,6 +26,7 @@ import {
   draftPlayer,
   toggleTradeBlock,
   respondToOffer,
+  executeTrade,
 } from '../src/engine/api.ts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -48,6 +49,18 @@ function loadRealData(): TeamDataFile[] | null {
   } catch (e) {
     console.warn('Failed to parse real data, using synthetic:', (e as Error).message)
     return null
+  }
+}
+
+/** The real projected 2027 draft class (empty players array is fine → engine
+ *  falls back to a fully generated class). Missing file → undefined. */
+function loadDraft2027(): DraftClassFile | undefined {
+  const f = join(__dirname, '..', 'data', 'draft-2027.json')
+  if (!existsSync(f)) return undefined
+  try {
+    return JSON.parse(readFileSync(f, 'utf8')) as DraftClassFile
+  } catch {
+    return undefined
   }
 }
 
@@ -188,11 +201,16 @@ function main(): void {
   console.log(`User team: ${userTeam}\n`)
 
   const t0 = Date.now()
-  let s = newGame(userTeam, data)
+  let s = newGame(userTeam, data, undefined, loadDraft2027())
   const rows: string[] = []
 
   for (let season = 0; season < 10; season++) {
     const seasonYear = s.seasonYear
+
+    // Prospects are tradeable like roster players: sell a user prospect for a
+    // pick via the API and confirm rosters/prospect lists stay legal (item 6).
+    if (season === 0) exerciseProspectTrade((next) => (s = next), s, userTeam)
+
     // Exercise the trade block + incoming offers: shop a mid-tier user player.
     const shopId = pickShoppable(s)
     if (shopId) s = toggleTradeBlock(s, shopId)
@@ -225,6 +243,15 @@ function main(): void {
     // Scoring leader sanity + NaN scan.
     const leaders = getLeaders(s)
     const leaderPts = leaders.points[0]?.points ?? 0
+    // Age/recent-form weighting: the league scoring leader must never be an aging
+    // player (no 37+ leads the league). Age is the in-season age (development
+    // ages players in the offseason, after this check).
+    if (leaders.points[0]) {
+      const leaderAge = ageOf(s, leaders.points[0].playerId)
+      assert(leaderAge <= 36, `scoring leader age ${leaderAge} > 36 in ${seasonYear}`)
+    }
+    // Assist leaders are exposed additively (top 20 by assists).
+    assert(leaders.assists.length > 0 && (leaders.assists[0].assists ?? 0) >= (leaders.assists[19]?.assists ?? 0), `assist leaders not sorted/populated in ${seasonYear}`)
     // Upper bound is generous: late-dynasty leaders climb as young stars develop
     // toward 99 OVR, and elite scorers now stay in the league (AI no longer lets
     // 85+ players walk to the FA void) rather than disappearing mid-prime.
@@ -270,6 +297,16 @@ function main(): void {
     const summary = s.history[s.history.length - 1]
     assert(!!summary && !!summary.cupWinner, `a Cup winner should exist for ${seasonYear}`)
     const leaderName = leaders.points[0] ? nameOf(s, leaders.points[0].playerId) : '?'
+
+    // Calder must go to a TRUE rookie: at award time the winner had no prior
+    // season (year < award year) with > 25 GP in the career archive. Careers
+    // carry the season year, so this stays checkable after later seasons archive.
+    const calder = summary.awards.find((a) => a.name === 'Calder Trophy')
+    if (calder) {
+      const prior = s.careers[calder.playerId] ?? []
+      const hadPriorNhl = prior.some((cs) => cs.year < summary.year && cs.gp > 25)
+      assert(!hadPriorNhl, `Calder winner ${calder.playerName} had a prior >25 GP season before ${summary.year}`)
+    }
 
     // Offseason (first 3 offseasons: assert no >=88 OVR player hits free agency).
     s = runOffseason(s, season < 3)
@@ -349,6 +386,42 @@ function nameOf(s: GameState, id: string): string {
     if (p) return p.name
   }
   return id
+}
+
+function ageOf(s: GameState, id: string): number {
+  for (const abbr of Object.keys(s.teams)) {
+    const p = s.teams[abbr].roster.find((x) => x.id === id) ?? s.teams[abbr].prospects.find((x) => x.id === id)
+    if (p) return p.age
+  }
+  return 0
+}
+
+/** Item 6: acquire a partner's PROSPECT for a draft pick through the public API
+ *  (the AI accepts a pick worth more than the prospect) and assert the prospect
+ *  lands in the user's prospect list while roster sizes stay legal. */
+function exerciseProspectTrade(setS: (next: GameState) => void, s: GameState, userTeam: string): void {
+  const partnerAbbr = Object.keys(s.teams).find((a) => a !== userTeam && s.teams[a].prospects.some((p) => !p.contract?.ntc && p.overall >= 55))
+  const pick = s.teams[userTeam].picks.find((pk) => pk.round === 1)
+  if (!partnerAbbr || !pick) return
+  const prospect = [...s.teams[partnerAbbr].prospects].filter((p) => !p.contract?.ntc && p.overall >= 55).sort((a, b) => b.potential - a.potential)[0]
+  // User pays a 1st-round pick (worth more than the prospect) so the AI accepts.
+  const offer = { from: userTeam, to: partnerAbbr, fromPlayers: [], toPlayers: [prospect.id], fromPicks: [pick], toPicks: [] }
+  const r = executeTrade(s, offer)
+  assert(r.ok, `prospect-for-pick trade should be accepted (${r.reason ?? ''})`)
+  if (!r.ok) return
+  const ns = r.s
+  assert(ns.teams[userTeam].prospects.some((p) => p.id === prospect.id), 'acquired prospect must join user prospect list')
+  assert(!ns.teams[partnerAbbr].prospects.some((p) => p.id === prospect.id), 'traded prospect must leave partner prospect list')
+  assert(!ns.teams[userTeam].roster.some((p) => p.id === prospect.id), 'acquired prospect must not land on the NHL roster')
+  assert(
+    ns.teams[partnerAbbr].picks.some((pk) => pk.year === pick.year && pk.round === pick.round && pk.originalTeam === pick.originalTeam),
+    'paid pick must move to the partner',
+  )
+  const ut = ns.teams[userTeam]
+  const pt = ns.teams[partnerAbbr]
+  assert(ut.roster.length >= 20 && ut.roster.length <= 23, `user roster size ${ut.roster.length} illegal after prospect trade`)
+  assert(pt.roster.length >= 20 && pt.roster.length <= 23, `partner roster size ${pt.roster.length} illegal after prospect trade`)
+  setS(ns)
 }
 
 main()

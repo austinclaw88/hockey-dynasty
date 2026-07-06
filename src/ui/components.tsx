@@ -154,6 +154,45 @@ export function TeamLink({
   )
 }
 
+/**
+ * Clickable player name that opens the shared PlayerModal (with Career table)
+ * from anywhere. Pass a Player object (preferred — avoids a lookup) or an id.
+ * Stops propagation so it works inside clickable rows without triggering the
+ * row's own handler.
+ */
+export function PlayerLink({
+  id,
+  player,
+  team,
+  className,
+  title,
+  children,
+}: {
+  id?: string
+  player?: Player
+  team?: string
+  className?: string
+  title?: string
+  children: ReactNode
+}) {
+  const { openPlayer } = useUI()
+  const target = player ?? id
+  if (target === undefined) return <>{children}</>
+  return (
+    <button
+      type="button"
+      className={`player-link ${className ?? ''}`}
+      title={title ?? 'View player card'}
+      onClick={(e) => {
+        e.stopPropagation()
+        openPlayer(target, team)
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
 /** Small "on the block" chip badge. */
 export function ShopBadge() {
   return (

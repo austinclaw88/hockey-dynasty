@@ -1,5 +1,5 @@
 // Small shared helpers, player predicates, and the internal extended-state type.
-import type { GameState, Player, SeasonStatLine, TeamState, Position } from '../types.ts'
+import type { GameState, Player, SeasonStatLine, TeamState, Position, DraftClassFile } from '../types.ts'
 import { SALARY_CAP, START_YEAR, SEASONS_TOTAL } from '../types.ts'
 
 // ---- internal extended state ---------------------------------------------
@@ -15,6 +15,9 @@ export interface EngineExtras {
   _draftResults?: DraftResult[]
   /** Monotonic counter backing PendingOffer.id so ids never collide across drops. */
   _nextOfferId?: number
+  /** Real projected draft class (data/draft-2027.json) threaded in via newGame,
+   *  used to seed the FIRST in-game entry draft. Undefined/empty => generated. */
+  _draft2027?: DraftClassFile
 }
 export type ES = GameState & EngineExtras
 
@@ -107,13 +110,14 @@ export function findTeamOfPlayer(s: GameState, id: string): string | undefined {
   return undefined
 }
 
-/** Drop trade-block ids that no longer belong to the user's active roster
- *  (traded away, retired, or sent down). Safe to call after any roster change. */
+/** Drop trade-block ids that no longer belong to the user's team — traded away
+ *  or retired. Both NHL-roster players and prospects may be shopped, so a sent-
+ *  down/called-up player stays on the block. Safe after any roster change. */
 export function pruneTradeBlock(s: GameState): void {
   if (!s.tradeBlock || s.tradeBlock.length === 0) return
   const team = s.teams[s.userTeam]
   if (!team) return
-  const ids = new Set(team.roster.map((p) => p.id))
+  const ids = new Set([...team.roster, ...team.prospects].map((p) => p.id))
   s.tradeBlock = s.tradeBlock.filter((id) => ids.has(id))
 }
 

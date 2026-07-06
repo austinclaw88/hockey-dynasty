@@ -19,14 +19,43 @@ interface TeamGameCtx {
   def: number
   goalie: Player | null
   scorers: Player[] // active skaters used for attribution + GP
+  /** Per-player scoring production factor (age + recent form), cached per game. */
+  factors: Map<string, number>
 }
 
 function sortedByOverall(players: Player[]): Player[] {
   return [...players].sort((a, b) => b.overall - a.overall)
 }
 
+/** Age-based scoring production factor: peaks 21-31, declines with age; rookies
+ *  (under 21) rarely lead the league. */
+function ageFactor(age: number): number {
+  if (age < 21) return 0.85
+  if (age <= 31) return 1.0
+  if (age <= 33) return 0.9
+  if (age <= 35) return 0.78
+  if (age <= 37) return 0.62
+  return 0.5
+}
+
+/** Recent-form factor from the player's most recent archived season (which
+ *  includes the real bundled history). ppg-driven, clamped; needs >= 20 GP. */
+function formFactor(s: GameState, p: Player): number {
+  const hist = s.careers[p.id]
+  if (!hist || hist.length === 0) return 1.0
+  const last = hist[hist.length - 1] // careers are stored oldest -> newest
+  if (!last || last.gp < 20) return 1.0
+  const ppg = last.points / last.gp
+  return clamp(0.75 + ppg * 0.35, 0.8, 1.25)
+}
+
+/** Combined scoring weight multiplier for a skater (age x recent form). */
+function productionFactor(s: GameState, p: Player): number {
+  return ageFactor(p.age) * formFactor(s, p)
+}
+
 /** Roster-derived offense/defense ratings from the best healthy players. */
-function buildCtx(team: TeamState, rng: Rng): TeamGameCtx {
+function buildCtx(s: GameState, team: TeamState, rng: Rng): TeamGameCtx {
   const healthy = team.roster.filter(isHealthy)
   const fwd = sortedByOverall(healthy.filter(isForward))
   const def = sortedByOverall(healthy.filter(isDefense))
@@ -46,7 +75,10 @@ function buildCtx(team: TeamState, rng: Rng): TeamGameCtx {
   if (goalies.length > 1 && rng.chance(0.25)) goalie = goalies[1]
 
   const scorers = [...fwd.slice(0, 12), ...def.slice(0, 6)]
-  return { off, def: defRating, goalie, scorers }
+  // Cache the production factor per scorer once per game (never per goal).
+  const factors = new Map<string, number>()
+  for (const p of scorers) factors.set(p.id, productionFactor(s, p))
+  return { off, def: defRating, goalie, scorers, factors }
 }
 
 const LEAGUE_MEAN = 3.05
@@ -66,19 +98,38 @@ function expectedGoals(offA: number, defB: number, goalieB: number, home: boolea
 const GOAL_DEF_MULT = 0.25 // D weight relative to forwards for goals
 const ASSIST_DEF_MULT = Number((globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.DTUNE ?? 1.2) // D assist weight relative to forwards
 
-/** Goal-scorer weight: (overall-55)^2, forwards 4x defense. */
-function goalWeight(p: Player): number {
-  const base = Math.max(1, p.overall - 55)
-  return base * base * (isForward(p) ? 1 : GOAL_DEF_MULT)
+// Forward scoring weight uses a soft "knee" above ~90 OVR: weight still rises
+// with overall (a 99 clearly beats a 92), but with a reduced slope so that once
+// the age/recent-form factors concentrate scoring onto in-form stars, a single
+// developed 99-OVR superstar can't run away to an unrealistic 190-point season.
+const FWD_KNEE = 35 // overall 90 (base = overall - 55)
+const FWD_KNEE_SLOPE = 0.4
+function forwardBase(overall: number): number {
+  const raw = Math.max(1, overall - 55)
+  return raw <= FWD_KNEE ? raw : FWD_KNEE + (raw - FWD_KNEE) * FWD_KNEE_SLOPE
 }
 
-/** Assist weight: (overall-55)^2, defensemen scaled by ASSIST_DEF_MULT.
- *  D weight saturates at 89 OVR so late-dynasty 95+ OVR blueliners don't
- *  outscore the league's forwards. */
+/** Goal-scorer weight: base^2, forwards use the soft knee, D at GOAL_DEF_MULT. */
+function goalWeight(p: Player): number {
+  if (isForward(p)) {
+    const b = forwardBase(p.overall)
+    return b * b
+  }
+  const raw = Math.max(1, p.overall - 55)
+  return raw * raw * GOAL_DEF_MULT
+}
+
+/** Assist weight: base^2. Forwards use the soft knee (above); defensemen are
+ *  scaled by ASSIST_DEF_MULT and saturate hard at 85 OVR so late-dynasty 95+
+ *  OVR blueliners don't outscore the league's forwards — and, once the age/
+ *  recent-form factors concentrate scoring, don't run past the NHL realism band. */
 function assistWeight(p: Player): number {
+  if (isForward(p)) {
+    const b = forwardBase(p.overall)
+    return b * b
+  }
   const base = Math.max(1, p.overall - 55)
-  if (isForward(p)) return base * base
-  const b = Math.min(base, 34)
+  const b = Math.min(base, 30)
   return b * b * ASSIST_DEF_MULT
 }
 
@@ -104,12 +155,25 @@ function pickWeighted(scorers: Player[], rng: Rng, exclude: Set<string>, weightO
   return null
 }
 
+/** Weighted period for a regulation goal (~31/34/35% across periods 1-3). */
+function regulationPeriod(rng: Rng): 1 | 2 | 3 {
+  const r = rng.next()
+  if (r < 0.31) return 1
+  if (r < 0.65) return 2
+  return 3
+}
+
 /** Attribute `goals` for the scoring team: credit stat lines AND record each
- *  goal into the game's box score (same scorer/assists — attributed once). */
-function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng): void {
+ *  goal into the game's box score (same scorer/assists — attributed once).
+ *  When `otWinner` is true the LAST attributed goal is the overtime winner and
+ *  gets period 4; all other goals are regulation (periods 1-3). */
+function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng, otWinner: boolean): void {
+  const factorOf = (p: Player): number => ctx.factors.get(p.id) ?? 1
+  const goalW = (p: Player): number => goalWeight(p) * factorOf(p)
+  const assistW = (p: Player): number => assistWeight(p) * factorOf(p)
   for (let g = 0; g < goals; g++) {
     const exclude = new Set<string>()
-    const scorer = pickWeighted(ctx.scorers, rng, exclude, goalWeight)
+    const scorer = pickWeighted(ctx.scorers, rng, exclude, goalW)
     if (!scorer) continue
     exclude.add(scorer.id)
     const sl = ensureStat(s, scorer.id)
@@ -121,7 +185,7 @@ function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamG
     // ~1.6 assists per goal (7% unassisted, 70% of the rest with two helpers)
     const nAssists = rng.next() < 0.07 ? 0 : rng.next() < 0.7 ? 2 : 1
     for (let a = 0; a < nAssists; a++) {
-      const helper = pickWeighted(ctx.scorers, rng, exclude, assistWeight)
+      const helper = pickWeighted(ctx.scorers, rng, exclude, assistW)
       if (!helper) break
       exclude.add(helper.id)
       const hl = ensureStat(s, helper.id)
@@ -130,7 +194,8 @@ function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamG
       hl.plusMinus++
       assistIds.push(helper.id)
     }
-    game.goals!.push({ team: teamAbbrev, scorerId: scorer.id, assistIds })
+    const period: 1 | 2 | 3 | 4 = otWinner && g === goals - 1 ? 4 : regulationPeriod(rng)
+    game.goals!.push({ team: teamAbbrev, scorerId: scorer.id, assistIds, period })
     // Conceding team: charge a few on-ice skaters -1.
     const onIce = rng.shuffle([...conceding.scorers]).slice(0, Math.min(3, conceding.scorers.length))
     for (const p of onIce) ensureStat(s, p.id).plusMinus--
@@ -165,8 +230,8 @@ function maybeInjure(s: GameState, team: TeamState, ctx: TeamGameCtx, rng: Rng):
 export function simGame(s: GameState, game: Game, rng: Rng): void {
   const home = s.teams[game.home]
   const away = s.teams[game.away]
-  const hc = buildCtx(home, rng)
-  const ac = buildCtx(away, rng)
+  const hc = buildCtx(s, home, rng)
+  const ac = buildCtx(s, away, rng)
   const gH = hc.goalie ? hc.goalie.overall : 74
   const gA = ac.goalie ? ac.goalie.overall : 74
 
@@ -174,6 +239,12 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
   const xgA = expectedGoals(ac.off, hc.def, gH, false)
   let goalsH = rng.poisson(xgH)
   let goalsA = rng.poisson(xgA)
+
+  // Goals actually SCORED by skaters (regulation + any OT winner). The shootout
+  // decider counts in the final score but is NOT a scored goal event.
+  let attribH = goalsH
+  let attribA = goalsA
+  let otWinner: 'H' | 'A' | null = null
 
   let endType: 'REG' | 'OT' | 'SO' = 'REG'
   let homeWon: boolean
@@ -186,8 +257,16 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
     endType = rng.chance(0.6) ? 'OT' : 'SO'
     if (homeWon) goalsH++
     else goalsA++
+    if (endType === 'OT') {
+      // OT winner is a real scored goal (period 4); the SO decider is not.
+      otWinner = homeWon ? 'H' : 'A'
+      if (homeWon) attribH++
+      else attribA++
+    }
   } else {
     homeWon = goalsH > goalsA
+    attribH = goalsH
+    attribA = goalsA
   }
 
   game.homeGoals = goalsH
@@ -202,16 +281,17 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
   if (hc.goalie) ensureStat(s, hc.goalie.id).gp++
   if (ac.goalie) ensureStat(s, ac.goalie.id).gp++
 
-  // Attribution: in OT/SO, the winning goal was already added above; SO goals
-  // still get attributed for simplicity but are rare edge cases.
-  attributeGoals(s, game, game.home, hc, ac, goalsH, rng)
-  attributeGoals(s, game, game.away, ac, hc, goalsA, rng)
+  // Attribution: regulation goals spread across periods 1-3; the OT winner (if
+  // any) is the final attributed goal for its team and gets period 4.
+  attributeGoals(s, game, game.home, hc, ac, attribH, rng, otWinner === 'H')
+  attributeGoals(s, game, game.away, ac, hc, attribA, rng, otWinner === 'A')
 
-  // Goalie decisions.
+  // Goalie decisions. GA counts scored goals only (shootout decider excluded),
+  // so goalie GA stays consistent with the summed skater goals + box score.
   const homeResult: 'W' | 'L' | 'OTL' = homeWon ? 'W' : endType === 'REG' ? 'L' : 'OTL'
   const awayResult: 'W' | 'L' | 'OTL' = !homeWon ? 'W' : endType === 'REG' ? 'L' : 'OTL'
-  recordGoalie(s, hc.goalie, goalsA, homeResult, rng)
-  recordGoalie(s, ac.goalie, goalsH, awayResult, rng)
+  recordGoalie(s, hc.goalie, attribA, homeResult, rng)
+  recordGoalie(s, ac.goalie, attribH, awayResult, rng)
 
   maybeInjure(s, home, hc, rng)
   maybeInjure(s, away, ac, rng)
@@ -235,8 +315,8 @@ export function healInjuries(s: GameState): void {
 
 /** Best-of-7 playoff series sim (no player stat attribution). Returns winner. */
 export function simSeries(s: GameState, high: string, low: string, rng: Rng): { winner: string; highWins: number; lowWins: number } {
-  const hc = buildCtx(s.teams[high], rng)
-  const lc = buildCtx(s.teams[low], rng)
+  const hc = buildCtx(s, s.teams[high], rng)
+  const lc = buildCtx(s, s.teams[low], rng)
   const gH = hc.goalie ? hc.goalie.overall : 74
   const gL = lc.goalie ? lc.goalie.overall : 74
   let highWins = 0

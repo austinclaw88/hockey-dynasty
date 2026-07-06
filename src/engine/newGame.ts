@@ -1,10 +1,10 @@
 // New-game setup: builds the full 32-team league from team data and generates
 // the first season's schedule.
-import type { GameState, TeamState, Player, DraftPick, TeamDataFile, FreeAgent, FreeAgentPoolFile } from '../types.ts'
+import type { GameState, TeamState, Player, DraftPick, TeamDataFile, FreeAgent, FreeAgentPoolFile, DraftClassFile } from '../types.ts'
 import { START_YEAR, SEASONS_TOTAL } from '../types.ts'
 import { Rng, seedFrom } from './rng.ts'
 import { buildSchedule } from './schedule.ts'
-import { avg, nextCap } from './helpers.ts'
+import { avg, nextCap, ext } from './helpers.ts'
 import { toFreeAgent } from './freeAgency.ts'
 
 function hydratePlayer(raw: Omit<Player, 'injuryWeeks' | 'retired'>): Player {
@@ -32,7 +32,7 @@ function initialPicks(abbrev: string): DraftPick[] {
   return picks
 }
 
-export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile): GameState {
+export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile, draft2027?: DraftClassFile): GameState {
   const teams: Record<string, TeamState> = {}
   // Real past-season stats bundled with the data snapshot seed the career archive.
   const careers: GameState['careers'] = {}
@@ -91,6 +91,9 @@ export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAge
     tradeBlock: [],
     pendingOffers: [],
   }
+  // Thread the real projected 2027 draft class onto private state; the first
+  // in-game entry draft (June 2027) seeds from it. Empty/absent => fully generated.
+  if (draft2027 && draft2027.players.length > 0) ext(s)._draft2027 = draft2027
   s.schedule = buildSchedule(teams, rng)
   s.rngState = rng.state
   return s

@@ -10,7 +10,7 @@ import type { ForwardSlot } from './util'
 import { useUI } from './uiContext'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 
-type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals'
+type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals' | 'assists'
 
 const canSendDown = (p: Player) => p.age <= 25 && p.overall <= 78
 
@@ -101,14 +101,15 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                   {th('yearsLeft', 'Yrs', true)}
                   <th>Exp</th>
                   {th('goals', 'G', true)}
-                  {th('points', 'PTS', true)}
+                  {th('assists', 'A', true)}
+                  {th('points', 'P', true)}
                   <th title="Trade block">Shop</th>
                 </tr>
               </thead>
               <tbody>
                 {sorted.length === 0 && (
                   <tr>
-                    <td colSpan={11} className="muted" style={{ textAlign: 'center', padding: 20 }}>
+                    <td colSpan={12} className="muted" style={{ textAlign: 'center', padding: 20 }}>
                       No players match those filters.
                     </td>
                   </tr>
@@ -140,7 +141,8 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                       <td className="num">{p.contract ? fmtM(p.contract.capHit) : '—'}</td>
                       <td className="num">{p.contract?.yearsLeft ?? '—'}</td>
                       <td>{p.contract ? <ExpiryTag expiry={p.contract.expiry} /> : '—'}</td>
-                      <td className="num">{line?.goals ?? 0}</td>
+                      <td className="num">{p.pos === 'G' ? '—' : line?.goals ?? 0}</td>
+                      <td className="num">{p.pos === 'G' ? '—' : line?.assists ?? 0}</td>
                       <td className="num">{p.pos === 'G' ? '—' : line?.points ?? 0}</td>
                       <td>
                         <button
@@ -200,10 +202,12 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                   .sort((a, b) => posGroup(a.pos) - posGroup(b.pos) || b.overall - a.overall)
                   .map((p) => {
                     const pot = potArrow(p.overall, p.potential)
+                    const onBlock = block.has(p.id)
                     return (
                       <tr key={p.id} className="clickable" onClick={() => setSel(p.id)}>
                         <td className="name-cell">
-                          {p.name} <Flag nat={p.nationality} />
+                          {p.name}
+                          {onBlock && <ShopBadge />} <Flag nat={p.nationality} />
                         </td>
                         <td>
                           <PosTag pos={p.pos} />
@@ -219,15 +223,28 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                         </td>
                         <td className="num">{p.contract ? fmtM(p.contract.capHit) : '—'}</td>
                         <td>
-                          <button
-                            className="btn btn-sm btn-good"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              doCallUp(p.id, p.name)
-                            }}
-                          >
-                            Call Up
-                          </button>
+                          <div className="row" style={{ gap: 6, justifyContent: 'flex-end' }}>
+                            <button
+                              className={`btn btn-sm shop-btn ${onBlock ? 'on' : ''}`}
+                              title={onBlock ? 'On the trade block — click to remove' : 'Put on the trade block'}
+                              aria-pressed={onBlock}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                doToggleBlock(p)
+                              }}
+                            >
+                              🏷 {onBlock ? 'Unshop' : 'Shop'}
+                            </button>
+                            <button
+                              className="btn btn-sm btn-good"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                doCallUp(p.id, p.name)
+                              }}
+                            >
+                              Call Up
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     )
@@ -264,19 +281,15 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                   <span className="hint">Roster player · not waiver/send-down eligible.</span>
                 )}
               </div>
-              {!selIsProspect && (
-                <>
-                  <button
-                    className={`btn btn-block ${block.has(selPlayer.id) ? 'btn-good' : 'btn-primary'}`}
-                    onClick={() => doToggleBlock(selPlayer)}
-                  >
-                    {block.has(selPlayer.id) ? '🏷 Remove from trade block' : '🏷 Put on trade block'}
-                  </button>
-                  <button className="btn btn-block" onClick={() => setOptsFor(selPlayer.id)}>
-                    🔎 Find trade offers
-                  </button>
-                </>
-              )}
+              <button
+                className={`btn btn-block ${block.has(selPlayer.id) ? 'btn-good' : 'btn-primary'}`}
+                onClick={() => doToggleBlock(selPlayer)}
+              >
+                {block.has(selPlayer.id) ? '🏷 Remove from trade block' : '🏷 Put on trade block'}
+              </button>
+              <button className="btn btn-block" onClick={() => setOptsFor(selPlayer.id)}>
+                🔎 Find trade offers
+              </button>
             </div>
           }
         />
@@ -386,6 +399,8 @@ function cmp(a: Player, b: Player, sort: { key: SortKey }, s: GameState): number
       return (s.stats[a.id]?.points ?? 0) - (s.stats[b.id]?.points ?? 0)
     case 'goals':
       return (s.stats[a.id]?.goals ?? 0) - (s.stats[b.id]?.goals ?? 0)
+    case 'assists':
+      return (s.stats[a.id]?.assists ?? 0) - (s.stats[b.id]?.assists ?? 0)
     default:
       return 0
   }

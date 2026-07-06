@@ -26,7 +26,7 @@ export function buildSeasonSummary(s: GameState): void {
   const map = allRostered(s)
 
   // Collect scorers with enough games.
-  const skaters: { pt: PT; pts: number; g: number; a: number; pm: number }[] = []
+  const skaters: { pt: PT; pts: number; g: number; a: number; pm: number; gp: number }[] = []
   const goalies: { pt: PT; sv: number; w: number; starts: number }[] = []
   for (const [id, line] of Object.entries(s.stats)) {
     const pt = map.get(id)
@@ -34,14 +34,27 @@ export function buildSeasonSummary(s: GameState): void {
     if (pt.player.pos === 'G') {
       goalies.push({ pt, sv: line.svPct ?? 0, w: line.wins ?? 0, starts: line.gp })
     } else {
-      skaters.push({ pt, pts: line.points, g: line.goals, a: line.assists, pm: line.plusMinus })
+      skaters.push({ pt, pts: line.points, g: line.goals, a: line.assists, pm: line.plusMinus, gp: line.gp })
     }
   }
 
   const byPoints = [...skaters].sort((a, b) => b.pts - a.pts || b.pm - a.pm)
   const byGoals = [...skaters].sort((a, b) => b.g - a.g || b.pts - a.pts)
   const dmen = byPoints.filter((x) => x.pt.player.pos === 'D')
-  const rookies = byPoints.filter((x) => x.pt.player.age <= 22)
+  // Calder: a TRUE rookie played >= 25 GP this season and has NO prior season
+  // with > 25 GP in the career archive (which includes the real bundled history,
+  // so multi-year NHLers are correctly ineligible). Awards are computed BEFORE
+  // this season is archived, so s.careers holds only prior seasons here.
+  const eligibleRookie = (id: string): boolean => {
+    const prior = s.careers[id]
+    return !prior || !prior.some((cs) => cs.gp > 25)
+  }
+  const rookieSkaters = byPoints.filter((x) => x.gp >= 25 && eligibleRookie(x.pt.player.id))
+  const rookieGoalies = goalies
+    .filter((g) => g.starts >= 25 && eligibleRookie(g.pt.player.id))
+    .sort((a, b) => b.sv - a.sv || b.w - a.w)
+  // Top-scoring eligible skater; fall back to best eligible rookie goalie.
+  const calder = rookieSkaters[0]?.pt ?? rookieGoalies[0]?.pt
   const vezPool = goalies.filter((g) => g.starts >= 41)
   const vezFallback = goalies.filter((g) => g.w >= 30)
   const vezSorted = (vezPool.length ? vezPool : vezFallback.length ? vezFallback : goalies).sort((a, b) => b.sv - a.sv || b.w - a.w)
@@ -56,7 +69,7 @@ export function buildSeasonSummary(s: GameState): void {
   add('Rocket Richard', byGoals[0]?.pt)
   add('Norris Trophy', dmen[0]?.pt)
   add('Vezina Trophy', vezSorted[0]?.pt)
-  add('Calder Trophy', rookies[0]?.pt)
+  add('Calder Trophy', calder)
 
   for (const a of awards) pushNews(s, `AWARD: ${a.playerName} (${a.team}) wins the ${a.name}.`)
 

@@ -11,9 +11,9 @@ import {
   advanceFreeAgencyDay,
   getCapUsage,
 } from '../engine'
-import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal } from './components'
+import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal, PlayerLink } from './components'
 import { fmtM, seasonLabel } from './format'
-import { rosterCounts } from './util'
+import { rosterCounts, buildPlayerIndex } from './util'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 import { useUI } from './uiContext'
 import { ROSTER_MIN, ROSTER_MAX, SEASONS_TOTAL } from '../types'
@@ -337,6 +337,11 @@ function potentialBand(pos: string, potential: number): string {
 function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
   const { pushToast } = useUI()
   const board = getDraftBoard(s)
+  // Drafted players move into team prospect pools; resolve board names to ids so
+  // the results list opens the same player card.
+  const byName = new Map<string, Player>()
+  const idx = buildPlayerIndex(s)
+  for (const ref of idx.values()) if (!byName.has(ref.player.name)) byName.set(ref.player.name, ref.player)
   const [posFilter, setPosFilter] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
   const onUserClock = board.onClock === s.userTeam
   const draftDone = board.available.length === 0 || board.pickNumber > 64
@@ -394,7 +399,9 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                   const sc = scoutRange(p)
                   return (
                   <tr key={p.id}>
-                    <td className="name-cell">{p.name}</td>
+                    <td className="name-cell">
+                      <PlayerLink id={p.id} player={p}>{p.name}</PlayerLink>
+                    </td>
                     <td><PosTag pos={p.pos} /></td>
                     <td>{p.nationality ? <Flag nat={p.nationality} /> : <span className="muted">—</span>}</td>
                     <td className="num">{p.age}</td>
@@ -428,13 +435,22 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
           <div className="ticker" style={{ maxHeight: 520 }}>
             <table className="tbl">
               <tbody>
-                {[...board.results].reverse().map((r) => (
-                  <tr key={r.pick} className={r.team === s.userTeam ? 'me' : ''}>
-                    <td className="num muted" style={{ width: 34 }}>{r.pick}</td>
-                    <td>{r.team}</td>
-                    <td className="name-cell">{r.playerName}</td>
-                  </tr>
-                ))}
+                {[...board.results].reverse().map((r) => {
+                  const drafted = byName.get(r.playerName)
+                  return (
+                    <tr key={r.pick} className={r.team === s.userTeam ? 'me' : ''}>
+                      <td className="num muted" style={{ width: 34 }}>{r.pick}</td>
+                      <td>{r.team}</td>
+                      <td className="name-cell">
+                        {drafted ? (
+                          <PlayerLink player={drafted} team={r.team}>{r.playerName}</PlayerLink>
+                        ) : (
+                          r.playerName
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
                 {board.results.length === 0 && (
                   <tr><td className="muted">No picks made yet.</td></tr>
                 )}
@@ -518,7 +534,9 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                 )}
                 {fas.map((p) => (
                   <tr key={p.id}>
-                    <td className="name-cell">{p.name} <Flag nat={p.nationality} /></td>
+                    <td className="name-cell">
+                      <PlayerLink id={p.id} player={p}>{p.name}</PlayerLink> <Flag nat={p.nationality} />
+                    </td>
                     <td><PosTag pos={p.pos} /></td>
                     <td className="num">{p.age}</td>
                     <td className="num"><OvrBadge overall={p.overall} /></td>
