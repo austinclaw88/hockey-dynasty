@@ -1,8 +1,8 @@
 # Hockey Dynasty
 
 A browser-based NHL dynasty manager — think EA NHL franchise mode **without** playable games.
-Pick one of the 32 real NHL teams with its real 2025-26 roster and real contracts, then run it
-for 10 seasons (2025-26 → 2034-35): simulate the schedule, work the trade market, re-sign your
+Pick one of the 32 real NHL teams with its real 2026-27 roster and real contracts, then run it
+for 10 seasons (2026-27 → 2035-36): simulate the schedule, work the trade market, re-sign your
 stars, sign free agents, draft generated prospect classes, and watch players develop, age, and retire.
 
 No backend, no accounts — the whole game runs in your browser and auto-saves to `localStorage`.
@@ -38,11 +38,15 @@ npm run build:single   # -> dist-single/index.html
 
 ## Data: rosters, ratings, contracts
 
-The bundled dataset (`data/teams/*.json`) is a hand-checked snapshot of the real NHL at the
-start of the 2025-26 season — 831 players with real cap hits, contract terms, and expiry status
-(RFA/UFA), including summer-2025 movement (Marner to Vegas, Dobson to Montreal, Ehlers to
-Carolina, Kaprizov's $17M extension, the Utah Mammoth, ...). Ratings are EA-style 50-99 overalls
-assigned from real-world performance with league-wide anchors (McDavid 97). Run
+The bundled dataset (`data/teams/*.json`) is a web-researched snapshot of the real NHL as of
+**July 6, 2026** — after the 2025-26 season, the 2026 draft, and the opening days of 2026 free
+agency. ~900 players with real cap hits, contract terms, and expiry status (RFA/UFA), including
+the summer's movement (Gavin McKenna #1 to Toronto, Brady Tkachuk to Florida, Quinn Hughes to
+Minnesota, Alex Tuch to Washington, Kaprizov's $17M cap hit kicking in, ...). Prospect pools are
+accurate down to the NCAA level: real drafted college, junior, European, and AHL prospects, each
+tagged with a development league shown in the Roster screen. Ratings are EA-style 50-99 overalls
+assigned from real-world performance with league-wide anchors (McDavid 97). A few contracts
+unresolved on July 6 (pending arbitration/offer sheets) carry documented estimates. Run
 `npm run validate-data` to check any edits against the roster/cap rules.
 
 To refresh rosters from live data, run `node scripts/fetch-rosters.mjs` on a machine with
@@ -78,7 +82,7 @@ your expiring players → draft (two rounds, weighted lottery, a generated
 prospect class with nationality-weighted names and hidden bust/steal potential)
 → free agency (day-based, with AI teams signing to fill needs) → roster/cap
 legality check — before the next season's schedule and salary cap roll in. Cap
-compliance (using the real announced caps: $95.5M in 2025-26 rising to $113.5M
+compliance (using the real announced caps: $104M in 2026-27 rising to $113.5M
 in 2027-28, then ~5%/yr) is enforced on every user action, and AI teams patch
 illegal rosters with generated journeyman depth.
 
