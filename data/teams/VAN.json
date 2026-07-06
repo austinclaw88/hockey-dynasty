@@ -55,12 +55,12 @@
       { "year": 2024, "team": "NJD", "gp": 79, "goals": 12, "assists": 13, "points": 25, "plusMinus": 2, "pim": 60 },
       { "year": 2025, "team": "NJD", "gp": 79, "goals": 9, "assists": 6, "points": 15, "plusMinus": -4, "pim": 19 }
     ] },
-    { "id": "VAN-sherwood", "name": "Kiefer Sherwood", "pos": "RW", "age": 31, "shoots": "R", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "ANA", "gp": 28, "goals": 2, "assists": 3, "points": 5, "plusMinus": -4, "pim": 24 },
-      { "year": 2022, "team": "NSH", "gp": 52, "goals": 5, "assists": 8, "points": 13, "plusMinus": 2, "pim": 40 },
-      { "year": 2023, "team": "NSH", "gp": 62, "goals": 10, "assists": 17, "points": 27, "plusMinus": 3, "pim": 70 },
-      { "year": 2024, "team": "VAN", "gp": 74, "goals": 19, "assists": 21, "points": 40, "plusMinus": 8, "pim": 90 },
-      { "year": 2025, "team": "SJS", "gp": 67, "goals": 23, "assists": 10, "points": 33, "plusMinus": -20, "pim": 48 }
+    { "id": "VAN-debrusk", "name": "Jake DeBrusk", "pos": "LW", "age": 29, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 5, "expiry": "UFA", "ntc": true }, "history": [
+      { "year": 2021, "team": "BOS", "gp": 77, "goals": 25, "assists": 17, "points": 42, "plusMinus": 3, "pim": 34 },
+      { "year": 2022, "team": "BOS", "gp": 64, "goals": 27, "assists": 23, "points": 50, "plusMinus": 6, "pim": 36 },
+      { "year": 2023, "team": "BOS", "gp": 80, "goals": 19, "assists": 21, "points": 40, "plusMinus": 12, "pim": 42 },
+      { "year": 2024, "team": "VAN", "gp": 82, "goals": 25, "assists": 23, "points": 48, "plusMinus": -2, "pim": 40 },
+      { "year": 2025, "team": "VAN", "gp": 81, "goals": 23, "assists": 19, "points": 42, "plusMinus": -6, "pim": 38 }
     ] },
     { "id": "VAN-raty", "name": "Aatu Raty", "pos": "C", "age": 23, "shoots": "L", "overall": 74, "potential": 80, "nationality": "FIN", "contract": { "capHit": 1.5, "yearsLeft": 2, "expiry": "RFA" }, "history": [
       { "year": 2022, "team": "VAN", "gp": 12, "goals": 1, "assists": 1, "points": 2, "plusMinus": -2, "pim": 2 },
@@ -102,13 +102,6 @@
       { "year": 2023, "team": "SEA", "gp": 80, "goals": 4, "assists": 10, "points": 14, "plusMinus": 10, "pim": 44 },
       { "year": 2024, "team": "SEA", "gp": 76, "goals": 3, "assists": 8, "points": 11, "plusMinus": 4, "pim": 40 },
       { "year": 2025, "team": "SEA", "gp": 78, "goals": 5, "assists": 10, "points": 15, "plusMinus": 9, "pim": 36 }
-    ] },
-    { "id": "VAN-myers", "name": "Tyler Myers", "pos": "D", "age": 36, "shoots": "R", "overall": 75, "potential": 75, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "VAN", "gp": 78, "goals": 5, "assists": 14, "points": 19, "plusMinus": 5, "pim": 50 },
-      { "year": 2022, "team": "VAN", "gp": 82, "goals": 4, "assists": 24, "points": 28, "plusMinus": -10, "pim": 60 },
-      { "year": 2023, "team": "VAN", "gp": 74, "goals": 2, "assists": 22, "points": 24, "plusMinus": 20, "pim": 60 },
-      { "year": 2024, "team": "VAN", "gp": 78, "goals": 3, "assists": 15, "points": 18, "plusMinus": 8, "pim": 55 },
-      { "year": 2025, "team": "DAL", "gp": 69, "goals": 2, "assists": 9, "points": 11, "plusMinus": -26, "pim": 46 }
     ] },
     { "id": "VAN-schenn", "name": "Luke Schenn", "pos": "D", "age": 36, "shoots": "R", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 2.75, "yearsLeft": 1, "expiry": "UFA" }, "history": [
       { "year": 2021, "team": "VAN", "gp": 70, "goals": 3, "assists": 12, "points": 15, "plusMinus": 10, "pim": 60 },

@@ -491,63 +491,6 @@
       ]
     },
     {
-      "id": "SJS-barreboulet",
-      "name": "Alex Barre-Boulet",
-      "pos": "C",
-      "age": 28,
-      "shoots": "L",
-      "overall": 72,
-      "potential": 72,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.8,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      },
-      "history": [
-        {
-          "year": 2021,
-          "team": "TBL",
-          "gp": 20,
-          "goals": 4,
-          "assists": 2,
-          "points": 6,
-          "plusMinus": -2,
-          "pim": 6
-        },
-        {
-          "year": 2022,
-          "team": "TBL",
-          "gp": 28,
-          "goals": 5,
-          "assists": 3,
-          "points": 8,
-          "plusMinus": 1,
-          "pim": 8
-        },
-        {
-          "year": 2023,
-          "team": "TBL",
-          "gp": 10,
-          "goals": 2,
-          "assists": 1,
-          "points": 3,
-          "plusMinus": -1,
-          "pim": 4
-        },
-        {
-          "year": 2025,
-          "team": "COL",
-          "gp": 2,
-          "goals": 0,
-          "assists": 1,
-          "points": 1,
-          "plusMinus": 0,
-          "pim": 0
-        }
-      ]
-    },
-    {
       "id": "SJS-leason",
       "name": "Brett Leason",
       "pos": "RW",
@@ -745,6 +688,73 @@
           "points": 19,
           "plusMinus": 0,
           "pim": 8
+        }
+      ]
+    },
+    {
+      "id": "SJS-sherwood",
+      "name": "Kiefer Sherwood",
+      "pos": "RW",
+      "age": 31,
+      "shoots": "R",
+      "overall": 78,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 5.75,
+        "yearsLeft": 5,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "ANA",
+          "gp": 28,
+          "goals": 2,
+          "assists": 3,
+          "points": 5,
+          "plusMinus": -4,
+          "pim": 24
+        },
+        {
+          "year": 2022,
+          "team": "NSH",
+          "gp": 52,
+          "goals": 5,
+          "assists": 8,
+          "points": 13,
+          "plusMinus": 2,
+          "pim": 40
+        },
+        {
+          "year": 2023,
+          "team": "NSH",
+          "gp": 62,
+          "goals": 10,
+          "assists": 17,
+          "points": 27,
+          "plusMinus": 3,
+          "pim": 70
+        },
+        {
+          "year": 2024,
+          "team": "VAN",
+          "gp": 74,
+          "goals": 19,
+          "assists": 21,
+          "points": 40,
+          "plusMinus": 8,
+          "pim": 90
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 67,
+          "goals": 23,
+          "assists": 10,
+          "points": 33,
+          "plusMinus": -20,
+          "pim": 48
         }
       ]
     },
@@ -1392,6 +1402,64 @@
           "points": 2,
           "plusMinus": -2,
           "pim": 2
+        }
+      ]
+    },
+    {
+      "id": "SJS-barreboulet",
+      "name": "Alex Barre-Boulet",
+      "pos": "C",
+      "age": 28,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 72,
+      "nationality": "CAN",
+      "devLeague": "AHL",
+      "contract": {
+        "capHit": 0.8,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "TBL",
+          "gp": 20,
+          "goals": 4,
+          "assists": 2,
+          "points": 6,
+          "plusMinus": -2,
+          "pim": 6
+        },
+        {
+          "year": 2022,
+          "team": "TBL",
+          "gp": 28,
+          "goals": 5,
+          "assists": 3,
+          "points": 8,
+          "plusMinus": 1,
+          "pim": 8
+        },
+        {
+          "year": 2023,
+          "team": "TBL",
+          "gp": 10,
+          "goals": 2,
+          "assists": 1,
+          "points": 3,
+          "plusMinus": -1,
+          "pim": 4
+        },
+        {
+          "year": 2025,
+          "team": "COL",
+          "gp": 2,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 0
         }
       ]
     }

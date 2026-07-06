@@ -1,4 +1,33 @@
 {
   "year": 2027,
-  "players": []
+  "players": [
+    { "id": "D27-dupont", "name": "Landon DuPont", "pos": "D", "age": 17, "shoots": "R", "overall": 68, "potential": 95, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-privalov", "name": "Nazar Privalov", "pos": "LW", "age": 17, "shoots": "L", "overall": 66, "potential": 92, "nationality": "RUS", "devLeague": "Russia", "contract": null },
+    { "id": "D27-joseph", "name": "Alexis Joseph", "pos": "C", "age": 17, "shoots": "L", "overall": 66, "potential": 92, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-meyer", "name": "Carter Meyer", "pos": "C", "age": 17, "shoots": "L", "overall": 65, "potential": 90, "nationality": "USA", "devLeague": "USHL", "contract": null },
+    { "id": "D27-sundstrom", "name": "Milan Sundstrom", "pos": "C", "age": 17, "shoots": "L", "overall": 64, "potential": 89, "nationality": "SWE", "devLeague": "Sweden", "contract": null },
+    { "id": "D27-skvortsov", "name": "Sergei Skvortsov", "pos": "LW", "age": 17, "shoots": "R", "overall": 63, "potential": 88, "nationality": "RUS", "devLeague": "Russia", "contract": null },
+    { "id": "D27-nelson", "name": "Sammy Nelson", "pos": "C", "age": 18, "shoots": "R", "overall": 63, "potential": 87, "nationality": "USA", "devLeague": "USHL", "contract": null },
+    { "id": "D27-neuenschwander", "name": "Jonah Neuenschwander", "pos": "LW", "age": 17, "shoots": "L", "overall": 62, "potential": 87, "nationality": "SUI", "devLeague": "Switzerland", "contract": null },
+    { "id": "D27-zhilkin", "name": "Dima Zhilkin", "pos": "RW", "age": 17, "shoots": "R", "overall": 62, "potential": 86, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-england", "name": "Brock England", "pos": "C", "age": 17, "shoots": "L", "overall": 62, "potential": 86, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-jacobson", "name": "Jaxon Jacobson", "pos": "C", "age": 17, "shoots": "R", "overall": 61, "potential": 85, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-fitzhenry", "name": "Nolan Fitzhenry", "pos": "C", "age": 17, "shoots": "L", "overall": 61, "potential": 85, "nationality": "USA", "devLeague": "USHL", "contract": null },
+    { "id": "D27-calce", "name": "Max Calce", "pos": "C", "age": 17, "shoots": "L", "overall": 61, "potential": 84, "nationality": "GER", "devLeague": "Germany", "contract": null },
+    { "id": "D27-yakunin", "name": "Yevgeni Yakunin", "pos": "C", "age": 17, "shoots": "L", "overall": 60, "potential": 84, "nationality": "RUS", "devLeague": "Russia", "contract": null },
+    { "id": "D27-pustovoy", "name": "Andrei Pustovoy", "pos": "RW", "age": 17, "shoots": "R", "overall": 60, "potential": 83, "nationality": "RUS", "devLeague": "Russia", "contract": null },
+    { "id": "D27-davidson", "name": "Noah Davidson", "pos": "LW", "age": 17, "shoots": "L", "overall": 60, "potential": 83, "nationality": "USA", "devLeague": "CHL", "contract": null },
+    { "id": "D27-scantlebury", "name": "James Scantlebury", "pos": "C", "age": 17, "shoots": "L", "overall": 59, "potential": 82, "nationality": "CAN", "devLeague": "USHL", "contract": null },
+    { "id": "D27-kazda", "name": "Timothy Kazda", "pos": "RW", "age": 17, "shoots": "R", "overall": 59, "potential": 82, "nationality": "SVK", "devLeague": "USHL", "contract": null },
+    { "id": "D27-johnsson", "name": "Douglas Johnsson", "pos": "D", "age": 17, "shoots": "R", "overall": 59, "potential": 81, "nationality": "SWE", "devLeague": "Sweden", "contract": null },
+    { "id": "D27-santala", "name": "Luca Santala", "pos": "C", "age": 17, "shoots": "L", "overall": 58, "potential": 81, "nationality": "FIN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-eshkawkogan", "name": "Kohyn Eshkawkogan", "pos": "D", "age": 17, "shoots": "R", "overall": 58, "potential": 80, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-murata", "name": "Charlie Murata", "pos": "RW", "age": 17, "shoots": "R", "overall": 58, "potential": 80, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-byrtus", "name": "Dominick Byrtus", "pos": "D", "age": 17, "shoots": "L", "overall": 58, "potential": 79, "nationality": "CZE", "devLeague": "Czechia", "contract": null },
+    { "id": "D27-gutierrez", "name": "Diego Gutierrez", "pos": "D", "age": 17, "shoots": "R", "overall": 57, "potential": 79, "nationality": "USA", "devLeague": "USHL", "contract": null },
+    { "id": "D27-tait", "name": "Boston Tait", "pos": "D", "age": 17, "shoots": "L", "overall": 57, "potential": 78, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-cripps", "name": "Brock Cripps", "pos": "D", "age": 17, "shoots": "R", "overall": 57, "potential": 78, "nationality": "CAN", "devLeague": "CHL", "contract": null },
+    { "id": "D27-belohorsky", "name": "Simon Belohorsky", "pos": "LW", "age": 17, "shoots": "L", "overall": 57, "potential": 78, "nationality": "CZE", "devLeague": "CHL", "contract": null },
+    { "id": "D27-esler", "name": "Carter Esler", "pos": "G", "age": 17, "shoots": "L", "overall": 56, "potential": 79, "nationality": "CAN", "devLeague": "CHL", "contract": null }
+  ]
 }
