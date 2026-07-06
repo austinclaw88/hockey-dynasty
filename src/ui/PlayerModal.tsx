@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
 import type { GameState, Player, CareerSeason, SeasonStatLine } from '../types'
 import { Modal, OvrBadge, ExpiryTag } from './components'
 import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow, seasonLabel } from './format'
+import { buildScoringLog, dayLabel } from './util'
 
 export function PlayerModal({
   s,
@@ -106,10 +108,12 @@ export function PlayerModal({
           <div className="hint">No games played yet this season.</div>
         )}
 
+        <ScoringLog s={s} player={player} />
+
         <div className="mini-title">Career</div>
         <CareerTable s={s} player={player} team={team} />
 
-        {actions && <div className="row" style={{ marginTop: 16 }}>{actions}</div>}
+        {actions && <div style={{ marginTop: 16 }}>{actions}</div>}
       </div>
     </Modal>
   )
@@ -213,6 +217,45 @@ function CareerRow({
         </>
       )}
     </tr>
+  )
+}
+
+function ScoringLog({ s, player }: { s: GameState; player: Player }) {
+  const rows = useMemo(() => buildScoringLog(s, player.id), [s.schedule, player.id])
+  if (rows.length === 0) return null
+  return (
+    <>
+      <div className="mini-title">Scoring log</div>
+      <div className="table-wrap">
+        <table className="tbl">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Opp</th>
+              <th className="num">G</th>
+              <th className="num">A</th>
+              <th className="num">PTS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr key={r.game.id}>
+                <td>{dayLabel(r.game.day)}</td>
+                <td>
+                  <span className="ha">{r.home ? 'vs' : '@'}</span>
+                  {r.opp}
+                </td>
+                <td className="num">{r.g}</td>
+                <td className="num">{r.a}</td>
+                <td className="num" style={{ fontWeight: 700 }}>
+                  {r.g + r.a}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   )
 }
 

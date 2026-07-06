@@ -16,6 +16,8 @@ import {
   executeTrade as executeTradeCore,
   getAiTradeSuggestion as getAiTradeSuggestionCore,
   getAiTradeSuggestionFor as getAiTradeSuggestionForCore,
+  getTradeOptionsFor as getTradeOptionsForCore,
+  generateBlockOffers,
   respondToOffer as respondToOfferCore,
   maybeGenerateUserOffers,
   type TradeOffer,
@@ -116,20 +118,28 @@ export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer 
 export function getAiTradeSuggestionFor(s: GameState, partner: string, playerId: string): TradeOffer | null {
   return getAiTradeSuggestionForCore(s, partner, playerId)
 }
+/** Ranked fair trade packages (top 3 partners) for a user-team player. */
+export function getTradeOptionsFor(s: GameState, playerId: string): TradeOffer[] {
+  return getTradeOptionsForCore(s, playerId)
+}
 /** Respond to an incoming AI trade offer. Accept re-validates + executes it. */
 export function respondToOffer(s: GameState, offerId: number, accept: boolean): { s: GameState; ok: boolean; reason?: string } {
   return withResult(s, (st) => respondToOfferCore(st, offerId, accept))
 }
 /** Toggle a user-team roster player on/off the trade block. */
 export function toggleTradeBlock(s: GameState, playerId: string): GameState {
-  return withRng(s, (st) => {
+  return withRng(s, (st, rng) => {
     const i = st.tradeBlock.indexOf(playerId)
     if (i >= 0) {
       st.tradeBlock.splice(i, 1)
       return
     }
     // Only user-team roster players may be added.
-    if (st.teams[st.userTeam]?.roster.some((p) => p.id === playerId)) st.tradeBlock.push(playerId)
+    if (st.teams[st.userTeam]?.roster.some((p) => p.id === playerId)) {
+      st.tradeBlock.push(playerId)
+      // Immediately shop him — teams start calling right away.
+      generateBlockOffers(st, rng, playerId)
+    }
     pruneTradeBlock(st)
   })
 }

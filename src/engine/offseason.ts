@@ -7,6 +7,7 @@ import { nextCap, teamCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } fr
 import { maybeGenerateUserOffers } from './trades.ts'
 import { askingFor, signingOutcome, type Asking } from './contracts.ts'
 import { runDevelopment } from './development.ts'
+import { generateName, pickNationality } from './names.ts'
 import { buildDraftOrder, generateDraftClass, autoAdvanceDraft, finishDraft } from './draft.ts'
 import { prepareFreeAgency, aiFreeAgencyDay, toFreeAgent } from './freeAgency.ts'
 import { buildSeasonSummary } from './awards.ts'
@@ -139,15 +140,16 @@ export function prepareDraft(s: GameState, rng: Rng): void {
 let jmnCounter = 0
 function makeJourneyman(s: GameState, pos: Player['pos'], rng: Rng): Player {
   const age = rng.int(24, 32)
+  const nationality = pickNationality(rng)
   return {
     id: `JMN-${s.seasonYear}-${jmnCounter++}`,
-    name: `Journeyman ${jmnCounter}`,
+    name: generateName(rng, nationality),
     pos,
     age,
     shoots: rng.chance(0.6) ? 'L' : 'R',
     overall: rng.int(70, 74),
     potential: rng.int(70, 74),
-    nationality: 'CAN',
+    nationality,
     injuryWeeks: 0,
     retired: false,
     contract: { capHit: 0.775, yearsLeft: 1, expiry: age < 27 ? 'RFA' : 'UFA' },
@@ -157,33 +159,42 @@ function makeJourneyman(s: GameState, pos: Player['pos'], rng: Rng): Player {
 function fixRoster(s: GameState, team: TeamState, rng: Rng, isUser: boolean): void {
   const cap = nextCap(s.seasonYear)
   let added = 0
-  // Bring under cap by waiving lowest-overall (respecting position minimums).
-  let guard = 0
-  while (teamCapUsed(team) > cap + 0.001 && team.roster.length > ROSTER_MIN && guard++ < 40) {
-    const c = rosterCounts(team)
-    const removable = [...team.roster]
-      .sort((a, b) => a.overall - b.overall)
-      .find((p) => (p.pos === 'G' ? c.g > 2 : p.pos === 'D' ? c.d > 6 : c.f > 12))
-    if (!removable) break
-    team.roster = team.roster.filter((p) => p.id !== removable.id)
+  const shedOverCap = (): void => {
+    // Bring under cap by waiving lowest-overall (respecting position minimums).
+    let guard = 0
+    while (teamCapUsed(team) > cap + 0.001 && team.roster.length > ROSTER_MIN && guard++ < 40) {
+      const c = rosterCounts(team)
+      const removable = [...team.roster]
+        .sort((a, b) => a.overall - b.overall)
+        .find((p) => (p.pos === 'G' ? c.g > 2 : p.pos === 'D' ? c.d > 6 : c.f > 12))
+      if (!removable) break
+      team.roster = team.roster.filter((p) => p.id !== removable.id)
+    }
   }
-  // Fill position minimums.
-  const ensure = (pos: Player['pos'], min: number, current: () => number): void => {
-    while (current() < min) {
-      team.roster.push(makeJourneyman(s, pos, rng))
+  const fillMinimums = (): void => {
+    const ensure = (pos: Player['pos'], min: number, current: () => number): void => {
+      while (current() < min) {
+        team.roster.push(makeJourneyman(s, pos, rng))
+        added++
+      }
+    }
+    ensure('G', 2, () => rosterCounts(team).g)
+    ensure('D', 6, () => rosterCounts(team).d)
+    ensure('C', 12, () => rosterCounts(team).f)
+    while (team.roster.length < ROSTER_MIN) {
+      team.roster.push(makeJourneyman(s, 'C', rng))
       added++
     }
   }
-  ensure('G', 2, () => rosterCounts(team).g)
-  ensure('D', 6, () => rosterCounts(team).d)
-  ensure('C', 12, () => rosterCounts(team).f)
-  // Ensure minimum size.
-  while (team.roster.length < ROSTER_MIN) {
-    team.roster.push(makeJourneyman(s, 'C', rng))
-    added++
+  // Mandatory fills can push a tight team over the cap; alternate shed/fill
+  // until stable (a shed pricey vet gets replaced by a league-min journeyman).
+  for (let round = 0; round < 3; round++) {
+    shedOverCap()
+    fillMinimums()
+    if (teamCapUsed(team) <= cap + 0.001) break
   }
   // Trim to max size (drop lowest-overall extras that keep minimums).
-  guard = 0
+  let guard = 0
   while (team.roster.length > ROSTER_MAX && guard++ < 40) {
     const c = rosterCounts(team)
     const removable = [...team.roster]

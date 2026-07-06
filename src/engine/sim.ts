@@ -57,8 +57,33 @@ function expectedGoals(offA: number, defB: number, goalieB: number, home: boolea
   return clamp(xg, 1.4, 5.2)
 }
 
-/** Weighted scorer pick: (overall-55)^2, forwards 4x defense. */
-function pickScorer(scorers: Player[], rng: Rng, exclude: Set<string>): Player | null {
+// Goal attribution favors forwards heavily (defensemen score ~5-15% of goals).
+// Assist attribution gives defensemen a much larger share (~30% of all helpers —
+// D quarterback the play, first assist is often the D), so blueliners score
+// their points primarily via assists, as in the real NHL. The D assist weight is
+// quadratic like forwards' (scaled by ASSIST_DEF_MULT) so an elite offensive D
+// separates from his pairing partner the way Makar-tier D do in reality.
+const GOAL_DEF_MULT = 0.25 // D weight relative to forwards for goals
+const ASSIST_DEF_MULT = Number((globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.DTUNE ?? 1.2) // D assist weight relative to forwards
+
+/** Goal-scorer weight: (overall-55)^2, forwards 4x defense. */
+function goalWeight(p: Player): number {
+  const base = Math.max(1, p.overall - 55)
+  return base * base * (isForward(p) ? 1 : GOAL_DEF_MULT)
+}
+
+/** Assist weight: (overall-55)^2, defensemen scaled by ASSIST_DEF_MULT.
+ *  D weight saturates at 89 OVR so late-dynasty 95+ OVR blueliners don't
+ *  outscore the league's forwards. */
+function assistWeight(p: Player): number {
+  const base = Math.max(1, p.overall - 55)
+  if (isForward(p)) return base * base
+  const b = Math.min(base, 34)
+  return b * b * ASSIST_DEF_MULT
+}
+
+/** Weighted skater pick using a supplied per-player weight function. */
+function pickWeighted(scorers: Player[], rng: Rng, exclude: Set<string>, weightOf: (p: Player) => number): Player | null {
   let total = 0
   const weights: number[] = []
   for (const p of scorers) {
@@ -66,8 +91,7 @@ function pickScorer(scorers: Player[], rng: Rng, exclude: Set<string>): Player |
       weights.push(0)
       continue
     }
-    const base = Math.max(1, p.overall - 55)
-    const w = base * base * (isForward(p) ? 4 : 1)
+    const w = weightOf(p)
     weights.push(w)
     total += w
   }
@@ -80,27 +104,33 @@ function pickScorer(scorers: Player[], rng: Rng, exclude: Set<string>): Player |
   return null
 }
 
-function attributeGoals(s: GameState, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng): void {
+/** Attribute `goals` for the scoring team: credit stat lines AND record each
+ *  goal into the game's box score (same scorer/assists — attributed once). */
+function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng): void {
   for (let g = 0; g < goals; g++) {
     const exclude = new Set<string>()
-    const scorer = pickScorer(ctx.scorers, rng, exclude)
+    const scorer = pickWeighted(ctx.scorers, rng, exclude, goalWeight)
     if (!scorer) continue
     exclude.add(scorer.id)
     const sl = ensureStat(s, scorer.id)
     sl.goals++
     sl.points++
     sl.plusMinus++
-    // 0-2 assists
-    const nAssists = rng.next() < 0.15 ? 0 : rng.next() < 0.55 ? 2 : 1
+    // 0-2 assists — defensemen weighted up so they collect ~1/3 of all helpers.
+    const assistIds: string[] = []
+    // ~1.6 assists per goal (7% unassisted, 70% of the rest with two helpers)
+    const nAssists = rng.next() < 0.07 ? 0 : rng.next() < 0.7 ? 2 : 1
     for (let a = 0; a < nAssists; a++) {
-      const helper = pickScorer(ctx.scorers, rng, exclude)
+      const helper = pickWeighted(ctx.scorers, rng, exclude, assistWeight)
       if (!helper) break
       exclude.add(helper.id)
       const hl = ensureStat(s, helper.id)
       hl.assists++
       hl.points++
       hl.plusMinus++
+      assistIds.push(helper.id)
     }
+    game.goals!.push({ team: teamAbbrev, scorerId: scorer.id, assistIds })
     // Conceding team: charge a few on-ice skaters -1.
     const onIce = rng.shuffle([...conceding.scorers]).slice(0, Math.min(3, conceding.scorers.length))
     for (const p of onIce) ensureStat(s, p.id).plusMinus--
@@ -164,6 +194,7 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
   game.awayGoals = goalsA
   game.endType = endType
   game.played = true
+  game.goals = [] // box score for this game (regular season only)
 
   // GP for active players + starting goalie.
   for (const p of hc.scorers) ensureStat(s, p.id).gp++
@@ -173,8 +204,8 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
 
   // Attribution: in OT/SO, the winning goal was already added above; SO goals
   // still get attributed for simplicity but are rare edge cases.
-  attributeGoals(s, hc, ac, goalsH, rng)
-  attributeGoals(s, ac, hc, goalsA, rng)
+  attributeGoals(s, game, game.home, hc, ac, goalsH, rng)
+  attributeGoals(s, game, game.away, ac, hc, goalsA, rng)
 
   // Goalie decisions.
   const homeResult: 'W' | 'L' | 'OTL' = homeWon ? 'W' : endType === 'REG' ? 'L' : 'OTL'

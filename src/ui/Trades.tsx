@@ -10,6 +10,7 @@ import {
   toggleTradeBlock,
 } from '../engine'
 import { Card, OvrBadge, PosTag, TeamLogo, TeamLink } from './components'
+import { TradeOptionsModal } from './TradeOptions'
 import { fmtM, seasonLabel } from './format'
 import { buildPlayerIndex } from './util'
 import { useUI, type TradeIntent } from './uiContext'
@@ -55,6 +56,7 @@ export function Trades({
   const [fromPicks, setFromPicks] = useState<Set<string>>(new Set())
   const [toPicks, setToPicks] = useState<Set<string>>(new Set())
   const [focus, setFocus] = useState<string | null>(null)
+  const [optsFor, setOptsFor] = useState<string | null>(null)
   const [notice, setNotice] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
 
   const userTeam = s.teams[s.userTeam]
@@ -109,7 +111,9 @@ export function Trades({
   const hasAssets = offer != null && (offer.fromPlayers.length + offer.fromPicks.length > 0 || offer.toPlayers.length + offer.toPicks.length > 0)
   const evalResult = offer && allowed.ok && hasAssets ? evaluateTrade(s, offer) : null
 
-  const focusPlayer = focus ? idx.get(focus)?.player : undefined
+  const focusRef = focus ? idx.get(focus) : undefined
+  const focusPlayer = focusRef?.player
+  const focusIsUser = focusRef?.team === s.userTeam
 
   function askAi() {
     if (!partner) return
@@ -152,9 +156,7 @@ export function Trades({
     <div className="stack">
       {!allowed.ok && <div className="notice">{allowed.reason}</div>}
 
-      {s.pendingOffers.length > 0 && (
-        <OffersInbox s={s} apply={apply} onCounter={loadOffer} />
-      )}
+      <OffersInbox s={s} apply={apply} onCounter={loadOffer} />
 
       <Card title="Trade Partner">
         <div className="card-pad">
@@ -175,6 +177,16 @@ export function Trades({
             {focusPlayer && (
               <button className="btn btn-primary" disabled={!allowed.ok} onClick={buildAround}>
                 Build deal around {focusPlayer.name.split(' ').slice(-1)[0]}
+              </button>
+            )}
+            {focusPlayer && focusIsUser && (
+              <button
+                className="btn"
+                disabled={!allowed.ok}
+                onClick={() => setOptsFor(focus)}
+                title="Get up to 3 offers from interested teams"
+              >
+                🔎 Find trade offers
               </button>
             )}
             <div className="spacer" />
@@ -249,6 +261,18 @@ export function Trades({
       </Card>
 
       <TradeBlockCard s={s} apply={apply} />
+
+      {optsFor && (
+        <TradeOptionsModal
+          s={s}
+          playerId={optsFor}
+          onClose={() => setOptsFor(null)}
+          onLoad={(o) => {
+            loadOffer(o)
+            setNotice({ kind: 'ok', text: 'Loaded offer into the trade machine.' })
+          }}
+        />
+      )}
     </div>
   )
 }
@@ -256,13 +280,20 @@ export function Trades({
 // ---------------- Offers inbox ----------------
 
 function OffersInbox({ s, apply, onCounter }: { s: GameState; apply: (n: GameState) => void; onCounter: (o: TradeOffer) => void }) {
+  const offers = s.pendingOffers
   return (
-    <Card title={`Trade Offers · ${s.pendingOffers.length}`}>
+    <Card title={offers.length > 0 ? `Trade Offers · ${offers.length}` : 'Trade Offers'}>
       <div className="card-pad stack">
-        <div className="hint">Rival GMs have proposed these deals. Accept, decline, or take them into the machine to counter.</div>
-        {s.pendingOffers.map((o) => (
-          <OfferRow key={o.id} s={s} apply={apply} offer={o} onCounter={onCounter} />
-        ))}
+        {offers.length === 0 ? (
+          <div className="hint">No offers yet. Put players on the trade block to attract calls.</div>
+        ) : (
+          <>
+            <div className="hint">Rival GMs have proposed these deals. Accept, decline, or take them into the machine to counter.</div>
+            {offers.map((o) => (
+              <OfferRow key={o.id} s={s} apply={apply} offer={o} onCounter={onCounter} />
+            ))}
+          </>
+        )}
       </div>
     </Card>
   )

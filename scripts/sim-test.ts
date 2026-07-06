@@ -235,6 +235,33 @@ function main(): void {
       if (line.gaa !== undefined) assert(isNum(line.gaa) && isNum(line.svPct), `NaN in goalie stats ${line.playerId} (${seasonYear})`)
     }
 
+    // Defensemen scoring realism: elite offensive D should produce like the
+    // real NHL (best D ~55-90 pts; Makar-outlier seasons allowed up to 110).
+    const posOf = new Map<string, string>()
+    for (const t of Object.values(s.teams)) for (const p of [...t.roster, ...t.prospects]) posOf.set(p.id, p.pos)
+    const dLines = Object.values(s.stats)
+      .filter((l) => posOf.get(l.playerId) === 'D')
+      .sort((a, b) => b.points - a.points)
+    const bestD = dLines[0]?.points ?? 0
+    const top10Davg = dLines.slice(0, 10).reduce((x, l) => x + l.points, 0) / 10
+    assert(bestD >= 50 && bestD <= 115, `best D has ${bestD} pts (expect 50-115) in ${seasonYear}`)
+    assert(top10Davg >= 45 && top10Davg <= 90, `top-10 D avg ${top10Davg.toFixed(1)} pts (expect 45-90) in ${seasonYear}`)
+
+    // Box-score consistency (season 1, user team): a player's goals summed from
+    // game box scores must equal his stat-line goals.
+    if (season === 0) {
+      const fromBox = new Map<string, number>()
+      for (const g of s.schedule) {
+        if (!g.played || !g.goals) continue
+        for (const ev of g.goals) fromBox.set(ev.scorerId, (fromBox.get(ev.scorerId) ?? 0) + 1)
+      }
+      for (const p of s.teams[userTeam].roster) {
+        const stat = s.stats[p.id]?.goals ?? 0
+        const box = fromBox.get(p.id) ?? 0
+        assert(stat === box, `box-score goals mismatch for ${p.name}: stats ${stat} vs box ${box}`)
+      }
+    }
+
     // Playoffs.
     let pguard = 0
     while (s.phase === 'playoffs' && pguard++ < 6) s = simPlayoffRound(s)

@@ -3,6 +3,7 @@ import type { GameState, Player } from '../types'
 import { callUp, sendDown, getCapUsage, toggleTradeBlock } from '../engine'
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge } from './components'
 import { PlayerModal } from './PlayerModal'
+import { TradeOptionsModal } from './TradeOptions'
 import { fmtM, potArrow, posGroup } from './format'
 import { autoLines, isHealthy } from './util'
 import type { ForwardSlot } from './util'
@@ -15,8 +16,9 @@ const canSendDown = (p: Player) => p.age <= 25 && p.overall <= 78
 
 export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
   const team = s.teams[s.userTeam]
-  const { pushToast } = useUI()
+  const { pushToast, startTrade } = useUI()
   const [sel, setSel] = useState<string | null>(null)
+  const [optsFor, setOptsFor] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'overall', dir: -1 })
   const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
@@ -59,7 +61,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   function doToggleBlock(p: Player) {
     const onBlock = block.has(p.id)
     apply(toggleTradeBlock(s, p.id))
-    pushToast('success', onBlock ? `Removed ${p.name} from the trade block.` : `${p.name} is now on the trade block.`)
+    pushToast('success', onBlock ? `Removed ${p.name} from the trade block.` : 'On the block — teams will call.')
   }
 
   function th(key: SortKey, label: string, num = false) {
@@ -77,16 +79,15 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
 
   return (
     <div className="stack">
-      <div className="grid dash-grid">
-        <Card
-          title={`Roster · ${sorted.length}${sorted.length !== team.roster.length ? ` / ${team.roster.length}` : ''}`}
-          right={
-            <div className="row" style={{ gap: 8 }}>
-              <PosFilter value={posF} onChange={setPosF} />
-              <SearchInput value={query} onChange={setQuery} placeholder="Search players" />
-            </div>
-          }
-        >
+      <Card
+        title={`Roster · ${sorted.length}${sorted.length !== team.roster.length ? ` / ${team.roster.length}` : ''}`}
+        right={
+          <div className="row" style={{ gap: 8 }}>
+            <PosFilter value={posF} onChange={setPosF} />
+            <SearchInput value={query} onChange={setQuery} placeholder="Search players" />
+          </div>
+        }
+      >
           <div className="table-wrap">
             <table className="tbl">
               <thead>
@@ -143,7 +144,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                       <td className="num">{p.pos === 'G' ? '—' : line?.points ?? 0}</td>
                       <td>
                         <button
-                          className={`shop-toggle ${onBlock ? 'on' : ''}`}
+                          className={`btn btn-sm shop-btn ${onBlock ? 'on' : ''}`}
                           title={onBlock ? 'On the trade block — click to remove' : 'Put on the trade block'}
                           aria-pressed={onBlock}
                           onClick={(e) => {
@@ -151,7 +152,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                             doToggleBlock(p)
                           }}
                         >
-                          🏷
+                          🏷 {onBlock ? 'Unshop' : 'Shop'}
                         </button>
                       </td>
                     </tr>
@@ -162,7 +163,8 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
           </div>
         </Card>
 
-        <div className="stack">
+        <div className="grid dash-grid">
+          <LinesCard team={team} onPick={setSel} s={s} />
           <Card title="Salary Cap">
             <div className="card-pad">
               <CapBar
@@ -173,9 +175,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
               />
             </div>
           </Card>
-          <LinesCard team={team} onPick={setSel} s={s} />
         </div>
-      </div>
 
       <Card title={`Prospects · ${team.prospects.length}`}>
         {team.prospects.length === 0 ? (
@@ -250,28 +250,44 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
             setNotice(null)
           }}
           actions={
-            <>
-              {selIsProspect ? (
-                <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id, selPlayer.name)}>
-                  Call Up to NHL
-                </button>
-              ) : canSendDown(selPlayer) ? (
-                <button className="btn btn-danger" onClick={() => doSendDown(selPlayer.id, selPlayer.name)}>
-                  Send Down to Juniors
-                </button>
-              ) : (
-                <span className="hint">Roster player · not waiver/send-down eligible.</span>
-              )}
+            <div className="modal-actions">
+              <div className="row">
+                {selIsProspect ? (
+                  <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id, selPlayer.name)}>
+                    Call Up to NHL
+                  </button>
+                ) : canSendDown(selPlayer) ? (
+                  <button className="btn btn-danger" onClick={() => doSendDown(selPlayer.id, selPlayer.name)}>
+                    Send Down to Juniors
+                  </button>
+                ) : (
+                  <span className="hint">Roster player · not waiver/send-down eligible.</span>
+                )}
+              </div>
               {!selIsProspect && (
-                <button
-                  className={`btn ${block.has(selPlayer.id) ? 'btn-good' : ''}`}
-                  onClick={() => doToggleBlock(selPlayer)}
-                >
-                  {block.has(selPlayer.id) ? '🏷 Remove from Block' : '🏷 Put on Trade Block'}
-                </button>
+                <>
+                  <button
+                    className={`btn btn-block ${block.has(selPlayer.id) ? 'btn-good' : 'btn-primary'}`}
+                    onClick={() => doToggleBlock(selPlayer)}
+                  >
+                    {block.has(selPlayer.id) ? '🏷 Remove from trade block' : '🏷 Put on trade block'}
+                  </button>
+                  <button className="btn btn-block" onClick={() => setOptsFor(selPlayer.id)}>
+                    🔎 Find trade offers
+                  </button>
+                </>
               )}
-            </>
+            </div>
           }
+        />
+      )}
+
+      {optsFor && (
+        <TradeOptionsModal
+          s={s}
+          playerId={optsFor}
+          onClose={() => setOptsFor(null)}
+          onLoad={(offer) => startTrade(offer.to, offer)}
         />
       )}
     </div>

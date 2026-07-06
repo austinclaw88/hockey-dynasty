@@ -361,6 +361,61 @@ export function getAiTradeSuggestionFor(s: GameState, partner: string, playerId:
   return null
 }
 
+/** Value the partner GIVES the user in an offer (return players + picks). */
+function offerReturnValue(s: GameState, offer: TradeOffer, cap: number): number {
+  return sumPlayers(s, offer.to, offer.toPlayers, cap).val + sumPicks(s, offer.toPicks)
+}
+
+/**
+ * All fair trade packages other teams would give up for a USER-team player.
+ * Evaluates every interested partner, builds each one's best fair package,
+ * ranks by value offered to the user, and returns the top 3 (distinct
+ * partners). Empty when nobody bites at fair value or the player is untradeable.
+ */
+export function getTradeOptionsFor(s: GameState, playerId: string): TradeOffer[] {
+  const cap = capForPhase(s)
+  const user = s.teams[s.userTeam]
+  if (!user) return []
+  const target = user.roster.find((p) => p.id === playerId)
+  if (!target || target.contract?.ntc) return []
+  const options: { offer: TradeOffer; value: number }[] = []
+  for (const abbr of Object.keys(s.teams)) {
+    if (abbr === s.userTeam) continue
+    if (!wantsPlayer(s.teams[abbr], target)) continue
+    const offer = buildPartnerPaysPackage(s, abbr, target, cap)
+    if (!offer) continue
+    options.push({ offer, value: offerReturnValue(s, offer, cap) })
+  }
+  options.sort((a, b) => b.value - a.value)
+  return options.slice(0, 3).map((o) => o.offer)
+}
+
+/**
+ * Fired the moment a player is toggled ONTO the trade block: immediately shop
+ * him to the league and, if any partner bites, push 1-2 firm offers plus a news
+ * item so the user sees interest without waiting for the weekly tick.
+ */
+export function generateBlockOffers(s: GameState, rng: Rng, playerId: string): void {
+  if (!tradesAllowed(s)) return
+  const user = s.teams[s.userTeam]
+  const target = user?.roster.find((p) => p.id === playerId)
+  if (!target) return
+  const options = getTradeOptionsFor(s, playerId)
+  if (options.length === 0) return
+  // Best 1-2 distinct partners jump on it right away.
+  const take = Math.min(rng.int(1, 2), options.length)
+  let pushed = 0
+  for (let i = 0; i < take; i++) {
+    const offer = options[i]
+    if (s.pendingOffers.some((o) => o.offer.to === offer.to && o.offer.fromPlayers.includes(playerId))) continue
+    const id = nextOfferId(s)
+    s.pendingOffers.push({ id, offer, day: s.day, seasonYear: s.seasonYear })
+    if (s.pendingOffers.length > 3) s.pendingOffers.shift()
+    pushed++
+  }
+  if (pushed > 0) pushNews(s, `Teams are calling about ${target.name}.`)
+}
+
 // ===========================================================================
 // Incoming AI trade offers (PendingOffer lifecycle)
 // ===========================================================================
@@ -424,7 +479,9 @@ export function maybeGenerateUserOffers(s: GameState, rng: Rng, day: number, off
   const starTargets = user.roster.filter((p) => p.overall >= 85 && !p.contract?.ntc && !s.tradeBlock.includes(p.id))
 
   let target: Player | undefined
-  if (blockTargets.length > 0 && rng.chance(0.25)) target = rng.pick(blockTargets)
+  // Blocked players draw strong, frequent interest so a shopped top-6 reliably
+  // pulls a firm offer within ~2 sim weeks; unblocked stars only rarely.
+  if (blockTargets.length > 0 && rng.chance(0.4)) target = rng.pick(blockTargets)
   else if (starTargets.length > 0 && rng.chance(0.03)) target = rng.pick(starTargets)
   if (!target) return
 

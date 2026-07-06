@@ -1,10 +1,11 @@
 // New-game setup: builds the full 32-team league from team data and generates
 // the first season's schedule.
-import type { GameState, TeamState, Player, DraftPick, TeamDataFile } from '../types.ts'
+import type { GameState, TeamState, Player, DraftPick, TeamDataFile, FreeAgent, FreeAgentPoolFile } from '../types.ts'
 import { START_YEAR, SEASONS_TOTAL } from '../types.ts'
 import { Rng, seedFrom } from './rng.ts'
 import { buildSchedule } from './schedule.ts'
-import { avg } from './helpers.ts'
+import { avg, nextCap } from './helpers.ts'
+import { toFreeAgent } from './freeAgency.ts'
 
 function hydratePlayer(raw: Omit<Player, 'injuryWeeks' | 'retired'>): Player {
   return { ...raw, injuryWeeks: 0, retired: false }
@@ -31,7 +32,7 @@ function initialPicks(abbrev: string): DraftPick[] {
   return picks
 }
 
-export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
+export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile): GameState {
   const teams: Record<string, TeamState> = {}
   // Real past-season stats bundled with the data snapshot seed the career archive.
   const careers: GameState['careers'] = {}
@@ -59,6 +60,17 @@ export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
     userTeam = first
   }
 
+  // Seed the real leftover UFAs into the free-agent pool. They are signable at
+  // the first offseason's free agency (alongside players who walk); the empty
+  // pool (data still being authored) simply yields no seeded FAs.
+  const faCap = nextCap(START_YEAR) // cap governing the first free-agency window
+  const seededFreeAgents: FreeAgent[] = []
+  for (const raw of faPool?.players ?? []) {
+    const p = absorbHistory(hydratePlayer(raw))
+    p.contract = null // pool players are unsigned; engine computes asking
+    seededFreeAgents.push(toFreeAgent(p, faCap))
+  }
+
   const rng = new Rng(seedFrom(userTeam + ':' + START_YEAR))
   const s: GameState = {
     v: 1,
@@ -70,7 +82,7 @@ export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
     schedule: [],
     day: 0,
     stats: {},
-    freeAgents: [],
+    freeAgents: seededFreeAgents,
     draftClass: [],
     history: [],
     news: [{ day: 0, seasonYear: START_YEAR, text: `Welcome to your dynasty with the ${teams[userTeam].city} ${teams[userTeam].name}. The ${START_YEAR}-${String((START_YEAR + 1) % 100).padStart(2, '0')} season begins.` }],

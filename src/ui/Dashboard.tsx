@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import type { GameState, Game } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
 import { Card, CapBar, TeamLogo, TeamLink } from './components'
+import { BoxScoreModal } from './BoxScore'
 import { nextGames, recentGames, teamOverall, dayLabel } from './util'
 import { seasonLabel, ordinal } from './format'
 import type { TabKey } from './TabNav'
@@ -30,6 +32,7 @@ export function Dashboard({
   busy: boolean
 }) {
   const team = s.teams[s.userTeam]
+  const [boxGame, setBoxGame] = useState<Game | null>(null)
   const standings = getStandings(s)
   const divRows = standings.byDivision[team.division] ?? []
   const rank = divRows.findIndex((r) => r.team === s.userTeam) + 1
@@ -81,7 +84,7 @@ export function Dashboard({
         </Card>
       )}
 
-      <FormStrip s={s} />
+      <FormStrip s={s} onOpenBox={setBoxGame} />
 
       <div className="grid dash-grid">
         <Card title="News & Transactions">
@@ -128,38 +131,45 @@ export function Dashboard({
           </Card>
         </div>
       </div>
+
+      {boxGame && <BoxScoreModal s={s} game={boxGame} onClose={() => setBoxGame(null)} />}
     </div>
   )
 }
 
 function OffersCard({ s, onNavigate }: { s: GameState; onNavigate: (t: TabKey) => void }) {
   const offers = s.pendingOffers
-  if (offers.length === 0) return null
   return (
-    <Card title={`Trade Offers · ${offers.length}`}>
+    <Card title={offers.length > 0 ? `Trade Offers · ${offers.length}` : 'Trade Offers'}>
       <div className="card-pad stack" style={{ gap: 10 }}>
-        {offers.slice(0, 3).map((o) => {
-          const fromTeam = s.teams[o.offer.to] // the AI team that sent the offer
-          return (
-            <div className="offer-mini" key={o.id}>
-              <TeamLogo team={fromTeam} size={22} />
-              <span className="offer-mini-team">{fromTeam?.name ?? o.offer.to}</span>
-              <span className="hint">
-                wants {o.offer.fromPlayers.length + o.offer.fromPicks.length} · offers{' '}
-                {o.offer.toPlayers.length + o.offer.toPicks.length}
-              </span>
-            </div>
-          )
-        })}
-        <button className="btn btn-primary" onClick={() => onNavigate('trades')}>
-          Review offers →
-        </button>
+        {offers.length === 0 ? (
+          <div className="hint">No offers yet. Put players on the trade block to attract calls.</div>
+        ) : (
+          <>
+            {offers.slice(0, 3).map((o) => {
+              const fromTeam = s.teams[o.offer.to] // the AI team that sent the offer
+              return (
+                <div className="offer-mini" key={o.id}>
+                  <TeamLogo team={fromTeam} size={22} />
+                  <span className="offer-mini-team">{fromTeam?.name ?? o.offer.to}</span>
+                  <span className="hint">
+                    wants {o.offer.fromPlayers.length + o.offer.fromPicks.length} · offers{' '}
+                    {o.offer.toPlayers.length + o.offer.toPicks.length}
+                  </span>
+                </div>
+              )
+            })}
+            <button className="btn btn-primary" onClick={() => onNavigate('trades')}>
+              Review offers →
+            </button>
+          </>
+        )}
       </div>
     </Card>
   )
 }
 
-function FormStrip({ s }: { s: GameState }) {
+function FormStrip({ s, onOpenBox }: { s: GameState; onOpenBox: (g: Game) => void }) {
   const last10 = [...recentGames(s, s.userTeam, 10)].reverse() // most recent last
   const last5 = recentGames(s, s.userTeam, 5) // newest first
   if (last10.length === 0) return null
@@ -201,7 +211,17 @@ function FormStrip({ s }: { s: GameState }) {
             const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
             const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
             return (
-              <div className="game-row" key={g.id}>
+              <div
+                className="game-row clickable-row"
+                key={g.id}
+                role="button"
+                tabIndex={0}
+                title="View box score"
+                onClick={() => onOpenBox(g)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') onOpenBox(g)
+                }}
+              >
                 <span className={`result-pill ${r.toLowerCase()}`}>{r}</span>
                 <span className="game-when">{dayLabel(g.day)}</span>
                 <TeamLink abbrev={oppAbbrev} className="game-opp-link">

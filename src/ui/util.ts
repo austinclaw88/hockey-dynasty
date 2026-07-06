@@ -186,3 +186,61 @@ export function capZone(used: number, cap: number): 'ok' | 'warn' | 'over' {
 export function findTeamState(s: GameState, team: string): TeamState | undefined {
   return s.teams[team]
 }
+
+/** One resolved goal line for a box score. */
+export interface BoxGoalLine {
+  team: string
+  scorer: string
+  assists: string[]
+}
+
+/** Resolve a player id to a display name using the full player index. */
+export function nameFor(idx: Map<string, PlayerRef>, id: string): string {
+  return idx.get(id)?.player.name ?? 'Unknown'
+}
+
+/** Build the resolved, in-order goal lines for a game's box score. */
+export function boxScoreLines(s: GameState, game: Game, idx: Map<string, PlayerRef>): BoxGoalLine[] {
+  if (!game.goals) return []
+  return game.goals.map((ev) => ({
+    team: ev.team,
+    scorer: nameFor(idx, ev.scorerId),
+    assists: ev.assistIds.map((a) => nameFor(idx, a)),
+  }))
+}
+
+/** One row of a player's per-game scoring log (games where they recorded a point). */
+export interface ScoringLogRow {
+  game: Game
+  /** Opponent abbrev from the player's perspective that game. */
+  opp: string
+  home: boolean
+  g: number
+  a: number
+}
+
+/**
+ * Scan the season's played games for every game in which `playerId` scored or
+ * assisted, newest first. Games with no points are omitted. Cheap enough to
+ * memoize per (schedule, playerId).
+ */
+export function buildScoringLog(s: GameState, playerId: string): ScoringLogRow[] {
+  const rows: ScoringLogRow[] = []
+  for (const game of s.schedule) {
+    if (!game.played || !game.goals || game.goals.length === 0) continue
+    let g = 0
+    let a = 0
+    let team: string | undefined
+    for (const ev of game.goals) {
+      const scored = ev.scorerId === playerId
+      const assisted = ev.assistIds.includes(playerId)
+      if (scored) g++
+      if (assisted) a++
+      if ((scored || assisted) && !team) team = ev.team
+    }
+    if (g === 0 && a === 0 || !team) continue
+    const home = game.home === team
+    rows.push({ game, opp: home ? game.away : game.home, home, g, a })
+  }
+  return rows.sort((x, y) => y.game.day - x.game.day)
+}

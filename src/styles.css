@@ -918,7 +918,7 @@ table.tbl {
   box-shadow: var(--shadow);
   width: 100%;
   max-width: 560px;
-  max-height: 88vh;
+  max-height: 90vh;
   overflow-y: auto;
 }
 
@@ -1840,4 +1840,126 @@ input:focus {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ---------------- Labeled trade-block toggle (Roster table) ---------------- */
+.shop-btn {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.75;
+}
+
+.shop-btn:hover {
+  opacity: 1;
+}
+
+.shop-btn.on {
+  opacity: 1;
+  background: color-mix(in srgb, var(--team) 22%, transparent);
+  border-color: color-mix(in srgb, var(--team) 55%, transparent);
+  color: var(--team2);
+}
+
+/* ---------------- Full-width button + stacked modal actions ---------------- */
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---------------- Clickable game rows ---------------- */
+.game-row.clickable-row {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.game-row.clickable-row:hover,
+.game-row.clickable-row:focus-visible {
+  background: var(--card-hover);
+  outline: none;
+}
+
+/* ---------------- Box score modal ---------------- */
+.box-score-head {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+}
+
+.box-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.box-team:last-child {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.box-team-name {
+  font-weight: 700;
+  flex: 1;
+}
+
+.box-team-goals {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.box-team.win .box-team-goals {
+  color: var(--good);
+}
+
+.box-score-sep {
+  text-align: center;
+}
+
+.box-final {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--text-faint);
+}
+
+.box-goals {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.box-goal {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 7px 4px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.box-goal:last-child {
+  border-bottom: none;
+}
+
+.box-goal-team {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-dim);
+  min-width: 34px;
+}
+
+/* ---------------- Trade options modal ---------------- */
+.trade-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
