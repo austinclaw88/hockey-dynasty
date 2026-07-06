@@ -1,0 +1,34 @@
+{
+  "info": { "abbrev": "EDM", "city": "Edmonton", "name": "Oilers", "conference": "West", "division": "Pacific", "color": "#FF4C00", "colorSecondary": "#041E42" },
+  "roster": [
+    { "id": "EDM-mcdavid", "name": "Connor McDavid", "pos": "C", "age": 28, "shoots": "L", "overall": 97, "potential": 97, "nationality": "CAN", "contract": { "capHit": 12.5, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "EDM-draisaitl", "name": "Leon Draisaitl", "pos": "C", "age": 29, "shoots": "L", "overall": 95, "potential": 95, "nationality": "GER", "contract": { "capHit": 14.0, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "EDM-hyman", "name": "Zach Hyman", "pos": "LW", "age": 33, "shoots": "R", "overall": 86, "potential": 86, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "EDM-nugent-hopkins", "name": "Ryan Nugent-Hopkins", "pos": "C", "age": 32, "shoots": "L", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 5.125, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "EDM-frederic", "name": "Trent Frederic", "pos": "C", "age": 27, "shoots": "L", "overall": 78, "potential": 79, "nationality": "USA", "contract": { "capHit": 3.85, "yearsLeft": 8, "expiry": "UFA" } },
+    { "id": "EDM-mangiapane", "name": "Andrew Mangiapane", "pos": "LW", "age": 29, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.6, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "EDM-henrique", "name": "Adam Henrique", "pos": "C", "age": 35, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-podkolzin", "name": "Vasily Podkolzin", "pos": "RW", "age": 24, "shoots": "L", "overall": 79, "potential": 82, "nationality": "RUS", "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "EDM-savoie", "name": "Matthew Savoie", "pos": "RW", "age": 21, "shoots": "R", "overall": 77, "potential": 87, "nationality": "CAN", "contract": { "capHit": 0.863, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "EDM-howard", "name": "Isaac Howard", "pos": "LW", "age": 21, "shoots": "L", "overall": 78, "potential": 89, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-brown", "name": "Connor Brown", "pos": "RW", "age": 31, "shoots": "R", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-janmark", "name": "Mattias Janmark", "pos": "LW", "age": 32, "shoots": "L", "overall": 75, "potential": 75, "nationality": "SWE", "contract": { "capHit": 1.45, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-kapanen", "name": "Kasperi Kapanen", "pos": "RW", "age": 29, "shoots": "L", "overall": 76, "potential": 76, "nationality": "FIN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-philp", "name": "Noah Philp", "pos": "C", "age": 27, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-bouchard", "name": "Evan Bouchard", "pos": "D", "age": 25, "shoots": "R", "overall": 89, "potential": 90, "nationality": "CAN", "contract": { "capHit": 10.5, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "EDM-nurse", "name": "Darnell Nurse", "pos": "D", "age": 30, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 9.25, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "EDM-ekholm", "name": "Mattias Ekholm", "pos": "D", "age": 35, "shoots": "L", "overall": 82, "potential": 82, "nationality": "SWE", "contract": { "capHit": 6.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "EDM-walman", "name": "Jake Walman", "pos": "D", "age": 29, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 7.0, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "EDM-kulak", "name": "Brett Kulak", "pos": "D", "age": 31, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 2.75, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "EDM-emberson", "name": "Ty Emberson", "pos": "D", "age": 25, "shoots": "R", "overall": 76, "potential": 79, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "EDM-stecher", "name": "Troy Stecher", "pos": "D", "age": 31, "shoots": "R", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 0.79, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "EDM-skinner", "name": "Stuart Skinner", "pos": "G", "age": 26, "shoots": "L", "overall": 82, "potential": 83, "nationality": "CAN", "contract": { "capHit": 2.6, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "EDM-pickard", "name": "Calvin Pickard", "pos": "G", "age": 33, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "EDM-akey", "name": "Beau Akey", "pos": "D", "age": 20, "shoots": "R", "overall": 66, "potential": 82, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-petrov", "name": "Matvei Petrov", "pos": "LW", "age": 22, "shoots": "L", "overall": 68, "potential": 79, "nationality": "RUS", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "EDM-yevseyev", "name": "Nikita Yevseyev", "pos": "D", "age": 20, "shoots": "L", "overall": 64, "potential": 78, "nationality": "RUS", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-wanner", "name": "Maximus Wanner", "pos": "D", "age": 21, "shoots": "R", "overall": 64, "potential": 76, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}

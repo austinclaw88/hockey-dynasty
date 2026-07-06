@@ -1,0 +1,32 @@
+{
+  "info": { "abbrev": "VGK", "city": "Vegas", "name": "Golden Knights", "conference": "West", "division": "Pacific", "color": "#B4975A", "colorSecondary": "#333F42" },
+  "roster": [
+    { "id": "VGK-eichel", "name": "Jack Eichel", "pos": "C", "age": 28, "shoots": "R", "overall": 93, "potential": 93, "nationality": "USA", "contract": { "capHit": 13.5, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-marner", "name": "Mitch Marner", "pos": "RW", "age": 28, "shoots": "R", "overall": 92, "potential": 92, "nationality": "CAN", "contract": { "capHit": 12.0, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-stone", "name": "Mark Stone", "pos": "RW", "age": 33, "shoots": "R", "overall": 86, "potential": 86, "nationality": "CAN", "contract": { "capHit": 9.5, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-hertl", "name": "Tomas Hertl", "pos": "C", "age": 31, "shoots": "L", "overall": 85, "potential": 85, "nationality": "CZE", "contract": { "capHit": 8.1375, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-karlsson", "name": "William Karlsson", "pos": "C", "age": 32, "shoots": "L", "overall": 83, "potential": 83, "nationality": "SWE", "contract": { "capHit": 5.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "VGK-barbashev", "name": "Ivan Barbashev", "pos": "LW", "age": 30, "shoots": "L", "overall": 83, "potential": 83, "nationality": "RUS", "contract": { "capHit": 5.0, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "VGK-dorofeyev", "name": "Pavel Dorofeyev", "pos": "RW", "age": 24, "shoots": "L", "overall": 83, "potential": 86, "nationality": "RUS", "contract": { "capHit": 4.125, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "VGK-howden", "name": "Brett Howden", "pos": "C", "age": 27, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 1.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "VGK-olofsson", "name": "Victor Olofsson", "pos": "LW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "SWE", "contract": { "capHit": 1.075, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "VGK-holtz", "name": "Alexander Holtz", "pos": "LW", "age": 23, "shoots": "R", "overall": 76, "potential": 83, "nationality": "SWE", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "VGK-schwindt", "name": "Cole Schwindt", "pos": "C", "age": 24, "shoots": "R", "overall": 74, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "VGK-rempal", "name": "Sheldon Rempal", "pos": "RW", "age": 29, "shoots": "R", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "VGK-rondbjerg", "name": "Jonas Rondbjerg", "pos": "LW", "age": 26, "shoots": "L", "overall": 73, "potential": 74, "nationality": "DEN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "VGK-theodore", "name": "Shea Theodore", "pos": "D", "age": 30, "shoots": "L", "overall": 85, "potential": 85, "nationality": "CAN", "contract": { "capHit": 8.85, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-hanifin", "name": "Noah Hanifin", "pos": "D", "age": 28, "shoots": "L", "overall": 84, "potential": 84, "nationality": "USA", "contract": { "capHit": 7.35, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "VGK-mcnabb", "name": "Brayden McNabb", "pos": "D", "age": 34, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 2.85, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "VGK-whitecloud", "name": "Zach Whitecloud", "pos": "D", "age": 28, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 2.75, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "VGK-cormier", "name": "Lukas Cormier", "pos": "D", "age": 23, "shoots": "L", "overall": 74, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.827, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "VGK-hutton", "name": "Ben Hutton", "pos": "D", "age": 32, "shoots": "L", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "VGK-hill", "name": "Adin Hill", "pos": "G", "age": 29, "shoots": "L", "overall": 86, "potential": 86, "nationality": "CAN", "contract": { "capHit": 4.9, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "VGK-samsonov", "name": "Ilya Samsonov", "pos": "G", "age": 28, "shoots": "L", "overall": 80, "potential": 80, "nationality": "RUS", "contract": { "capHit": 1.8, "yearsLeft": 1, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "VGK-connelly", "name": "Trevor Connelly", "pos": "LW", "age": 19, "shoots": "L", "overall": 66, "potential": 85, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "VGK-bowman", "name": "Braeden Bowman", "pos": "RW", "age": 20, "shoots": "R", "overall": 64, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "VGK-sapovaliv", "name": "Matyas Sapovaliv", "pos": "C", "age": 21, "shoots": "L", "overall": 65, "potential": 78, "nationality": "CZE", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "VGK-demek", "name": "Jakub Demek", "pos": "RW", "age": 22, "shoots": "R", "overall": 65, "potential": 77, "nationality": "SVK", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } }
+  ]
+}

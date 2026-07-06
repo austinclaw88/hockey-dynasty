@@ -463,6 +463,18 @@ table.tbl {
   font-weight: 600;
 }
 
+.group-label {
+  color: var(--text-faint);
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.6px;
+  background: var(--bg-2);
+  padding: 6px 10px;
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+}
+
 .subrow-label td {
   color: var(--text-faint);
   text-transform: uppercase;

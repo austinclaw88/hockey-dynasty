@@ -1,0 +1,35 @@
+{
+  "info": { "abbrev": "SEA", "city": "Seattle", "name": "Kraken", "conference": "West", "division": "Pacific", "color": "#001628", "colorSecondary": "#99D9D9" },
+  "roster": [
+    { "id": "SEA-beniers", "name": "Matty Beniers", "pos": "C", "age": 22, "shoots": "L", "overall": 83, "potential": 89, "nationality": "USA", "contract": { "capHit": 7.14, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "SEA-mccann", "name": "Jared McCann", "pos": "LW", "age": 29, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "SEA-eberle", "name": "Jordan Eberle", "pos": "RW", "age": 35, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 4.75, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "SEA-stephenson", "name": "Chandler Stephenson", "pos": "C", "age": 31, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "SEA-marchment", "name": "Mason Marchment", "pos": "LW", "age": 30, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 4.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "SEA-kakko", "name": "Kaapo Kakko", "pos": "RW", "age": 24, "shoots": "R", "overall": 80, "potential": 83, "nationality": "FIN", "contract": { "capHit": 4.1375, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "SEA-schwartz", "name": "Jaden Schwartz", "pos": "LW", "age": 33, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "SEA-tolvanen", "name": "Eeli Tolvanen", "pos": "RW", "age": 26, "shoots": "L", "overall": 79, "potential": 80, "nationality": "FIN", "contract": { "capHit": 3.475, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "SEA-wright", "name": "Shane Wright", "pos": "C", "age": 21, "shoots": "L", "overall": 79, "potential": 88, "nationality": "CAN", "contract": { "capHit": 0.894, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "SEA-kartye", "name": "Tye Kartye", "pos": "LW", "age": 24, "shoots": "L", "overall": 76, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "SEA-nyman", "name": "Jani Nyman", "pos": "RW", "age": 21, "shoots": "R", "overall": 74, "potential": 83, "nationality": "FIN", "contract": { "capHit": 0.855, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "SEA-winterton", "name": "Ryan Winterton", "pos": "C", "age": 22, "shoots": "R", "overall": 72, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "SEA-meyers", "name": "Ben Meyers", "pos": "C", "age": 27, "shoots": "L", "overall": 73, "potential": 74, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "SEA-stephens", "name": "Mitchell Stephens", "pos": "C", "age": 28, "shoots": "R", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "SEA-dunn", "name": "Vince Dunn", "pos": "D", "age": 28, "shoots": "L", "overall": 83, "potential": 83, "nationality": "CAN", "contract": { "capHit": 7.35, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "SEA-montour", "name": "Brandon Montour", "pos": "D", "age": 31, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 7.14, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "SEA-larsson", "name": "Adam Larsson", "pos": "D", "age": 32, "shoots": "R", "overall": 79, "potential": 79, "nationality": "SWE", "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "SEA-lindgren", "name": "Ryan Lindgren", "pos": "D", "age": 27, "shoots": "L", "overall": 77, "potential": 77, "nationality": "USA", "contract": { "capHit": 4.5, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "SEA-oleksiak", "name": "Jamie Oleksiak", "pos": "D", "age": 32, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 4.6, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "SEA-evans", "name": "Ryker Evans", "pos": "D", "age": 23, "shoots": "L", "overall": 76, "potential": 82, "nationality": "CAN", "contract": { "capHit": 0.8, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "SEA-mahura", "name": "Josh Mahura", "pos": "D", "age": 27, "shoots": "L", "overall": 73, "potential": 74, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "SEA-daccord", "name": "Joey Daccord", "pos": "G", "age": 29, "shoots": "L", "overall": 85, "potential": 85, "nationality": "USA", "contract": { "capHit": 5.0, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "SEA-grubauer", "name": "Philipp Grubauer", "pos": "G", "age": 33, "shoots": "L", "overall": 76, "potential": 76, "nationality": "GER", "contract": { "capHit": 5.9, "yearsLeft": 2, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "SEA-catton", "name": "Berkly Catton", "pos": "C", "age": 19, "shoots": "L", "overall": 70, "potential": 89, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "SEA-obrien", "name": "Jake O'Brien", "pos": "C", "age": 18, "shoots": "R", "overall": 66, "potential": 85, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "SEA-rehkopf", "name": "Carson Rehkopf", "pos": "LW", "age": 20, "shoots": "L", "overall": 66, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "SEA-goyette", "name": "David Goyette", "pos": "C", "age": 21, "shoots": "L", "overall": 66, "potential": 79, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "SEA-ottavainen", "name": "Ville Ottavainen", "pos": "D", "age": 22, "shoots": "L", "overall": 64, "potential": 76, "nationality": "FIN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } }
+  ]
+}

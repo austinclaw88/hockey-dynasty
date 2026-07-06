@@ -1,0 +1,35 @@
+{
+  "info": { "abbrev": "CGY", "city": "Calgary", "name": "Flames", "conference": "West", "division": "Pacific", "color": "#C8102E", "colorSecondary": "#F1BE48" },
+  "roster": [
+    { "id": "CGY-kadri", "name": "Nazem Kadri", "pos": "C", "age": 34, "shoots": "L", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 7.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "CGY-huberdeau", "name": "Jonathan Huberdeau", "pos": "LW", "age": 32, "shoots": "L", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 10.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "CGY-coronato", "name": "Matt Coronato", "pos": "RW", "age": 22, "shoots": "R", "overall": 81, "potential": 88, "nationality": "USA", "contract": { "capHit": 6.5, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "CGY-sharangovich", "name": "Yegor Sharangovich", "pos": "C", "age": 27, "shoots": "L", "overall": 80, "potential": 80, "nationality": "BLR", "contract": { "capHit": 5.75, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CGY-farabee", "name": "Joel Farabee", "pos": "LW", "age": 25, "shoots": "L", "overall": 78, "potential": 80, "nationality": "USA", "contract": { "capHit": 5.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "CGY-coleman", "name": "Blake Coleman", "pos": "LW", "age": 33, "shoots": "L", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 4.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CGY-backlund", "name": "Mikael Backlund", "pos": "C", "age": 36, "shoots": "L", "overall": 78, "potential": 78, "nationality": "SWE", "contract": { "capHit": 4.5, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "CGY-frost", "name": "Morgan Frost", "pos": "C", "age": 26, "shoots": "L", "overall": 78, "potential": 80, "nationality": "CAN", "contract": { "capHit": 4.375, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CGY-mantha", "name": "Anthony Mantha", "pos": "RW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CGY-zary", "name": "Connor Zary", "pos": "C", "age": 23, "shoots": "L", "overall": 78, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "CGY-pospisil", "name": "Martin Pospisil", "pos": "C", "age": 25, "shoots": "L", "overall": 76, "potential": 78, "nationality": "SVK", "contract": { "capHit": 1.0, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CGY-pelletier", "name": "Jakob Pelletier", "pos": "LW", "age": 24, "shoots": "L", "overall": 74, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "CGY-rooney", "name": "Kevin Rooney", "pos": "C", "age": 32, "shoots": "R", "overall": 73, "potential": 73, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CGY-klapka", "name": "Adam Klapka", "pos": "RW", "age": 25, "shoots": "R", "overall": 73, "potential": 76, "nationality": "CZE", "contract": { "capHit": 0.8, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CGY-weegar", "name": "MacKenzie Weegar", "pos": "D", "age": 31, "shoots": "R", "overall": 85, "potential": 85, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "CGY-andersson", "name": "Rasmus Andersson", "pos": "D", "age": 28, "shoots": "R", "overall": 83, "potential": 83, "nationality": "SWE", "contract": { "capHit": 4.55, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CGY-bahl", "name": "Kevin Bahl", "pos": "D", "age": 25, "shoots": "L", "overall": 79, "potential": 81, "nationality": "CAN", "contract": { "capHit": 3.2, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "CGY-parekh", "name": "Zayne Parekh", "pos": "D", "age": 19, "shoots": "R", "overall": 76, "potential": 91, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CGY-miromanov", "name": "Daniil Miromanov", "pos": "D", "age": 28, "shoots": "R", "overall": 74, "potential": 74, "nationality": "RUS", "contract": { "capHit": 1.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CGY-pachal", "name": "Brayden Pachal", "pos": "D", "age": 25, "shoots": "R", "overall": 74, "potential": 76, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CGY-bean", "name": "Jake Bean", "pos": "D", "age": 27, "shoots": "L", "overall": 75, "potential": 76, "nationality": "CAN", "contract": { "capHit": 1.35, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CGY-wolf", "name": "Dustin Wolf", "pos": "G", "age": 24, "shoots": "L", "overall": 86, "potential": 90, "nationality": "USA", "contract": { "capHit": 7.5, "yearsLeft": 8, "expiry": "UFA" } },
+    { "id": "CGY-cooley", "name": "Devin Cooley", "pos": "G", "age": 28, "shoots": "L", "overall": 75, "potential": 75, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "RFA" } }
+  ],
+  "prospects": [
+    { "id": "CGY-reschny", "name": "Cole Reschny", "pos": "C", "age": 18, "shoots": "L", "overall": 66, "potential": 86, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CGY-potter", "name": "Cullen Potter", "pos": "C", "age": 18, "shoots": "L", "overall": 65, "potential": 85, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CGY-honzek", "name": "Samuel Honzek", "pos": "LW", "age": 20, "shoots": "L", "overall": 70, "potential": 82, "nationality": "SVK", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CGY-morin", "name": "Etienne Morin", "pos": "D", "age": 20, "shoots": "L", "overall": 69, "potential": 82, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CGY-brzustewicz", "name": "Hunter Brzustewicz", "pos": "D", "age": 20, "shoots": "R", "overall": 68, "potential": 82, "nationality": "USA", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}
