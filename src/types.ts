@@ -94,6 +94,15 @@ export interface TeamState extends TeamInfo {
   strategy: 'contend' | 'retool' | 'rebuild'
 }
 
+/** One goal in a game's box score, in scoring order. */
+export interface GoalEvent {
+  /** Abbrev of the scoring team */
+  team: string
+  scorerId: string
+  /** 0-2 assist player ids */
+  assistIds: string[]
+}
+
 export interface Game {
   id: number
   /** 0-based day index within the season calendar */
@@ -105,6 +114,8 @@ export interface Game {
   awayGoals?: number
   /** 'REG' | 'OT' | 'SO' */
   endType?: 'REG' | 'OT' | 'SO'
+  /** Box score: every goal with scorer + assists (current season only; cleared at rollover) */
+  goals?: GoalEvent[]
 }
 
 export interface StandingsRow {
@@ -252,4 +263,10 @@ export interface TeamDataFile {
   info: TeamInfo
   roster: Omit<Player, 'injuryWeeks' | 'retired'>[]
   prospects: Omit<Player, 'injuryWeeks' | 'retired'>[]
+}
+
+/** Raw shape of data/free-agents.json — real unsigned UFAs as of the snapshot date.
+ *  contract is null; the engine computes each player's asking price. */
+export interface FreeAgentPoolFile {
+  players: Omit<Player, 'injuryWeeks' | 'retired'>[]
 }
