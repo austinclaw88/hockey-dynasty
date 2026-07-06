@@ -1,0 +1,221 @@
+{
+  "info": { "abbrev": "OTT", "city": "Ottawa", "name": "Senators", "conference": "East",
+            "division": "Atlantic", "color": "#C52032", "colorSecondary": "#000000" },
+  "roster": [
+    { "id": "OTT-stutzle", "name": "Tim Stutzle", "pos": "C", "age": 24, "shoots": "L",
+      "overall": 89, "potential": 91, "nationality": "GER",
+      "contract": { "capHit": 8.35, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 79, "goals": 22, "assists": 36, "points": 58, "plusMinus": -25, "pim": 26 },
+        { "year": 2022, "team": "OTT", "gp": 78, "goals": 39, "assists": 51, "points": 90, "plusMinus": -8, "pim": 40 },
+        { "year": 2023, "team": "OTT", "gp": 75, "goals": 18, "assists": 52, "points": 70, "plusMinus": -30, "pim": 30 },
+        { "year": 2024, "team": "OTT", "gp": 72, "goals": 24, "assists": 55, "points": 79, "plusMinus": -5, "pim": 44 },
+        { "year": 2025, "team": "OTT", "gp": 80, "goals": 34, "assists": 49, "points": 83, "plusMinus": 15, "pim": 40 }
+      ] },
+    { "id": "OTT-eklund", "name": "William Eklund", "pos": "LW", "age": 23, "shoots": "L",
+      "overall": 80, "potential": 86, "nationality": "SWE",
+      "contract": { "capHit": 5.6, "yearsLeft": 3, "expiry": "RFA" },
+      "history": [
+        { "year": 2021, "team": "SJS", "gp": 9, "goals": 0, "assists": 1, "points": 1, "plusMinus": -2, "pim": 2 },
+        { "year": 2022, "team": "SJS", "gp": 8, "goals": 2, "assists": 1, "points": 3, "plusMinus": -1, "pim": 0 },
+        { "year": 2023, "team": "SJS", "gp": 72, "goals": 16, "assists": 29, "points": 45, "plusMinus": -14, "pim": 20 },
+        { "year": 2024, "team": "SJS", "gp": 77, "goals": 13, "assists": 45, "points": 58, "plusMinus": -18, "pim": 22 },
+        { "year": 2025, "team": "SJS", "gp": 78, "goals": 15, "assists": 38, "points": 53, "plusMinus": -12, "pim": 24 }
+      ] },
+    { "id": "OTT-batherson", "name": "Drake Batherson", "pos": "RW", "age": 28, "shoots": "R",
+      "overall": 82, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 4.975, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 46, "goals": 17, "assists": 27, "points": 44, "plusMinus": -8, "pim": 20 },
+        { "year": 2022, "team": "OTT", "gp": 82, "goals": 22, "assists": 40, "points": 62, "plusMinus": -12, "pim": 24 },
+        { "year": 2023, "team": "OTT", "gp": 82, "goals": 28, "assists": 38, "points": 66, "plusMinus": -10, "pim": 22 },
+        { "year": 2024, "team": "OTT", "gp": 82, "goals": 26, "assists": 42, "points": 68, "plusMinus": 5, "pim": 24 },
+        { "year": 2025, "team": "OTT", "gp": 76, "goals": 33, "assists": 38, "points": 71, "plusMinus": 12, "pim": 24 }
+      ] },
+    { "id": "OTT-cozens", "name": "Dylan Cozens", "pos": "C", "age": 25, "shoots": "R",
+      "overall": 80, "potential": 83, "nationality": "CAN",
+      "contract": { "capHit": 7.1, "yearsLeft": 4, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BUF", "gp": 79, "goals": 13, "assists": 25, "points": 38, "plusMinus": -10, "pim": 40 },
+        { "year": 2022, "team": "BUF", "gp": 81, "goals": 31, "assists": 37, "points": 68, "plusMinus": 8, "pim": 40 },
+        { "year": 2023, "team": "BUF", "gp": 79, "goals": 18, "assists": 29, "points": 47, "plusMinus": -8, "pim": 40 },
+        { "year": 2024, "team": "OTT", "gp": 68, "goals": 15, "assists": 28, "points": 43, "plusMinus": -10, "pim": 42 },
+        { "year": 2025, "team": "OTT", "gp": 82, "goals": 28, "assists": 31, "points": 59, "plusMinus": -7, "pim": 59 }
+      ] },
+    { "id": "OTT-pinto", "name": "Shane Pinto", "pos": "C", "age": 25, "shoots": "R",
+      "overall": 79, "potential": 82, "nationality": "USA",
+      "contract": { "capHit": 3.75, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 5, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2 },
+        { "year": 2022, "team": "OTT", "gp": 82, "goals": 20, "assists": 15, "points": 35, "plusMinus": 2, "pim": 28 },
+        { "year": 2023, "team": "OTT", "gp": 41, "goals": 9, "assists": 18, "points": 27, "plusMinus": 5, "pim": 20 },
+        { "year": 2024, "team": "OTT", "gp": 70, "goals": 21, "assists": 16, "points": 37, "plusMinus": 6, "pim": 24 },
+        { "year": 2025, "team": "OTT", "gp": 80, "goals": 22, "assists": 18, "points": 40, "plusMinus": 8, "pim": 24 }
+      ] },
+    { "id": "OTT-zetterlund", "name": "Fabian Zetterlund", "pos": "LW", "age": 27, "shoots": "L",
+      "overall": 76, "potential": 77, "nationality": "SWE",
+      "contract": { "capHit": 2.125, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NJD", "gp": 14, "goals": 3, "assists": 5, "points": 8, "plusMinus": -3, "pim": 4 },
+        { "year": 2022, "team": "SJS", "gp": 67, "goals": 6, "assists": 17, "points": 23, "plusMinus": -2, "pim": 20 },
+        { "year": 2023, "team": "SJS", "gp": 82, "goals": 24, "assists": 20, "points": 44, "plusMinus": -14, "pim": 30 },
+        { "year": 2024, "team": "OTT", "gp": 84, "goals": 19, "assists": 22, "points": 41, "plusMinus": -10, "pim": 24 },
+        { "year": 2025, "team": "OTT", "gp": 76, "goals": 12, "assists": 13, "points": 25, "plusMinus": -8, "pim": 22 }
+      ] },
+    { "id": "OTT-greig", "name": "Ridly Greig", "pos": "C", "age": 24, "shoots": "L",
+      "overall": 78, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 3.25, "yearsLeft": 4, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "OTT", "gp": 20, "goals": 2, "assists": 7, "points": 9, "plusMinus": -2, "pim": 12 },
+        { "year": 2023, "team": "OTT", "gp": 72, "goals": 13, "assists": 13, "points": 26, "plusMinus": -4, "pim": 60 },
+        { "year": 2024, "team": "OTT", "gp": 78, "goals": 12, "assists": 22, "points": 34, "plusMinus": 6, "pim": 55 },
+        { "year": 2025, "team": "OTT", "gp": 77, "goals": 13, "assists": 22, "points": 35, "plusMinus": 5, "pim": 55 }
+      ] },
+    { "id": "OTT-amadio", "name": "Michael Amadio", "pos": "RW", "age": 30, "shoots": "R",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "VGK", "gp": 53, "goals": 11, "assists": 7, "points": 18, "plusMinus": 2, "pim": 12 },
+        { "year": 2022, "team": "VGK", "gp": 67, "goals": 16, "assists": 11, "points": 27, "plusMinus": 8, "pim": 16 },
+        { "year": 2023, "team": "VGK", "gp": 73, "goals": 14, "assists": 13, "points": 27, "plusMinus": 6, "pim": 18 },
+        { "year": 2024, "team": "OTT", "gp": 72, "goals": 11, "assists": 16, "points": 27, "plusMinus": 5, "pim": 20 },
+        { "year": 2025, "team": "OTT", "gp": 80, "goals": 13, "assists": 14, "points": 27, "plusMinus": 5, "pim": 18 }
+      ] },
+    { "id": "OTT-cousins", "name": "Nick Cousins", "pos": "C", "age": 33, "shoots": "L",
+      "overall": 72, "potential": 72, "nationality": "CAN",
+      "contract": { "capHit": 1.588, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 68, "goals": 9, "assists": 13, "points": 22, "plusMinus": 0, "pim": 31 },
+        { "year": 2022, "team": "FLA", "gp": 79, "goals": 9, "assists": 18, "points": 27, "plusMinus": 10, "pim": 38 },
+        { "year": 2023, "team": "FLA", "gp": 69, "goals": 7, "assists": 8, "points": 15, "plusMinus": 5, "pim": 64 },
+        { "year": 2024, "team": "OTT", "gp": 50, "goals": 6, "assists": 9, "points": 15, "plusMinus": 0, "pim": 41 },
+        { "year": 2025, "team": "OTT", "gp": 81, "goals": 8, "assists": 15, "points": 23, "plusMinus": -3, "pim": 92 }
+      ] },
+    { "id": "OTT-eller", "name": "Lars Eller", "pos": "C", "age": 37, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "DEN",
+      "contract": { "capHit": 1.25, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "WSH", "gp": 72, "goals": 13, "assists": 18, "points": 31, "plusMinus": 5, "pim": 40 },
+        { "year": 2022, "team": "COL", "gp": 84, "goals": 10, "assists": 13, "points": 23, "plusMinus": 3, "pim": 46 },
+        { "year": 2023, "team": "PIT", "gp": 82, "goals": 15, "assists": 16, "points": 31, "plusMinus": -5, "pim": 32 },
+        { "year": 2024, "team": "WSH", "gp": 80, "goals": 10, "assists": 12, "points": 22, "plusMinus": -3, "pim": 30 },
+        { "year": 2025, "team": "OTT", "gp": 78, "goals": 8, "assists": 12, "points": 20, "plusMinus": -2, "pim": 24 }
+      ] },
+    { "id": "OTT-halliday", "name": "Stephen Halliday", "pos": "C", "age": 24, "shoots": "L",
+      "overall": 72, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2025, "team": "OTT", "gp": 30, "goals": 4, "assists": 7, "points": 11, "plusMinus": 0, "pim": 8 }
+      ] },
+    { "id": "OTT-halttunen", "name": "Kasper Halttunen", "pos": "RW", "age": 21, "shoots": "R",
+      "overall": 71, "potential": 81, "nationality": "FIN",
+      "contract": { "capHit": 0.863, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [] },
+    { "id": "OTT-vanriemsdyk", "name": "James van Riemsdyk", "pos": "LW", "age": 37, "shoots": "L",
+      "overall": 75, "potential": 75, "nationality": "USA",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "PHI", "gp": 82, "goals": 24, "assists": 14, "points": 38, "plusMinus": -10, "pim": 20 },
+        { "year": 2022, "team": "PHI", "gp": 61, "goals": 12, "assists": 17, "points": 29, "plusMinus": -5, "pim": 12 },
+        { "year": 2023, "team": "BOS", "gp": 71, "goals": 11, "assists": 27, "points": 38, "plusMinus": 10, "pim": 14 },
+        { "year": 2024, "team": "CBJ", "gp": 71, "goals": 16, "assists": 20, "points": 36, "plusMinus": 0, "pim": 16 },
+        { "year": 2025, "team": "OTT", "gp": 74, "goals": 15, "assists": 16, "points": 31, "plusMinus": 2, "pim": 14 }
+      ] },
+    { "id": "OTT-sanderson", "name": "Jake Sanderson", "pos": "D", "age": 24, "shoots": "L",
+      "overall": 88, "potential": 90, "nationality": "USA",
+      "contract": { "capHit": 8.05, "yearsLeft": 7, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "OTT", "gp": 77, "goals": 4, "assists": 28, "points": 32, "plusMinus": -20, "pim": 22 },
+        { "year": 2023, "team": "OTT", "gp": 79, "goals": 10, "assists": 28, "points": 38, "plusMinus": -6, "pim": 30 },
+        { "year": 2024, "team": "OTT", "gp": 79, "goals": 11, "assists": 44, "points": 55, "plusMinus": 25, "pim": 30 },
+        { "year": 2025, "team": "OTT", "gp": 67, "goals": 14, "assists": 40, "points": 54, "plusMinus": 18, "pim": 24 }
+      ] },
+    { "id": "OTT-chabot", "name": "Thomas Chabot", "pos": "D", "age": 29, "shoots": "L",
+      "overall": 81, "potential": 81, "nationality": "CAN",
+      "contract": { "capHit": 8.0, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 59, "goals": 5, "assists": 26, "points": 31, "plusMinus": -28, "pim": 30 },
+        { "year": 2022, "team": "OTT", "gp": 63, "goals": 5, "assists": 33, "points": 38, "plusMinus": -8, "pim": 40 },
+        { "year": 2023, "team": "OTT", "gp": 80, "goals": 9, "assists": 27, "points": 36, "plusMinus": -12, "pim": 40 },
+        { "year": 2024, "team": "OTT", "gp": 80, "goals": 9, "assists": 30, "points": 39, "plusMinus": 5, "pim": 40 },
+        { "year": 2025, "team": "OTT", "gp": 57, "goals": 6, "assists": 24, "points": 30, "plusMinus": 2, "pim": 30 }
+      ] },
+    { "id": "OTT-zub", "name": "Artem Zub", "pos": "D", "age": 31, "shoots": "R",
+      "overall": 78, "potential": 78, "nationality": "RUS",
+      "contract": { "capHit": 4.6, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 81, "goals": 6, "assists": 16, "points": 22, "plusMinus": 5, "pim": 30 },
+        { "year": 2022, "team": "OTT", "gp": 79, "goals": 5, "assists": 17, "points": 22, "plusMinus": 6, "pim": 40 },
+        { "year": 2023, "team": "OTT", "gp": 82, "goals": 5, "assists": 20, "points": 25, "plusMinus": 5, "pim": 35 },
+        { "year": 2024, "team": "OTT", "gp": 81, "goals": 4, "assists": 16, "points": 20, "plusMinus": 10, "pim": 40 },
+        { "year": 2025, "team": "OTT", "gp": 81, "goals": 5, "assists": 25, "points": 30, "plusMinus": 22, "pim": 30 }
+      ] },
+    { "id": "OTT-yakemchuk", "name": "Carter Yakemchuk", "pos": "D", "age": 20, "shoots": "R",
+      "overall": 68, "potential": 85, "nationality": "CAN",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "OTT", "gp": 4, "goals": 1, "assists": 1, "points": 2, "plusMinus": 0, "pim": 4 }
+      ] },
+    { "id": "OTT-spence", "name": "Jordan Spence", "pos": "D", "age": 25, "shoots": "R",
+      "overall": 76, "potential": 79, "nationality": "CAN",
+      "contract": { "capHit": 2.16, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2021, "team": "LAK", "gp": 24, "goals": 1, "assists": 8, "points": 9, "plusMinus": -2, "pim": 6 },
+        { "year": 2022, "team": "LAK", "gp": 6, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2 },
+        { "year": 2023, "team": "LAK", "gp": 71, "goals": 2, "assists": 22, "points": 24, "plusMinus": 10, "pim": 20 },
+        { "year": 2024, "team": "LAK", "gp": 79, "goals": 4, "assists": 24, "points": 28, "plusMinus": 23, "pim": 20 },
+        { "year": 2025, "team": "OTT", "gp": 78, "goals": 3, "assists": 25, "points": 28, "plusMinus": 15, "pim": 18 }
+      ] },
+    { "id": "OTT-kleven", "name": "Tyler Kleven", "pos": "D", "age": 24, "shoots": "L",
+      "overall": 75, "potential": 78, "nationality": "USA",
+      "contract": { "capHit": 1.6, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "OTT", "gp": 70, "goals": 3, "assists": 15, "points": 18, "plusMinus": 5, "pim": 60 },
+        { "year": 2025, "team": "OTT", "gp": 70, "goals": 3, "assists": 13, "points": 16, "plusMinus": 5, "pim": 65 }
+      ] },
+    { "id": "OTT-matinpalo", "name": "Nikolas Matinpalo", "pos": "D", "age": 27, "shoots": "R",
+      "overall": 72, "potential": 73, "nationality": "FIN",
+      "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2024, "team": "OTT", "gp": 50, "goals": 0, "assists": 5, "points": 5, "plusMinus": 8, "pim": 20 },
+        { "year": 2025, "team": "OTT", "gp": 55, "goals": 1, "assists": 8, "points": 9, "plusMinus": 5, "pim": 22 }
+      ] },
+    { "id": "OTT-ullmark", "name": "Linus Ullmark", "pos": "G", "age": 33, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "SWE",
+      "contract": { "capHit": 8.25, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BOS", "gp": 41, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 26, "losses": 10, "otl": 2, "shutouts": 2, "gaa": 2.45, "svPct": 0.917 },
+        { "year": 2022, "team": "BOS", "gp": 49, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 2, "wins": 40, "losses": 6, "otl": 1, "shutouts": 3, "gaa": 1.89, "svPct": 0.938 },
+        { "year": 2023, "team": "BOS", "gp": 40, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 22, "losses": 10, "otl": 7, "shutouts": 1, "gaa": 2.57, "svPct": 0.915 },
+        { "year": 2024, "team": "OTT", "gp": 44, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 25, "losses": 14, "otl": 3, "shutouts": 2, "gaa": 2.72, "svPct": 0.909 },
+        { "year": 2025, "team": "OTT", "gp": 48, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 27, "losses": 12, "otl": 8, "shutouts": 2, "gaa": 2.78, "svPct": 0.889 }
+      ] },
+    { "id": "OTT-merilainen", "name": "Leevi Merilainen", "pos": "G", "age": 24, "shoots": "L",
+      "overall": 76, "potential": 82, "nationality": "FIN",
+      "contract": { "capHit": 1.1, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "OTT", "gp": 12, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 8, "losses": 3, "otl": 1, "shutouts": 3, "gaa": 1.99, "svPct": 0.924 },
+        { "year": 2025, "team": "OTT", "gp": 20, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 8, "losses": 10, "otl": 1, "shutouts": 0, "gaa": 3.51, "svPct": 0.860 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "OTT-hensler", "name": "Logan Hensler", "pos": "D", "age": 19, "shoots": "R",
+      "overall": 62, "potential": 81, "nationality": "USA", "devLeague": "NCAA",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "OTT-stanley", "name": "Hoyt Stanley", "pos": "D", "age": 21, "shoots": "R",
+      "overall": 63, "potential": 78, "nationality": "CAN", "devLeague": "NCAA",
+      "contract": { "capHit": 0.828, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "OTT-boucher", "name": "Tyler Boucher", "pos": "RW", "age": 23, "shoots": "R",
+      "overall": 63, "potential": 74, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "OTT-svoboda", "name": "Brandon Svoboda", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 62, "potential": 77, "nationality": "USA", "devLeague": "NCAA",
+      "contract": { "capHit": 0.82, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "OTT-lagerberg", "name": "Jonas Lagerberg Hoen", "pos": "RW", "age": 18, "shoots": "R",
+      "overall": 61, "potential": 84, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "OTT-cover", "name": "Jaxon Cover", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 58, "potential": 82, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.895, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}

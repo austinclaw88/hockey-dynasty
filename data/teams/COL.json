@@ -1,0 +1,228 @@
+{
+  "info": { "abbrev": "COL", "city": "Colorado", "name": "Avalanche", "conference": "West",
+            "division": "Central", "color": "#6F263D", "colorSecondary": "#236192" },
+  "roster": [
+    { "id": "COL-mackinnon", "name": "Nathan MacKinnon", "pos": "C", "age": 31, "shoots": "R",
+      "overall": 96, "potential": 96, "nationality": "CAN",
+      "contract": { "capHit": 12.6, "yearsLeft": 5, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 65, "goals": 32, "assists": 56, "points": 88, "plusMinus": 22, "pim": 42 },
+        { "year": 2022, "team": "COL", "gp": 71, "goals": 42, "assists": 69, "points": 111, "plusMinus": 7, "pim": 51 },
+        { "year": 2023, "team": "COL", "gp": 82, "goals": 51, "assists": 89, "points": 140, "plusMinus": 35, "pim": 40 },
+        { "year": 2024, "team": "COL", "gp": 79, "goals": 32, "assists": 84, "points": 116, "plusMinus": 23, "pim": 54 },
+        { "year": 2025, "team": "COL", "gp": 79, "goals": 53, "assists": 74, "points": 127, "plusMinus": 25, "pim": 42 }
+      ] },
+    { "id": "COL-necas", "name": "Martin Necas", "pos": "RW", "age": 27, "shoots": "R",
+      "overall": 86, "potential": 86, "nationality": "CZE",
+      "contract": { "capHit": 11.5, "yearsLeft": 8, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "CAR", "gp": 78, "goals": 14, "assists": 26, "points": 40, "plusMinus": 8, "pim": 20 },
+        { "year": 2022, "team": "CAR", "gp": 82, "goals": 28, "assists": 43, "points": 71, "plusMinus": 25, "pim": 20 },
+        { "year": 2023, "team": "CAR", "gp": 77, "goals": 24, "assists": 29, "points": 53, "plusMinus": 12, "pim": 24 },
+        { "year": 2024, "team": "COL", "gp": 79, "goals": 27, "assists": 56, "points": 83, "plusMinus": 10, "pim": 30 },
+        { "year": 2025, "team": "COL", "gp": 78, "goals": 38, "assists": 62, "points": 100, "plusMinus": 47, "pim": 34 }
+      ] },
+    { "id": "COL-nelson", "name": "Brock Nelson", "pos": "C", "age": 34, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "USA",
+      "contract": { "capHit": 7.5, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NYI", "gp": 72, "goals": 37, "assists": 22, "points": 59, "plusMinus": 6, "pim": 50 },
+        { "year": 2022, "team": "NYI", "gp": 82, "goals": 36, "assists": 39, "points": 75, "plusMinus": 12, "pim": 40 },
+        { "year": 2023, "team": "NYI", "gp": 82, "goals": 34, "assists": 30, "points": 64, "plusMinus": -6, "pim": 47 },
+        { "year": 2024, "team": "COL", "gp": 79, "goals": 26, "assists": 33, "points": 59, "plusMinus": 5, "pim": 42 },
+        { "year": 2025, "team": "COL", "gp": 81, "goals": 33, "assists": 32, "points": 65, "plusMinus": 15, "pim": 38 }
+      ] },
+    { "id": "COL-landeskog", "name": "Gabriel Landeskog", "pos": "LW", "age": 33, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "SWE",
+      "contract": { "capHit": 7.0, "yearsLeft": 3, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 51, "goals": 30, "assists": 29, "points": 59, "plusMinus": 9, "pim": 76 },
+        { "year": 2025, "team": "COL", "gp": 60, "goals": 14, "assists": 21, "points": 35, "plusMinus": 10, "pim": 30 }
+      ] },
+    { "id": "COL-kadri", "name": "Nazem Kadri", "pos": "C", "age": 35, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 5.6, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 71, "goals": 28, "assists": 59, "points": 87, "plusMinus": 13, "pim": 47 },
+        { "year": 2022, "team": "CGY", "gp": 82, "goals": 24, "assists": 32, "points": 56, "plusMinus": -14, "pim": 51 },
+        { "year": 2023, "team": "CGY", "gp": 82, "goals": 29, "assists": 46, "points": 75, "plusMinus": 2, "pim": 49 },
+        { "year": 2024, "team": "CGY", "gp": 82, "goals": 35, "assists": 32, "points": 67, "plusMinus": -5, "pim": 50 },
+        { "year": 2025, "team": "COL", "gp": 77, "goals": 16, "assists": 34, "points": 50, "plusMinus": 0, "pim": 44 }
+      ] },
+    { "id": "COL-lehkonen", "name": "Artturi Lehkonen", "pos": "LW", "age": 31, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "FIN",
+      "contract": { "capHit": 4.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 76, "goals": 13, "assists": 21, "points": 34, "plusMinus": 0, "pim": 30 },
+        { "year": 2022, "team": "COL", "gp": 64, "goals": 21, "assists": 22, "points": 43, "plusMinus": 10, "pim": 22 },
+        { "year": 2023, "team": "COL", "gp": 69, "goals": 21, "assists": 19, "points": 40, "plusMinus": 14, "pim": 20 },
+        { "year": 2024, "team": "COL", "gp": 62, "goals": 22, "assists": 15, "points": 37, "plusMinus": 12, "pim": 20 },
+        { "year": 2025, "team": "COL", "gp": 70, "goals": 21, "assists": 27, "points": 48, "plusMinus": 32, "pim": 24 }
+      ] },
+    { "id": "COL-schwartz", "name": "Jaden Schwartz", "pos": "LW", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 3.25, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "STL", "gp": 62, "goals": 15, "assists": 26, "points": 41, "plusMinus": 21, "pim": 14 },
+        { "year": 2022, "team": "SEA", "gp": 37, "goals": 12, "assists": 13, "points": 25, "plusMinus": 6, "pim": 8 },
+        { "year": 2023, "team": "SEA", "gp": 66, "goals": 19, "assists": 28, "points": 47, "plusMinus": 8, "pim": 20 },
+        { "year": 2024, "team": "SEA", "gp": 76, "goals": 20, "assists": 25, "points": 45, "plusMinus": 0, "pim": 18 },
+        { "year": 2025, "team": "SEA", "gp": 50, "goals": 11, "assists": 15, "points": 26, "plusMinus": -2, "pim": 8 }
+      ] },
+    { "id": "COL-roy", "name": "Nicolas Roy", "pos": "C", "age": 29, "shoots": "R",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "VGK", "gp": 78, "goals": 15, "assists": 24, "points": 39, "plusMinus": 2, "pim": 46 },
+        { "year": 2022, "team": "VGK", "gp": 65, "goals": 12, "assists": 19, "points": 31, "plusMinus": 9, "pim": 40 },
+        { "year": 2023, "team": "VGK", "gp": 79, "goals": 15, "assists": 18, "points": 33, "plusMinus": 5, "pim": 44 },
+        { "year": 2024, "team": "VGK", "gp": 80, "goals": 14, "assists": 20, "points": 34, "plusMinus": 6, "pim": 42 },
+        { "year": 2025, "team": "TOR", "gp": 59, "goals": 5, "assists": 10, "points": 15, "plusMinus": -2, "pim": 30 }
+      ] },
+    { "id": "COL-oconnor", "name": "Logan O'Connor", "pos": "RW", "age": 30, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 60, "goals": 6, "assists": 9, "points": 15, "plusMinus": 11, "pim": 20 },
+        { "year": 2022, "team": "COL", "gp": 82, "goals": 14, "assists": 14, "points": 28, "plusMinus": 6, "pim": 34 },
+        { "year": 2023, "team": "COL", "gp": 78, "goals": 15, "assists": 12, "points": 27, "plusMinus": 14, "pim": 30 },
+        { "year": 2024, "team": "COL", "gp": 70, "goals": 10, "assists": 12, "points": 22, "plusMinus": 8, "pim": 26 },
+        { "year": 2025, "team": "COL", "gp": 13, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 4 }
+      ] },
+    { "id": "COL-svechkov", "name": "Fedor Svechkov", "pos": "C", "age": 23, "shoots": "L",
+      "overall": 75, "potential": 82, "nationality": "RUS",
+      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "NSH", "gp": 22, "goals": 2, "assists": 4, "points": 6, "plusMinus": -2, "pim": 6 },
+        { "year": 2025, "team": "COL", "gp": 70, "goals": 4, "assists": 13, "points": 17, "plusMinus": -4, "pim": 22 }
+      ] },
+    { "id": "COL-lheureux", "name": "Zachary L'Heureux", "pos": "LW", "age": 23, "shoots": "L",
+      "overall": 75, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "NSH", "gp": 50, "goals": 7, "assists": 10, "points": 17, "plusMinus": -8, "pim": 40 },
+        { "year": 2025, "team": "NSH", "gp": 25, "goals": 4, "assists": 1, "points": 5, "plusMinus": -3, "pim": 21 }
+      ] },
+    { "id": "COL-kelly", "name": "Parker Kelly", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 1.1, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 33, "goals": 3, "assists": 2, "points": 5, "plusMinus": -2, "pim": 12 },
+        { "year": 2022, "team": "OTT", "gp": 63, "goals": 5, "assists": 6, "points": 11, "plusMinus": -4, "pim": 25 },
+        { "year": 2023, "team": "OTT", "gp": 71, "goals": 7, "assists": 6, "points": 13, "plusMinus": -5, "pim": 40 },
+        { "year": 2024, "team": "COL", "gp": 68, "goals": 9, "assists": 8, "points": 17, "plusMinus": 5, "pim": 30 },
+        { "year": 2025, "team": "COL", "gp": 82, "goals": 21, "assists": 14, "points": 35, "plusMinus": 18, "pim": 34 }
+      ] },
+    { "id": "COL-makar", "name": "Cale Makar", "pos": "D", "age": 27, "shoots": "R",
+      "overall": 94, "potential": 94, "nationality": "CAN",
+      "contract": { "capHit": 9.0, "yearsLeft": 1, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 77, "goals": 28, "assists": 58, "points": 86, "plusMinus": 48, "pim": 46 },
+        { "year": 2022, "team": "COL", "gp": 60, "goals": 17, "assists": 49, "points": 66, "plusMinus": 22, "pim": 30 },
+        { "year": 2023, "team": "COL", "gp": 77, "goals": 21, "assists": 69, "points": 90, "plusMinus": 11, "pim": 42 },
+        { "year": 2024, "team": "COL", "gp": 80, "goals": 30, "assists": 62, "points": 92, "plusMinus": 23, "pim": 46 },
+        { "year": 2025, "team": "COL", "gp": 75, "goals": 20, "assists": 59, "points": 79, "plusMinus": 32, "pim": 40 }
+      ] },
+    { "id": "COL-toews", "name": "Devon Toews", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 87, "potential": 87, "nationality": "CAN",
+      "contract": { "capHit": 7.25, "yearsLeft": 6, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 66, "goals": 13, "assists": 44, "points": 57, "plusMinus": 52, "pim": 20 },
+        { "year": 2022, "team": "COL", "gp": 71, "goals": 10, "assists": 41, "points": 51, "plusMinus": 15, "pim": 30 },
+        { "year": 2023, "team": "COL", "gp": 82, "goals": 6, "assists": 44, "points": 50, "plusMinus": 23, "pim": 36 },
+        { "year": 2024, "team": "COL", "gp": 74, "goals": 11, "assists": 32, "points": 43, "plusMinus": 18, "pim": 34 },
+        { "year": 2025, "team": "COL", "gp": 51, "goals": 2, "assists": 15, "points": 17, "plusMinus": 28, "pim": 26 }
+      ] },
+    { "id": "COL-girard", "name": "Samuel Girard", "pos": "D", "age": 28, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 62, "goals": 5, "assists": 25, "points": 30, "plusMinus": 21, "pim": 20 },
+        { "year": 2022, "team": "COL", "gp": 82, "goals": 6, "assists": 25, "points": 31, "plusMinus": 8, "pim": 26 },
+        { "year": 2023, "team": "COL", "gp": 66, "goals": 2, "assists": 22, "points": 24, "plusMinus": 12, "pim": 20 },
+        { "year": 2024, "team": "COL", "gp": 73, "goals": 3, "assists": 25, "points": 28, "plusMinus": 10, "pim": 22 },
+        { "year": 2025, "team": "PIT", "gp": 60, "goals": 3, "assists": 16, "points": 19, "plusMinus": 0, "pim": 20 }
+      ] },
+    { "id": "COL-kulak", "name": "Brett Kulak", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 4.5, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "EDM", "gp": 76, "goals": 5, "assists": 16, "points": 21, "plusMinus": -4, "pim": 30 },
+        { "year": 2022, "team": "EDM", "gp": 82, "goals": 4, "assists": 21, "points": 25, "plusMinus": 23, "pim": 30 },
+        { "year": 2023, "team": "EDM", "gp": 79, "goals": 3, "assists": 13, "points": 16, "plusMinus": 12, "pim": 34 },
+        { "year": 2024, "team": "EDM", "gp": 80, "goals": 3, "assists": 14, "points": 17, "plusMinus": 8, "pim": 32 },
+        { "year": 2025, "team": "COL", "gp": 82, "goals": 1, "assists": 11, "points": 12, "plusMinus": -4, "pim": 38 }
+      ] },
+    { "id": "COL-malinski", "name": "Sam Malinski", "pos": "D", "age": 28, "shoots": "R",
+      "overall": 74, "potential": 74, "nationality": "USA",
+      "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "COL", "gp": 40, "goals": 3, "assists": 11, "points": 14, "plusMinus": 8, "pim": 12 },
+        { "year": 2024, "team": "COL", "gp": 65, "goals": 5, "assists": 20, "points": 25, "plusMinus": 15, "pim": 20 },
+        { "year": 2025, "team": "COL", "gp": 82, "goals": 8, "assists": 32, "points": 40, "plusMinus": 43, "pim": 22 }
+      ] },
+    { "id": "COL-juulsen", "name": "Noah Juulsen", "pos": "D", "age": 29, "shoots": "R",
+      "overall": 72, "potential": 72, "nationality": "CAN",
+      "contract": { "capHit": 1.1, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "VAN", "gp": 26, "goals": 1, "assists": 4, "points": 5, "plusMinus": -3, "pim": 20 },
+        { "year": 2022, "team": "VAN", "gp": 52, "goals": 2, "assists": 8, "points": 10, "plusMinus": -6, "pim": 40 },
+        { "year": 2023, "team": "VAN", "gp": 51, "goals": 1, "assists": 6, "points": 7, "plusMinus": 8, "pim": 45 },
+        { "year": 2024, "team": "VAN", "gp": 60, "goals": 2, "assists": 7, "points": 9, "plusMinus": 2, "pim": 40 },
+        { "year": 2025, "team": "PHI", "gp": 52, "goals": 1, "assists": 9, "points": 10, "plusMinus": -8, "pim": 34 }
+      ] },
+    { "id": "COL-burns", "name": "Brent Burns", "pos": "D", "age": 41, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "SJS", "gp": 82, "goals": 10, "assists": 44, "points": 54, "plusMinus": -20, "pim": 46 },
+        { "year": 2022, "team": "CAR", "gp": 82, "goals": 18, "assists": 43, "points": 61, "plusMinus": 21, "pim": 42 },
+        { "year": 2023, "team": "CAR", "gp": 82, "goals": 12, "assists": 29, "points": 41, "plusMinus": 19, "pim": 34 },
+        { "year": 2024, "team": "CAR", "gp": 82, "goals": 6, "assists": 23, "points": 29, "plusMinus": 15, "pim": 32 },
+        { "year": 2025, "team": "COL", "gp": 72, "goals": 10, "assists": 19, "points": 29, "plusMinus": 20, "pim": 30 }
+      ] },
+    { "id": "COL-blackwood", "name": "Mackenzie Blackwood", "pos": "G", "age": 29, "shoots": "L",
+      "overall": 85, "potential": 85, "nationality": "CAN",
+      "contract": { "capHit": 5.25, "yearsLeft": 4, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NJD", "gp": 25, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 9, "losses": 11, "otl": 2, "shutouts": 1, "gaa": 3.65, "svPct": 0.893 },
+        { "year": 2022, "team": "NJD", "gp": 41, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 22, "losses": 12, "otl": 4, "shutouts": 2, "gaa": 2.92, "svPct": 0.893 },
+        { "year": 2023, "team": "SJS", "gp": 43, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4, "wins": 17, "losses": 20, "otl": 4, "shutouts": 2, "gaa": 3.00, "svPct": 0.909 },
+        { "year": 2024, "team": "COL", "gp": 53, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 25, "losses": 20, "otl": 6, "shutouts": 3, "gaa": 2.60, "svPct": 0.910 },
+        { "year": 2025, "team": "COL", "gp": 39, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 23, "losses": 10, "otl": 2, "shutouts": 2, "gaa": 2.51, "svPct": 0.904 }
+      ] },
+    { "id": "COL-wedgewood", "name": "Scott Wedgewood", "pos": "G", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "DAL", "gp": 33, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 12, "losses": 15, "otl": 3, "shutouts": 1, "gaa": 3.10, "svPct": 0.903 },
+        { "year": 2022, "team": "DAL", "gp": 30, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 12, "losses": 9, "otl": 4, "shutouts": 1, "gaa": 2.80, "svPct": 0.908 },
+        { "year": 2023, "team": "DAL", "gp": 27, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 13, "losses": 6, "otl": 3, "shutouts": 1, "gaa": 2.90, "svPct": 0.903 },
+        { "year": 2024, "team": "COL", "gp": 40, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 18, "losses": 15, "otl": 4, "shutouts": 2, "gaa": 2.85, "svPct": 0.900 },
+        { "year": 2025, "team": "COL", "gp": 45, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 31, "losses": 6, "otl": 6, "shutouts": 4, "gaa": 2.02, "svPct": 0.921 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "COL-brindley", "name": "Gavin Brindley", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 85, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-gulyayev", "name": "Mikhail Gulyayev", "pos": "D", "age": 21, "shoots": "L",
+      "overall": 64, "potential": 83, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-behrens", "name": "Sean Behrens", "pos": "D", "age": 23, "shoots": "L",
+      "overall": 66, "potential": 79, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "COL-shilov", "name": "Egor Shilov", "pos": "LW", "age": 19, "shoots": "L",
+      "overall": 60, "potential": 80, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-hamilton", "name": "Beckett Hamilton", "pos": "C", "age": 18, "shoots": "R",
+      "overall": 59, "potential": 80, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-elofsson", "name": "Axel Elofsson", "pos": "D", "age": 19, "shoots": "R",
+      "overall": 58, "potential": 78, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-prishchepov", "name": "Nikita Prishchepov", "pos": "C", "age": 21, "shoots": "L",
+      "overall": 60, "potential": 78, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}

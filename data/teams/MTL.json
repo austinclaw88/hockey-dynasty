@@ -1,0 +1,227 @@
+{
+  "info": { "abbrev": "MTL", "city": "Montreal", "name": "Canadiens", "conference": "East",
+            "division": "Atlantic", "color": "#AF1E2D", "colorSecondary": "#192168" },
+  "roster": [
+    { "id": "MTL-suzuki", "name": "Nick Suzuki", "pos": "C", "age": 27, "shoots": "R",
+      "overall": 90, "potential": 90, "nationality": "CAN",
+      "contract": { "capHit": 7.875, "yearsLeft": 4, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 82, "goals": 21, "assists": 40, "points": 61, "plusMinus": -7, "pim": 20 },
+        { "year": 2022, "team": "MTL", "gp": 82, "goals": 26, "assists": 40, "points": 66, "plusMinus": -21, "pim": 20 },
+        { "year": 2023, "team": "MTL", "gp": 82, "goals": 33, "assists": 44, "points": 77, "plusMinus": -8, "pim": 24 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 30, "assists": 59, "points": 89, "plusMinus": 9, "pim": 28 },
+        { "year": 2025, "team": "MTL", "gp": 75, "goals": 27, "assists": 67, "points": 94, "plusMinus": 36, "pim": 28 }
+      ] },
+    { "id": "MTL-caufield", "name": "Cole Caufield", "pos": "RW", "age": 25, "shoots": "R",
+      "overall": 88, "potential": 90, "nationality": "USA",
+      "contract": { "capHit": 7.85, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 67, "goals": 23, "assists": 20, "points": 43, "plusMinus": -7, "pim": 8 },
+        { "year": 2022, "team": "MTL", "gp": 46, "goals": 26, "assists": 10, "points": 36, "plusMinus": -8, "pim": 6 },
+        { "year": 2023, "team": "MTL", "gp": 82, "goals": 26, "assists": 39, "points": 65, "plusMinus": -17, "pim": 14 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 37, "assists": 33, "points": 70, "plusMinus": 5, "pim": 20 },
+        { "year": 2025, "team": "MTL", "gp": 81, "goals": 51, "assists": 37, "points": 88, "plusMinus": 29, "pim": 6 }
+      ] },
+    { "id": "MTL-slafkovsky", "name": "Juraj Slafkovsky", "pos": "LW", "age": 22, "shoots": "L",
+      "overall": 85, "potential": 89, "nationality": "SVK",
+      "contract": { "capHit": 7.6, "yearsLeft": 7, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "MTL", "gp": 39, "goals": 4, "assists": 6, "points": 10, "plusMinus": -6, "pim": 26 },
+        { "year": 2023, "team": "MTL", "gp": 82, "goals": 20, "assists": 30, "points": 50, "plusMinus": -6, "pim": 30 },
+        { "year": 2024, "team": "MTL", "gp": 79, "goals": 18, "assists": 33, "points": 51, "plusMinus": -5, "pim": 43 },
+        { "year": 2025, "team": "MTL", "gp": 79, "goals": 30, "assists": 41, "points": 71, "plusMinus": 13, "pim": 45 }
+      ] },
+    { "id": "MTL-demidov", "name": "Ivan Demidov", "pos": "RW", "age": 20, "shoots": "L",
+      "overall": 84, "potential": 93, "nationality": "RUS",
+      "contract": { "capHit": 9.125, "yearsLeft": 8, "expiry": "UFA" },
+      "history": [
+        { "year": 2024, "team": "MTL", "gp": 2, "goals": 1, "assists": 2, "points": 3, "plusMinus": 0, "pim": 0 },
+        { "year": 2025, "team": "MTL", "gp": 82, "goals": 19, "assists": 43, "points": 62, "plusMinus": 10, "pim": 30 }
+      ] },
+    { "id": "MTL-dach", "name": "Kirby Dach", "pos": "C", "age": 25, "shoots": "R",
+      "overall": 77, "potential": 81, "nationality": "CAN",
+      "contract": { "capHit": 3.5, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2021, "team": "CHI", "gp": 70, "goals": 9, "assists": 17, "points": 26, "plusMinus": -10, "pim": 20 },
+        { "year": 2022, "team": "MTL", "gp": 58, "goals": 14, "assists": 24, "points": 38, "plusMinus": 6, "pim": 26 },
+        { "year": 2023, "team": "MTL", "gp": 2, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0 },
+        { "year": 2024, "team": "MTL", "gp": 57, "goals": 10, "assists": 12, "points": 22, "plusMinus": -13, "pim": 30 },
+        { "year": 2025, "team": "MTL", "gp": 37, "goals": 8, "assists": 7, "points": 15, "plusMinus": -2, "pim": 20 }
+      ] },
+    { "id": "MTL-bolduc", "name": "Zack Bolduc", "pos": "LW", "age": 23, "shoots": "L",
+      "overall": 79, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "STL", "gp": 25, "goals": 5, "assists": 4, "points": 9, "plusMinus": -2, "pim": 6 },
+        { "year": 2024, "team": "STL", "gp": 72, "goals": 19, "assists": 17, "points": 36, "plusMinus": 20, "pim": 20 },
+        { "year": 2025, "team": "MTL", "gp": 78, "goals": 12, "assists": 18, "points": 30, "plusMinus": -6, "pim": 28 }
+      ] },
+    { "id": "MTL-newhook", "name": "Alex Newhook", "pos": "C", "age": 25, "shoots": "L",
+      "overall": 77, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 2.9, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2021, "team": "COL", "gp": 71, "goals": 13, "assists": 20, "points": 33, "plusMinus": 21, "pim": 16 },
+        { "year": 2022, "team": "COL", "gp": 82, "goals": 14, "assists": 16, "points": 30, "plusMinus": -3, "pim": 20 },
+        { "year": 2023, "team": "MTL", "gp": 55, "goals": 15, "assists": 19, "points": 34, "plusMinus": -13, "pim": 16 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 15, "assists": 11, "points": 26, "plusMinus": -6, "pim": 20 },
+        { "year": 2025, "team": "MTL", "gp": 42, "goals": 13, "assists": 12, "points": 25, "plusMinus": 2, "pim": 16 }
+      ] },
+    { "id": "MTL-anderson", "name": "Josh Anderson", "pos": "RW", "age": 32, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 5.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 69, "goals": 19, "assists": 17, "points": 36, "plusMinus": -10, "pim": 87 },
+        { "year": 2022, "team": "MTL", "gp": 69, "goals": 21, "assists": 20, "points": 41, "plusMinus": -14, "pim": 43 },
+        { "year": 2023, "team": "MTL", "gp": 78, "goals": 9, "assists": 11, "points": 20, "plusMinus": -20, "pim": 71 },
+        { "year": 2024, "team": "MTL", "gp": 80, "goals": 15, "assists": 12, "points": 27, "plusMinus": 4, "pim": 55 },
+        { "year": 2025, "team": "MTL", "gp": 72, "goals": 14, "assists": 9, "points": 23, "plusMinus": -6, "pim": 50 }
+      ] },
+    { "id": "MTL-gallagher", "name": "Brendan Gallagher", "pos": "RW", "age": 34, "shoots": "R",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 6.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 56, "goals": 7, "assists": 17, "points": 24, "plusMinus": -21, "pim": 36 },
+        { "year": 2022, "team": "MTL", "gp": 37, "goals": 8, "assists": 6, "points": 14, "plusMinus": -6, "pim": 25 },
+        { "year": 2023, "team": "MTL", "gp": 77, "goals": 16, "assists": 15, "points": 31, "plusMinus": -8, "pim": 43 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 21, "assists": 17, "points": 38, "plusMinus": 5, "pim": 40 },
+        { "year": 2025, "team": "MTL", "gp": 77, "goals": 7, "assists": 16, "points": 23, "plusMinus": -4, "pim": 40 }
+      ] },
+    { "id": "MTL-evans", "name": "Jake Evans", "pos": "C", "age": 30, "shoots": "R",
+      "overall": 75, "potential": 75, "nationality": "CAN",
+      "contract": { "capHit": 2.85, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 72, "goals": 13, "assists": 16, "points": 29, "plusMinus": -15, "pim": 20 },
+        { "year": 2022, "team": "MTL", "gp": 54, "goals": 2, "assists": 17, "points": 19, "plusMinus": -9, "pim": 20 },
+        { "year": 2023, "team": "MTL", "gp": 82, "goals": 7, "assists": 21, "points": 28, "plusMinus": 2, "pim": 16 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 13, "assists": 23, "points": 36, "plusMinus": 9, "pim": 16 },
+        { "year": 2025, "team": "MTL", "gp": 68, "goals": 12, "assists": 12, "points": 24, "plusMinus": 2, "pim": 20 }
+      ] },
+    { "id": "MTL-kapanen", "name": "Oliver Kapanen", "pos": "C", "age": 23, "shoots": "L",
+      "overall": 74, "potential": 79, "nationality": "FIN",
+      "contract": { "capHit": 0.931, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "MTL", "gp": 18, "goals": 0, "assists": 2, "points": 2, "plusMinus": -2, "pim": 4 },
+        { "year": 2025, "team": "MTL", "gp": 82, "goals": 22, "assists": 15, "points": 37, "plusMinus": 4, "pim": 22 }
+      ] },
+    { "id": "MTL-belzile", "name": "Alex Belzile", "pos": "RW", "age": 35, "shoots": "R",
+      "overall": 71, "potential": 71, "nationality": "CAN",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 11, "goals": 0, "assists": 0, "points": 0, "plusMinus": -2, "pim": 4 },
+        { "year": 2022, "team": "MTL", "gp": 31, "goals": 6, "assists": 8, "points": 14, "plusMinus": -6, "pim": 25 }
+      ] },
+    { "id": "MTL-dobson", "name": "Noah Dobson", "pos": "D", "age": 26, "shoots": "R",
+      "overall": 85, "potential": 87, "nationality": "CAN",
+      "contract": { "capHit": 9.5, "yearsLeft": 7, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "NYI", "gp": 80, "goals": 13, "assists": 38, "points": 51, "plusMinus": 7, "pim": 40 },
+        { "year": 2022, "team": "NYI", "gp": 80, "goals": 6, "assists": 43, "points": 49, "plusMinus": -2, "pim": 45 },
+        { "year": 2023, "team": "NYI", "gp": 79, "goals": 10, "assists": 60, "points": 70, "plusMinus": 2, "pim": 40 },
+        { "year": 2024, "team": "NYI", "gp": 71, "goals": 10, "assists": 29, "points": 39, "plusMinus": -8, "pim": 35 },
+        { "year": 2025, "team": "MTL", "gp": 80, "goals": 12, "assists": 35, "points": 47, "plusMinus": 5, "pim": 30 }
+      ] },
+    { "id": "MTL-hutson", "name": "Lane Hutson", "pos": "D", "age": 22, "shoots": "L",
+      "overall": 88, "potential": 92, "nationality": "USA",
+      "contract": { "capHit": 8.85, "yearsLeft": 8, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "MTL", "gp": 2, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 0 },
+        { "year": 2024, "team": "MTL", "gp": 82, "goals": 6, "assists": 60, "points": 66, "plusMinus": -8, "pim": 24 },
+        { "year": 2025, "team": "MTL", "gp": 82, "goals": 12, "assists": 66, "points": 78, "plusMinus": 5, "pim": 30 }
+      ] },
+    { "id": "MTL-matheson", "name": "Mike Matheson", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 6.0, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "PIT", "gp": 74, "goals": 11, "assists": 20, "points": 31, "plusMinus": 23, "pim": 32 },
+        { "year": 2022, "team": "MTL", "gp": 48, "goals": 8, "assists": 26, "points": 34, "plusMinus": -8, "pim": 24 },
+        { "year": 2023, "team": "MTL", "gp": 82, "goals": 11, "assists": 51, "points": 62, "plusMinus": -22, "pim": 61 },
+        { "year": 2024, "team": "MTL", "gp": 79, "goals": 8, "assists": 23, "points": 31, "plusMinus": -5, "pim": 45 },
+        { "year": 2025, "team": "MTL", "gp": 78, "goals": 7, "assists": 30, "points": 37, "plusMinus": 6, "pim": 40 }
+      ] },
+    { "id": "MTL-guhle", "name": "Kaiden Guhle", "pos": "D", "age": 24, "shoots": "L",
+      "overall": 80, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 5.55, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "MTL", "gp": 44, "goals": 5, "assists": 13, "points": 18, "plusMinus": -9, "pim": 35 },
+        { "year": 2023, "team": "MTL", "gp": 70, "goals": 6, "assists": 16, "points": 22, "plusMinus": -4, "pim": 47 },
+        { "year": 2024, "team": "MTL", "gp": 55, "goals": 6, "assists": 12, "points": 18, "plusMinus": 2, "pim": 47 },
+        { "year": 2025, "team": "MTL", "gp": 39, "goals": 2, "assists": 9, "points": 11, "plusMinus": -1, "pim": 35 }
+      ] },
+    { "id": "MTL-carrier", "name": "Alexandre Carrier", "pos": "D", "age": 29, "shoots": "R",
+      "overall": 77, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 3.75, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 77, "goals": 4, "assists": 26, "points": 30, "plusMinus": 2, "pim": 40 },
+        { "year": 2022, "team": "NSH", "gp": 43, "goals": 2, "assists": 7, "points": 9, "plusMinus": -8, "pim": 25 },
+        { "year": 2023, "team": "NSH", "gp": 73, "goals": 4, "assists": 16, "points": 20, "plusMinus": 8, "pim": 45 },
+        { "year": 2024, "team": "MTL", "gp": 79, "goals": 3, "assists": 22, "points": 25, "plusMinus": -6, "pim": 40 },
+        { "year": 2025, "team": "MTL", "gp": 73, "goals": 7, "assists": 15, "points": 22, "plusMinus": 2, "pim": 40 }
+      ] },
+    { "id": "MTL-xhekaj", "name": "Arber Xhekaj", "pos": "D", "age": 25, "shoots": "L",
+      "overall": 75, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 1.3, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2022, "team": "MTL", "gp": 51, "goals": 5, "assists": 8, "points": 13, "plusMinus": -4, "pim": 88 },
+        { "year": 2023, "team": "MTL", "gp": 44, "goals": 3, "assists": 7, "points": 10, "plusMinus": -5, "pim": 79 },
+        { "year": 2024, "team": "MTL", "gp": 70, "goals": 2, "assists": 4, "points": 6, "plusMinus": -2, "pim": 118 },
+        { "year": 2025, "team": "MTL", "gp": 65, "goals": 1, "assists": 3, "points": 4, "plusMinus": -8, "pim": 116 }
+      ] },
+    { "id": "MTL-struble", "name": "Jayden Struble", "pos": "D", "age": 24, "shoots": "L",
+      "overall": 74, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 1.413, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "MTL", "gp": 56, "goals": 3, "assists": 7, "points": 10, "plusMinus": 4, "pim": 44 },
+        { "year": 2024, "team": "MTL", "gp": 56, "goals": 2, "assists": 11, "points": 13, "plusMinus": 4, "pim": 50 },
+        { "year": 2025, "team": "MTL", "gp": 59, "goals": 2, "assists": 10, "points": 12, "plusMinus": 4, "pim": 45 }
+      ] },
+    { "id": "MTL-montembeault", "name": "Sam Montembeault", "pos": "G", "age": 29, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 3.15, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MTL", "gp": 38, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 8, "losses": 18, "otl": 6, "shutouts": 1, "gaa": 3.77, "svPct": 0.891 },
+        { "year": 2022, "team": "MTL", "gp": 40, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 0, "wins": 16, "losses": 16, "otl": 4, "shutouts": 1, "gaa": 3.42, "svPct": 0.901 },
+        { "year": 2023, "team": "MTL", "gp": 41, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 4, "wins": 16, "losses": 15, "otl": 6, "shutouts": 2, "gaa": 3.14, "svPct": 0.903 },
+        { "year": 2024, "team": "MTL", "gp": 62, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 31, "losses": 24, "otl": 4, "shutouts": 4, "gaa": 2.82, "svPct": 0.902 },
+        { "year": 2025, "team": "MTL", "gp": 25, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 10, "losses": 8, "otl": 4, "shutouts": 0, "gaa": 3.43, "svPct": 0.872 }
+      ] },
+    { "id": "MTL-dobes", "name": "Jakub Dobes", "pos": "G", "age": 25, "shoots": "L",
+      "overall": 79, "potential": 83, "nationality": "CZE",
+      "contract": { "capHit": 5.357, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2024, "team": "MTL", "gp": 16, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 7, "losses": 4, "otl": 3, "shutouts": 1, "gaa": 2.74, "svPct": 0.909 },
+        { "year": 2025, "team": "MTL", "gp": 43, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 29, "losses": 10, "otl": 4, "shutouts": 0, "gaa": 2.78, "svPct": 0.901 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "MTL-hage", "name": "Michael Hage", "pos": "C", "age": 20, "shoots": "R",
+      "overall": 70, "potential": 87, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MTL-fowler", "name": "Jacob Fowler", "pos": "G", "age": 21, "shoots": "L",
+      "overall": 72, "potential": 87, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.888, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "MTL-reinbacher", "name": "David Reinbacher", "pos": "D", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 83, "nationality": "AUT", "devLeague": "AHL",
+      "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "MTL-beck", "name": "Owen Beck", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 70, "potential": 80, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "MTL-zharovsky", "name": "Alexander Zharovsky", "pos": "RW", "age": 19, "shoots": "L",
+      "overall": 63, "potential": 84, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.895, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MTL-pugachyov", "name": "Gleb Pugachyov", "pos": "RW", "age": 18, "shoots": "L",
+      "overall": 60, "potential": 83, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MTL-runtso", "name": "Timofei Runtso", "pos": "D", "age": 18, "shoots": "R",
+      "overall": 58, "potential": 80, "nationality": "RUS", "devLeague": "CHL",
+      "contract": { "capHit": 0.87, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MTL-berard", "name": "Brett Berard", "pos": "LW", "age": 24, "shoots": "L",
+      "overall": 71, "potential": 76, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "MTL-szuber", "name": "Maksymilian Szuber", "pos": "D", "age": 24, "shoots": "L",
+      "overall": 68, "potential": 75, "nationality": "GER", "devLeague": "AHL",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "MTL-mckown", "name": "Hunter McKown", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 64, "potential": 74, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.82, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}

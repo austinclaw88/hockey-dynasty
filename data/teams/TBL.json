@@ -1,0 +1,243 @@
+{
+  "info": { "abbrev": "TBL", "city": "Tampa Bay", "name": "Lightning", "conference": "East",
+            "division": "Atlantic", "color": "#002868", "colorSecondary": "#FFFFFF" },
+  "roster": [
+    { "id": "TBL-kucherov", "name": "Nikita Kucherov", "pos": "RW", "age": 33, "shoots": "L",
+      "overall": 95, "potential": 95, "nationality": "RUS",
+      "contract": { "capHit": 9.5, "yearsLeft": 1, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 47, "goals": 25, "assists": 44, "points": 69, "plusMinus": 6, "pim": 26 },
+        { "year": 2022, "team": "TBL", "gp": 82, "goals": 30, "assists": 83, "points": 113, "plusMinus": 21, "pim": 44 },
+        { "year": 2023, "team": "TBL", "gp": 81, "goals": 44, "assists": 100, "points": 144, "plusMinus": 11, "pim": 50 },
+        { "year": 2024, "team": "TBL", "gp": 78, "goals": 37, "assists": 84, "points": 121, "plusMinus": 23, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 76, "goals": 44, "assists": 86, "points": 130, "plusMinus": 43, "pim": 50 }
+      ] },
+    { "id": "TBL-point", "name": "Brayden Point", "pos": "C", "age": 30, "shoots": "R",
+      "overall": 89, "potential": 89, "nationality": "CAN",
+      "contract": { "capHit": 9.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 66, "goals": 28, "assists": 30, "points": 58, "plusMinus": 2, "pim": 22 },
+        { "year": 2022, "team": "TBL", "gp": 82, "goals": 51, "assists": 44, "points": 95, "plusMinus": 21, "pim": 34 },
+        { "year": 2023, "team": "TBL", "gp": 81, "goals": 46, "assists": 44, "points": 90, "plusMinus": 30, "pim": 26 },
+        { "year": 2024, "team": "TBL", "gp": 77, "goals": 42, "assists": 40, "points": 82, "plusMinus": 8, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 63, "goals": 18, "assists": 32, "points": 50, "plusMinus": 12, "pim": 14 }
+      ] },
+    { "id": "TBL-guentzel", "name": "Jake Guentzel", "pos": "LW", "age": 32, "shoots": "L",
+      "overall": 87, "potential": 87, "nationality": "USA",
+      "contract": { "capHit": 9.0, "yearsLeft": 5, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "PIT", "gp": 56, "goals": 23, "assists": 34, "points": 57, "plusMinus": 8, "pim": 16 },
+        { "year": 2022, "team": "PIT", "gp": 78, "goals": 36, "assists": 37, "points": 73, "plusMinus": 8, "pim": 32 },
+        { "year": 2023, "team": "CAR", "gp": 67, "goals": 30, "assists": 47, "points": 77, "plusMinus": 25, "pim": 24 },
+        { "year": 2024, "team": "TBL", "gp": 80, "goals": 41, "assists": 39, "points": 80, "plusMinus": 12, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 81, "goals": 38, "assists": 50, "points": 88, "plusMinus": 13, "pim": 61 }
+      ] },
+    { "id": "TBL-hagel", "name": "Brandon Hagel", "pos": "LW", "age": 28, "shoots": "L",
+      "overall": 86, "potential": 86, "nationality": "CAN",
+      "contract": { "capHit": 6.5, "yearsLeft": 6, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 77, "goals": 25, "assists": 19, "points": 44, "plusMinus": -2, "pim": 30 },
+        { "year": 2022, "team": "TBL", "gp": 81, "goals": 30, "assists": 34, "points": 64, "plusMinus": 8, "pim": 40 },
+        { "year": 2023, "team": "TBL", "gp": 82, "goals": 26, "assists": 49, "points": 75, "plusMinus": 18, "pim": 44 },
+        { "year": 2024, "team": "TBL", "gp": 82, "goals": 35, "assists": 55, "points": 90, "plusMinus": 20, "pim": 48 },
+        { "year": 2025, "team": "TBL", "gp": 71, "goals": 36, "assists": 38, "points": 74, "plusMinus": 34, "pim": 58 }
+      ] },
+    { "id": "TBL-cirelli", "name": "Anthony Cirelli", "pos": "C", "age": 29, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 6.25, "yearsLeft": 6, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 76, "goals": 17, "assists": 26, "points": 43, "plusMinus": 10, "pim": 30 },
+        { "year": 2022, "team": "TBL", "gp": 58, "goals": 11, "assists": 18, "points": 29, "plusMinus": 2, "pim": 22 },
+        { "year": 2023, "team": "TBL", "gp": 79, "goals": 20, "assists": 25, "points": 45, "plusMinus": 12, "pim": 30 },
+        { "year": 2024, "team": "TBL", "gp": 82, "goals": 27, "assists": 32, "points": 59, "plusMinus": 25, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 71, "goals": 23, "assists": 29, "points": 52, "plusMinus": 38, "pim": 48 }
+      ] },
+    { "id": "TBL-mikheyev", "name": "Ilya Mikheyev", "pos": "LW", "age": 31, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "RUS",
+      "contract": { "capHit": 3.85, "yearsLeft": 4, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TOR", "gp": 53, "goals": 21, "assists": 11, "points": 32, "plusMinus": 8, "pim": 12 },
+        { "year": 2022, "team": "VAN", "gp": 43, "goals": 13, "assists": 15, "points": 28, "plusMinus": -2, "pim": 8 },
+        { "year": 2023, "team": "VAN", "gp": 78, "goals": 11, "assists": 20, "points": 31, "plusMinus": 6, "pim": 10 },
+        { "year": 2024, "team": "CHI", "gp": 80, "goals": 18, "assists": 16, "points": 34, "plusMinus": -18, "pim": 12 },
+        { "year": 2025, "team": "CHI", "gp": 77, "goals": 18, "assists": 18, "points": 36, "plusMinus": -2, "pim": 14 }
+      ] },
+    { "id": "TBL-paul", "name": "Nick Paul", "pos": "C", "age": 31, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 3.15, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 78, "goals": 12, "assists": 14, "points": 26, "plusMinus": 2, "pim": 45 },
+        { "year": 2022, "team": "TBL", "gp": 80, "goals": 17, "assists": 15, "points": 32, "plusMinus": 2, "pim": 40 },
+        { "year": 2023, "team": "TBL", "gp": 82, "goals": 24, "assists": 22, "points": 46, "plusMinus": 10, "pim": 45 },
+        { "year": 2024, "team": "TBL", "gp": 76, "goals": 22, "assists": 19, "points": 41, "plusMinus": 6, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 51, "goals": 7, "assists": 8, "points": 15, "plusMinus": -15, "pim": 32 }
+      ] },
+    { "id": "TBL-gourde", "name": "Yanni Gourde", "pos": "C", "age": 34, "shoots": "L",
+      "overall": 75, "potential": 75, "nationality": "CAN",
+      "contract": { "capHit": 2.33, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "SEA", "gp": 74, "goals": 21, "assists": 27, "points": 48, "plusMinus": -20, "pim": 60 },
+        { "year": 2022, "team": "SEA", "gp": 81, "goals": 14, "assists": 34, "points": 48, "plusMinus": 25, "pim": 60 },
+        { "year": 2023, "team": "SEA", "gp": 80, "goals": 11, "assists": 22, "points": 33, "plusMinus": -6, "pim": 50 },
+        { "year": 2024, "team": "TBL", "gp": 76, "goals": 10, "assists": 19, "points": 29, "plusMinus": -4, "pim": 55 },
+        { "year": 2025, "team": "TBL", "gp": 82, "goals": 9, "assists": 19, "points": 28, "plusMinus": -6, "pim": 66 }
+      ] },
+    { "id": "TBL-holmberg", "name": "Pontus Holmberg", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 74, "potential": 75, "nationality": "SWE",
+      "contract": { "capHit": 1.55, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "TOR", "gp": 50, "goals": 4, "assists": 7, "points": 11, "plusMinus": 6, "pim": 10 },
+        { "year": 2023, "team": "TOR", "gp": 55, "goals": 4, "assists": 8, "points": 12, "plusMinus": 2, "pim": 14 },
+        { "year": 2024, "team": "TOR", "gp": 68, "goals": 7, "assists": 13, "points": 20, "plusMinus": 6, "pim": 16 },
+        { "year": 2025, "team": "TBL", "gp": 70, "goals": 11, "assists": 11, "points": 22, "plusMinus": 7, "pim": 31 }
+      ] },
+    { "id": "TBL-geekie", "name": "Conor Geekie", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 76, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 0.887, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "TBL", "gp": 57, "goals": 9, "assists": 8, "points": 17, "plusMinus": 2, "pim": 26 },
+        { "year": 2025, "team": "TBL", "gp": 14, "goals": 1, "assists": 2, "points": 3, "plusMinus": -3, "pim": 8 }
+      ] },
+    { "id": "TBL-goncalves", "name": "Gage Goncalves", "pos": "C", "age": 25, "shoots": "L",
+      "overall": 75, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 1.2, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "TBL", "gp": 44, "goals": 4, "assists": 9, "points": 13, "plusMinus": 6, "pim": 20 },
+        { "year": 2025, "team": "TBL", "gp": 74, "goals": 11, "assists": 22, "points": 33, "plusMinus": 26, "pim": 41 }
+      ] },
+    { "id": "TBL-girgensons", "name": "Zemgus Girgensons", "pos": "C", "age": 32, "shoots": "L",
+      "overall": 72, "potential": 72, "nationality": "LAT",
+      "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BUF", "gp": 74, "goals": 6, "assists": 7, "points": 13, "plusMinus": -8, "pim": 30 },
+        { "year": 2022, "team": "BUF", "gp": 80, "goals": 10, "assists": 8, "points": 18, "plusMinus": -6, "pim": 40 },
+        { "year": 2023, "team": "BUF", "gp": 79, "goals": 8, "assists": 6, "points": 14, "plusMinus": -4, "pim": 40 },
+        { "year": 2024, "team": "TBL", "gp": 82, "goals": 2, "assists": 4, "points": 6, "plusMinus": 2, "pim": 30 },
+        { "year": 2025, "team": "TBL", "gp": 74, "goals": 9, "assists": 11, "points": 20, "plusMinus": 2, "pim": 28 }
+      ] },
+    { "id": "TBL-harkins", "name": "Jansen Harkins", "pos": "C", "age": 29, "shoots": "L",
+      "overall": 71, "potential": 71, "nationality": "CAN",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "WPG", "gp": 20, "goals": 2, "assists": 3, "points": 5, "plusMinus": -2, "pim": 10 },
+        { "year": 2022, "team": "PIT", "gp": 30, "goals": 3, "assists": 4, "points": 7, "plusMinus": -2, "pim": 12 },
+        { "year": 2025, "team": "ANA", "gp": 44, "goals": 3, "assists": 5, "points": 8, "plusMinus": -6, "pim": 28 }
+      ] },
+    { "id": "TBL-hedman", "name": "Victor Hedman", "pos": "D", "age": 35, "shoots": "L",
+      "overall": 86, "potential": 86, "nationality": "SWE",
+      "contract": { "capHit": 8.0, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 82, "goals": 20, "assists": 65, "points": 85, "plusMinus": 16, "pim": 74 },
+        { "year": 2022, "team": "TBL", "gp": 76, "goals": 9, "assists": 40, "points": 49, "plusMinus": 6, "pim": 60 },
+        { "year": 2023, "team": "TBL", "gp": 78, "goals": 13, "assists": 63, "points": 76, "plusMinus": 8, "pim": 66 },
+        { "year": 2024, "team": "TBL", "gp": 79, "goals": 15, "assists": 51, "points": 66, "plusMinus": 25, "pim": 64 },
+        { "year": 2025, "team": "TBL", "gp": 33, "goals": 1, "assists": 16, "points": 17, "plusMinus": -1, "pim": 10 }
+      ] },
+    { "id": "TBL-carlson", "name": "John Carlson", "pos": "D", "age": 36, "shoots": "R",
+      "overall": 81, "potential": 81, "nationality": "USA",
+      "contract": { "capHit": 8.5, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "WSH", "gp": 78, "goals": 17, "assists": 54, "points": 71, "plusMinus": 5, "pim": 40 },
+        { "year": 2022, "team": "WSH", "gp": 40, "goals": 9, "assists": 20, "points": 29, "plusMinus": 2, "pim": 20 },
+        { "year": 2023, "team": "WSH", "gp": 82, "goals": 10, "assists": 42, "points": 52, "plusMinus": -8, "pim": 40 },
+        { "year": 2024, "team": "WSH", "gp": 79, "goals": 5, "assists": 46, "points": 51, "plusMinus": 20, "pim": 40 },
+        { "year": 2025, "team": "ANA", "gp": 71, "goals": 14, "assists": 46, "points": 60, "plusMinus": 11, "pim": 30 }
+      ] },
+    { "id": "TBL-moser", "name": "J.J. Moser", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 79, "potential": 81, "nationality": "SUI",
+      "contract": { "capHit": 6.75, "yearsLeft": 8, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "ARI", "gp": 63, "goals": 6, "assists": 14, "points": 20, "plusMinus": -8, "pim": 22 },
+        { "year": 2022, "team": "ARI", "gp": 82, "goals": 7, "assists": 24, "points": 31, "plusMinus": -12, "pim": 40 },
+        { "year": 2023, "team": "ARI", "gp": 80, "goals": 5, "assists": 21, "points": 26, "plusMinus": -6, "pim": 35 },
+        { "year": 2024, "team": "TBL", "gp": 54, "goals": 2, "assists": 12, "points": 14, "plusMinus": 6, "pim": 20 },
+        { "year": 2025, "team": "TBL", "gp": 79, "goals": 7, "assists": 22, "points": 29, "plusMinus": 41, "pim": 91 }
+      ] },
+    { "id": "TBL-cernak", "name": "Erik Cernak", "pos": "D", "age": 29, "shoots": "R",
+      "overall": 77, "potential": 77, "nationality": "SVK",
+      "contract": { "capHit": 5.2, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 55, "goals": 1, "assists": 12, "points": 13, "plusMinus": 12, "pim": 60 },
+        { "year": 2022, "team": "TBL", "gp": 70, "goals": 2, "assists": 14, "points": 16, "plusMinus": 18, "pim": 65 },
+        { "year": 2023, "team": "TBL", "gp": 69, "goals": 2, "assists": 11, "points": 13, "plusMinus": 6, "pim": 70 },
+        { "year": 2024, "team": "TBL", "gp": 76, "goals": 3, "assists": 18, "points": 21, "plusMinus": 20, "pim": 70 },
+        { "year": 2025, "team": "TBL", "gp": 61, "goals": 3, "assists": 8, "points": 11, "plusMinus": 2, "pim": 74 }
+      ] },
+    { "id": "TBL-mcdonagh", "name": "Ryan McDonagh", "pos": "D", "age": 37, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 4.1, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 71, "goals": 4, "assists": 22, "points": 26, "plusMinus": 20, "pim": 40 },
+        { "year": 2022, "team": "NSH", "gp": 71, "goals": 2, "assists": 18, "points": 20, "plusMinus": 4, "pim": 40 },
+        { "year": 2023, "team": "NSH", "gp": 74, "goals": 3, "assists": 29, "points": 32, "plusMinus": 10, "pim": 30 },
+        { "year": 2024, "team": "TBL", "gp": 82, "goals": 4, "assists": 27, "points": 31, "plusMinus": 8, "pim": 40 },
+        { "year": 2025, "team": "TBL", "gp": 48, "goals": 6, "assists": 15, "points": 21, "plusMinus": 14, "pim": 6 }
+      ] },
+    { "id": "TBL-lilleberg", "name": "Emil Lilleberg", "pos": "D", "age": 25, "shoots": "R",
+      "overall": 74, "potential": 77, "nationality": "NOR",
+      "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "TBL", "gp": 37, "goals": 0, "assists": 5, "points": 5, "plusMinus": 4, "pim": 45 },
+        { "year": 2024, "team": "TBL", "gp": 51, "goals": 3, "assists": 11, "points": 14, "plusMinus": 8, "pim": 60 },
+        { "year": 2025, "team": "TBL", "gp": 47, "goals": 3, "assists": 7, "points": 10, "plusMinus": 15, "pim": 57 }
+      ] },
+    { "id": "TBL-crozier", "name": "Max Crozier", "pos": "D", "age": 26, "shoots": "R",
+      "overall": 72, "potential": 75, "nationality": "CAN",
+      "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "TBL", "gp": 13, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 6 },
+        { "year": 2024, "team": "TBL", "gp": 5, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2 },
+        { "year": 2025, "team": "TBL", "gp": 35, "goals": 1, "assists": 9, "points": 10, "plusMinus": 6, "pim": 12 }
+      ] },
+    { "id": "TBL-vasilevskiy", "name": "Andrei Vasilevskiy", "pos": "G", "age": 32, "shoots": "L",
+      "overall": 92, "potential": 92, "nationality": "RUS",
+      "contract": { "capHit": 9.5, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 63, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 35, "losses": 14, "otl": 3, "shutouts": 4, "gaa": 2.49, "svPct": 0.916 },
+        { "year": 2022, "team": "TBL", "gp": 60, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 34, "losses": 22, "otl": 4, "shutouts": 4, "gaa": 2.65, "svPct": 0.915 },
+        { "year": 2023, "team": "TBL", "gp": 52, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 30, "losses": 19, "otl": 2, "shutouts": 2, "gaa": 2.90, "svPct": 0.900 },
+        { "year": 2024, "team": "TBL", "gp": 63, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 6, "wins": 38, "losses": 20, "otl": 5, "shutouts": 5, "gaa": 2.18, "svPct": 0.921 },
+        { "year": 2025, "team": "TBL", "gp": 58, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 39, "losses": 15, "otl": 4, "shutouts": 2, "gaa": 2.31, "svPct": 0.911 }
+      ] },
+    { "id": "TBL-hildeby", "name": "Dennis Hildeby", "pos": "G", "age": 25, "shoots": "L",
+      "overall": 74, "potential": 79, "nationality": "SWE",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "TOR", "gp": 11, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 3, "otl": 1, "shutouts": 0, "gaa": 3.10, "svPct": 0.890 },
+        { "year": 2025, "team": "TOR", "gp": 19, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 6, "otl": 4, "shutouts": 0, "gaa": 2.84, "svPct": 0.910 }
+      ] },
+    { "id": "TBL-johansson", "name": "Jonas Johansson", "pos": "G", "age": 31, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "SWE",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 11, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 2, "losses": 7, "otl": 1, "shutouts": 0, "gaa": 3.65, "svPct": 0.883 },
+        { "year": 2022, "team": "COL", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 1, "losses": 1, "otl": 0, "shutouts": 0, "gaa": 2.10, "svPct": 0.932 },
+        { "year": 2023, "team": "TBL", "gp": 26, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 12, "losses": 7, "otl": 3, "shutouts": 2, "gaa": 3.37, "svPct": 0.890 },
+        { "year": 2024, "team": "TBL", "gp": 19, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 9, "losses": 6, "otl": 3, "shutouts": 0, "gaa": 3.14, "svPct": 0.895 },
+        { "year": 2025, "team": "TBL", "gp": 25, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 11, "losses": 10, "otl": 2, "shutouts": 0, "gaa": 3.29, "svPct": 0.884 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "TBL-gauthier", "name": "Ethan Gauthier", "pos": "RW", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 80, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "TBL-duke", "name": "Dylan Duke", "pos": "LW", "age": 23, "shoots": "L",
+      "overall": 70, "potential": 78, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.828, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "TBL-kulebiakin", "name": "Oleg Kulebiakin", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 59, "potential": 81, "nationality": "RUS", "devLeague": "CHL",
+      "contract": { "capHit": 0.895, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "TBL-kralovic", "name": "Tomas Kralovic", "pos": "D", "age": 18, "shoots": "L",
+      "overall": 56, "potential": 77, "nationality": "SVK", "devLeague": "Europe",
+      "contract": { "capHit": 0.83, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "TBL-anderberg", "name": "Morgan Anderberg", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 55, "potential": 76, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.81, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "TBL-soller", "name": "Cooper Soller", "pos": "C", "age": 18, "shoots": "L",
+      "overall": 54, "potential": 74, "nationality": "USA", "devLeague": "USHL",
+      "contract": { "capHit": 0.8, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "TBL-shurygin", "name": "Stepan Shurygin", "pos": "G", "age": 18, "shoots": "L",
+      "overall": 53, "potential": 76, "nationality": "RUS", "devLeague": "CHL",
+      "contract": { "capHit": 0.79, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}

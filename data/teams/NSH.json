@@ -1,0 +1,219 @@
+{
+  "info": { "abbrev": "NSH", "city": "Nashville", "name": "Predators", "conference": "West",
+            "division": "Central", "color": "#FFB81C", "colorSecondary": "#041E42" },
+  "roster": [
+    { "id": "NSH-forsberg", "name": "Filip Forsberg", "pos": "LW", "age": 32, "shoots": "R",
+      "overall": 86, "potential": 86, "nationality": "SWE",
+      "contract": { "capHit": 8.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 69, "goals": 42, "assists": 42, "points": 84, "plusMinus": 7, "pim": 24 },
+        { "year": 2022, "team": "NSH", "gp": 50, "goals": 22, "assists": 28, "points": 50, "plusMinus": -5, "pim": 18 },
+        { "year": 2023, "team": "NSH", "gp": 82, "goals": 48, "assists": 46, "points": 94, "plusMinus": 11, "pim": 26 },
+        { "year": 2024, "team": "NSH", "gp": 82, "goals": 31, "assists": 45, "points": 76, "plusMinus": -22, "pim": 22 },
+        { "year": 2025, "team": "NSH", "gp": 82, "goals": 40, "assists": 35, "points": 75, "plusMinus": -12, "pim": 20 }
+      ] },
+    { "id": "NSH-stamkos", "name": "Steven Stamkos", "pos": "C", "age": 36, "shoots": "R",
+      "overall": 84, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 8.0, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 81, "goals": 42, "assists": 64, "points": 106, "plusMinus": 14, "pim": 34 },
+        { "year": 2022, "team": "TBL", "gp": 81, "goals": 34, "assists": 50, "points": 84, "plusMinus": 8, "pim": 42 },
+        { "year": 2023, "team": "TBL", "gp": 79, "goals": 40, "assists": 41, "points": 81, "plusMinus": 8, "pim": 40 },
+        { "year": 2024, "team": "NSH", "gp": 82, "goals": 27, "assists": 26, "points": 53, "plusMinus": -20, "pim": 24 },
+        { "year": 2025, "team": "NSH", "gp": 82, "goals": 42, "assists": 24, "points": 66, "plusMinus": -6, "pim": 30 }
+      ] },
+    { "id": "NSH-bourque", "name": "Mavrik Bourque", "pos": "C", "age": 24, "shoots": "R",
+      "overall": 79, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 5.5, "yearsLeft": 6, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "DAL", "gp": 1, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0 },
+        { "year": 2024, "team": "DAL", "gp": 73, "goals": 11, "assists": 14, "points": 25, "plusMinus": 2, "pim": 12 },
+        { "year": 2025, "team": "DAL", "gp": 82, "goals": 20, "assists": 21, "points": 41, "plusMinus": 6, "pim": 20 }
+      ] },
+    { "id": "NSH-marchessault", "name": "Jonathan Marchessault", "pos": "RW", "age": 35, "shoots": "R",
+      "overall": 81, "potential": 81, "nationality": "CAN",
+      "contract": { "capHit": 5.5, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "VGK", "gp": 76, "goals": 30, "assists": 36, "points": 66, "plusMinus": 7, "pim": 24 },
+        { "year": 2022, "team": "VGK", "gp": 76, "goals": 28, "assists": 29, "points": 57, "plusMinus": 6, "pim": 26 },
+        { "year": 2023, "team": "VGK", "gp": 82, "goals": 42, "assists": 27, "points": 69, "plusMinus": 15, "pim": 40 },
+        { "year": 2024, "team": "NSH", "gp": 78, "goals": 21, "assists": 35, "points": 56, "plusMinus": -18, "pim": 30 },
+        { "year": 2025, "team": "NSH", "gp": 62, "goals": 12, "assists": 19, "points": 31, "plusMinus": -8, "pim": 20 }
+      ] },
+    { "id": "NSH-oreilly", "name": "Ryan O'Reilly", "pos": "C", "age": 35, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 4.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "STL", "gp": 78, "goals": 19, "assists": 39, "points": 58, "plusMinus": 8, "pim": 20 },
+        { "year": 2022, "team": "TOR", "gp": 53, "goals": 16, "assists": 14, "points": 30, "plusMinus": 5, "pim": 12 },
+        { "year": 2023, "team": "NSH", "gp": 82, "goals": 26, "assists": 43, "points": 69, "plusMinus": 2, "pim": 18 },
+        { "year": 2024, "team": "NSH", "gp": 77, "goals": 26, "assists": 46, "points": 72, "plusMinus": -14, "pim": 16 },
+        { "year": 2025, "team": "NSH", "gp": 81, "goals": 25, "assists": 49, "points": 74, "plusMinus": -4, "pim": 14 }
+      ] },
+    { "id": "NSH-evangelista", "name": "Luke Evangelista", "pos": "RW", "age": 24, "shoots": "R",
+      "overall": 80, "potential": 84, "nationality": "CAN",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2022, "team": "NSH", "gp": 24, "goals": 7, "assists": 8, "points": 15, "plusMinus": 2, "pim": 4 },
+        { "year": 2023, "team": "NSH", "gp": 80, "goals": 16, "assists": 23, "points": 39, "plusMinus": -4, "pim": 20 },
+        { "year": 2024, "team": "NSH", "gp": 68, "goals": 10, "assists": 22, "points": 32, "plusMinus": -10, "pim": 16 },
+        { "year": 2025, "team": "NSH", "gp": 81, "goals": 12, "assists": 44, "points": 56, "plusMinus": -6, "pim": 18 }
+      ] },
+    { "id": "NSH-colton", "name": "Ross Colton", "pos": "C", "age": 29, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "USA",
+      "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 79, "goals": 22, "assists": 17, "points": 39, "plusMinus": 9, "pim": 34 },
+        { "year": 2022, "team": "TBL", "gp": 81, "goals": 16, "assists": 16, "points": 32, "plusMinus": 2, "pim": 30 },
+        { "year": 2023, "team": "COL", "gp": 80, "goals": 17, "assists": 23, "points": 40, "plusMinus": 12, "pim": 40 },
+        { "year": 2024, "team": "COL", "gp": 68, "goals": 18, "assists": 15, "points": 33, "plusMinus": 8, "pim": 34 },
+        { "year": 2025, "team": "COL", "gp": 73, "goals": 9, "assists": 15, "points": 24, "plusMinus": -2, "pim": 30 }
+      ] },
+    { "id": "NSH-drury", "name": "Jack Drury", "pos": "C", "age": 26, "shoots": "L",
+      "overall": 77, "potential": 79, "nationality": "USA",
+      "contract": { "capHit": 4.5, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "CAR", "gp": 39, "goals": 3, "assists": 6, "points": 9, "plusMinus": 5, "pim": 12 },
+        { "year": 2022, "team": "CAR", "gp": 12, "goals": 1, "assists": 3, "points": 4, "plusMinus": 1, "pim": 6 },
+        { "year": 2023, "team": "CAR", "gp": 79, "goals": 12, "assists": 18, "points": 30, "plusMinus": 6, "pim": 26 },
+        { "year": 2024, "team": "COL", "gp": 76, "goals": 9, "assists": 15, "points": 24, "plusMinus": 4, "pim": 24 },
+        { "year": 2025, "team": "COL", "gp": 82, "goals": 10, "assists": 17, "points": 27, "plusMinus": 10, "pim": 31 }
+      ] },
+    { "id": "NSH-kerfoot", "name": "Alexander Kerfoot", "pos": "LW", "age": 32, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 3.5, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TOR", "gp": 82, "goals": 13, "assists": 38, "points": 51, "plusMinus": 3, "pim": 22 },
+        { "year": 2022, "team": "TOR", "gp": 82, "goals": 10, "assists": 19, "points": 29, "plusMinus": 6, "pim": 16 },
+        { "year": 2023, "team": "ARI", "gp": 78, "goals": 8, "assists": 14, "points": 22, "plusMinus": -12, "pim": 18 },
+        { "year": 2024, "team": "UTA", "gp": 62, "goals": 8, "assists": 14, "points": 22, "plusMinus": 2, "pim": 14 },
+        { "year": 2025, "team": "UTA", "gp": 34, "goals": 7, "assists": 6, "points": 13, "plusMinus": -4, "pim": 10 }
+      ] },
+    { "id": "NSH-hoglander", "name": "Nils Hoglander", "pos": "LW", "age": 25, "shoots": "L",
+      "overall": 77, "potential": 80, "nationality": "SWE",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2021, "team": "VAN", "gp": 60, "goals": 10, "assists": 8, "points": 18, "plusMinus": 3, "pim": 16 },
+        { "year": 2022, "team": "VAN", "gp": 25, "goals": 4, "assists": 5, "points": 9, "plusMinus": -2, "pim": 10 },
+        { "year": 2023, "team": "VAN", "gp": 80, "goals": 24, "assists": 12, "points": 36, "plusMinus": 11, "pim": 24 },
+        { "year": 2024, "team": "VAN", "gp": 72, "goals": 9, "assists": 15, "points": 24, "plusMinus": -6, "pim": 20 },
+        { "year": 2025, "team": "VAN", "gp": 38, "goals": 2, "assists": 3, "points": 5, "plusMinus": -8, "pim": 12 }
+      ] },
+    { "id": "NSH-mccarron", "name": "Michael McCarron", "pos": "C", "age": 31, "shoots": "R",
+      "overall": 73, "potential": 73, "nationality": "USA",
+      "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 60, "goals": 3, "assists": 6, "points": 9, "plusMinus": -5, "pim": 70 },
+        { "year": 2022, "team": "NSH", "gp": 61, "goals": 8, "assists": 8, "points": 16, "plusMinus": -3, "pim": 60 },
+        { "year": 2023, "team": "NSH", "gp": 74, "goals": 10, "assists": 9, "points": 19, "plusMinus": -8, "pim": 90 },
+        { "year": 2024, "team": "NSH", "gp": 70, "goals": 7, "assists": 8, "points": 15, "plusMinus": -12, "pim": 80 },
+        { "year": 2025, "team": "MIN", "gp": 78, "goals": 8, "assists": 9, "points": 17, "plusMinus": -16, "pim": 91 }
+      ] },
+    { "id": "NSH-kemell", "name": "Joakim Kemell", "pos": "RW", "age": 22, "shoots": "R",
+      "overall": 69, "potential": 83, "nationality": "FIN",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "NSH", "gp": 2, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0 },
+        { "year": 2025, "team": "NSH", "gp": 16, "goals": 1, "assists": 2, "points": 3, "plusMinus": -3, "pim": 2 }
+      ] },
+    { "id": "NSH-wood", "name": "Matthew Wood", "pos": "RW", "age": 21, "shoots": "L",
+      "overall": 65, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2025, "team": "NSH", "gp": 71, "goals": 17, "assists": 13, "points": 30, "plusMinus": -8, "pim": 16 }
+      ] },
+    { "id": "NSH-josi", "name": "Roman Josi", "pos": "D", "age": 36, "shoots": "L",
+      "overall": 90, "potential": 90, "nationality": "SUI",
+      "contract": { "capHit": 9.059, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 80, "goals": 23, "assists": 73, "points": 96, "plusMinus": 3, "pim": 42 },
+        { "year": 2022, "team": "NSH", "gp": 67, "goals": 18, "assists": 41, "points": 59, "plusMinus": -3, "pim": 26 },
+        { "year": 2023, "team": "NSH", "gp": 82, "goals": 23, "assists": 62, "points": 85, "plusMinus": 6, "pim": 40 },
+        { "year": 2024, "team": "NSH", "gp": 53, "goals": 9, "assists": 29, "points": 38, "plusMinus": -19, "pim": 20 },
+        { "year": 2025, "team": "NSH", "gp": 68, "goals": 13, "assists": 42, "points": 55, "plusMinus": -14, "pim": 22 }
+      ] },
+    { "id": "NSH-skjei", "name": "Brady Skjei", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "USA",
+      "contract": { "capHit": 7.0, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "CAR", "gp": 82, "goals": 9, "assists": 30, "points": 39, "plusMinus": 21, "pim": 40 },
+        { "year": 2022, "team": "CAR", "gp": 81, "goals": 18, "assists": 20, "points": 38, "plusMinus": 15, "pim": 42 },
+        { "year": 2023, "team": "CAR", "gp": 80, "goals": 13, "assists": 34, "points": 47, "plusMinus": 11, "pim": 44 },
+        { "year": 2024, "team": "NSH", "gp": 82, "goals": 10, "assists": 23, "points": 33, "plusMinus": -20, "pim": 46 },
+        { "year": 2025, "team": "NSH", "gp": 82, "goals": 3, "assists": 23, "points": 26, "plusMinus": -14, "pim": 40 }
+      ] },
+    { "id": "NSH-hague", "name": "Nicolas Hague", "pos": "D", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 5.5, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "VGK", "gp": 52, "goals": 4, "assists": 10, "points": 14, "plusMinus": 8, "pim": 34 },
+        { "year": 2022, "team": "VGK", "gp": 81, "goals": 3, "assists": 14, "points": 17, "plusMinus": 6, "pim": 46 },
+        { "year": 2023, "team": "VGK", "gp": 73, "goals": 2, "assists": 10, "points": 12, "plusMinus": 4, "pim": 40 },
+        { "year": 2024, "team": "VGK", "gp": 68, "goals": 5, "assists": 7, "points": 12, "plusMinus": 2, "pim": 38 },
+        { "year": 2025, "team": "NSH", "gp": 62, "goals": 3, "assists": 12, "points": 15, "plusMinus": -10, "pim": 47 }
+      ] },
+    { "id": "NSH-lauzon", "name": "Jeremy Lauzon", "pos": "D", "age": 29, "shoots": "L",
+      "overall": 75, "potential": 75, "nationality": "CAN",
+      "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 55, "goals": 2, "assists": 6, "points": 8, "plusMinus": -6, "pim": 68 },
+        { "year": 2022, "team": "NSH", "gp": 78, "goals": 6, "assists": 8, "points": 14, "plusMinus": 2, "pim": 90 },
+        { "year": 2023, "team": "NSH", "gp": 70, "goals": 2, "assists": 6, "points": 8, "plusMinus": -8, "pim": 85 },
+        { "year": 2024, "team": "NSH", "gp": 28, "goals": 0, "assists": 1, "points": 1, "plusMinus": -6, "pim": 37 },
+        { "year": 2025, "team": "VGK", "gp": 68, "goals": 1, "assists": 12, "points": 13, "plusMinus": 4, "pim": 89 }
+      ] },
+    { "id": "NSH-wilsby", "name": "Adam Wilsby", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 74, "potential": 77, "nationality": "SWE",
+      "contract": { "capHit": 1.5, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2024, "team": "NSH", "gp": 23, "goals": 1, "assists": 4, "points": 5, "plusMinus": 3, "pim": 8 },
+        { "year": 2025, "team": "NSH", "gp": 58, "goals": 1, "assists": 15, "points": 16, "plusMinus": 2, "pim": 29 }
+      ] },
+    { "id": "NSH-stastney", "name": "Spencer Stastney", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 73, "potential": 75, "nationality": "USA",
+      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "NSH", "gp": 15, "goals": 0, "assists": 4, "points": 4, "plusMinus": 0, "pim": 4 },
+        { "year": 2024, "team": "NSH", "gp": 23, "goals": 0, "assists": 3, "points": 3, "plusMinus": -3, "pim": 6 },
+        { "year": 2025, "team": "EDM", "gp": 66, "goals": 2, "assists": 9, "points": 11, "plusMinus": -11, "pim": 20 }
+      ] },
+    { "id": "NSH-saros", "name": "Juuse Saros", "pos": "G", "age": 31, "shoots": "L",
+      "overall": 89, "potential": 89, "nationality": "FIN",
+      "contract": { "capHit": 7.74, "yearsLeft": 7, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 67, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 38, "losses": 25, "otl": 3, "shutouts": 3, "gaa": 2.64, "svPct": 0.918 },
+        { "year": 2022, "team": "NSH", "gp": 64, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 33, "losses": 25, "otl": 6, "shutouts": 7, "gaa": 2.69, "svPct": 0.919 },
+        { "year": 2023, "team": "NSH", "gp": 64, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 35, "losses": 24, "otl": 5, "shutouts": 3, "gaa": 2.86, "svPct": 0.906 },
+        { "year": 2024, "team": "NSH", "gp": 61, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 20, "losses": 28, "otl": 9, "shutouts": 2, "gaa": 2.98, "svPct": 0.895 },
+        { "year": 2025, "team": "NSH", "gp": 59, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 28, "losses": 22, "otl": 8, "shutouts": 0, "gaa": 3.16, "svPct": 0.894 }
+      ] },
+    { "id": "NSH-annunen", "name": "Justus Annunen", "pos": "G", "age": 26, "shoots": "L",
+      "overall": 78, "potential": 80, "nationality": "FIN",
+      "contract": { "capHit": 1.25, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "COL", "gp": 14, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 9, "losses": 3, "otl": 1, "shutouts": 1, "gaa": 2.70, "svPct": 0.911 },
+        { "year": 2024, "team": "NSH", "gp": 30, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 14, "losses": 13, "otl": 2, "shutouts": 1, "gaa": 2.80, "svPct": 0.903 },
+        { "year": 2025, "team": "NSH", "gp": 28, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 10, "losses": 12, "otl": 2, "shutouts": 0, "gaa": 2.68, "svPct": 0.906 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "NSH-martin", "name": "Brady Martin", "pos": "C", "age": 19, "shoots": "R",
+      "overall": 63, "potential": 86, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NSH-molendyk", "name": "Tanner Molendyk", "pos": "D", "age": 20, "shoots": "L",
+      "overall": 66, "potential": 82, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NSH-surin", "name": "Yegor Surin", "pos": "C", "age": 19, "shoots": "L",
+      "overall": 64, "potential": 85, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NSH-edstrom", "name": "David Edstrom", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 62, "potential": 80, "nationality": "SWE", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NSH-cullen", "name": "Wyatt Cullen", "pos": "LW", "age": 18, "shoots": "L",
+      "overall": 62, "potential": 84, "nationality": "USA", "devLeague": "USHL",
+      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NSH-bleyl", "name": "Thomas Bleyl", "pos": "D", "age": 18, "shoots": "L",
+      "overall": 59, "potential": 80, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}

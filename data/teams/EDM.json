@@ -1,0 +1,152 @@
+{
+  "info": {
+    "abbrev": "EDM",
+    "city": "Edmonton",
+    "name": "Oilers",
+    "conference": "West",
+    "division": "Pacific",
+    "color": "#FF4C00",
+    "colorSecondary": "#041E42"
+  },
+  "roster": [
+    { "id": "EDM-mcdavid", "name": "Connor McDavid", "pos": "C", "age": 29, "shoots": "L", "overall": 97, "potential": 97, "nationality": "CAN", "contract": { "capHit": 12.5, "yearsLeft": 2, "expiry": "UFA", "ntc": true }, "history": [
+      { "year": 2021, "team": "EDM", "gp": 80, "goals": 44, "assists": 79, "points": 123, "plusMinus": 28, "pim": 34 },
+      { "year": 2022, "team": "EDM", "gp": 82, "goals": 64, "assists": 89, "points": 153, "plusMinus": 22, "pim": 36 },
+      { "year": 2023, "team": "EDM", "gp": 76, "goals": 32, "assists": 100, "points": 132, "plusMinus": 35, "pim": 20 },
+      { "year": 2024, "team": "EDM", "gp": 64, "goals": 26, "assists": 74, "points": 100, "plusMinus": 20, "pim": 34 },
+      { "year": 2025, "team": "EDM", "gp": 82, "goals": 48, "assists": 90, "points": 138, "plusMinus": 30, "pim": 30 }
+    ] },
+    { "id": "EDM-draisaitl", "name": "Leon Draisaitl", "pos": "C", "age": 30, "shoots": "L", "overall": 95, "potential": 95, "nationality": "GER", "contract": { "capHit": 14.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true }, "history": [
+      { "year": 2021, "team": "EDM", "gp": 80, "goals": 55, "assists": 55, "points": 110, "plusMinus": 28, "pim": 30 },
+      { "year": 2022, "team": "EDM", "gp": 80, "goals": 52, "assists": 76, "points": 128, "plusMinus": 7, "pim": 24 },
+      { "year": 2023, "team": "EDM", "gp": 81, "goals": 41, "assists": 65, "points": 106, "plusMinus": 8, "pim": 40 },
+      { "year": 2024, "team": "EDM", "gp": 71, "goals": 52, "assists": 54, "points": 106, "plusMinus": 30, "pim": 30 },
+      { "year": 2025, "team": "EDM", "gp": 65, "goals": 35, "assists": 62, "points": 97, "plusMinus": 20, "pim": 30 }
+    ] },
+    { "id": "EDM-hyman", "name": "Zach Hyman", "pos": "LW", "age": 34, "shoots": "R", "overall": 85, "potential": 85, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 2, "expiry": "UFA", "ntc": true }, "history": [
+      { "year": 2021, "team": "EDM", "gp": 76, "goals": 27, "assists": 27, "points": 54, "plusMinus": 25, "pim": 46 },
+      { "year": 2022, "team": "EDM", "gp": 79, "goals": 36, "assists": 47, "points": 83, "plusMinus": 18, "pim": 34 },
+      { "year": 2023, "team": "EDM", "gp": 80, "goals": 54, "assists": 23, "points": 77, "plusMinus": 30, "pim": 42 },
+      { "year": 2024, "team": "EDM", "gp": 73, "goals": 27, "assists": 17, "points": 44, "plusMinus": 10, "pim": 40 },
+      { "year": 2025, "team": "EDM", "gp": 56, "goals": 31, "assists": 20, "points": 51, "plusMinus": 12, "pim": 36 }
+    ] },
+    { "id": "EDM-nugent-hopkins", "name": "Ryan Nugent-Hopkins", "pos": "C", "age": 33, "shoots": "L", "overall": 83, "potential": 83, "nationality": "CAN", "contract": { "capHit": 5.125, "yearsLeft": 5, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "EDM", "gp": 76, "goals": 11, "assists": 38, "points": 49, "plusMinus": 8, "pim": 24 },
+      { "year": 2022, "team": "EDM", "gp": 82, "goals": 37, "assists": 67, "points": 104, "plusMinus": 8, "pim": 32 },
+      { "year": 2023, "team": "EDM", "gp": 80, "goals": 20, "assists": 48, "points": 68, "plusMinus": 5, "pim": 24 },
+      { "year": 2024, "team": "EDM", "gp": 78, "goals": 20, "assists": 41, "points": 61, "plusMinus": -2, "pim": 22 },
+      { "year": 2025, "team": "EDM", "gp": 72, "goals": 20, "assists": 36, "points": 56, "plusMinus": -9, "pim": 24 }
+    ] },
+    { "id": "EDM-frederic", "name": "Trent Frederic", "pos": "C", "age": 28, "shoots": "L", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 3.85, "yearsLeft": 7, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "BOS", "gp": 63, "goals": 8, "assists": 6, "points": 14, "plusMinus": 5, "pim": 66 },
+      { "year": 2022, "team": "BOS", "gp": 82, "goals": 17, "assists": 14, "points": 31, "plusMinus": 14, "pim": 88 },
+      { "year": 2023, "team": "BOS", "gp": 82, "goals": 18, "assists": 22, "points": 40, "plusMinus": 17, "pim": 96 },
+      { "year": 2024, "team": "EDM", "gp": 58, "goals": 8, "assists": 10, "points": 18, "plusMinus": -3, "pim": 70 },
+      { "year": 2025, "team": "EDM", "gp": 73, "goals": 4, "assists": 3, "points": 7, "plusMinus": -8, "pim": 60 }
+    ] },
+    { "id": "EDM-mangiapane", "name": "Andrew Mangiapane", "pos": "LW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 3.6, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "CGY", "gp": 82, "goals": 35, "assists": 20, "points": 55, "plusMinus": 12, "pim": 32 },
+      { "year": 2022, "team": "CGY", "gp": 82, "goals": 17, "assists": 26, "points": 43, "plusMinus": 6, "pim": 36 },
+      { "year": 2023, "team": "CGY", "gp": 81, "goals": 17, "assists": 24, "points": 41, "plusMinus": 2, "pim": 30 },
+      { "year": 2024, "team": "WSH", "gp": 81, "goals": 14, "assists": 15, "points": 29, "plusMinus": -4, "pim": 28 },
+      { "year": 2025, "team": "EDM", "gp": 62, "goals": 8, "assists": 8, "points": 16, "plusMinus": -6, "pim": 24 }
+    ] },
+    { "id": "EDM-podkolzin", "name": "Vasily Podkolzin", "pos": "RW", "age": 25, "shoots": "L", "overall": 79, "potential": 82, "nationality": "RUS", "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2021, "team": "VAN", "gp": 79, "goals": 14, "assists": 12, "points": 26, "plusMinus": 6, "pim": 20 },
+      { "year": 2022, "team": "VAN", "gp": 39, "goals": 4, "assists": 3, "points": 7, "plusMinus": -5, "pim": 16 },
+      { "year": 2023, "team": "VAN", "gp": 19, "goals": 1, "assists": 2, "points": 3, "plusMinus": -2, "pim": 8 },
+      { "year": 2024, "team": "EDM", "gp": 82, "goals": 8, "assists": 16, "points": 24, "plusMinus": 8, "pim": 40 },
+      { "year": 2025, "team": "EDM", "gp": 82, "goals": 19, "assists": 18, "points": 37, "plusMinus": 10, "pim": 44 }
+    ] },
+    { "id": "EDM-savoie", "name": "Matthew Savoie", "pos": "RW", "age": 22, "shoots": "R", "overall": 80, "potential": 87, "nationality": "CAN", "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2024, "team": "EDM", "gp": 5, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 0 },
+      { "year": 2025, "team": "EDM", "gp": 82, "goals": 18, "assists": 19, "points": 37, "plusMinus": 6, "pim": 20 }
+    ] },
+    { "id": "EDM-howard", "name": "Isaac Howard", "pos": "LW", "age": 22, "shoots": "L", "overall": 80, "potential": 89, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2025, "team": "EDM", "gp": 29, "goals": 2, "assists": 3, "points": 5, "plusMinus": -3, "pim": 6 }
+    ] },
+    { "id": "EDM-kapanen", "name": "Kasperi Kapanen", "pos": "RW", "age": 30, "shoots": "L", "overall": 76, "potential": 76, "nationality": "FIN", "contract": { "capHit": 2.6, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "PIT", "gp": 79, "goals": 11, "assists": 21, "points": 32, "plusMinus": 6, "pim": 26 },
+      { "year": 2022, "team": "STL", "gp": 65, "goals": 10, "assists": 13, "points": 23, "plusMinus": -4, "pim": 22 },
+      { "year": 2023, "team": "EDM", "gp": 43, "goals": 7, "assists": 6, "points": 13, "plusMinus": 2, "pim": 14 },
+      { "year": 2024, "team": "EDM", "gp": 79, "goals": 13, "assists": 16, "points": 29, "plusMinus": 5, "pim": 24 },
+      { "year": 2025, "team": "EDM", "gp": 41, "goals": 8, "assists": 9, "points": 17, "plusMinus": 5, "pim": 16 }
+    ] },
+    { "id": "EDM-joseph", "name": "Mathieu Joseph", "pos": "LW", "age": 29, "shoots": "L", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "OTT", "gp": 70, "goals": 13, "assists": 8, "points": 21, "plusMinus": -8, "pim": 20 },
+      { "year": 2022, "team": "OTT", "gp": 78, "goals": 8, "assists": 18, "points": 26, "plusMinus": -12, "pim": 24 },
+      { "year": 2023, "team": "OTT", "gp": 71, "goals": 9, "assists": 12, "points": 21, "plusMinus": -6, "pim": 22 },
+      { "year": 2024, "team": "STL", "gp": 75, "goals": 7, "assists": 12, "points": 19, "plusMinus": -5, "pim": 20 },
+      { "year": 2025, "team": "LAK", "gp": 51, "goals": 2, "assists": 9, "points": 11, "plusMinus": -3, "pim": 16 }
+    ] },
+    { "id": "EDM-dickinson", "name": "Jason Dickinson", "pos": "C", "age": 31, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "CHI", "gp": 78, "goals": 5, "assists": 5, "points": 10, "plusMinus": -18, "pim": 24 },
+      { "year": 2022, "team": "CHI", "gp": 78, "goals": 11, "assists": 15, "points": 26, "plusMinus": -10, "pim": 30 },
+      { "year": 2023, "team": "CHI", "gp": 82, "goals": 22, "assists": 21, "points": 43, "plusMinus": -2, "pim": 36 },
+      { "year": 2024, "team": "CHI", "gp": 82, "goals": 12, "assists": 14, "points": 26, "plusMinus": -8, "pim": 28 },
+      { "year": 2025, "team": "EDM", "gp": 51, "goals": 7, "assists": 7, "points": 14, "plusMinus": 3, "pim": 20 }
+    ] },
+    { "id": "EDM-jones", "name": "Max Jones", "pos": "LW", "age": 28, "shoots": "L", "overall": 72, "potential": 72, "nationality": "USA", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "ANA", "gp": 76, "goals": 8, "assists": 9, "points": 17, "plusMinus": -12, "pim": 60 },
+      { "year": 2022, "team": "ANA", "gp": 43, "goals": 4, "assists": 5, "points": 9, "plusMinus": -6, "pim": 40 },
+      { "year": 2023, "team": "ANA", "gp": 61, "goals": 5, "assists": 7, "points": 12, "plusMinus": -8, "pim": 50 },
+      { "year": 2024, "team": "EDM", "gp": 20, "goals": 2, "assists": 3, "points": 5, "plusMinus": -2, "pim": 20 },
+      { "year": 2025, "team": "EDM", "gp": 21, "goals": 3, "assists": 2, "points": 5, "plusMinus": -1, "pim": 18 }
+    ] },
+    { "id": "EDM-bouchard", "name": "Evan Bouchard", "pos": "D", "age": 26, "shoots": "R", "overall": 89, "potential": 90, "nationality": "CAN", "contract": { "capHit": 10.5, "yearsLeft": 3, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "EDM", "gp": 81, "goals": 12, "assists": 31, "points": 43, "plusMinus": 7, "pim": 44 },
+      { "year": 2022, "team": "EDM", "gp": 82, "goals": 12, "assists": 28, "points": 40, "plusMinus": 5, "pim": 36 },
+      { "year": 2023, "team": "EDM", "gp": 82, "goals": 18, "assists": 64, "points": 82, "plusMinus": 26, "pim": 42 },
+      { "year": 2024, "team": "EDM", "gp": 82, "goals": 14, "assists": 53, "points": 67, "plusMinus": 25, "pim": 40 },
+      { "year": 2025, "team": "EDM", "gp": 82, "goals": 21, "assists": 74, "points": 95, "plusMinus": 25, "pim": 38 }
+    ] },
+    { "id": "EDM-ekholm", "name": "Mattias Ekholm", "pos": "D", "age": 36, "shoots": "L", "overall": 81, "potential": 81, "nationality": "SWE", "contract": { "capHit": 6.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "NSH", "gp": 63, "goals": 3, "assists": 14, "points": 17, "plusMinus": 1, "pim": 30 },
+      { "year": 2022, "team": "EDM", "gp": 78, "goals": 4, "assists": 24, "points": 28, "plusMinus": 12, "pim": 36 },
+      { "year": 2023, "team": "EDM", "gp": 80, "goals": 11, "assists": 33, "points": 44, "plusMinus": 38, "pim": 40 },
+      { "year": 2024, "team": "EDM", "gp": 68, "goals": 7, "assists": 26, "points": 33, "plusMinus": 20, "pim": 30 },
+      { "year": 2025, "team": "EDM", "gp": 82, "goals": 6, "assists": 35, "points": 41, "plusMinus": 32, "pim": 34 }
+    ] },
+    { "id": "EDM-walman", "name": "Jake Walman", "pos": "D", "age": 30, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 7.0, "yearsLeft": 6, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "DET", "gp": 26, "goals": 2, "assists": 4, "points": 6, "plusMinus": 2, "pim": 20 },
+      { "year": 2022, "team": "DET", "gp": 54, "goals": 9, "assists": 9, "points": 18, "plusMinus": 8, "pim": 36 },
+      { "year": 2023, "team": "DET", "gp": 79, "goals": 8, "assists": 20, "points": 28, "plusMinus": -6, "pim": 55 },
+      { "year": 2024, "team": "EDM", "gp": 68, "goals": 7, "assists": 26, "points": 33, "plusMinus": 10, "pim": 50 },
+      { "year": 2025, "team": "EDM", "gp": 53, "goals": 8, "assists": 12, "points": 20, "plusMinus": -17, "pim": 44 }
+    ] },
+    { "id": "EDM-mukhamadullin", "name": "Shakir Mukhamadullin", "pos": "D", "age": 24, "shoots": "L", "overall": 76, "potential": 82, "nationality": "RUS", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2024, "team": "SJS", "gp": 35, "goals": 2, "assists": 8, "points": 10, "plusMinus": -10, "pim": 20 },
+      { "year": 2025, "team": "SJS", "gp": 50, "goals": 5, "assists": 7, "points": 12, "plusMinus": -14, "pim": 24 }
+    ] },
+    { "id": "EDM-shea", "name": "Ryan Shea", "pos": "D", "age": 29, "shoots": "L", "overall": 74, "potential": 74, "nationality": "USA", "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "UFA" }, "history": [
+      { "year": 2023, "team": "PIT", "gp": 20, "goals": 0, "assists": 4, "points": 4, "plusMinus": -2, "pim": 16 },
+      { "year": 2024, "team": "PIT", "gp": 54, "goals": 2, "assists": 11, "points": 13, "plusMinus": -6, "pim": 28 },
+      { "year": 2025, "team": "PIT", "gp": 78, "goals": 5, "assists": 30, "points": 35, "plusMinus": 22, "pim": 34 }
+    ] },
+    { "id": "EDM-emberson", "name": "Ty Emberson", "pos": "D", "age": 25, "shoots": "R", "overall": 76, "potential": 79, "nationality": "USA", "contract": { "capHit": 1.5, "yearsLeft": 2, "expiry": "RFA" }, "history": [
+      { "year": 2023, "team": "SJS", "gp": 65, "goals": 2, "assists": 9, "points": 11, "plusMinus": -20, "pim": 30 },
+      { "year": 2024, "team": "EDM", "gp": 79, "goals": 3, "assists": 12, "points": 15, "plusMinus": 8, "pim": 36 },
+      { "year": 2025, "team": "EDM", "gp": 72, "goals": 2, "assists": 10, "points": 12, "plusMinus": -1, "pim": 32 }
+    ] },
+    { "id": "EDM-andersen", "name": "Frederik Andersen", "pos": "G", "age": 36, "shoots": "L", "overall": 84, "potential": 84, "nationality": "DEN", "contract": { "capHit": 2.8, "yearsLeft": 1, "expiry": "UFA" }, "history": [
+      { "year": 2021, "team": "CAR", "gp": 52, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 35, "losses": 14, "otl": 3, "shutouts": 4, "gaa": 2.17, "svPct": 0.922 },
+      { "year": 2022, "team": "CAR", "gp": 34, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 21, "losses": 11, "otl": 1, "shutouts": 2, "gaa": 2.48, "svPct": 0.903 },
+      { "year": 2023, "team": "CAR", "gp": 16, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 10, "losses": 5, "otl": 0, "shutouts": 1, "gaa": 2.35, "svPct": 0.911 },
+      { "year": 2024, "team": "CAR", "gp": 22, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 13, "losses": 6, "otl": 1, "shutouts": 2, "gaa": 2.50, "svPct": 0.910 },
+      { "year": 2025, "team": "CAR", "gp": 37, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 16, "losses": 14, "otl": 5, "shutouts": 2, "gaa": 3.05, "svPct": 0.874 }
+    ] },
+    { "id": "EDM-levi", "name": "Devon Levi", "pos": "G", "age": 24, "shoots": "L", "overall": 78, "potential": 83, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "RFA" }, "history": [
+      { "year": 2022, "team": "BUF", "gp": 7, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 2, "otl": 0, "shutouts": 1, "gaa": 3.66, "svPct": 0.899 },
+      { "year": 2023, "team": "BUF", "gp": 23, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 13, "losses": 8, "otl": 1, "shutouts": 1, "gaa": 3.02, "svPct": 0.899 },
+      { "year": 2024, "team": "BUF", "gp": 20, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 8, "losses": 9, "otl": 2, "shutouts": 1, "gaa": 2.95, "svPct": 0.900 }
+    ] }
+  ],
+  "prospects": [
+    { "id": "EDM-akey", "name": "Beau Akey", "pos": "D", "age": 20, "shoots": "R", "overall": 66, "potential": 82, "nationality": "CAN", "devLeague": "AHL", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-oreilly", "name": "Sam O'Reilly", "pos": "C", "age": 20, "shoots": "R", "overall": 64, "potential": 80, "nationality": "CAN", "devLeague": "AHL", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-petrov", "name": "Matvei Petrov", "pos": "LW", "age": 22, "shoots": "L", "overall": 68, "potential": 79, "nationality": "RUS", "devLeague": "AHL", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "EDM-sharp", "name": "Zack Sharp", "pos": "D", "age": 21, "shoots": "L", "overall": 62, "potential": 76, "nationality": "USA", "devLeague": "NCAA", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "EDM-yevseyev", "name": "Nikita Yevseyev", "pos": "D", "age": 20, "shoots": "L", "overall": 64, "potential": 78, "nationality": "RUS", "devLeague": "KHL", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "EDM-wanner", "name": "Maximus Wanner", "pos": "D", "age": 21, "shoots": "R", "overall": 64, "potential": 76, "nationality": "CAN", "devLeague": "AHL", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}

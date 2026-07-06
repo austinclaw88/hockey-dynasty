@@ -1,0 +1,229 @@
+{
+  "info": { "abbrev": "MIN", "city": "Minnesota", "name": "Wild", "conference": "West",
+            "division": "Central", "color": "#154734", "colorSecondary": "#A6192E" },
+  "roster": [
+    { "id": "MIN-kaprizov", "name": "Kirill Kaprizov", "pos": "LW", "age": 29, "shoots": "L",
+      "overall": 93, "potential": 93, "nationality": "RUS",
+      "contract": { "capHit": 17.0, "yearsLeft": 8, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 81, "goals": 47, "assists": 61, "points": 108, "plusMinus": 8, "pim": 34 },
+        { "year": 2022, "team": "MIN", "gp": 67, "goals": 40, "assists": 35, "points": 75, "plusMinus": -10, "pim": 28 },
+        { "year": 2023, "team": "MIN", "gp": 75, "goals": 46, "assists": 50, "points": 96, "plusMinus": 18, "pim": 40 },
+        { "year": 2024, "team": "MIN", "gp": 41, "goals": 25, "assists": 31, "points": 56, "plusMinus": 2, "pim": 22 },
+        { "year": 2025, "team": "MIN", "gp": 78, "goals": 45, "assists": 44, "points": 89, "plusMinus": 20, "pim": 30 }
+      ] },
+    { "id": "MIN-boldy", "name": "Matt Boldy", "pos": "LW", "age": 25, "shoots": "L",
+      "overall": 86, "potential": 88, "nationality": "USA",
+      "contract": { "capHit": 7.0, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 47, "goals": 15, "assists": 24, "points": 39, "plusMinus": 1, "pim": 12 },
+        { "year": 2022, "team": "MIN", "gp": 81, "goals": 31, "assists": 32, "points": 63, "plusMinus": 1, "pim": 26 },
+        { "year": 2023, "team": "MIN", "gp": 75, "goals": 29, "assists": 40, "points": 69, "plusMinus": -6, "pim": 20 },
+        { "year": 2024, "team": "MIN", "gp": 82, "goals": 27, "assists": 46, "points": 73, "plusMinus": -4, "pim": 24 },
+        { "year": 2025, "team": "MIN", "gp": 76, "goals": 42, "assists": 43, "points": 85, "plusMinus": 12, "pim": 30 }
+      ] },
+    { "id": "MIN-eriksson-ek", "name": "Joel Eriksson Ek", "pos": "C", "age": 29, "shoots": "L",
+      "overall": 84, "potential": 84, "nationality": "SWE",
+      "contract": { "capHit": 5.25, "yearsLeft": 7, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 77, "goals": 26, "assists": 23, "points": 49, "plusMinus": 8, "pim": 52 },
+        { "year": 2022, "team": "MIN", "gp": 78, "goals": 23, "assists": 38, "points": 61, "plusMinus": 2, "pim": 42 },
+        { "year": 2023, "team": "MIN", "gp": 77, "goals": 30, "assists": 34, "points": 64, "plusMinus": 18, "pim": 46 },
+        { "year": 2024, "team": "MIN", "gp": 46, "goals": 14, "assists": 15, "points": 29, "plusMinus": 2, "pim": 28 },
+        { "year": 2025, "team": "MIN", "gp": 64, "goals": 18, "assists": 27, "points": 45, "plusMinus": 13, "pim": 30 }
+      ] },
+    { "id": "MIN-hartman", "name": "Ryan Hartman", "pos": "C", "age": 31, "shoots": "R",
+      "overall": 78, "potential": 78, "nationality": "USA",
+      "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 82, "goals": 34, "assists": 31, "points": 65, "plusMinus": 21, "pim": 88 },
+        { "year": 2022, "team": "MIN", "gp": 59, "goals": 15, "assists": 22, "points": 37, "plusMinus": 5, "pim": 54 },
+        { "year": 2023, "team": "MIN", "gp": 74, "goals": 21, "assists": 24, "points": 45, "plusMinus": 3, "pim": 67 },
+        { "year": 2024, "team": "MIN", "gp": 69, "goals": 11, "assists": 15, "points": 26, "plusMinus": -8, "pim": 82 },
+        { "year": 2025, "team": "MIN", "gp": 76, "goals": 23, "assists": 20, "points": 43, "plusMinus": 6, "pim": 70 }
+      ] },
+    { "id": "MIN-coleman", "name": "Blake Coleman", "pos": "RW", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "USA",
+      "contract": { "capHit": 2.45, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "CGY", "gp": 81, "goals": 16, "assists": 17, "points": 33, "plusMinus": 6, "pim": 41 },
+        { "year": 2022, "team": "CGY", "gp": 82, "goals": 18, "assists": 20, "points": 38, "plusMinus": 9, "pim": 55 },
+        { "year": 2023, "team": "CGY", "gp": 78, "goals": 30, "assists": 24, "points": 54, "plusMinus": 21, "pim": 44 },
+        { "year": 2024, "team": "CGY", "gp": 82, "goals": 15, "assists": 24, "points": 39, "plusMinus": -2, "pim": 40 },
+        { "year": 2025, "team": "MIN", "gp": 80, "goals": 20, "assists": 15, "points": 35, "plusMinus": 2, "pim": 42 }
+      ] },
+    { "id": "MIN-foligno-m", "name": "Marcus Foligno", "pos": "LW", "age": 35, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 74, "goals": 23, "assists": 19, "points": 42, "plusMinus": 21, "pim": 116 },
+        { "year": 2022, "team": "MIN", "gp": 65, "goals": 7, "assists": 14, "points": 21, "plusMinus": -2, "pim": 87 },
+        { "year": 2023, "team": "MIN", "gp": 55, "goals": 10, "assists": 12, "points": 22, "plusMinus": 6, "pim": 74 },
+        { "year": 2024, "team": "MIN", "gp": 77, "goals": 14, "assists": 15, "points": 29, "plusMinus": -1, "pim": 98 },
+        { "year": 2025, "team": "MIN", "gp": 56, "goals": 8, "assists": 5, "points": 13, "plusMinus": -12, "pim": 67 }
+      ] },
+    { "id": "MIN-gaudreau", "name": "Frederick Gaudreau", "pos": "C", "age": 33, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 2.1, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 66, "goals": 8, "assists": 6, "points": 14, "plusMinus": 2, "pim": 16 },
+        { "year": 2022, "team": "MIN", "gp": 67, "goals": 13, "assists": 18, "points": 31, "plusMinus": 5, "pim": 14 },
+        { "year": 2023, "team": "MIN", "gp": 79, "goals": 8, "assists": 19, "points": 27, "plusMinus": -2, "pim": 16 },
+        { "year": 2024, "team": "MIN", "gp": 82, "goals": 18, "assists": 19, "points": 37, "plusMinus": 6, "pim": 18 },
+        { "year": 2025, "team": "SEA", "gp": 68, "goals": 7, "assists": 17, "points": 24, "plusMinus": -6, "pim": 16 }
+      ] },
+    { "id": "MIN-trenin", "name": "Yakov Trenin", "pos": "C", "age": 29, "shoots": "L",
+      "overall": 76, "potential": 76, "nationality": "RUS",
+      "contract": { "capHit": 3.5, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "NSH", "gp": 80, "goals": 17, "assists": 7, "points": 24, "plusMinus": 6, "pim": 82 },
+        { "year": 2022, "team": "NSH", "gp": 77, "goals": 12, "assists": 12, "points": 24, "plusMinus": -8, "pim": 66 },
+        { "year": 2023, "team": "COL", "gp": 82, "goals": 13, "assists": 5, "points": 18, "plusMinus": -4, "pim": 74 },
+        { "year": 2024, "team": "MIN", "gp": 76, "goals": 8, "assists": 9, "points": 17, "plusMinus": 2, "pim": 70 },
+        { "year": 2025, "team": "MIN", "gp": 82, "goals": 8, "assists": 15, "points": 23, "plusMinus": 0, "pim": 60 }
+      ] },
+    { "id": "MIN-yurov", "name": "Danila Yurov", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 80, "potential": 88, "nationality": "RUS",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2025, "team": "MIN", "gp": 73, "goals": 12, "assists": 15, "points": 27, "plusMinus": -5, "pim": 28 }
+      ] },
+    { "id": "MIN-shabanov", "name": "Maxim Shabanov", "pos": "RW", "age": 25, "shoots": "L",
+      "overall": 75, "potential": 81, "nationality": "RUS",
+      "contract": { "capHit": 1.6, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2025, "team": "NYI", "gp": 44, "goals": 5, "assists": 18, "points": 23, "plusMinus": -6, "pim": 16 }
+      ] },
+    { "id": "MIN-foligno-n", "name": "Nick Foligno", "pos": "LW", "age": 38, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "USA",
+      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BOS", "gp": 64, "goals": 2, "assists": 11, "points": 13, "plusMinus": -2, "pim": 40 },
+        { "year": 2022, "team": "BOS", "gp": 60, "goals": 10, "assists": 16, "points": 26, "plusMinus": 12, "pim": 44 },
+        { "year": 2023, "team": "CHI", "gp": 74, "goals": 17, "assists": 20, "points": 37, "plusMinus": -14, "pim": 60 },
+        { "year": 2024, "team": "CHI", "gp": 78, "goals": 15, "assists": 20, "points": 35, "plusMinus": -18, "pim": 66 },
+        { "year": 2025, "team": "MIN", "gp": 58, "goals": 12, "assists": 14, "points": 26, "plusMinus": -6, "pim": 54 }
+      ] },
+    { "id": "MIN-gambrell", "name": "Dylan Gambrell", "pos": "C", "age": 29, "shoots": "R",
+      "overall": 71, "potential": 71, "nationality": "USA",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 63, "goals": 3, "assists": 4, "points": 7, "plusMinus": -6, "pim": 22 },
+        { "year": 2022, "team": "OTT", "gp": 60, "goals": 4, "assists": 6, "points": 10, "plusMinus": -8, "pim": 20 }
+      ] },
+    { "id": "MIN-hughes", "name": "Quinn Hughes", "pos": "D", "age": 26, "shoots": "L",
+      "overall": 92, "potential": 92, "nationality": "USA",
+      "contract": { "capHit": 7.85, "yearsLeft": 1, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "VAN", "gp": 76, "goals": 8, "assists": 60, "points": 68, "plusMinus": 7, "pim": 30 },
+        { "year": 2022, "team": "VAN", "gp": 78, "goals": 7, "assists": 69, "points": 76, "plusMinus": -3, "pim": 32 },
+        { "year": 2023, "team": "VAN", "gp": 82, "goals": 17, "assists": 75, "points": 92, "plusMinus": 38, "pim": 42 },
+        { "year": 2024, "team": "VAN", "gp": 68, "goals": 16, "assists": 60, "points": 76, "plusMinus": 8, "pim": 34 },
+        { "year": 2025, "team": "VAN", "gp": 74, "goals": 7, "assists": 69, "points": 76, "plusMinus": 10, "pim": 30 }
+      ] },
+    { "id": "MIN-faber", "name": "Brock Faber", "pos": "D", "age": 24, "shoots": "R",
+      "overall": 85, "potential": 90, "nationality": "USA",
+      "contract": { "capHit": 8.5, "yearsLeft": 7, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "MIN", "gp": 82, "goals": 8, "assists": 39, "points": 47, "plusMinus": -10, "pim": 30 },
+        { "year": 2024, "team": "MIN", "gp": 82, "goals": 6, "assists": 23, "points": 29, "plusMinus": -2, "pim": 28 },
+        { "year": 2025, "team": "MIN", "gp": 74, "goals": 15, "assists": 35, "points": 50, "plusMinus": 24, "pim": 26 }
+      ] },
+    { "id": "MIN-brodin", "name": "Jonas Brodin", "pos": "D", "age": 33, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "SWE",
+      "contract": { "capHit": 6.0, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 78, "goals": 5, "assists": 23, "points": 28, "plusMinus": 12, "pim": 22 },
+        { "year": 2022, "team": "MIN", "gp": 60, "goals": 3, "assists": 11, "points": 14, "plusMinus": 6, "pim": 20 },
+        { "year": 2023, "team": "MIN", "gp": 71, "goals": 7, "assists": 23, "points": 30, "plusMinus": 10, "pim": 24 },
+        { "year": 2024, "team": "MIN", "gp": 50, "goals": 4, "assists": 16, "points": 20, "plusMinus": 8, "pim": 16 },
+        { "year": 2025, "team": "MIN", "gp": 62, "goals": 4, "assists": 14, "points": 18, "plusMinus": 19, "pim": 20 }
+      ] },
+    { "id": "MIN-spurgeon", "name": "Jared Spurgeon", "pos": "D", "age": 36, "shoots": "R",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 7.575, "yearsLeft": 1, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 65, "goals": 10, "assists": 30, "points": 40, "plusMinus": 15, "pim": 22 },
+        { "year": 2022, "team": "MIN", "gp": 79, "goals": 11, "assists": 23, "points": 34, "plusMinus": 6, "pim": 26 },
+        { "year": 2023, "team": "MIN", "gp": 16, "goals": 0, "assists": 5, "points": 5, "plusMinus": -2, "pim": 6 },
+        { "year": 2024, "team": "MIN", "gp": 66, "goals": 7, "assists": 25, "points": 32, "plusMinus": 8, "pim": 20 },
+        { "year": 2025, "team": "MIN", "gp": 79, "goals": 6, "assists": 16, "points": 22, "plusMinus": 10, "pim": 24 }
+      ] },
+    { "id": "MIN-jiricek", "name": "David Jiricek", "pos": "D", "age": 22, "shoots": "R",
+      "overall": 77, "potential": 87, "nationality": "CZE",
+      "contract": { "capHit": 0.894, "yearsLeft": 1, "expiry": "RFA" },
+      "history": [
+        { "year": 2022, "team": "CBJ", "gp": 4, "goals": 0, "assists": 0, "points": 0, "plusMinus": -2, "pim": 2 },
+        { "year": 2023, "team": "CBJ", "gp": 43, "goals": 1, "assists": 9, "points": 10, "plusMinus": -12, "pim": 24 },
+        { "year": 2024, "team": "MIN", "gp": 12, "goals": 1, "assists": 2, "points": 3, "plusMinus": -2, "pim": 6 },
+        { "year": 2025, "team": "PHI", "gp": 26, "goals": 0, "assists": 0, "points": 0, "plusMinus": -6, "pim": 16 }
+      ] },
+    { "id": "MIN-maatta", "name": "Olli Maatta", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 76, "potential": 76, "nationality": "FIN",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "LAK", "gp": 70, "goals": 4, "assists": 12, "points": 16, "plusMinus": 6, "pim": 28 },
+        { "year": 2022, "team": "DET", "gp": 66, "goals": 4, "assists": 13, "points": 17, "plusMinus": -8, "pim": 30 },
+        { "year": 2023, "team": "DET", "gp": 72, "goals": 3, "assists": 15, "points": 18, "plusMinus": -6, "pim": 26 },
+        { "year": 2024, "team": "UTA", "gp": 70, "goals": 2, "assists": 16, "points": 18, "plusMinus": -4, "pim": 24 },
+        { "year": 2025, "team": "MIN", "gp": 55, "goals": 1, "assists": 9, "points": 10, "plusMinus": 2, "pim": 20 }
+      ] },
+    { "id": "MIN-bogosian", "name": "Zach Bogosian", "pos": "D", "age": 36, "shoots": "R",
+      "overall": 74, "potential": 74, "nationality": "USA",
+      "contract": { "capHit": 1.25, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "TBL", "gp": 70, "goals": 4, "assists": 11, "points": 15, "plusMinus": 10, "pim": 55 },
+        { "year": 2022, "team": "MIN", "gp": 63, "goals": 2, "assists": 10, "points": 12, "plusMinus": 8, "pim": 48 },
+        { "year": 2023, "team": "MIN", "gp": 67, "goals": 4, "assists": 9, "points": 13, "plusMinus": 6, "pim": 44 },
+        { "year": 2024, "team": "MIN", "gp": 71, "goals": 3, "assists": 10, "points": 13, "plusMinus": 10, "pim": 52 },
+        { "year": 2025, "team": "MIN", "gp": 41, "goals": 2, "assists": 4, "points": 6, "plusMinus": 2, "pim": 18 }
+      ] },
+    { "id": "MIN-gustavsson", "name": "Filip Gustavsson", "pos": "G", "age": 28, "shoots": "L",
+      "overall": 85, "potential": 85, "nationality": "SWE",
+      "contract": { "capHit": 3.75, "yearsLeft": 4, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 18, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 12, "otl": 1, "shutouts": 0, "gaa": 3.55, "svPct": 0.892 },
+        { "year": 2022, "team": "MIN", "gp": 39, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 22, "losses": 9, "otl": 7, "shutouts": 3, "gaa": 2.10, "svPct": 0.931 },
+        { "year": 2023, "team": "MIN", "gp": 45, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 20, "losses": 18, "otl": 4, "shutouts": 3, "gaa": 3.06, "svPct": 0.899 },
+        { "year": 2024, "team": "MIN", "gp": 58, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 31, "losses": 19, "otl": 6, "shutouts": 2, "gaa": 2.56, "svPct": 0.914 },
+        { "year": 2025, "team": "MIN", "gp": 50, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 28, "losses": 15, "otl": 6, "shutouts": 4, "gaa": 2.69, "svPct": 0.903 }
+      ] },
+    { "id": "MIN-wallstedt", "name": "Jesper Wallstedt", "pos": "G", "age": 23, "shoots": "L",
+      "overall": 79, "potential": 87, "nationality": "SWE",
+      "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" },
+      "history": [
+        { "year": 2023, "team": "MIN", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 2, "losses": 1, "otl": 0, "shutouts": 1, "gaa": 3.01, "svPct": 0.897 },
+        { "year": 2024, "team": "MIN", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 1, "losses": 2, "otl": 0, "shutouts": 0, "gaa": 3.30, "svPct": 0.888 },
+        { "year": 2025, "team": "MIN", "gp": 35, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 18, "losses": 9, "otl": 6, "shutouts": 4, "gaa": 2.61, "svPct": 0.915 }
+      ] },
+    { "id": "MIN-pickard", "name": "Calvin Pickard", "pos": "G", "age": 34, "shoots": "L",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "DET", "gp": 3, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 1, "losses": 1, "otl": 0, "shutouts": 0, "gaa": 2.95, "svPct": 0.905 },
+        { "year": 2023, "team": "EDM", "gp": 23, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 12, "losses": 7, "otl": 1, "shutouts": 1, "gaa": 2.45, "svPct": 0.909 },
+        { "year": 2024, "team": "EDM", "gp": 36, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 22, "losses": 10, "otl": 1, "shutouts": 1, "gaa": 2.71, "svPct": 0.900 },
+        { "year": 2025, "team": "EDM", "gp": 16, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 6, "otl": 2, "shutouts": 0, "gaa": 3.68, "svPct": 0.871 }
+      ] }
+  ],
+  "prospects": [
+    { "id": "MIN-heidt", "name": "Riley Heidt", "pos": "C", "age": 21, "shoots": "L",
+      "overall": 64, "potential": 80, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "MIN-ritchie", "name": "Ryder Ritchie", "pos": "RW", "age": 21, "shoots": "R",
+      "overall": 61, "potential": 79, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MIN-kiviharju", "name": "Aron Kiviharju", "pos": "D", "age": 20, "shoots": "L",
+      "overall": 61, "potential": 82, "nationality": "FIN", "devLeague": "Liiga",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MIN-stramel", "name": "Charlie Stramel", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 61, "potential": 78, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "MIN-kumpulainen", "name": "Rasmus Kumpulainen", "pos": "C", "age": 20, "shoots": "L",
+      "overall": 59, "potential": 79, "nationality": "FIN", "devLeague": "Liiga",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "MIN-haight", "name": "Hunter Haight", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 60, "potential": 77, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}
