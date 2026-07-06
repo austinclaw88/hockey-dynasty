@@ -1,6 +1,6 @@
 // Statistical game simulation with player-level attribution. No play-by-play.
-import type { GameState, Game, Player, TeamState } from '../types'
-import type { Rng } from './rng'
+import type { GameState, Game, Player, TeamState } from '../types.ts'
+import type { Rng } from './rng.ts'
 import {
   clamp,
   weightedAvg,
@@ -12,7 +12,7 @@ import {
   ensureStat,
   pushNews,
   type GLine,
-} from './helpers'
+} from './helpers.ts'
 
 interface TeamGameCtx {
   off: number

@@ -1,9 +1,9 @@
 // Draft: prospect-class generation, lottery, draft order, and pick logic.
-import type { GameState, Player, Position, DraftPick } from '../types'
-import type { Rng } from './rng'
-import { generateName, pickNationality } from './names'
-import { clamp, ext, rosterCounts, pushNews, type DraftResult } from './helpers'
-import { reverseStandingsOrder } from './standings'
+import type { GameState, Player, Position, DraftPick } from '../types.ts'
+import type { Rng } from './rng.ts'
+import { generateName, pickNationality } from './names.ts'
+import { clamp, ext, rosterCounts, pushNews, type DraftResult } from './helpers.ts'
+import { reverseStandingsOrder } from './standings.ts'
 
 const CLASS_SIZE = 72
 
@@ -153,4 +153,38 @@ export function finishDraft(s: GameState, rng: Rng): void {
     aiDraftPick(s, s.day, rng)
     s.day++
   }
+}
+
+export interface DraftBoard {
+  onClock: string
+  pickNumber: number
+  available: Player[]
+  results: DraftResult[]
+}
+
+export function draftBoard(s: GameState): DraftBoard {
+  const order = s.draftOrder ?? []
+  const done = s.day >= order.length
+  return {
+    onClock: done ? '' : ownerOfSlot(s, s.day),
+    pickNumber: s.day + 1,
+    available: s.draftClass,
+    results: ext(s)._draftResults ?? [],
+  }
+}
+
+/** User makes their pick at the current slot, then AI continues. */
+export function doDraftPlayer(s: GameState, playerId: string, rng: Rng): void {
+  const order = s.draftOrder
+  if (!order || s.day >= order.length) return
+  if (ownerOfSlot(s, s.day) !== s.userTeam) return
+  const player = s.draftClass.find((p) => p.id === playerId)
+  if (!player) return
+  const originalTeam = order[s.day]
+  const round = s.day < order.length / 2 ? 1 : 2
+  s.draftClass = s.draftClass.filter((p) => p.id !== player.id)
+  assignPlayer(s, s.userTeam, player, s.day)
+  removePick(s, s.userTeam, originalTeam, round)
+  s.day++
+  autoAdvanceDraft(s, rng)
 }

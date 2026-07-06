@@ -3,7 +3,7 @@ import type { GameState, Player } from '../types'
 import { callUp, sendDown, getCapUsage } from '../engine'
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag } from './components'
 import { PlayerModal } from './PlayerModal'
-import { fmtM, fmtSigned, potArrow, posGroup } from './format'
+import { fmtM, potArrow, posGroup } from './format'
 import { autoLines, isHealthy } from './util'
 
 type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals'

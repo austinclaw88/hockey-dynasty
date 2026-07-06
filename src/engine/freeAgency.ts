@@ -1,10 +1,10 @@
 // Free agency: building the FA pool, AI signings per day, and user signings.
-import type { GameState, Player, FreeAgent, Position, TeamState } from '../types'
-import { ROSTER_MAX } from '../types'
-import type { Rng } from './rng'
-import { askingFor, signingOutcome } from './contracts'
-import { generateName, pickNationality } from './names'
-import { currentCap, nextCap, teamCapUsed, rosterCounts, isForward, pushNews } from './helpers'
+import type { GameState, Player, FreeAgent, Position, TeamState } from '../types.ts'
+import { ROSTER_MAX } from '../types.ts'
+import type { Rng } from './rng.ts'
+import { askingFor, signingOutcome } from './contracts.ts'
+import { generateName, pickNationality } from './names.ts'
+import { currentCap, nextCap, teamCapUsed, rosterCounts, isForward, pushNews } from './helpers.ts'
 
 export function toFreeAgent(p: Player, cap: number): FreeAgent {
   const fa: FreeAgent = { ...p, contract: null, injuryWeeks: 0, asking: askingFor(p, cap) }

@@ -1,6 +1,6 @@
 // Small shared helpers, player predicates, and the internal extended-state type.
-import type { GameState, Player, SeasonStatLine, TeamState, Position } from '../types'
-import { SALARY_CAP, START_YEAR, SEASONS_TOTAL } from '../types'
+import type { GameState, Player, SeasonStatLine, TeamState, Position } from '../types.ts'
+import { SALARY_CAP, START_YEAR, SEASONS_TOTAL } from '../types.ts'
 
 // ---- internal extended state ---------------------------------------------
 // GameState is frozen, but we need a couple of transient bookkeeping fields

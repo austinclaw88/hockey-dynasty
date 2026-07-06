@@ -1,9 +1,9 @@
 // Contract asking prices and cap helpers. Asking prices are DETERMINISTIC
 // (hash-based per-player variation) so the UI can query them repeatedly without
 // consuming or mutating RNG state.
-import type { Player } from '../types'
-import { hash01 } from './rng'
-import { clamp } from './helpers'
+import type { Player } from '../types.ts'
+import { hash01 } from './rng.ts'
+import { clamp } from './helpers.ts'
 
 export interface Asking {
   capHit: number

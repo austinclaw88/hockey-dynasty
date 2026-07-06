@@ -1,8 +1,8 @@
 // 82-game schedule generation. Every team plays exactly 82 games over ~185
 // calendar days (Oct 8 -> Apr 10). Not the exact NHL formula, but a valid,
 // balanced round-robin-ish mix with home/away roughly split.
-import type { Game, TeamState } from '../types'
-import type { Rng } from './rng'
+import type { Game, TeamState } from '../types.ts'
+import type { Rng } from './rng.ts'
 
 export const SEASON_DAYS = 185
 
@@ -17,10 +17,11 @@ function gamesForPair(a: TeamState, b: TeamState, aIdx: number, bIdx: number, co
     n += 2 // division rivals -> 4
   } else if (ai.conf === bi.conf) {
     // Same conference, different division: 6-regular circulant bump on the two
-    // 8-team divisions. Connect ord i to ord j unless j === i or j === i+1.
+    // 8-team divisions. Exclude two symmetric opponents (same ord and the
+    // opposite ord) so every team gets exactly +6.
     const x = ai.ord
     const y = bi.ord
-    if (y !== x && y !== (x + 1) % 8 && x !== (y + 1) % 8) n += 1
+    if (y !== x && y !== (x + 4) % 8) n += 1
   }
   return n
 }

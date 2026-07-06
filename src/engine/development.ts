@@ -1,7 +1,7 @@
 // Offseason player development: aging, progression/regression, retirement.
-import type { GameState, Player, TeamState } from '../types'
-import type { Rng } from './rng'
-import { clamp, isGoalie, pushNews } from './helpers'
+import type { GameState, Player, TeamState } from '../types.ts'
+import type { Rng } from './rng.ts'
+import { clamp, isGoalie, pushNews } from './helpers.ts'
 
 /** Progression/regression delta range by (goalie-shifted) age. */
 function bandDelta(age: number, goalie: boolean, rng: Rng): number {

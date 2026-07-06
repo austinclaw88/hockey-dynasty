@@ -1,10 +1,10 @@
 // New-game setup: builds the full 32-team league from team data and generates
 // the first season's schedule.
-import type { GameState, TeamState, Player, DraftPick, TeamDataFile } from '../types'
-import { START_YEAR, SEASONS_TOTAL } from '../types'
-import { Rng, seedFrom } from './rng'
-import { buildSchedule } from './schedule'
-import { avg } from './helpers'
+import type { GameState, TeamState, Player, DraftPick, TeamDataFile } from '../types.ts'
+import { START_YEAR, SEASONS_TOTAL } from '../types.ts'
+import { Rng, seedFrom } from './rng.ts'
+import { buildSchedule } from './schedule.ts'
+import { avg } from './helpers.ts'
 
 function hydratePlayer(raw: Omit<Player, 'injuryWeeks' | 'retired'>): Player {
   return { ...raw, injuryWeeks: 0, retired: false }

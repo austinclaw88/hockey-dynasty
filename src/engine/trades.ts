@@ -1,10 +1,10 @@
 // Trade value model, evaluation, execution, and AI trade generation.
-import type { GameState, Player, DraftPick, TeamState } from '../types'
-import { ROSTER_MAX, ROSTER_MIN } from '../types'
-import type { Rng } from './rng'
-import { currentCap, teamCapUsed, rosterCounts, pushNews } from './helpers'
-import { askingFor } from './contracts'
-import { computeStandings, sortRows } from './standings'
+import type { GameState, Player, DraftPick, TeamState } from '../types.ts'
+import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
+import type { Rng } from './rng.ts'
+import { currentCap, teamCapUsed, rosterCounts, pushNews } from './helpers.ts'
+import { askingFor } from './contracts.ts'
+import { computeStandings, sortRows } from './standings.ts'
 
 export interface TradeOffer {
   from: string

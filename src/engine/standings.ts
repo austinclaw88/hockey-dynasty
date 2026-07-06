@@ -1,5 +1,5 @@
 // Standings computation from played games, plus playoff seeding.
-import type { GameState, StandingsRow, Division, Conference } from '../types'
+import type { GameState, StandingsRow, Division, Conference } from '../types.ts'
 
 export function computeStandings(s: GameState): Record<string, StandingsRow> {
   const rows: Record<string, StandingsRow> = {}

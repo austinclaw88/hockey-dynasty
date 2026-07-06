@@ -81,11 +81,9 @@ function WildcardTable({
     const rows = sortRows(standings.byDivision[div] ?? [], { key: 'pts', dir: -1 })
     pool.push(...rows.slice(3))
   }
-  const sorted = sortRows(pool, { key: 'pts', dir: -1 })
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'pts', dir: -1 })
   const finalRows = sortRows(pool, sort)
   const showCut = sort.key === 'pts' && sort.dir === -1
-  void sorted
   return (
     <Card title={`${conf} Wildcard Race`}>
       <StandingsTableBody rows={finalRows} userTeam={userTeam} s={s} sort={sort} setSort={setSort} cutAfter={showCut ? 2 : -1} rank />

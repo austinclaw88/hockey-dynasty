@@ -182,7 +182,7 @@ function PhaseBanner({
 }
 
 function NewsFeed({ s }: { s: GameState }) {
-  const items = [...s.news].slice(-60).reverse()
+  const items = s.news.slice(0, 60) // engine stores news newest-first
   if (items.length === 0) {
     return <div className="news-empty">No news yet. Sim some games to get things rolling.</div>
   }

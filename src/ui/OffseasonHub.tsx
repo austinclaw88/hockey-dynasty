@@ -466,7 +466,7 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
 
         <Card title="Signing Ticker">
           <div className="news ticker" style={{ maxHeight: 520 }}>
-            {[...s.news].slice(-40).reverse().map((n, i) => (
+            {s.news.slice(0, 40).map((n, i) => (
               <div className="news-item" key={i}>
                 <span>{n.text}</span>
               </div>

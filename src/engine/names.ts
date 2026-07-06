@@ -2,7 +2,7 @@
 // players. ~80 first + ~80 last names per major hockey nation. Deterministic
 // selection is done by the caller via the seeded RNG.
 
-import type { Rng } from './rng'
+import type { Rng } from './rng.ts'
 
 interface NamePool {
   first: string[]
