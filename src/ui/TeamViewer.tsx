@@ -34,11 +34,11 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
   const prospects = [...team.prospects].sort((a, b) => posGroup(a.pos) - posGroup(b.pos) || b.overall - a.overall)
   const picks = [...team.picks].sort((a, b) => a.year - b.year || a.round - b.round)
 
-  function th(key: SortKey, label: string, num = false) {
+  function th(key: SortKey, label: string, num = false, cls = '') {
     const active = sort.key === key
     return (
       <th
-        className={`sortable ${num ? 'num' : ''}`}
+        className={`sortable ${num ? 'num' : ''} ${cls}`}
         onClick={() => setSort((p) => ({ key, dir: p.key === key && p.dir === -1 ? 1 : -1 }))}
       >
         {label}
@@ -98,9 +98,9 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
                   <tr>
                     {th('name', 'Player')}
                     {th('pos', 'Pos')}
-                    {th('age', 'Age', true)}
+                    {th('age', 'Age', true, 'm-hide')}
                     {th('overall', 'OVR', true)}
-                    {th('potential', 'POT', true)}
+                    {th('potential', 'POT', true, 'm-hide')}
                     {th('capHit', 'Cap', true)}
                     <th>Exp</th>
                   </tr>
@@ -117,11 +117,11 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
                         <td>
                           <PosTag pos={p.pos} />
                         </td>
-                        <td className="num">{p.age}</td>
+                        <td className="num m-hide">{p.age}</td>
                         <td className="num">
                           <OvrBadge overall={p.overall} />
                         </td>
-                        <td className="num">
+                        <td className="num m-hide">
                           {p.potential}
                           <span className={pot.cls}> {pot.symbol}</span>
                         </td>

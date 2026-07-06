@@ -22,7 +22,10 @@ export function Header({ s, userRow }: { s: GameState; userRow?: StandingsRow })
         <TeamLogo team={team} size={46} fallback={<span className="header-crest">{team.abbrev}</span>} />
         <div className="header-titles">
           <div className="header-team">
-            {team.city} {team.name}
+            <span className="header-abbrev">{team.abbrev}</span>
+            <span className="header-fullname">
+              {team.city} {team.name}
+            </span>
           </div>
           <div className="header-sub">
             <span>{seasonLabel(s.seasonYear)}</span>

@@ -56,7 +56,7 @@ export function Leaders({ s }: { s: GameState }) {
                   <th className="num">W</th>
                   <th className="num">L</th>
                   <th className="num">OTL</th>
-                  <th className="num">SO</th>
+                  <th className="num m-hide">SO</th>
                   <th className="num">GAA</th>
                   <th className="num">SV%</th>
                 </tr>
@@ -71,8 +71,8 @@ export function Leaders({ s }: { s: GameState }) {
                   <th className="num">G</th>
                   <th className="num">A</th>
                   <th className="num">PTS</th>
-                  <th className="num">+/-</th>
-                  <th className="num">PIM</th>
+                  <th className="num m-hide">+/-</th>
+                  <th className="num m-hide">PIM</th>
                 </tr>
               )}
             </thead>
@@ -132,7 +132,7 @@ function LeaderRow({
           <td className="num">{line.wins ?? 0}</td>
           <td className="num">{line.losses ?? 0}</td>
           <td className="num">{line.otl ?? 0}</td>
-          <td className="num">{line.shutouts ?? 0}</td>
+          <td className="num m-hide">{line.shutouts ?? 0}</td>
           <td className="num">{fmtGaa(line.gaa)}</td>
           <td className="num">{fmtSvPct(line.svPct)}</td>
         </>
@@ -146,8 +146,8 @@ function LeaderRow({
           <td className="num" style={{ fontWeight: tab === 'assists' ? 500 : 800 }}>
             {line.points}
           </td>
-          <td className="num">{fmtSigned(line.plusMinus)}</td>
-          <td className="num">{line.pim}</td>
+          <td className="num m-hide">{fmtSigned(line.plusMinus)}</td>
+          <td className="num m-hide">{line.pim}</td>
         </>
       )}
     </tr>

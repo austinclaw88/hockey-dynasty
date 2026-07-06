@@ -14,6 +14,7 @@ import { TradeOptionsModal } from './TradeOptions'
 import { fmtM, seasonLabel, potArrow } from './format'
 import { buildPlayerIndex } from './util'
 import { useUI, type TradeIntent } from './uiContext'
+import { useMediaQuery } from './useMediaQuery'
 
 const DEADLINE_DAY = 120
 const pickKey = (p: DraftPick) => `${p.year}-${p.round}-${p.originalTeam}`
@@ -243,7 +244,7 @@ export function Trades({
                 <span>Accepted</span>
               </div>
               <div className="row" style={{ marginTop: 14 }}>
-                <button className="btn btn-primary btn-lg" disabled={!allowed.ok || !evalResult.accept} onClick={execute}>
+                <button className="btn btn-primary btn-lg btn-mblock" disabled={!allowed.ok || !evalResult.accept} onClick={execute}>
                   {evalResult.accept ? 'Execute Trade' : 'They Won’t Accept'}
                 </button>
                 {!evalResult.accept && <span className="hint">Sweeten the package to get it over the line.</span>}
@@ -453,13 +454,33 @@ function AssetColumn({
   togglePlayer: (id: string) => void
   togglePick: (k: string) => void
 }) {
+  const isMobile = useMediaQuery('(max-width: 720px)')
+  const [collapsed, setCollapsed] = useState(false)
   if (!team) return <Card title={title}><div className="news-empty">Pick a partner.</div></Card>
   const roster = [...team.roster].sort((a, b) => b.overall - a.overall)
   const prospects = [...team.prospects].sort((a, b) => b.overall - a.overall)
   const picks = [...team.picks].sort((a, b) => a.year - b.year || a.round - b.round)
+  const selCount = selPlayers.size + selPicks.size
+  const showBody = !isMobile || !collapsed
   return (
-    <Card title={title}>
-      <div style={{ maxHeight: 460, overflowY: 'auto' }}>
+    <Card
+      title={title}
+      right={
+        isMobile ? (
+          <button
+            type="button"
+            className="btn btn-sm btn-ghost"
+            aria-expanded={showBody}
+            onClick={() => setCollapsed((c) => !c)}
+          >
+            {selCount > 0 ? `${selCount} selected · ` : ''}
+            {collapsed ? 'Show' : 'Hide'}
+          </button>
+        ) : undefined
+      }
+    >
+      {showBody && (
+      <div style={{ maxHeight: isMobile ? 'none' : 460, overflowY: 'auto' }}>
         <div className="group-label">Roster</div>
         {roster.map((p) => (
           <PlayerAsset
@@ -509,6 +530,7 @@ function AssetColumn({
           </>
         )}
       </div>
+      )}
     </Card>
   )
 }

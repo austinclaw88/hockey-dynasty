@@ -73,7 +73,7 @@ export function Dashboard({
 
       {canSim && (
         <Card title="Simulate">
-          <div className="card-pad row">
+          <div className="card-pad row sim-buttons">
             {todayGame && (
               <button className="btn btn-accent" disabled={busy} onClick={playToday} title="Play out today's game period by period">
                 🏒 Play Today’s Game
