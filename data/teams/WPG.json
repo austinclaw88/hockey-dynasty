@@ -1,394 +1,89 @@
 {
-  "info": {
-    "abbrev": "WPG",
-    "city": "Winnipeg",
-    "name": "Jets",
-    "conference": "West",
-    "division": "Central",
-    "color": "#041E42",
-    "colorSecondary": "#004C97"
-  },
+  "info": { "abbrev": "WPG", "city": "Winnipeg", "name": "Jets", "conference": "West",
+            "division": "Central", "color": "#041E42", "colorSecondary": "#004C97" },
   "roster": [
-    {
-      "id": "WPG-connor",
-      "name": "Kyle Connor",
-      "pos": "LW",
-      "age": 28,
-      "shoots": "L",
-      "overall": 89,
-      "potential": 89,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 7.14,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-scheifele",
-      "name": "Mark Scheifele",
-      "pos": "C",
-      "age": 32,
-      "shoots": "R",
-      "overall": 88,
-      "potential": 88,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 8.5,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "WPG-vilardi",
-      "name": "Gabriel Vilardi",
-      "pos": "RW",
-      "age": 26,
-      "shoots": "R",
-      "overall": 84,
-      "potential": 86,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 7.5,
-        "yearsLeft": 6,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-perfetti",
-      "name": "Cole Perfetti",
-      "pos": "LW",
-      "age": 23,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 86,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 3.25,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "WPG-toews",
-      "name": "Jonathan Toews",
-      "pos": "C",
-      "age": 37,
-      "shoots": "L",
-      "overall": 80,
-      "potential": 80,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 2,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-lowry",
-      "name": "Adam Lowry",
-      "pos": "C",
-      "age": 32,
-      "shoots": "L",
-      "overall": 79,
-      "potential": 79,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 3.25,
-        "yearsLeft": 3,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "WPG-niederreiter",
-      "name": "Nino Niederreiter",
-      "pos": "RW",
-      "age": 33,
-      "shoots": "L",
-      "overall": 79,
-      "potential": 79,
-      "nationality": "SUI",
-      "contract": {
-        "capHit": 4,
-        "yearsLeft": 3,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-nyquist",
-      "name": "Gustav Nyquist",
-      "pos": "RW",
-      "age": 36,
-      "shoots": "L",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 3.25,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-namestnikov",
-      "name": "Vladislav Namestnikov",
-      "pos": "C",
-      "age": 32,
-      "shoots": "L",
-      "overall": 77,
-      "potential": 77,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 2,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-iafallo",
-      "name": "Alex Iafallo",
-      "pos": "LW",
-      "age": 31,
-      "shoots": "L",
-      "overall": 77,
-      "potential": 77,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-pearson",
-      "name": "Tanner Pearson",
-      "pos": "LW",
-      "age": 33,
-      "shoots": "L",
-      "overall": 75,
-      "potential": 75,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-barron",
-      "name": "Morgan Barron",
-      "pos": "C",
-      "age": 26,
-      "shoots": "L",
-      "overall": 75,
-      "potential": 76,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.35,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-morrissey",
-      "name": "Josh Morrissey",
-      "pos": "D",
-      "age": 30,
-      "shoots": "L",
-      "overall": 88,
-      "potential": 88,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 6.25,
-        "yearsLeft": 3,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "WPG-pionk",
-      "name": "Neal Pionk",
-      "pos": "D",
-      "age": 30,
-      "shoots": "R",
-      "overall": 81,
-      "potential": 81,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 5.875,
-        "yearsLeft": 5,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-demelo",
-      "name": "Dylan DeMelo",
-      "pos": "D",
-      "age": 32,
-      "shoots": "R",
-      "overall": 80,
-      "potential": 80,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 4.9,
-        "yearsLeft": 3,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-samberg",
-      "name": "Dylan Samberg",
-      "pos": "D",
-      "age": 26,
-      "shoots": "L",
-      "overall": 80,
-      "potential": 83,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4,
-        "yearsLeft": 4,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-stanley",
-      "name": "Logan Stanley",
-      "pos": "D",
-      "age": 27,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.55,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-heinola",
-      "name": "Ville Heinola",
-      "pos": "D",
-      "age": 24,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 79,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 0.875,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "WPG-fleury",
-      "name": "Haydn Fleury",
-      "pos": "D",
-      "age": 29,
-      "shoots": "L",
-      "overall": 73,
-      "potential": 73,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.9,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "WPG-hellebuyck",
-      "name": "Connor Hellebuyck",
-      "pos": "G",
-      "age": 32,
-      "shoots": "L",
-      "overall": 94,
-      "potential": 94,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 8.5,
-        "yearsLeft": 5,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "WPG-comrie",
-      "name": "Eric Comrie",
-      "pos": "G",
-      "age": 30,
-      "shoots": "L",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.35,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    }
+    { "id": "WPG-connor", "name": "Kyle Connor", "pos": "LW", "age": 29, "shoots": "L",
+      "overall": 89, "potential": 89, "nationality": "USA",
+      "contract": { "capHit": 12.0, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "WPG-scheifele", "name": "Mark Scheifele", "pos": "C", "age": 33, "shoots": "R",
+      "overall": 88, "potential": 88, "nationality": "CAN",
+      "contract": { "capHit": 8.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "WPG-vilardi", "name": "Gabriel Vilardi", "pos": "RW", "age": 27, "shoots": "R",
+      "overall": 85, "potential": 85, "nationality": "CAN",
+      "contract": { "capHit": 7.5, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "WPG-perfetti", "name": "Cole Perfetti", "pos": "LW", "age": 24, "shoots": "L",
+      "overall": 82, "potential": 86, "nationality": "CAN",
+      "contract": { "capHit": 5.0, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WPG-lowry", "name": "Adam Lowry", "pos": "C", "age": 33, "shoots": "L",
+      "overall": 79, "potential": 79, "nationality": "CAN",
+      "contract": { "capHit": 3.25, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "WPG-niederreiter", "name": "Nino Niederreiter", "pos": "RW", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "SUI",
+      "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WPG-iafallo", "name": "Alex Iafallo", "pos": "LW", "age": 32, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "USA",
+      "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "WPG-namestnikov", "name": "Vladislav Namestnikov", "pos": "C", "age": 33, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "RUS",
+      "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "WPG-barron", "name": "Morgan Barron", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 75, "potential": 75, "nationality": "CAN",
+      "contract": { "capHit": 1.35, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "WPG-gregor", "name": "Noah Gregor", "pos": "LW", "age": 28, "shoots": "L",
+      "overall": 73, "potential": 73, "nationality": "CAN",
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "WPG-lambert", "name": "Brad Lambert", "pos": "C", "age": 22, "shoots": "R",
+      "overall": 74, "potential": 84, "nationality": "FIN",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WPG-chibrikov", "name": "Nikita Chibrikov", "pos": "RW", "age": 23, "shoots": "L",
+      "overall": 73, "potential": 80, "nationality": "RUS",
+      "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "WPG-morrissey", "name": "Josh Morrissey", "pos": "D", "age": 31, "shoots": "L",
+      "overall": 88, "potential": 88, "nationality": "CAN",
+      "contract": { "capHit": 6.25, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "WPG-pionk", "name": "Neal Pionk", "pos": "D", "age": 31, "shoots": "R",
+      "overall": 81, "potential": 81, "nationality": "USA",
+      "contract": { "capHit": 5.875, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "WPG-demelo", "name": "Dylan DeMelo", "pos": "D", "age": 33, "shoots": "R",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 4.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WPG-samberg", "name": "Dylan Samberg", "pos": "D", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "USA",
+      "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "WPG-ferraro", "name": "Mario Ferraro", "pos": "D", "age": 28, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "WPG-stanley", "name": "Logan Stanley", "pos": "D", "age": 28, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 1.55, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "WPG-heinola", "name": "Ville Heinola", "pos": "D", "age": 25, "shoots": "L",
+      "overall": 74, "potential": 79, "nationality": "FIN",
+      "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WPG-hellebuyck", "name": "Connor Hellebuyck", "pos": "G", "age": 33, "shoots": "L",
+      "overall": 94, "potential": 94, "nationality": "USA",
+      "contract": { "capHit": 8.5, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "WPG-skinner", "name": "Stuart Skinner", "pos": "G", "age": 27, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 3.75, "yearsLeft": 2, "expiry": "UFA" } }
   ],
   "prospects": [
-    {
-      "id": "WPG-barlow",
-      "name": "Colby Barlow",
-      "pos": "LW",
-      "age": 20,
-      "shoots": "R",
-      "overall": 64,
-      "potential": 85,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "WPG-yager",
-      "name": "Brayden Yager",
-      "pos": "C",
-      "age": 20,
-      "shoots": "R",
-      "overall": 64,
-      "potential": 86,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "WPG-salomonsson",
-      "name": "Elias Salomonsson",
-      "pos": "D",
-      "age": 21,
-      "shoots": "R",
-      "overall": 63,
-      "potential": 82,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "WPG-chibrikov",
-      "name": "Nikita Chibrikov",
-      "pos": "RW",
-      "age": 22,
-      "shoots": "L",
-      "overall": 66,
-      "potential": 80,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    }
+    { "id": "WPG-barlow", "name": "Colby Barlow", "pos": "LW", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 84, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WPG-yager", "name": "Brayden Yager", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 85, "nationality": "CAN", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WPG-salomonsson", "name": "Elias Salomonsson", "pos": "D", "age": 22, "shoots": "R",
+      "overall": 66, "potential": 82, "nationality": "SWE", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WPG-bjorck", "name": "Viggo Bjorck", "pos": "C", "age": 18, "shoots": "L",
+      "overall": 62, "potential": 86, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WPG-he", "name": "Kevin He", "pos": "LW", "age": 19, "shoots": "L",
+      "overall": 60, "potential": 79, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WPG-freij", "name": "Alfons Freij", "pos": "D", "age": 19, "shoots": "L",
+      "overall": 59, "potential": 79, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } }
   ]
 }

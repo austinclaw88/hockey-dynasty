@@ -1,394 +1,95 @@
 {
-  "info": {
-    "abbrev": "COL",
-    "city": "Colorado",
-    "name": "Avalanche",
-    "conference": "West",
-    "division": "Central",
-    "color": "#6F263D",
-    "colorSecondary": "#236192"
-  },
+  "info": { "abbrev": "COL", "city": "Colorado", "name": "Avalanche", "conference": "West",
+            "division": "Central", "color": "#6F263D", "colorSecondary": "#236192" },
   "roster": [
-    {
-      "id": "COL-mackinnon",
-      "name": "Nathan MacKinnon",
-      "pos": "C",
-      "age": 30,
-      "shoots": "R",
-      "overall": 96,
-      "potential": 96,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 12.6,
-        "yearsLeft": 6,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "COL-necas",
-      "name": "Martin Necas",
-      "pos": "RW",
-      "age": 26,
-      "shoots": "R",
-      "overall": 86,
-      "potential": 86,
-      "nationality": "CZE",
-      "contract": {
-        "capHit": 6.5,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-landeskog",
-      "name": "Gabriel Landeskog",
-      "pos": "LW",
-      "age": 32,
-      "shoots": "L",
-      "overall": 84,
-      "potential": 84,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 7,
-        "yearsLeft": 4,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "COL-nelson",
-      "name": "Brock Nelson",
-      "pos": "C",
-      "age": 33,
-      "shoots": "L",
-      "overall": 83,
-      "potential": 83,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 7.5,
-        "yearsLeft": 3,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-nichushkin",
-      "name": "Valeri Nichushkin",
-      "pos": "RW",
-      "age": 30,
-      "shoots": "L",
-      "overall": 83,
-      "potential": 83,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 6.125,
-        "yearsLeft": 5,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-lehkonen",
-      "name": "Artturi Lehkonen",
-      "pos": "LW",
-      "age": 30,
-      "shoots": "L",
-      "overall": 82,
-      "potential": 82,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 4.5,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-colton",
-      "name": "Ross Colton",
-      "pos": "C",
-      "age": 28,
-      "shoots": "L",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4,
-        "yearsLeft": 4,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-oconnor",
-      "name": "Logan O'Connor",
-      "pos": "RW",
-      "age": 29,
-      "shoots": "R",
-      "overall": 76,
-      "potential": 76,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 2.5,
-        "yearsLeft": 3,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-kelly",
-      "name": "Parker Kelly",
-      "pos": "C",
-      "age": 26,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 75,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.1,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-kiviranta",
-      "name": "Joel Kiviranta",
-      "pos": "LW",
-      "age": 29,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "FIN",
-      "contract": {
-        "capHit": 1.1,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-ivan",
-      "name": "Ivan Ivan",
-      "pos": "C",
-      "age": 23,
-      "shoots": "L",
-      "overall": 73,
-      "potential": 76,
-      "nationality": "CZE",
-      "contract": {
-        "capHit": 0.8,
-        "yearsLeft": 1,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "COL-makar",
-      "name": "Cale Makar",
-      "pos": "D",
-      "age": 26,
-      "shoots": "R",
-      "overall": 94,
-      "potential": 94,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 9,
-        "yearsLeft": 2,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "COL-toews",
-      "name": "Devon Toews",
-      "pos": "D",
-      "age": 31,
-      "shoots": "L",
-      "overall": 88,
-      "potential": 88,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 7.25,
-        "yearsLeft": 7,
-        "expiry": "UFA",
-        "ntc": true
-      }
-    },
-    {
-      "id": "COL-girard",
-      "name": "Samuel Girard",
-      "pos": "D",
-      "age": 27,
-      "shoots": "L",
-      "overall": 80,
-      "potential": 80,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 5,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-manson",
-      "name": "Josh Manson",
-      "pos": "D",
-      "age": 33,
-      "shoots": "R",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 4.5,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-burns",
-      "name": "Brent Burns",
-      "pos": "D",
-      "age": 40,
-      "shoots": "R",
-      "overall": 77,
-      "potential": 77,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-brannstrom",
-      "name": "Erik Brannstrom",
-      "pos": "D",
-      "age": 26,
-      "shoots": "L",
-      "overall": 74,
-      "potential": 75,
-      "nationality": "SWE",
-      "contract": {
-        "capHit": 0.9,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-malinski",
-      "name": "Sam Malinski",
-      "pos": "D",
-      "age": 27,
-      "shoots": "R",
-      "overall": 74,
-      "potential": 74,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.85,
-        "yearsLeft": 1,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-blackwood",
-      "name": "Mackenzie Blackwood",
-      "pos": "G",
-      "age": 28,
-      "shoots": "L",
-      "overall": 85,
-      "potential": 85,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 5.25,
-        "yearsLeft": 5,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-wedgewood",
-      "name": "Scott Wedgewood",
-      "pos": "G",
-      "age": 33,
-      "shoots": "L",
-      "overall": 78,
-      "potential": 78,
-      "nationality": "CAN",
-      "contract": {
-        "capHit": 1.5,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    },
-    {
-      "id": "COL-drury",
-      "name": "Jack Drury",
-      "pos": "C",
-      "age": 25,
-      "shoots": "L",
-      "overall": 77,
-      "potential": 79,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 1.725,
-        "yearsLeft": 2,
-        "expiry": "UFA"
-      }
-    }
+    { "id": "COL-mackinnon", "name": "Nathan MacKinnon", "pos": "C", "age": 31, "shoots": "R",
+      "overall": 96, "potential": 96, "nationality": "CAN",
+      "contract": { "capHit": 12.6, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
+    { "id": "COL-necas", "name": "Martin Necas", "pos": "RW", "age": 27, "shoots": "R",
+      "overall": 86, "potential": 86, "nationality": "CZE",
+      "contract": { "capHit": 11.5, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "COL-nelson", "name": "Brock Nelson", "pos": "C", "age": 34, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "USA",
+      "contract": { "capHit": 7.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "COL-landeskog", "name": "Gabriel Landeskog", "pos": "LW", "age": 33, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "SWE",
+      "contract": { "capHit": 7.0, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "COL-kadri", "name": "Nazem Kadri", "pos": "C", "age": 35, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 5.6, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "COL-lehkonen", "name": "Artturi Lehkonen", "pos": "LW", "age": 31, "shoots": "L",
+      "overall": 82, "potential": 82, "nationality": "FIN",
+      "contract": { "capHit": 4.5, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "COL-schwartz", "name": "Jaden Schwartz", "pos": "LW", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 3.25, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "COL-roy", "name": "Nicolas Roy", "pos": "C", "age": 29, "shoots": "R",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "COL-oconnor", "name": "Logan O'Connor", "pos": "RW", "age": 30, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "COL-svechkov", "name": "Fedor Svechkov", "pos": "C", "age": 23, "shoots": "L",
+      "overall": 75, "potential": 82, "nationality": "RUS",
+      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "COL-lheureux", "name": "Zachary L'Heureux", "pos": "LW", "age": 23, "shoots": "L",
+      "overall": 75, "potential": 82, "nationality": "CAN",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "COL-kelly", "name": "Parker Kelly", "pos": "C", "age": 27, "shoots": "L",
+      "overall": 74, "potential": 74, "nationality": "CAN",
+      "contract": { "capHit": 1.1, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "COL-ivan", "name": "Ivan Ivan", "pos": "C", "age": 24, "shoots": "L",
+      "overall": 73, "potential": 76, "nationality": "CZE",
+      "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-makar", "name": "Cale Makar", "pos": "D", "age": 27, "shoots": "R",
+      "overall": 94, "potential": 94, "nationality": "CAN",
+      "contract": { "capHit": 9.0, "yearsLeft": 1, "expiry": "UFA", "ntc": true } },
+    { "id": "COL-toews", "name": "Devon Toews", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 87, "potential": 87, "nationality": "CAN",
+      "contract": { "capHit": 7.25, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "COL-girard", "name": "Samuel Girard", "pos": "D", "age": 28, "shoots": "L",
+      "overall": 80, "potential": 80, "nationality": "CAN",
+      "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "COL-kulak", "name": "Brett Kulak", "pos": "D", "age": 32, "shoots": "L",
+      "overall": 77, "potential": 77, "nationality": "CAN",
+      "contract": { "capHit": 4.5, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "COL-malinski", "name": "Sam Malinski", "pos": "D", "age": 28, "shoots": "R",
+      "overall": 74, "potential": 74, "nationality": "USA",
+      "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-juulsen", "name": "Noah Juulsen", "pos": "D", "age": 29, "shoots": "R",
+      "overall": 72, "potential": 72, "nationality": "CAN",
+      "contract": { "capHit": 1.1, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "COL-burns", "name": "Brent Burns", "pos": "D", "age": 41, "shoots": "R",
+      "overall": 76, "potential": 76, "nationality": "CAN",
+      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "COL-blackwood", "name": "Mackenzie Blackwood", "pos": "G", "age": 29, "shoots": "L",
+      "overall": 85, "potential": 85, "nationality": "CAN",
+      "contract": { "capHit": 5.25, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "COL-wedgewood", "name": "Scott Wedgewood", "pos": "G", "age": 34, "shoots": "L",
+      "overall": 78, "potential": 78, "nationality": "CAN",
+      "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" } }
   ],
   "prospects": [
-    {
-      "id": "COL-brindley",
-      "name": "Gavin Brindley",
-      "pos": "C",
-      "age": 20,
-      "shoots": "R",
-      "overall": 64,
-      "potential": 85,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "COL-gulyayev",
-      "name": "Mikhail Gulyayev",
-      "pos": "D",
-      "age": 20,
-      "shoots": "L",
-      "overall": 62,
-      "potential": 83,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "COL-behrens",
-      "name": "Sean Behrens",
-      "pos": "D",
-      "age": 22,
-      "shoots": "L",
-      "overall": 62,
-      "potential": 79,
-      "nationality": "USA",
-      "contract": {
-        "capHit": 0.855,
-        "yearsLeft": 2,
-        "expiry": "RFA"
-      }
-    },
-    {
-      "id": "COL-prishchepov",
-      "name": "Nikita Prishchepov",
-      "pos": "C",
-      "age": 20,
-      "shoots": "L",
-      "overall": 60,
-      "potential": 78,
-      "nationality": "RUS",
-      "contract": {
-        "capHit": 0.925,
-        "yearsLeft": 3,
-        "expiry": "RFA"
-      }
-    }
+    { "id": "COL-brindley", "name": "Gavin Brindley", "pos": "C", "age": 21, "shoots": "R",
+      "overall": 68, "potential": 85, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-gulyayev", "name": "Mikhail Gulyayev", "pos": "D", "age": 21, "shoots": "L",
+      "overall": 64, "potential": 83, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "COL-behrens", "name": "Sean Behrens", "pos": "D", "age": 23, "shoots": "L",
+      "overall": 66, "potential": 79, "nationality": "USA", "devLeague": "AHL",
+      "contract": { "capHit": 0.855, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "COL-shilov", "name": "Egor Shilov", "pos": "LW", "age": 19, "shoots": "L",
+      "overall": 60, "potential": 80, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-hamilton", "name": "Beckett Hamilton", "pos": "C", "age": 18, "shoots": "R",
+      "overall": 59, "potential": 80, "nationality": "CAN", "devLeague": "CHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-elofsson", "name": "Axel Elofsson", "pos": "D", "age": 19, "shoots": "R",
+      "overall": 58, "potential": 78, "nationality": "SWE", "devLeague": "SHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "COL-prishchepov", "name": "Nikita Prishchepov", "pos": "C", "age": 21, "shoots": "L",
+      "overall": 60, "potential": 78, "nationality": "RUS", "devLeague": "KHL",
+      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } }
   ]
 }
