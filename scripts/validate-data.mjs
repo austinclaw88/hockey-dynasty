@@ -49,7 +49,7 @@ function checkPlayer(p, team, kind) {
     if (!c) return errors.push(`${ctx}: roster player must have contract`)
   }
   if (c) {
-    if (typeof c.capHit !== 'number' || c.capHit < 0.7 || c.capHit > 16) errors.push(`${ctx}: bad capHit ${c.capHit}`)
+    if (typeof c.capHit !== 'number' || c.capHit < 0.7 || c.capHit > 18) errors.push(`${ctx}: bad capHit ${c.capHit}`)
     if (!Number.isInteger(c.yearsLeft) || c.yearsLeft < 1 || c.yearsLeft > 8) errors.push(`${ctx}: bad yearsLeft ${c.yearsLeft}`)
     if (!['RFA', 'UFA'].includes(c.expiry)) errors.push(`${ctx}: bad expiry`)
   }
