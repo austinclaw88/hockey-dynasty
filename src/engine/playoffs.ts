@@ -50,6 +50,7 @@ export function startPlayoffs(s: GameState, rng: Rng): void {
   }
   s.playoffs = all
   s.phase = 'playoffs'
+  s.pendingOffers = [] // regular-season trade offers expire at season end
 }
 
 /** Sim the current round; build the next round. Returns true when the Cup is won. */

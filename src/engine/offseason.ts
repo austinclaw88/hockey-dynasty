@@ -3,7 +3,8 @@
 import type { GameState, Player, TeamState } from '../types.ts'
 import { SEASONS_TOTAL, ROSTER_MIN, ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { nextCap, teamCapUsed, rosterCounts, pushNews, ext } from './helpers.ts'
+import { nextCap, teamCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } from './helpers.ts'
+import { maybeGenerateUserOffers } from './trades.ts'
 import { askingFor, signingOutcome, type Asking } from './contracts.ts'
 import { runDevelopment } from './development.ts'
 import { buildDraftOrder, generateDraftClass, autoAdvanceDraft, finishDraft } from './draft.ts'
@@ -25,7 +26,7 @@ function aiWantsToKeep(team: TeamState, p: Player): boolean {
   return p.overall >= 76
 }
 
-export function prepareResign(s: GameState, _rng: Rng): void {
+export function prepareResign(s: GameState, rng: Rng): void {
   const cap = nextCap(s.seasonYear)
   for (const abbr of Object.keys(s.teams)) {
     const team = s.teams[abbr]
@@ -44,11 +45,28 @@ export function prepareResign(s: GameState, _rng: Rng): void {
       }
     }
     if (abbr === s.userTeam) continue // user resolves these manually
-    // AI: resign wanted players at asking if cap fits, else let walk.
+    // AI re-signs in DESCENDING overall so stars are prioritised for scarce cap.
+    expiring.sort((a, b) => b.overall - a.overall)
+    // Cap already committed to players who are NOT expiring (their deals carry
+    // over); expiring deals free up. Track re-signings as we make them.
+    let committed = 0
+    for (const p of team.roster) {
+      if (p.contract && p.contract.yearsLeft > 0) committed += p.contract.capHit
+    }
     for (const p of expiring) {
       const ask = askingFor(p, cap)
-      if (aiWantsToKeep(team, p) && teamCapUsed(team) + ask.capHit <= cap + 0.001) {
-        p.contract = { capHit: ask.capHit, yearsLeft: ask.years, expiry: p.age < 27 ? 'RFA' : 'UFA' }
+      const canFit = committed + ask.capHit <= cap + 0.001
+      let keep: boolean
+      if (p.overall >= 85) {
+        keep = canFit // franchise players are near-automatic; only walk if impossible
+      } else if (p.overall >= 80) {
+        keep = canFit && rng.chance(0.9) // high probability
+      } else {
+        keep = aiWantsToKeep(team, p) && canFit // depth churn unchanged
+      }
+      if (keep) {
+        p.contract = { capHit: ask.capHit, yearsLeft: ask.years, expiry: p.age < 27 ? 'RFA' : 'UFA', ntc: p.contract?.ntc }
+        committed += ask.capHit
       } else {
         team.roster = team.roster.filter((x) => x.id !== p.id)
         s.freeAgents.push(toFreeAgent(p, cap))
@@ -211,6 +229,8 @@ export function startNextSeason(s: GameState, rng: Rng): void {
   s.draftOrder = undefined
   ext(s)._draftResults = undefined
   s.offseasonStep = undefined
+  s.pendingOffers = [] // offers do not carry across seasons
+  pruneTradeBlock(s) // drop any blocked players who retired / left this offseason
   s.day = 0
   for (const abbr of Object.keys(s.teams)) {
     const team = s.teams[abbr]
@@ -249,6 +269,7 @@ export function advanceOffseasonStep(s: GameState, rng: Rng): void {
       // Run out remaining FA days, then roster check + next season.
       while (s.day < 5) {
         aiFreeAgencyDay(s, rng)
+        maybeGenerateUserOffers(s, rng, s.day, true)
         s.day++
       }
       rosterCheck(s, rng)

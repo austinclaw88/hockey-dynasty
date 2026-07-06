@@ -1,7 +1,7 @@
 // Roster moves: call up prospects / send players down.
 import type { GameState } from '../types.ts'
 import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
-import { currentCap, teamCapUsed, rosterCounts } from './helpers.ts'
+import { capForPhase, teamCapUsed, rosterCounts, pruneTradeBlock } from './helpers.ts'
 
 export function doCallUp(s: GameState, playerId: string): { ok: boolean; reason?: string } {
   const team = s.teams[s.userTeam]
@@ -9,7 +9,7 @@ export function doCallUp(s: GameState, playerId: string): { ok: boolean; reason?
   if (idx < 0) return { ok: false, reason: 'Player is not a prospect on your team.' }
   if (team.roster.length >= ROSTER_MAX) return { ok: false, reason: 'Roster is full (23).' }
   const p = team.prospects[idx]
-  const cap = currentCap(s.seasonYear)
+  const cap = capForPhase(s)
   const capHit = p.contract?.capHit ?? 0.95
   if (teamCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
   team.prospects.splice(idx, 1)
@@ -30,5 +30,6 @@ export function doSendDown(s: GameState, playerId: string): { ok: boolean; reaso
   if (!ok) return { ok: false, reason: 'Sending down would break a position minimum.' }
   team.roster.splice(idx, 1)
   team.prospects.push(p)
+  pruneTradeBlock(s) // player left the NHL roster
   return { ok: true }
 }

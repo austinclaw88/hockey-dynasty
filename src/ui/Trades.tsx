@@ -1,9 +1,18 @@
-import { useMemo, useState } from 'react'
-import type { GameState, Player, DraftPick } from '../types'
+import { useEffect, useMemo, useState } from 'react'
+import type { GameState, Player, DraftPick, PendingOffer } from '../types'
 import type { TradeOffer } from '../engine'
-import { evaluateTrade, executeTrade, getAiTradeSuggestion } from '../engine'
-import { Card, OvrBadge, PosTag, TeamLogo } from './components'
+import {
+  evaluateTrade,
+  executeTrade,
+  getAiTradeSuggestion,
+  getAiTradeSuggestionFor,
+  respondToOffer,
+  toggleTradeBlock,
+} from '../engine'
+import { Card, OvrBadge, PosTag, TeamLogo, TeamLink } from './components'
 import { fmtM, seasonLabel } from './format'
+import { buildPlayerIndex } from './util'
+import { useUI, type TradeIntent } from './uiContext'
 
 const DEADLINE_DAY = 120
 const pickKey = (p: DraftPick) => `${p.year}-${p.round}-${p.originalTeam}`
@@ -24,7 +33,18 @@ const STRATEGY_HINT: Record<GameState['teams'][string]['strategy'], string> = {
   rebuild: 'Rebuilding — hunting for picks, prospects and young players; will move veterans.',
 }
 
-export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
+export function Trades({
+  s,
+  apply,
+  intent,
+  onConsumeIntent,
+}: {
+  s: GameState
+  apply: (n: GameState) => void
+  intent: TradeIntent | null
+  onConsumeIntent: () => void
+}) {
+  const { pushToast } = useUI()
   const allowed = tradingAllowed(s)
   const others = Object.keys(s.teams)
     .filter((a) => a !== s.userTeam)
@@ -34,17 +54,43 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   const [toPlayers, setToPlayers] = useState<Set<string>>(new Set())
   const [fromPicks, setFromPicks] = useState<Set<string>>(new Set())
   const [toPicks, setToPicks] = useState<Set<string>>(new Set())
+  const [focus, setFocus] = useState<string | null>(null)
   const [notice, setNotice] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
 
   const userTeam = s.teams[s.userTeam]
   const partnerTeam = partner ? s.teams[partner] : undefined
+  const idx = useMemo(() => buildPlayerIndex(s), [s])
 
   function reset() {
     setFromPlayers(new Set())
     setToPlayers(new Set())
     setFromPicks(new Set())
     setToPicks(new Set())
+    setFocus(null)
   }
+
+  /** Load a user-perspective offer (offer.from === userTeam) into the builder. */
+  function loadOffer(o: TradeOffer) {
+    setPartner(o.to)
+    setFromPlayers(new Set(o.fromPlayers))
+    setToPlayers(new Set(o.toPlayers))
+    setFromPicks(new Set(o.fromPicks.map(pickKey)))
+    setToPicks(new Set(o.toPicks.map(pickKey)))
+    setFocus(null)
+  }
+
+  // Consume a "start a trade" intent coming from a team viewer / offer counter.
+  useEffect(() => {
+    if (!intent) return
+    if (intent.offer) loadOffer(intent.offer)
+    else {
+      setPartner(intent.partner)
+      reset()
+    }
+    setNotice(null)
+    onConsumeIntent()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [intent?.nonce])
 
   const offer: TradeOffer | null = useMemo(() => {
     if (!partner || !partnerTeam) return null
@@ -61,7 +107,9 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   }, [partner, partnerTeam, fromPlayers, toPlayers, fromPicks, toPicks, s.userTeam, userTeam.picks])
 
   const hasAssets = offer != null && (offer.fromPlayers.length + offer.fromPicks.length > 0 || offer.toPlayers.length + offer.toPicks.length > 0)
-  const evalResult = offer && allowed.ok && hasAssets ? safeEval(s, offer) : null
+  const evalResult = offer && allowed.ok && hasAssets ? evaluateTrade(s, offer) : null
+
+  const focusPlayer = focus ? idx.get(focus)?.player : undefined
 
   function askAi() {
     if (!partner) return
@@ -71,10 +119,19 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
       return
     }
     setNotice(null)
-    setFromPlayers(new Set(sug.fromPlayers))
-    setToPlayers(new Set(sug.toPlayers))
-    setFromPicks(new Set(sug.fromPicks.map(pickKey)))
-    setToPicks(new Set(sug.toPicks.map(pickKey)))
+    loadOffer(sug)
+  }
+
+  function buildAround() {
+    if (!partner || !focus || !focusPlayer) return
+    const sug = getAiTradeSuggestionFor(s, partner, focus)
+    if (!sug) {
+      pushToast('error', 'No fair deal found.')
+      return
+    }
+    setNotice(null)
+    loadOffer(sug)
+    pushToast('success', `Built a deal around ${focusPlayer.name}.`)
   }
 
   function execute() {
@@ -84,8 +141,10 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
       apply(r.s)
       reset()
       setNotice({ kind: 'ok', text: 'Trade completed.' })
+      pushToast('success', 'Trade completed.')
     } else {
       setNotice({ kind: 'err', text: r.reason ?? 'Trade rejected.' })
+      pushToast('error', r.reason ?? 'Trade rejected.')
     }
   }
 
@@ -93,10 +152,16 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
     <div className="stack">
       {!allowed.ok && <div className="notice">{allowed.reason}</div>}
 
+      {s.pendingOffers.length > 0 && (
+        <OffersInbox s={s} apply={apply} onCounter={loadOffer} />
+      )}
+
       <Card title="Trade Partner">
         <div className="card-pad">
           <div className="row">
-            <TeamLogo team={partnerTeam} size={28} />
+            <TeamLink abbrev={partner} title="View team">
+              <TeamLogo team={partnerTeam} size={28} />
+            </TeamLink>
             <select value={partner} onChange={(e) => { setPartner(e.target.value); reset(); setNotice(null) }}>
               {others.map((a) => (
                 <option key={a} value={a}>
@@ -107,6 +172,11 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
             <button className="btn" disabled={!allowed.ok} onClick={askAi}>
               Ask AI for an offer
             </button>
+            {focusPlayer && (
+              <button className="btn btn-primary" disabled={!allowed.ok} onClick={buildAround}>
+                Build deal around {focusPlayer.name.split(' ').slice(-1)[0]}
+              </button>
+            )}
             <div className="spacer" />
             <button className="btn btn-ghost" onClick={() => { reset(); setNotice(null) }}>
               Clear
@@ -114,7 +184,7 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
           </div>
           {partnerTeam && (
             <p className="hint" style={{ marginTop: 10, marginBottom: 0 }}>
-              {STRATEGY_HINT[partnerTeam.strategy]}
+              {STRATEGY_HINT[partnerTeam.strategy]} Click a player row to build a deal around them.
             </p>
           )}
         </div>
@@ -124,16 +194,22 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
         <AssetColumn
           title={`${userTeam.name} send`}
           team={userTeam}
+          block={new Set(s.tradeBlock)}
           selPlayers={fromPlayers}
           selPicks={fromPicks}
+          focus={focus}
+          onFocus={setFocus}
           togglePlayer={(id) => setFromPlayers((p) => toggle(p, id))}
           togglePick={(k) => setFromPicks((p) => toggle(p, k))}
         />
         <AssetColumn
           title={`${partnerTeam?.name ?? 'Partner'} send`}
           team={partnerTeam}
+          block={new Set()}
           selPlayers={toPlayers}
           selPicks={toPicks}
+          focus={focus}
+          onFocus={setFocus}
           togglePlayer={(id) => setToPlayers((p) => toggle(p, id))}
           togglePick={(k) => setToPicks((p) => toggle(p, k))}
         />
@@ -171,22 +247,175 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
           )}
         </div>
       </Card>
+
+      <TradeBlockCard s={s} apply={apply} />
     </div>
   )
 }
 
+// ---------------- Offers inbox ----------------
+
+function OffersInbox({ s, apply, onCounter }: { s: GameState; apply: (n: GameState) => void; onCounter: (o: TradeOffer) => void }) {
+  return (
+    <Card title={`Trade Offers · ${s.pendingOffers.length}`}>
+      <div className="card-pad stack">
+        <div className="hint">Rival GMs have proposed these deals. Accept, decline, or take them into the machine to counter.</div>
+        {s.pendingOffers.map((o) => (
+          <OfferRow key={o.id} s={s} apply={apply} offer={o} onCounter={onCounter} />
+        ))}
+      </div>
+    </Card>
+  )
+}
+
+function OfferRow({ s, apply, offer, onCounter }: { s: GameState; apply: (n: GameState) => void; offer: PendingOffer; onCounter: (o: TradeOffer) => void }) {
+  const { pushToast } = useUI()
+  const [confirming, setConfirming] = useState(false)
+  const idx = useMemo(() => buildPlayerIndex(s), [s])
+  const o = offer.offer // from === user, to === AI partner
+  const partnerTeam = s.teams[o.to]
+
+  function respond(accept: boolean) {
+    const r = respondToOffer(s, offer.id, accept)
+    if (r.ok) {
+      apply(r.s)
+      pushToast('success', accept ? 'Trade completed.' : 'Offer declined.')
+    } else {
+      pushToast('error', r.reason ?? 'Could not process that offer.')
+    }
+    setConfirming(false)
+  }
+
+  return (
+    <div className="offer-card">
+      <div className="offer-head">
+        <TeamLink abbrev={o.to} title="View team">
+          <TeamLogo team={partnerTeam} size={24} />
+          <strong>{partnerTeam?.city} {partnerTeam?.name}</strong>
+        </TeamLink>
+        <span className="hint">proposes:</span>
+      </div>
+      <div className="offer-body">
+        <div className="offer-side">
+          <div className="offer-label give">You give</div>
+          <AssetList players={o.fromPlayers} picks={o.fromPicks} idx={idx} />
+        </div>
+        <div className="offer-arrow">⇄</div>
+        <div className="offer-side">
+          <div className="offer-label get">You get</div>
+          <AssetList players={o.toPlayers} picks={o.toPicks} idx={idx} />
+        </div>
+      </div>
+      <div className="offer-actions row">
+        {confirming ? (
+          <>
+            <span className="hint">Accept this trade?</span>
+            <button className="btn btn-primary" onClick={() => respond(true)}>Confirm</button>
+            <button className="btn btn-ghost" onClick={() => setConfirming(false)}>Cancel</button>
+          </>
+        ) : (
+          <>
+            <button className="btn btn-good" onClick={() => setConfirming(true)}>Accept</button>
+            <button className="btn btn-danger" onClick={() => respond(false)}>Decline</button>
+            <button className="btn" onClick={() => onCounter(o)}>Counter in Trade Machine</button>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function AssetList({ players, picks, idx }: { players: string[]; picks: DraftPick[]; idx: ReturnType<typeof buildPlayerIndex> }) {
+  if (players.length === 0 && picks.length === 0) return <div className="hint">Nothing.</div>
+  return (
+    <div className="asset-list">
+      {players.map((id) => {
+        const p = idx.get(id)?.player
+        return (
+          <div className="asset-mini" key={id}>
+            {p ? (
+              <>
+                <PosTag pos={p.pos} />
+                <span className="a-name">{p.name}</span>
+                <OvrBadge overall={p.overall} />
+              </>
+            ) : (
+              <span className="a-name">{id}</span>
+            )}
+          </div>
+        )
+      })}
+      {picks.map((p, i) => (
+        <div className="asset-mini" key={`${pickKey(p)}-${i}`}>
+          <span className="tag">{seasonLabel(p.year)} R{p.round}</span>
+          {p.originalTeam !== p.owner && <span className="strength">via {p.originalTeam}</span>}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ---------------- Trade block ----------------
+
+function TradeBlockCard({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
+  const { pushToast } = useUI()
+  const team = s.teams[s.userTeam]
+  const blocked = s.tradeBlock
+    .map((id) => team.roster.find((p) => p.id === id))
+    .filter((p): p is Player => Boolean(p))
+
+  return (
+    <Card title={`Trade Block · ${blocked.length}`}>
+      <div className="card-pad stack" style={{ gap: 10 }}>
+        <div className="hint">Players you shop here attract AI trade offers. Remove anyone you no longer want to move.</div>
+        {blocked.length === 0 ? (
+          <div className="news-empty">No players on the block. Add some from the Roster screen.</div>
+        ) : (
+          <div className="chip-wrap">
+            {blocked.map((p) => (
+              <span key={p.id} className="block-chip">
+                <PosTag pos={p.pos} />
+                <span className="a-name">{p.name}</span>
+                <OvrBadge overall={p.overall} />
+                <button
+                  className="block-remove"
+                  title="Remove from block"
+                  onClick={() => {
+                    apply(toggleTradeBlock(s, p.id))
+                    pushToast('success', `Removed ${p.name} from the trade block.`)
+                  }}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+// ---------------- Asset columns ----------------
+
 function AssetColumn({
   title,
   team,
+  block,
   selPlayers,
   selPicks,
+  focus,
+  onFocus,
   togglePlayer,
   togglePick,
 }: {
   title: string
   team: GameState['teams'][string] | undefined
+  block: Set<string>
   selPlayers: Set<string>
   selPicks: Set<string>
+  focus: string | null
+  onFocus: (id: string) => void
   togglePlayer: (id: string) => void
   togglePick: (k: string) => void
 }) {
@@ -199,13 +428,29 @@ function AssetColumn({
       <div style={{ maxHeight: 460, overflowY: 'auto' }}>
         <div className="group-label">Roster</div>
         {roster.map((p) => (
-          <PlayerAsset key={p.id} p={p} checked={selPlayers.has(p.id)} onToggle={() => togglePlayer(p.id)} />
+          <PlayerAsset
+            key={p.id}
+            p={p}
+            checked={selPlayers.has(p.id)}
+            focused={focus === p.id}
+            onBlock={block.has(p.id)}
+            onToggle={() => togglePlayer(p.id)}
+            onFocus={() => onFocus(p.id)}
+          />
         ))}
         {prospects.length > 0 && (
           <>
             <div className="group-label">Prospects</div>
             {prospects.map((p) => (
-              <PlayerAsset key={p.id} p={p} checked={selPlayers.has(p.id)} onToggle={() => togglePlayer(p.id)} />
+              <PlayerAsset
+                key={p.id}
+                p={p}
+                checked={selPlayers.has(p.id)}
+                focused={focus === p.id}
+                onBlock={block.has(p.id)}
+                onToggle={() => togglePlayer(p.id)}
+                onFocus={() => onFocus(p.id)}
+              />
             ))}
           </>
         )}
@@ -231,18 +476,33 @@ function AssetColumn({
   )
 }
 
-function PlayerAsset({ p, checked, onToggle }: { p: Player; checked: boolean; onToggle: () => void }) {
+function PlayerAsset({
+  p,
+  checked,
+  focused,
+  onBlock,
+  onToggle,
+  onFocus,
+}: {
+  p: Player
+  checked: boolean
+  focused: boolean
+  onBlock: boolean
+  onToggle: () => void
+  onFocus: () => void
+}) {
   return (
-    <label className={`asset ${checked ? 'sel' : ''}`}>
-      <input type="checkbox" checked={checked} onChange={onToggle} />
+    <div className={`asset ${checked ? 'sel' : ''} ${focused ? 'focused' : ''}`}>
+      <input type="checkbox" checked={checked} onChange={onToggle} aria-label={`Include ${p.name}`} />
       <PosTag pos={p.pos} />
-      <span className="a-name">
+      <button type="button" className="a-name asset-name-btn" onClick={onFocus} title="Build a deal around this player">
         {p.name}
+        {onBlock && <span className="shop-badge">SHOP</span>}
         {p.contract?.ntc && <span className="ntc-tag">NTC</span>}
-      </span>
+      </button>
       <span className="strength">{p.contract ? fmtM(p.contract.capHit) : '—'}</span>
       <OvrBadge overall={p.overall} />
-    </label>
+    </div>
   )
 }
 
@@ -254,10 +514,6 @@ function toggle(set: Set<string>, key: string): Set<string> {
 }
 
 type Eval = { accept: boolean; verdict: string; delta: number }
-
-function safeEval(s: GameState, offer: TradeOffer): Eval {
-  return evaluateTrade(s, offer)
-}
 
 function verdictClass(e: Eval): string {
   if (e.accept) return 'accept'

@@ -1,11 +1,22 @@
-import type { GameState } from '../types'
+import type { GameState, Game } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
-import { Card, CapBar, TeamLogo } from './components'
-import { nextGames, teamOverall, dayLabel } from './util'
+import { Card, CapBar, TeamLogo, TeamLink } from './components'
+import { nextGames, recentGames, teamOverall, dayLabel } from './util'
 import { seasonLabel, ordinal } from './format'
 import type { TabKey } from './TabNav'
 
 const DEADLINE_DAY = 120
+
+type FormResult = 'W' | 'L' | 'OTL'
+
+/** Result of a played game from `team`'s perspective. */
+function resultFor(g: Game, team: string): FormResult {
+  const forGoals = g.home === team ? g.homeGoals ?? 0 : g.awayGoals ?? 0
+  const oppGoals = g.home === team ? g.awayGoals ?? 0 : g.homeGoals ?? 0
+  if (forGoals > oppGoals) return 'W'
+  if (g.endType === 'OT' || g.endType === 'SO') return 'OTL'
+  return 'L'
+}
 
 export function Dashboard({
   s,
@@ -70,15 +81,24 @@ export function Dashboard({
         </Card>
       )}
 
+      <FormStrip s={s} />
+
       <div className="grid dash-grid">
         <Card title="News & Transactions">
           <NewsFeed s={s} />
         </Card>
 
         <div className="stack">
+          <OffersCard s={s} onNavigate={onNavigate} />
+
           <Card title="Salary Cap">
             <div className="card-pad">
-              <CapBar used={cap.used} cap={cap.cap} />
+              <CapBar
+                used={cap.used}
+                cap={cap.cap}
+                capYear={cap.capYear}
+                note={s.phase === 'offseason' ? 'Signings count against next season’s cap.' : undefined}
+              />
             </div>
           </Card>
 
@@ -93,11 +113,13 @@ export function Dashboard({
                 return (
                   <div className="game-row" key={g.id}>
                     <span className="game-when">{dayLabel(g.day)}</span>
-                    <TeamLogo team={opp} size={22} />
-                    <span className="game-opp">
-                      <span className="ha">{home ? 'vs' : '@'}</span>
-                      {opp?.name ?? oppAbbrev}
-                    </span>
+                    <TeamLink abbrev={oppAbbrev} className="game-opp-link">
+                      <TeamLogo team={opp} size={22} />
+                      <span className="game-opp">
+                        <span className="ha">{home ? 'vs' : '@'}</span>
+                        {opp?.name ?? oppAbbrev}
+                      </span>
+                    </TeamLink>
                     <span className="strength">OVR {teamOverall(opp?.roster ?? []).toFixed(0)}</span>
                   </div>
                 )
@@ -106,6 +128,98 @@ export function Dashboard({
           </Card>
         </div>
       </div>
+    </div>
+  )
+}
+
+function OffersCard({ s, onNavigate }: { s: GameState; onNavigate: (t: TabKey) => void }) {
+  const offers = s.pendingOffers
+  if (offers.length === 0) return null
+  return (
+    <Card title={`Trade Offers · ${offers.length}`}>
+      <div className="card-pad stack" style={{ gap: 10 }}>
+        {offers.slice(0, 3).map((o) => {
+          const fromTeam = s.teams[o.offer.to] // the AI team that sent the offer
+          return (
+            <div className="offer-mini" key={o.id}>
+              <TeamLogo team={fromTeam} size={22} />
+              <span className="offer-mini-team">{fromTeam?.name ?? o.offer.to}</span>
+              <span className="hint">
+                wants {o.offer.fromPlayers.length + o.offer.fromPicks.length} · offers{' '}
+                {o.offer.toPlayers.length + o.offer.toPicks.length}
+              </span>
+            </div>
+          )
+        })}
+        <button className="btn btn-primary" onClick={() => onNavigate('trades')}>
+          Review offers →
+        </button>
+      </div>
+    </Card>
+  )
+}
+
+function FormStrip({ s }: { s: GameState }) {
+  const last10 = [...recentGames(s, s.userTeam, 10)].reverse() // most recent last
+  const last5 = recentGames(s, s.userTeam, 5) // newest first
+  if (last10.length === 0) return null
+  return (
+    <div className="grid dash-grid">
+      <Card title="Form — Last 10">
+        <div className="card-pad">
+          <div className="form-strip">
+            {last10.map((g) => {
+              const r = resultFor(g, s.userTeam)
+              const oppAbbrev = g.home === s.userTeam ? g.away : g.home
+              const opp = s.teams[oppAbbrev]
+              const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
+              const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
+              return (
+                <span
+                  key={g.id}
+                  className={`form-sq ${r.toLowerCase()}`}
+                  title={`${r} ${forGoals}-${oppGoals} vs ${opp?.name ?? oppAbbrev}${
+                    g.endType && g.endType !== 'REG' ? ` (${g.endType})` : ''
+                  }`}
+                >
+                  {r === 'OTL' ? 'O' : r}
+                </span>
+              )
+            })}
+          </div>
+        </div>
+      </Card>
+      <Card title="Recent Results">
+        {last5.length === 0 ? (
+          <div className="news-empty">No games played yet.</div>
+        ) : (
+          last5.map((g) => {
+            const r = resultFor(g, s.userTeam)
+            const oppAbbrev = g.home === s.userTeam ? g.away : g.home
+            const opp = s.teams[oppAbbrev]
+            const home = g.home === s.userTeam
+            const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
+            const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
+            return (
+              <div className="game-row" key={g.id}>
+                <span className={`result-pill ${r.toLowerCase()}`}>{r}</span>
+                <span className="game-when">{dayLabel(g.day)}</span>
+                <TeamLink abbrev={oppAbbrev} className="game-opp-link">
+                  <TeamLogo team={opp} size={20} />
+                  <span className="game-opp">
+                    <span className="ha">{home ? 'vs' : '@'}</span>
+                    {opp?.name ?? oppAbbrev}
+                  </span>
+                </TeamLink>
+                <span className="strength num">
+                  {forGoals}-{oppGoals}
+                  {g.endType && g.endType !== 'REG' ? ` ${g.endType}` : ''}
+                </span>
+              </div>
+            )
+          })
+        )}
+      </Card>
     </div>
   )
 }

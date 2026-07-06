@@ -11,10 +11,14 @@ import {
   advanceFreeAgencyDay,
   getCapUsage,
 } from '../engine'
-import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag } from './components'
+import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal } from './components'
 import { fmtM, seasonLabel } from './format'
-import { rosterCounts, capForYear } from './util'
+import { rosterCounts } from './util'
+import { PosFilter, matchesPos, SearchInput } from './filters'
+import { useUI } from './uiContext'
 import { ROSTER_MIN, ROSTER_MAX, SEASONS_TOTAL } from '../types'
+
+const OFFSEASON_CAP_NOTE = 'Signings count against next season’s cap.'
 
 type Step = NonNullable<GameState['offseasonStep']>
 const ORDER: Step[] = ['awards', 'development', 'resign', 'draft', 'freeAgency', 'rosterCheck']
@@ -229,7 +233,9 @@ function ResignStep({ s, apply }: { s: GameState; apply: (n: GameState) => void 
       </div>
 
       <Card title="Salary Cap">
-        <div className="card-pad"><CapBar used={cap.used} cap={cap.cap} /></div>
+        <div className="card-pad">
+          <CapBar used={cap.used} cap={cap.cap} capYear={cap.capYear} note={OFFSEASON_CAP_NOTE} />
+        </div>
       </Card>
 
       {notice && <div className="notice err">{notice}</div>}
@@ -246,18 +252,27 @@ function ResignStep({ s, apply }: { s: GameState; apply: (n: GameState) => void 
 }
 
 function ResignRow({ s, apply, player, setNotice }: { s: GameState; apply: (n: GameState) => void; player: Player; setNotice: (m: string | null) => void }) {
+  const { pushToast } = useUI()
   const asking = getResignAsking(s, player.id)
   const [years, setYears] = useState(asking.years)
   const [capHit, setCapHit] = useState(asking.capHit)
 
   function sign() {
     const r = resignPlayer(s, player.id, years, capHit)
-    if (r.ok) { apply(r.s); setNotice(null) }
-    else setNotice(r.reason ?? `${player.name} rejected the offer.`)
+    if (r.ok) {
+      apply(r.s)
+      setNotice(null)
+      pushToast('success', `Re-signed ${player.name} — ${fmtM(capHit)} × ${years}yr.`)
+    } else {
+      const msg = r.reason ?? `${player.name} rejected the offer.`
+      setNotice(msg)
+      pushToast('error', msg)
+    }
   }
   function walk() {
     apply(letWalk(s, player.id))
     setNotice(null)
+    pushToast('success', `${player.name} will walk to free agency.`)
   }
 
   return (
@@ -320,6 +335,7 @@ function potentialBand(pos: string, potential: number): string {
 }
 
 function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
+  const { pushToast } = useUI()
   const board = getDraftBoard(s)
   const [posFilter, setPosFilter] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
   const onUserClock = board.onClock === s.userTeam
@@ -389,7 +405,13 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                     <td><span className="tag">{potentialBand(p.pos, p.potential)}</span></td>
                     <td>
                       {onUserClock && (
-                        <button className="btn btn-sm btn-primary" onClick={() => apply(draftPlayer(s, p.id))}>
+                        <button
+                          className="btn btn-sm btn-primary"
+                          onClick={() => {
+                            apply(draftPlayer(s, p.id))
+                            pushToast('success', `Drafted ${p.name} at #${board.pickNumber}.`)
+                          }}
+                        >
                           Draft
                         </button>
                       )}
@@ -428,10 +450,15 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
 // ---------------- Free Agency ----------------
 
 function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
+  const { pushToast } = useUI()
   const cap = getCapUsage(s, s.userTeam)
   const [target, setTarget] = useState<FreeAgent | null>(null)
   const [notice, setNotice] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
-  const fas = [...s.freeAgents].sort((a, b) => b.overall - a.overall)
+  const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
+  const [query, setQuery] = useState('')
+  const fas = [...s.freeAgents]
+    .filter((p) => matchesPos(p, posF) && p.name.toLowerCase().includes(query.trim().toLowerCase()))
+    .sort((a, b) => b.overall - a.overall)
 
   return (
     <div className="stack">
@@ -451,13 +478,23 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
       </div>
 
       <Card title="Salary Cap">
-        <div className="card-pad"><CapBar used={cap.used} cap={cap.cap} /></div>
+        <div className="card-pad">
+          <CapBar used={cap.used} cap={cap.cap} capYear={cap.capYear} note={OFFSEASON_CAP_NOTE} />
+        </div>
       </Card>
 
       {notice && <div className={`notice ${notice.kind === 'err' ? 'err' : ''}`}>{notice.text}</div>}
 
       <div className="grid dash-grid">
-        <Card title={`Available Free Agents · ${fas.length}`}>
+        <Card
+          title={`Available Free Agents · ${fas.length}`}
+          right={
+            <div className="row" style={{ gap: 8 }}>
+              <PosFilter value={posF} onChange={setPosF} />
+              <SearchInput value={query} onChange={setQuery} placeholder="Search FAs" />
+            </div>
+          }
+        >
           <div className="table-wrap" style={{ maxHeight: 520, overflowY: 'auto' }}>
             <table className="tbl">
               <thead>
@@ -472,7 +509,13 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                 </tr>
               </thead>
               <tbody>
-                {fas.length === 0 && <tr><td className="muted">The market is dry.</td></tr>}
+                {fas.length === 0 && (
+                  <tr>
+                    <td className="muted" colSpan={7} style={{ textAlign: 'center', padding: 20 }}>
+                      {s.freeAgents.length === 0 ? 'The market is dry.' : 'No free agents match those filters.'}
+                    </td>
+                  </tr>
+                )}
                 {fas.map((p) => (
                   <tr key={p.id}>
                     <td className="name-cell">{p.name} <Flag nat={p.nationality} /></td>
@@ -512,9 +555,12 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
             if (r.ok) {
               apply(r.s)
               setNotice({ kind: 'ok', text: `Signed ${target.name}.` })
+              pushToast('success', `Signed ${target.name} — ${fmtM(capHit)} × ${years}yr.`)
               setTarget(null)
             } else {
-              setNotice({ kind: 'err', text: r.reason ?? `${target.name} rejected the offer.` })
+              const msg = r.reason ?? `${target.name} rejected the offer.`
+              setNotice({ kind: 'err', text: msg })
+              pushToast('error', msg)
             }
           }}
         />
@@ -527,28 +573,26 @@ function OfferModal({ fa, onClose, onSubmit }: { fa: FreeAgent; onClose: () => v
   const [years, setYears] = useState(fa.asking.years)
   const [capHit, setCapHit] = useState(fa.asking.capHit)
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-head">
-          <div className="modal-title">
-            <h3>{fa.name}</h3>
-            <div className="meta">{fa.pos} · Age {fa.age} · {fa.overall} OVR · Asking {fmtM(fa.asking.capHit)} × {fa.asking.years}yr</div>
-          </div>
-          <button className="modal-close" onClick={onClose}>×</button>
+    <Modal onClose={onClose}>
+      <div className="modal-head">
+        <div className="modal-title">
+          <h3>{fa.name}</h3>
+          <div className="meta">{fa.pos} · Age {fa.age} · {fa.overall} OVR · Asking {fmtM(fa.asking.capHit)} × {fa.asking.years}yr</div>
         </div>
-        <div className="modal-body">
-          <div className="stack">
-            <SliderField label={`Cap Hit — ${fmtM(capHit)}`} min={0.775} max={17} step={0.05} value={capHit} onChange={setCapHit} />
-            <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
-            <div className="hint">Offer at or above the asking price to land the player. Lowballs may be rejected.</div>
-            <div className="row">
-              <button className="btn btn-primary btn-lg" onClick={() => onSubmit(years, capHit)}>Submit Offer</button>
-              <button className="btn btn-ghost" onClick={onClose}>Cancel</button>
-            </div>
+        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
+      </div>
+      <div className="modal-body">
+        <div className="stack">
+          <SliderField label={`Cap Hit — ${fmtM(capHit)}`} min={0.775} max={17} step={0.05} value={capHit} onChange={setCapHit} />
+          <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
+          <div className="hint">Offer at or above the asking price to land the player. Lowballs may be rejected.</div>
+          <div className="row">
+            <button className="btn btn-primary btn-lg" onClick={() => onSubmit(years, capHit)}>Submit Offer</button>
+            <button className="btn btn-ghost" onClick={onClose}>Cancel</button>
           </div>
         </div>
       </div>
-    </div>
+    </Modal>
   )
 }
 
@@ -558,8 +602,8 @@ function RosterCheckStep({ s, apply }: { s: GameState; apply: (n: GameState) => 
   const t = s.teams[s.userTeam]
   const counts = rosterCounts(t.roster)
   const cap = getCapUsage(s, s.userTeam)
-  const nextYear = s.seasonYear + 1
-  const nextCap = capForYear(nextYear)
+  // During the offseason getCapUsage already measures against NEXT season's cap.
+  const nextYear = cap.capYear
   const problems: string[] = []
   if (counts.total < ROSTER_MIN) problems.push(`Roster has ${counts.total} players — need at least ${ROSTER_MIN}.`)
   if (counts.total > ROSTER_MAX) problems.push(`Roster has ${counts.total} players — max is ${ROSTER_MAX}.`)
@@ -588,8 +632,10 @@ function RosterCheckStep({ s, apply }: { s: GameState; apply: (n: GameState) => 
         <TileMini k="Total" v={counts.total} ok={counts.total >= ROSTER_MIN && counts.total <= ROSTER_MAX} />
       </div>
 
-      <Card title={`Projected Cap · ${seasonLabel(nextYear)} (cap ${fmtM(nextCap)})`}>
-        <div className="card-pad"><CapBar used={cap.used} cap={nextCap} /></div>
+      <Card title={`Projected Cap · ${seasonLabel(nextYear)} (cap ${fmtM(cap.cap)})`}>
+        <div className="card-pad">
+          <CapBar used={cap.used} cap={cap.cap} capYear={cap.capYear} note={OFFSEASON_CAP_NOTE} />
+        </div>
       </Card>
 
       {problems.length > 0 ? (

@@ -29,6 +29,9 @@ export function loadGame(): GameState | null {
     const parsed = JSON.parse(raw) as GameState
     // Migrate old saves that predate the career-history archive.
     if (!parsed.careers) parsed.careers = {}
+    // Migrate saves that predate the trade-block / incoming-offers systems.
+    if (!parsed.tradeBlock) parsed.tradeBlock = []
+    if (!parsed.pendingOffers) parsed.pendingOffers = []
     return parsed
   } catch {
     return null

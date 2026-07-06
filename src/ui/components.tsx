@@ -1,8 +1,9 @@
 // Small reusable presentational components.
-import { useState, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import type { Player, TeamState } from '../types'
-import { ovrClass } from './format'
+import { ovrClass, seasonLabel } from './format'
 import { capZone } from './util'
+import { useUI, type Toast } from './uiContext'
 
 /**
  * Real NHL team logo (light variant, for dark backgrounds). External images
@@ -85,7 +86,23 @@ export function ExpiryTag({ expiry }: { expiry: 'RFA' | 'UFA' }) {
   return <span className={`tag ${expiry.toLowerCase()}`}>{expiry}</span>
 }
 
-export function CapBar({ used, cap }: { used: number; cap: number }) {
+/**
+ * Cap bar. Always driven by the engine's getCapUsage result so the number is
+ * identical on every screen. `capYear` labels WHICH season's cap the usage is
+ * measured against ("· 2027-28 cap") — during the offseason that's next season,
+ * which is what new contracts count against. `note` shows optional subtext.
+ */
+export function CapBar({
+  used,
+  cap,
+  capYear,
+  note,
+}: {
+  used: number
+  cap: number
+  capYear?: number
+  note?: ReactNode
+}) {
   const zone = capZone(used, cap)
   const pct = Math.min(100, (used / cap) * 100)
   const space = Math.round((cap - used) * 100) / 100
@@ -95,13 +112,68 @@ export function CapBar({ used, cap }: { used: number; cap: number }) {
         <span style={{ width: `${pct}%` }} />
       </div>
       <div className="cap-legend">
-        <span>
+        <span className="num">
           ${used.toFixed(2)}M <span className="muted">/ ${cap.toFixed(1)}M</span>
+          {capYear !== undefined && <span className="muted"> · {seasonLabel(capYear)} cap</span>}
         </span>
         <span className={`cap-space ${space >= 0 ? 'pos' : 'neg'}`}>
           {space >= 0 ? `$${space.toFixed(2)}M space` : `$${Math.abs(space).toFixed(2)}M over`}
         </span>
       </div>
+      {note && <div className="cap-note">{note}</div>}
+    </div>
+  )
+}
+
+/** A clickable wrapper that opens the read-only team viewer for `abbrev`. */
+export function TeamLink({
+  abbrev,
+  className,
+  title,
+  children,
+}: {
+  abbrev: string | undefined
+  className?: string
+  title?: string
+  children: ReactNode
+}) {
+  const { openTeam } = useUI()
+  if (!abbrev) return <>{children}</>
+  return (
+    <button
+      type="button"
+      className={`team-link ${className ?? ''}`}
+      title={title ?? `View ${abbrev}`}
+      onClick={(e) => {
+        e.stopPropagation()
+        openTeam(abbrev)
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+/** Small "on the block" chip badge. */
+export function ShopBadge() {
+  return (
+    <span className="shop-badge" title="On the trade block">
+      SHOP
+    </span>
+  )
+}
+
+/** Bottom-right auto-dismissing toast stack (rendered once at App level). */
+export function ToastViewport({ toasts, onDismiss }: { toasts: Toast[]; onDismiss: (id: number) => void }) {
+  if (toasts.length === 0) return null
+  return (
+    <div className="toast-viewport" role="status" aria-live="polite">
+      {toasts.map((t) => (
+        <button key={t.id} type="button" className={`toast ${t.kind}`} onClick={() => onDismiss(t.id)}>
+          <span className="toast-icon">{t.kind === 'success' ? '✓' : '!'}</span>
+          <span className="toast-text">{t.text}</span>
+        </button>
+      ))}
     </div>
   )
 }
@@ -109,13 +181,22 @@ export function CapBar({ used, cap }: { used: number; cap: number }) {
 export function Modal({
   onClose,
   children,
+  wide,
 }: {
   onClose: () => void
   children: ReactNode
+  wide?: boolean
 }) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
+      <div className={`modal ${wide ? 'modal-wide' : ''}`} onClick={(e) => e.stopPropagation()}>
         {children}
       </div>
     </div>

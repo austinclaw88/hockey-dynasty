@@ -13,6 +13,8 @@ export interface DraftResult {
 }
 export interface EngineExtras {
   _draftResults?: DraftResult[]
+  /** Monotonic counter backing PendingOffer.id so ids never collide across drops. */
+  _nextOfferId?: number
 }
 export type ES = GameState & EngineExtras
 
@@ -63,6 +65,12 @@ export function currentCap(seasonYear: number): number {
 export function nextCap(seasonYear: number): number {
   return SALARY_CAP[seasonYear + 1] ?? currentCap(seasonYear)
 }
+/** Cap basis that matches what the engine ENFORCES for the current phase:
+ *  offseason signings/trades count against NEXT season's cap, everything else
+ *  against the current season's cap. Keeps UI space == engine space. */
+export function capForPhase(s: GameState): number {
+  return s.phase === 'offseason' ? nextCap(s.seasonYear) : currentCap(s.seasonYear)
+}
 export function teamCapUsed(team: TeamState): number {
   let total = 0
   for (const p of team.roster) total += p.contract?.capHit ?? 0
@@ -97,6 +105,16 @@ export function findTeamOfPlayer(s: GameState, id: string): string | undefined {
     if (t.roster.some((p) => p.id === id) || t.prospects.some((p) => p.id === id)) return abbr
   }
   return undefined
+}
+
+/** Drop trade-block ids that no longer belong to the user's active roster
+ *  (traded away, retired, or sent down). Safe to call after any roster change. */
+export function pruneTradeBlock(s: GameState): void {
+  if (!s.tradeBlock || s.tradeBlock.length === 0) return
+  const team = s.teams[s.userTeam]
+  if (!team) return
+  const ids = new Set(team.roster.map((p) => p.id))
+  s.tradeBlock = s.tradeBlock.filter((id) => ids.has(id))
 }
 
 export function pushNews(s: GameState, text: string): void {

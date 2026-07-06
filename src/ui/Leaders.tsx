@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { GameState, SeasonStatLine } from '../types'
 import { getLeaders } from '../engine'
-import { Card, Crest } from './components'
+import { Card, Crest, TeamLink } from './components'
 import { buildPlayerIndex } from './util'
 import { fmtSigned, fmtGaa, fmtSvPct } from './format'
 
@@ -98,10 +98,16 @@ function LeaderRow({
       <td className="num muted">{rank}</td>
       <td className="name-cell">{name}</td>
       <td>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <Crest team={t} size="mini" />
-          {team ?? '—'}
-        </span>
+        {team ? (
+          <TeamLink abbrev={team} className="team-link-inline">
+            <Crest team={t} size="mini" />
+            {team}
+          </TeamLink>
+        ) : (
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <Crest team={t} size="mini" />—
+          </span>
+        )}
       </td>
       {tab === 'goalies' ? (
         <>

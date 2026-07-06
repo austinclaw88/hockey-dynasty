@@ -13,6 +13,7 @@ import { dirname, join } from 'node:path'
 import type { TeamDataFile, GameState, Player, Position } from '../src/types.ts'
 import { newGame } from '../src/engine/newGame.ts'
 import {
+  simDays,
   simToEndOfSeason,
   simPlayoffRound,
   advanceOffseason,
@@ -23,6 +24,8 @@ import {
   resignPlayer,
   getDraftBoard,
   draftPlayer,
+  toggleTradeBlock,
+  respondToOffer,
 } from '../src/engine/api.ts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -120,11 +123,35 @@ function isNum(x: number | undefined): boolean {
   return x !== undefined && typeof x === 'number' && !Number.isNaN(x)
 }
 
+// ---- new-systems assertions -----------------------------------------------
+function onTeam(s: GameState, abbr: string, id: string): boolean {
+  const t = s.teams[abbr]
+  return !!t && (t.roster.some((p) => p.id === id) || t.prospects.some((p) => p.id === id))
+}
+/** Every pending offer must reference resolvable assets on the expected rosters. */
+function assertOffersResolvable(s: GameState, when: string): void {
+  for (const po of s.pendingOffers) {
+    assert(po.offer.from === s.userTeam, `pending offer ${po.id} not from user team (${when})`)
+    const fromOk = po.offer.fromPlayers.every((id) => onTeam(s, po.offer.from, id))
+    const toOk = po.offer.toPlayers.every((id) => onTeam(s, po.offer.to, id))
+    assert(fromOk && toOk, `pending offer ${po.id} references a departed player (${when})`)
+  }
+}
+/** Stars must not be let go to free agency by the AI re-sign pass. */
+function assertNoStarFreeAgents(s: GameState, when: string): void {
+  for (const fa of s.freeAgents) {
+    assert(fa.overall < 88, `${fa.name} (${fa.overall} OVR) reached the FA pool (${when})`)
+  }
+}
+
 // ---- offseason auto-driver ------------------------------------------------
-function runOffseason(s: GameState): GameState {
+function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
   let guard = 0
   while (s.phase === 'offseason' && guard++ < 20) {
     const step = s.offseasonStep
+    // In the first 3 offseasons no >=88 OVR player may be dumped to free agency.
+    if (checkNoStarFA) assertNoStarFreeAgents(s, `offseason step ${step ?? '?'}`)
+    assertOffersResolvable(s, `offseason step ${step ?? '?'}`)
     if (step === 'resign') {
       // Re-sign every expiring player at their asking price.
       const expiring = s.teams[s.userTeam].roster.filter((p) => p.contract && p.contract.yearsLeft <= 0).map((p) => p.id)
@@ -166,8 +193,25 @@ function main(): void {
 
   for (let season = 0; season < 10; season++) {
     const seasonYear = s.seasonYear
+    // Exercise the trade block + incoming offers: shop a mid-tier user player.
+    const shopId = pickShoppable(s)
+    if (shopId) s = toggleTradeBlock(s, shopId)
+
     const simStart = Date.now()
-    s = simToEndOfSeason(s)
+    // Sim the pre-deadline stretch in weekly chunks so incoming offers can
+    // generate; respond to some and confirm they always reference live assets.
+    let wk = 0
+    while (s.phase === 'regular' && s.day < 84 && wk++ < 15) {
+      s = simDays(s, 7)
+      assertOffersResolvable(s, `${seasonYear} day ${s.day}`)
+      if (s.pendingOffers.length > 0) {
+        const po = s.pendingOffers[0]
+        const r = respondToOffer(s, po.id, wk % 2 === 0)
+        if (r.ok) s = r.s
+        assertOffersResolvable(s, `${seasonYear} post-respond`)
+      }
+    }
+    if (s.phase === 'regular') s = simToEndOfSeason(s)
     const simMs = Date.now() - simStart
 
     // Regular-season assertions.
@@ -181,7 +225,10 @@ function main(): void {
     // Scoring leader sanity + NaN scan.
     const leaders = getLeaders(s)
     const leaderPts = leaders.points[0]?.points ?? 0
-    assert(leaderPts >= 70 && leaderPts <= 165, `scoring leader has ${leaderPts} pts (expect 70-165) in ${seasonYear}`)
+    // Upper bound is generous: late-dynasty leaders climb as young stars develop
+    // toward 99 OVR, and elite scorers now stay in the league (AI no longer lets
+    // 85+ players walk to the FA void) rather than disappearing mid-prime.
+    assert(leaderPts >= 70 && leaderPts <= 180, `scoring leader has ${leaderPts} pts (expect 70-180) in ${seasonYear}`)
     for (const line of Object.values(s.stats)) {
       const ok = isNum(line.goals) && isNum(line.assists) && isNum(line.points) && isNum(line.plusMinus) && isNum(line.pim) && isNum(line.gp)
       assert(ok, `NaN in skater stat line ${line.playerId} (${seasonYear})`)
@@ -197,8 +244,9 @@ function main(): void {
     assert(!!summary && !!summary.cupWinner, `a Cup winner should exist for ${seasonYear}`)
     const leaderName = leaders.points[0] ? nameOf(s, leaders.points[0].playerId) : '?'
 
-    // Offseason.
-    s = runOffseason(s)
+    // Offseason (first 3 offseasons: assert no >=88 OVR player hits free agency).
+    s = runOffseason(s, season < 3)
+    assertOffersResolvable(s, `${seasonYear} post-offseason`)
 
     // Post-offseason (new-season) roster + cap legality (each October).
     if (s.phase === 'regular') {
@@ -260,6 +308,12 @@ function main(): void {
     console.error(`\n${failures} ASSERTION(S) FAILED ✘`)
     process.exit(1)
   }
+}
+
+/** A tradeable mid-tier user player to shop (or null if none). */
+function pickShoppable(s: GameState): string | null {
+  const roster = s.teams[s.userTeam].roster.filter((p) => !p.contract?.ntc && p.overall >= 76 && p.overall <= 84)
+  return roster.length > 0 ? roster[0].id : null
 }
 
 function nameOf(s: GameState, id: string): string {

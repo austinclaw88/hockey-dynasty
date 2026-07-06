@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { GameState, StandingsRow, Division } from '../types'
 import { getStandings } from '../engine'
-import { Card, TeamLogo } from './components'
+import { Card, TeamLogo, TeamLink } from './components'
 import { divisionsByConference } from './util'
 import { fmtSigned } from './format'
 
@@ -144,10 +144,10 @@ function StandingsTableBody({
               <tr key={r.team} className={`${r.team === userTeam ? 'me' : ''} ${isCut ? 'cutline' : ''}`}>
                 <td className="muted num">{rank ? i + 1 : ''}</td>
                 <td className="name-cell">
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                  <TeamLink abbrev={r.team} className="team-link-inline">
                     <TeamLogo team={t} size={22} />
                     {t ? `${t.city} ${t.name}` : r.team}
-                  </span>
+                  </TeamLink>
                 </td>
                 <td className="num">{r.gp}</td>
                 <td className="num">{r.w}</td>

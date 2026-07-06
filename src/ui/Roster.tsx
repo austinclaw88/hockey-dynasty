@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import type { GameState, Player } from '../types'
-import { callUp, sendDown, getCapUsage } from '../engine'
-import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag } from './components'
+import { callUp, sendDown, getCapUsage, toggleTradeBlock } from '../engine'
+import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge } from './components'
 import { PlayerModal } from './PlayerModal'
 import { fmtM, potArrow, posGroup } from './format'
 import { autoLines, isHealthy } from './util'
 import type { ForwardSlot } from './util'
+import { useUI } from './uiContext'
+import { PosFilter, matchesPos, SearchInput } from './filters'
 
 type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals'
 
@@ -13,31 +15,51 @@ const canSendDown = (p: Player) => p.age <= 25 && p.overall <= 78
 
 export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
   const team = s.teams[s.userTeam]
+  const { pushToast } = useUI()
   const [sel, setSel] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'overall', dir: -1 })
+  const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
+  const [query, setQuery] = useState('')
   const cap = getCapUsage(s, s.userTeam)
+  const block = new Set(s.tradeBlock)
 
-  const sorted = [...team.roster].sort((a, b) => cmp(a, b, sort, s) * sort.dir)
+  const filtered = team.roster.filter(
+    (p) => matchesPos(p, posF) && p.name.toLowerCase().includes(query.trim().toLowerCase()),
+  )
+  const sorted = [...filtered].sort((a, b) => cmp(a, b, sort, s) * sort.dir)
   const selPlayer =
     sel != null ? team.roster.find((p) => p.id === sel) ?? team.prospects.find((p) => p.id === sel) : undefined
   const selIsProspect = selPlayer != null && team.prospects.some((p) => p.id === selPlayer.id)
 
-  function doCallUp(id: string) {
+  function doCallUp(id: string, name: string) {
     const r = callUp(s, id)
     if (r.ok) {
       apply(r.s)
       setSel(null)
       setNotice(null)
-    } else setNotice(r.reason ?? 'Cannot call up this player.')
+      pushToast('success', `Called up ${name} to the NHL.`)
+    } else {
+      setNotice(r.reason ?? 'Cannot call up this player.')
+      pushToast('error', r.reason ?? 'Cannot call up this player.')
+    }
   }
-  function doSendDown(id: string) {
+  function doSendDown(id: string, name: string) {
     const r = sendDown(s, id)
     if (r.ok) {
       apply(r.s)
       setSel(null)
       setNotice(null)
-    } else setNotice(r.reason ?? 'Cannot send down this player.')
+      pushToast('success', `Sent ${name} down to juniors.`)
+    } else {
+      setNotice(r.reason ?? 'Cannot send down this player.')
+      pushToast('error', r.reason ?? 'Cannot send down this player.')
+    }
+  }
+  function doToggleBlock(p: Player) {
+    const onBlock = block.has(p.id)
+    apply(toggleTradeBlock(s, p.id))
+    pushToast('success', onBlock ? `Removed ${p.name} from the trade block.` : `${p.name} is now on the trade block.`)
   }
 
   function th(key: SortKey, label: string, num = false) {
@@ -56,7 +78,15 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   return (
     <div className="stack">
       <div className="grid dash-grid">
-        <Card title={`Roster · ${team.roster.length} players`}>
+        <Card
+          title={`Roster · ${sorted.length}${sorted.length !== team.roster.length ? ` / ${team.roster.length}` : ''}`}
+          right={
+            <div className="row" style={{ gap: 8 }}>
+              <PosFilter value={posF} onChange={setPosF} />
+              <SearchInput value={query} onChange={setQuery} placeholder="Search players" />
+            </div>
+          }
+        >
           <div className="table-wrap">
             <table className="tbl">
               <thead>
@@ -71,16 +101,26 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                   <th>Exp</th>
                   {th('goals', 'G', true)}
                   {th('points', 'PTS', true)}
+                  <th title="Trade block">Shop</th>
                 </tr>
               </thead>
               <tbody>
+                {sorted.length === 0 && (
+                  <tr>
+                    <td colSpan={11} className="muted" style={{ textAlign: 'center', padding: 20 }}>
+                      No players match those filters.
+                    </td>
+                  </tr>
+                )}
                 {sorted.map((p) => {
                   const pot = potArrow(p.overall, p.potential)
                   const line = s.stats[p.id]
+                  const onBlock = block.has(p.id)
                   return (
                     <tr key={p.id} className="clickable" onClick={() => setSel(p.id)}>
                       <td className="name-cell">
                         {p.name}
+                        {onBlock && <ShopBadge />}
                         {!isHealthy(p) && <span className="ntc-tag" style={{ marginLeft: 6 }}>INJ</span>}
                         {p.contract?.ntc && <span className="ntc-tag">NTC</span>}{' '}
                         <Flag nat={p.nationality} />
@@ -101,6 +141,19 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                       <td>{p.contract ? <ExpiryTag expiry={p.contract.expiry} /> : '—'}</td>
                       <td className="num">{line?.goals ?? 0}</td>
                       <td className="num">{p.pos === 'G' ? '—' : line?.points ?? 0}</td>
+                      <td>
+                        <button
+                          className={`shop-toggle ${onBlock ? 'on' : ''}`}
+                          title={onBlock ? 'On the trade block — click to remove' : 'Put on the trade block'}
+                          aria-pressed={onBlock}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            doToggleBlock(p)
+                          }}
+                        >
+                          🏷
+                        </button>
+                      </td>
                     </tr>
                   )
                 })}
@@ -112,7 +165,12 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
         <div className="stack">
           <Card title="Salary Cap">
             <div className="card-pad">
-              <CapBar used={cap.used} cap={cap.cap} />
+              <CapBar
+                used={cap.used}
+                cap={cap.cap}
+                capYear={cap.capYear}
+                note={s.phase === 'offseason' ? 'Signings count against next season’s cap.' : undefined}
+              />
             </div>
           </Card>
           <LinesCard team={team} onPick={setSel} s={s} />
@@ -165,7 +223,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                             className="btn btn-sm btn-good"
                             onClick={(e) => {
                               e.stopPropagation()
-                              doCallUp(p.id)
+                              doCallUp(p.id, p.name)
                             }}
                           >
                             Call Up
@@ -192,17 +250,27 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
             setNotice(null)
           }}
           actions={
-            selIsProspect ? (
-              <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id)}>
-                Call Up to NHL
-              </button>
-            ) : canSendDown(selPlayer) ? (
-              <button className="btn btn-danger" onClick={() => doSendDown(selPlayer.id)}>
-                Send Down to Juniors
-              </button>
-            ) : (
-              <span className="hint">Roster player · not waiver/send-down eligible.</span>
-            )
+            <>
+              {selIsProspect ? (
+                <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id, selPlayer.name)}>
+                  Call Up to NHL
+                </button>
+              ) : canSendDown(selPlayer) ? (
+                <button className="btn btn-danger" onClick={() => doSendDown(selPlayer.id, selPlayer.name)}>
+                  Send Down to Juniors
+                </button>
+              ) : (
+                <span className="hint">Roster player · not waiver/send-down eligible.</span>
+              )}
+              {!selIsProspect && (
+                <button
+                  className={`btn ${block.has(selPlayer.id) ? 'btn-good' : ''}`}
+                  onClick={() => doToggleBlock(selPlayer)}
+                >
+                  {block.has(selPlayer.id) ? '🏷 Remove from Block' : '🏷 Put on Trade Block'}
+                </button>
+              )}
+            </>
           }
         />
       )}

@@ -3,7 +3,7 @@
 import type { GameState } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { simDay, healInjuries } from './sim.ts'
-import { maybeAiAiTrade } from './trades.ts'
+import { maybeAiAiTrade, maybeGenerateUserOffers, pruneOffers } from './trades.ts'
 import { startPlayoffs } from './playoffs.ts'
 
 function lastGameDay(s: GameState): number {
@@ -25,8 +25,10 @@ export function advanceRegularDays(s: GameState, days: number, rng: Rng): void {
     simDay(s, d, rng)
     if ((d + 1) % 7 === 0) healInjuries(s)
     maybeAiAiTrade(s, rng)
+    maybeGenerateUserOffers(s, rng, d, false)
   }
   s.day = target
+  pruneOffers(s) // expire offers past the deadline / older than ~14 days
   if (allPlayed(s)) startPlayoffs(s, rng)
 }
 

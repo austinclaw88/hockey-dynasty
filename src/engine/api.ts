@@ -3,7 +3,7 @@
 // callers never observe in-place mutation. RNG state is threaded via rngState.
 import type { GameState, StandingsRow, SeasonStatLine, Division, Player } from '../types.ts'
 import { Rng } from './rng.ts'
-import { currentCap, teamCapUsed } from './helpers.ts'
+import { currentCap, nextCap, teamCapUsed, pruneTradeBlock } from './helpers.ts'
 import { standingsView } from './standings.ts'
 import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
 import { advancePlayoffRound } from './playoffs.ts'
@@ -11,7 +11,15 @@ import { enterOffseason, advanceOffseasonStep, doResignPlayer, doLetWalk, getRes
 import { doDraftPlayer, draftBoard, type DraftBoard } from './draft.ts'
 import { doSignFreeAgent, aiFreeAgencyDay } from './freeAgency.ts'
 import { doCallUp, doSendDown } from './roster.ts'
-import { evaluateTrade as evaluateTradeCore, executeTrade as executeTradeCore, getAiTradeSuggestion as getAiTradeSuggestionCore, type TradeOffer } from './trades.ts'
+import {
+  evaluateTrade as evaluateTradeCore,
+  executeTrade as executeTradeCore,
+  getAiTradeSuggestion as getAiTradeSuggestionCore,
+  getAiTradeSuggestionFor as getAiTradeSuggestionForCore,
+  respondToOffer as respondToOfferCore,
+  maybeGenerateUserOffers,
+  type TradeOffer,
+} from './trades.ts'
 import { saveGame, loadGame, hasSave, deleteSave } from './persistence.ts'
 
 export type { TradeOffer } from './trades.ts'
@@ -81,6 +89,7 @@ export function advanceFreeAgencyDay(s: GameState): GameState {
   return withRng(s, (st, rng) => {
     if (st.phase === 'offseason' && st.offseasonStep === 'freeAgency' && st.day < 5) {
       aiFreeAgencyDay(st, rng)
+      maybeGenerateUserOffers(st, rng, st.day, true)
       st.day += 1
     }
   })
@@ -103,6 +112,26 @@ export function executeTrade(s: GameState, offer: TradeOffer): { s: GameState; o
 }
 export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer | null {
   return getAiTradeSuggestionCore(s, partner)
+}
+export function getAiTradeSuggestionFor(s: GameState, partner: string, playerId: string): TradeOffer | null {
+  return getAiTradeSuggestionForCore(s, partner, playerId)
+}
+/** Respond to an incoming AI trade offer. Accept re-validates + executes it. */
+export function respondToOffer(s: GameState, offerId: number, accept: boolean): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st) => respondToOfferCore(st, offerId, accept))
+}
+/** Toggle a user-team roster player on/off the trade block. */
+export function toggleTradeBlock(s: GameState, playerId: string): GameState {
+  return withRng(s, (st) => {
+    const i = st.tradeBlock.indexOf(playerId)
+    if (i >= 0) {
+      st.tradeBlock.splice(i, 1)
+      return
+    }
+    // Only user-team roster players may be added.
+    if (st.teams[st.userTeam]?.roster.some((p) => p.id === playerId)) st.tradeBlock.push(playerId)
+    pruneTradeBlock(st)
+  })
 }
 
 // ---- read-only views ------------------------------------------------------
@@ -134,11 +163,15 @@ export function getLeaders(s: GameState): { points: SeasonStatLine[]; goals: Sea
   return { points, goals, goalies: goalieLeaders }
 }
 
-export function getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number } {
+export function getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number } {
   const t = s.teams[team]
-  const cap = currentCap(s.seasonYear)
+  // Offseason signings/trades count against NEXT season's cap; report the same
+  // basis the engine enforces so the UI space never jumps between screens.
+  const offseason = s.phase === 'offseason'
+  const cap = offseason ? nextCap(s.seasonYear) : currentCap(s.seasonYear)
+  const capYear = offseason ? s.seasonYear + 1 : s.seasonYear
   const used = t ? teamCapUsed(t) : 0
-  return { used, cap, space: Math.round((cap - used) * 1000) / 1000 }
+  return { used, cap, space: Math.round((cap - used) * 1000) / 1000, capYear }
 }
 
 export function findPlayer(s: GameState, id: string): { player: Player; team?: string } | null {

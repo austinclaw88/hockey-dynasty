@@ -2,7 +2,7 @@
 import type { GameState, Player, DraftPick, TeamState, TradeOffer } from '../types.ts'
 import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { currentCap, teamCapUsed, rosterCounts, pushNews } from './helpers.ts'
+import { capForPhase, teamCapUsed, rosterCounts, pushNews, pruneTradeBlock, ext } from './helpers.ts'
 import { askingFor } from './contracts.ts'
 import { computeStandings, sortRows } from './standings.ts'
 
@@ -73,7 +73,7 @@ function strategyFit(strategy: TeamState['strategy'], players: Player[], picksVa
 }
 
 export function evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolean; verdict: string; delta: number } {
-  const cap = currentCap(s.seasonYear)
+  const cap = capForPhase(s)
   const partner = s.teams[offer.to]
   if (!partner) return { accept: false, verdict: 'not close', delta: 0 }
 
@@ -152,12 +152,9 @@ export function tradesAllowed(s: GameState): boolean {
   return false
 }
 
-export function executeTrade(s: GameState, offer: TradeOffer): { ok: boolean; reason?: string } {
-  if (!tradesAllowed(s)) return { ok: false, reason: 'Trades are closed (past the deadline).' }
-  const evalResult = evaluateTrade(s, offer)
-  if (!evalResult.accept) return { ok: false, reason: `Rejected: ${evalResult.verdict}.` }
-
-  // Execute the swap.
+/** Perform the asset swap + news, with no acceptance/legality gating. Callers
+ *  must have already validated. Keeps trade block + pending offers coherent. */
+function commitTrade(s: GameState, offer: TradeOffer): void {
   const fromNames = offer.fromPlayers.map((id) => nameOf(s, offer.from, id)).filter(Boolean)
   const toNames = offer.toPlayers.map((id) => nameOf(s, offer.to, id)).filter(Boolean)
   movePlayers(s, offer.from, offer.to, offer.fromPlayers)
@@ -168,6 +165,16 @@ export function executeTrade(s: GameState, offer: TradeOffer): { ok: boolean; re
   const fromDesc = [...fromNames, ...offer.fromPicks.map((p) => `${p.year} R${p.round}`)].join(', ') || 'nothing'
   const toDesc = [...toNames, ...offer.toPicks.map((p) => `${p.year} R${p.round}`)].join(', ') || 'nothing'
   pushNews(s, `TRADE: ${offer.from} send ${fromDesc} to ${offer.to} for ${toDesc}.`)
+  // Roster composition changed — keep block/offers referencing only live assets.
+  pruneTradeBlock(s)
+  pruneOffers(s)
+}
+
+export function executeTrade(s: GameState, offer: TradeOffer): { ok: boolean; reason?: string } {
+  if (!tradesAllowed(s)) return { ok: false, reason: 'Trades are closed (past the deadline).' }
+  const evalResult = evaluateTrade(s, offer)
+  if (!evalResult.accept) return { ok: false, reason: `Rejected: ${evalResult.verdict}.` }
+  commitTrade(s, offer)
   return { ok: true }
 }
 
@@ -179,7 +186,7 @@ function nameOf(s: GameState, team: string, id: string): string {
 
 /** Build a fair offer around a player the partner would move by strategy. */
 export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer | null {
-  const cap = currentCap(s.seasonYear)
+  const cap = capForPhase(s)
   const pt = s.teams[partner]
   const user = s.teams[s.userTeam]
   if (!pt || !user) return null
@@ -192,10 +199,53 @@ export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer 
   })
   const target = movable.find((p) => p.overall >= 74)
   if (!target) return null
+  return buildUserPaysPackage(s, partner, target, cap)
+}
+
+// ===========================================================================
+// Shared package builders (used by suggestions AND incoming AI offers)
+// ===========================================================================
+
+/** Sum of capHits for the given ids that currently sit on a team's NHL roster
+ *  (prospects carry contracts but do not count against the cap). */
+function rosterCapOf(team: TeamState, ids: string[]): number {
+  let v = 0
+  for (const id of ids) {
+    const p = team.roster.find((x) => x.id === id)
+    if (p) v += p.contract?.capHit ?? 0
+  }
+  return v
+}
+
+/** Cap + roster-size legality for BOTH teams after a swap. `from` is the user. */
+function tradeLegalBothWays(s: GameState, offer: TradeOffer, cap: number): boolean {
+  const user = s.teams[offer.from]
+  const partner = s.teams[offer.to]
+  if (!user || !partner) return false
+  // Only NHL-roster players change roster size / cap; prospects & picks do not.
+  const userGivesRoster = offer.fromPlayers.filter((id) => user.roster.some((p) => p.id === id))
+  const userGetsRoster = offer.toPlayers.filter((id) => partner.roster.some((p) => p.id === id))
+  const userRosterAfter = user.roster.length - userGivesRoster.length + userGetsRoster.length
+  const partnerRosterAfter = partner.roster.length - userGetsRoster.length + userGivesRoster.length
+  if (userRosterAfter < ROSTER_MIN || userRosterAfter > ROSTER_MAX) return false
+  if (partnerRosterAfter < ROSTER_MIN || partnerRosterAfter > ROSTER_MAX) return false
+  const userCapAfter = teamCapUsed(user) - rosterCapOf(user, userGivesRoster) + rosterCapOf(partner, userGetsRoster)
+  const partnerCapAfter = teamCapUsed(partner) - rosterCapOf(partner, userGetsRoster) + rosterCapOf(user, userGivesRoster)
+  if (userCapAfter > cap + 0.001) return false
+  if (partnerCapAfter > cap + 0.001) return false
+  return true
+}
+
+/** Build the package the USER must PAY to pry `target` off `partner` — the
+ *  minimal overpay the partner would accept. Returns null if none fits. */
+function buildUserPaysPackage(s: GameState, partner: string, target: Player, cap: number): TradeOffer | null {
+  const user = s.teams[s.userTeam]
+  if (!user || target.contract?.ntc) return null
   const targetVal = playerValue(target, cap)
 
-  // Assemble user assets to roughly match (from user's most expendable pieces).
-  const userAssets = [...user.roster].filter((p) => !p.contract?.ntc && p.overall < target.overall + 2).sort((a, b) => a.overall - b.overall)
+  const userAssets = [...user.roster]
+    .filter((p) => !p.contract?.ntc && p.overall < target.overall + 2)
+    .sort((a, b) => a.overall - b.overall)
   const chosen: Player[] = []
   let val = 0
   for (const p of userAssets) {
@@ -204,14 +254,9 @@ export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer 
     val += playerValue(p, cap)
   }
   const fromPicks: DraftPick[] = []
-  if (val < targetVal * 1.05) {
-    // Add a pick to sweeten.
-    const pick = user.picks.find((pk) => pk.round === 1) ?? user.picks[0]
-    if (pick) fromPicks.push(pick)
-  }
-  if (chosen.length === 0 && fromPicks.length === 0) return null
-
-  return {
+  const sparePicks = [...user.picks].sort((a, b) => pickValue(s, a) - pickValue(s, b)).reverse()
+  let pickIdx = 0
+  const offer: TradeOffer = {
     from: s.userTeam,
     to: partner,
     fromPlayers: chosen.map((p) => p.id),
@@ -219,6 +264,202 @@ export function getAiTradeSuggestion(s: GameState, partner: string): TradeOffer 
     fromPicks,
     toPicks: [],
   }
+  // Sweeten with picks, then extra depth players, until the AI accepts.
+  let guard = 0
+  while (!evaluateTrade(s, offer).accept && guard++ < 12) {
+    if (pickIdx < sparePicks.length && offer.fromPicks.length < 3) {
+      offer.fromPicks.push(sparePicks[pickIdx++])
+      continue
+    }
+    const extra = userAssets.find((p) => !offer.fromPlayers.includes(p.id))
+    if (extra) {
+      offer.fromPlayers.push(extra.id)
+      continue
+    }
+    return null // exhausted reasonable assets
+  }
+  if (!evaluateTrade(s, offer).accept) return null
+  if (offer.fromPlayers.length === 0 && offer.fromPicks.length === 0) return null
+  return offer
+}
+
+/** Build the package a `partner` would GIVE to acquire the user's `target` —
+ *  fair to the user (value ~1.0-1.15 in their favour) and legal both ways.
+ *  Because the AI is initiating, it is willing to slightly overpay for a player
+ *  it wants, so this is NOT gated on evaluateTrade's acceptance threshold. */
+function buildPartnerPaysPackage(s: GameState, partner: string, target: Player, cap: number): TradeOffer | null {
+  const user = s.teams[s.userTeam]
+  const pt = s.teams[partner]
+  if (!user || !pt || target.contract?.ntc) return null
+  const targetVal = playerValue(target, cap)
+
+  // Sweeteners never change roster size: picks + partner prospects.
+  const sweeteners: { pick?: DraftPick; prospectId?: string; v: number }[] = [
+    ...pt.picks.map((pk) => ({ pick: pk, v: pickValue(s, pk) })),
+    ...pt.prospects.filter((p) => !p.contract?.ntc && p.overall >= 60).map((p) => ({ prospectId: p.id, v: playerValue(p, cap) })),
+  ].sort((a, b) => a.v - b.v)
+
+  const build = (anchorId: string | null, anchorVal: number): TradeOffer | null => {
+    const toPlayers = anchorId ? [anchorId] : []
+    const toPicks: DraftPick[] = []
+    let val = anchorVal
+    for (const sw of sweeteners) {
+      if (val >= targetVal) break
+      if (sw.pick) {
+        toPicks.push(sw.pick)
+        val += sw.v
+      } else if (sw.prospectId) {
+        toPlayers.push(sw.prospectId)
+        val += sw.v
+      }
+    }
+    const ratio = val / targetVal
+    if (ratio < 0.98 || ratio > 1.25) return null
+    const offer: TradeOffer = { from: s.userTeam, to: partner, fromPlayers: [target.id], toPlayers, fromPicks: [], toPicks }
+    return tradeLegalBothWays(s, offer, cap) ? offer : null
+  }
+
+  // Mode A: net-neutral swap anchored by a comparable partner roster player.
+  const anchors = pt.roster
+    .filter((p) => !p.contract?.ntc && p.overall < target.overall + 3)
+    .sort((a, b) => playerValue(b, cap) - playerValue(a, cap))
+  for (const anchor of anchors) {
+    const anchorVal = playerValue(anchor, cap)
+    if (anchorVal > targetVal * 1.2) continue
+    const offer = build(anchor.id, anchorVal)
+    if (offer) return offer
+  }
+  // Mode B: picks/prospects only — user sheds a roster spot for futures.
+  if (user.roster.length - 1 >= ROSTER_MIN && pt.roster.length + 1 <= ROSTER_MAX) {
+    const offer = build(null, 0)
+    if (offer) return offer
+  }
+  return null
+}
+
+/**
+ * Player-seeded suggestion. If `playerId` is on the partner → what the user must
+ * pay to get him; if on the user → what the partner would give for him. Null if
+ * the giving side has an NTC, the player is untradeable, or no fair package fits.
+ */
+export function getAiTradeSuggestionFor(s: GameState, partner: string, playerId: string): TradeOffer | null {
+  const cap = capForPhase(s)
+  const pt = s.teams[partner]
+  const user = s.teams[s.userTeam]
+  if (!pt || !user) return null
+
+  const onPartner = pt.roster.find((p) => p.id === playerId) ?? pt.prospects.find((p) => p.id === playerId)
+  if (onPartner) {
+    if (onPartner.contract?.ntc) return null
+    return buildUserPaysPackage(s, partner, onPartner, cap)
+  }
+  const onUser = user.roster.find((p) => p.id === playerId)
+  if (onUser) {
+    if (onUser.contract?.ntc) return null
+    return buildPartnerPaysPackage(s, partner, onUser, cap)
+  }
+  return null
+}
+
+// ===========================================================================
+// Incoming AI trade offers (PendingOffer lifecycle)
+// ===========================================================================
+
+/** Are all players referenced by an offer still on the expected rosters? */
+function offerAssetsPresent(s: GameState, offer: TradeOffer): boolean {
+  const user = s.teams[offer.from]
+  const partner = s.teams[offer.to]
+  if (!user || !partner) return false
+  const onTeam = (t: TeamState, id: string): boolean => t.roster.some((p) => p.id === id) || t.prospects.some((p) => p.id === id)
+  return offer.fromPlayers.every((id) => onTeam(user, id)) && offer.toPlayers.every((id) => onTeam(partner, id))
+}
+
+/** Drop expired / stale pending offers: wrong season, past the deadline, older
+ *  than ~14 days, outside a trade window, or referencing departed players. */
+export function pruneOffers(s: GameState): void {
+  if (!s.pendingOffers || s.pendingOffers.length === 0) return
+  s.pendingOffers = s.pendingOffers.filter((o) => {
+    if (o.seasonYear !== s.seasonYear) return false
+    if (s.phase === 'regular') {
+      if (s.day > 120) return false
+      if (s.day - o.day > 14) return false
+    } else if (s.phase !== 'offseason') {
+      return false // playoffs / over: no live offers
+    }
+    return offerAssetsPresent(s, o.offer)
+  })
+}
+
+function nextOfferId(s: GameState): number {
+  const e = ext(s)
+  const id = e._nextOfferId ?? 1
+  e._nextOfferId = id + 1
+  return id
+}
+
+/** Would team `t` plausibly want to acquire `target`? */
+function wantsPlayer(t: TeamState, target: Player): boolean {
+  if (t.strategy === 'contend') return target.overall >= 76
+  if (t.strategy === 'retool') return target.overall >= 80
+  // rebuild: only young building blocks or genuine stars
+  return (target.age <= 24 && target.potential >= 80) || target.overall >= 84
+}
+
+/**
+ * Possibly generate ONE incoming AI offer for a user player this tick. Called
+ * ~once per sim-day in the regular season (before the deadline) and once per FA
+ * day in the offseason. Shopped (trade-block) players draw real interest;
+ * unblocked stars only occasionally. Offers are firm — the AI commits to them.
+ */
+export function maybeGenerateUserOffers(s: GameState, rng: Rng, day: number, offseason: boolean): void {
+  if (offseason) {
+    if (s.phase !== 'offseason' || s.offseasonStep !== 'freeAgency') return
+  } else {
+    if (s.phase !== 'regular' || day > 120) return
+  }
+  const user = s.teams[s.userTeam]
+  if (!user) return
+
+  const blockTargets = user.roster.filter((p) => s.tradeBlock.includes(p.id) && !p.contract?.ntc)
+  const starTargets = user.roster.filter((p) => p.overall >= 85 && !p.contract?.ntc && !s.tradeBlock.includes(p.id))
+
+  let target: Player | undefined
+  if (blockTargets.length > 0 && rng.chance(0.25)) target = rng.pick(blockTargets)
+  else if (starTargets.length > 0 && rng.chance(0.03)) target = rng.pick(starTargets)
+  if (!target) return
+
+  const cap = capForPhase(s)
+  const partners = rng.shuffle(Object.keys(s.teams).filter((a) => a !== s.userTeam && wantsPlayer(s.teams[a], target!)))
+  for (const abbr of partners) {
+    // Don't stack duplicate live offers for the same player from the same team.
+    if (s.pendingOffers.some((o) => o.offer.to === abbr && o.offer.fromPlayers.includes(target!.id))) continue
+    const offer = buildPartnerPaysPackage(s, abbr, target, cap)
+    if (!offer) continue
+    const id = nextOfferId(s)
+    s.pendingOffers.push({ id, offer, day, seasonYear: s.seasonYear })
+    if (s.pendingOffers.length > 3) s.pendingOffers.shift() // drop oldest
+    const partnerTeam = s.teams[abbr]
+    const payDesc =
+      [...offer.toPlayers.map((pid) => nameOf(s, abbr, pid)).filter(Boolean), ...offer.toPicks.map((p) => `${p.year} R${p.round}`)].join(', ') || 'futures'
+    pushNews(s, `${partnerTeam.abbrev} offer: ${target.name} for ${payDesc}.`)
+    return // one offer per tick
+  }
+}
+
+/** Respond to a pending AI offer. Accept re-validates + executes; decline drops. */
+export function respondToOffer(s: GameState, offerId: number, accept: boolean): { ok: boolean; reason?: string } {
+  const idx = s.pendingOffers.findIndex((o) => o.id === offerId)
+  if (idx < 0) return { ok: false, reason: 'Offer not found or expired.' }
+  const po = s.pendingOffers[idx]
+  s.pendingOffers.splice(idx, 1)
+  if (!accept) return { ok: true }
+  // Re-validate against the live state before committing.
+  if (!tradesAllowed(s)) return { ok: false, reason: 'Trades are closed (past the deadline).' }
+  if (!offerAssetsPresent(s, po.offer)) return { ok: false, reason: 'A player in this offer is no longer available.' }
+  const cap = capForPhase(s)
+  if (!tradeLegalBothWays(s, po.offer, cap)) return { ok: false, reason: 'This trade would no longer be cap/roster legal.' }
+  commitTrade(s, po.offer)
+  return { ok: true }
 }
 
 /** Occasional AI-to-AI trade during the season (~1 per two weeks). */
@@ -231,7 +472,7 @@ export function maybeAiAiTrade(s: GameState, rng: Rng): void {
   if (rebuilders.length === 0 || contenders.length === 0) return
   const seller = s.teams[rng.pick(rebuilders)]
   const buyer = s.teams[rng.pick(contenders)]
-  const cap = currentCap(s.seasonYear)
+  const cap = capForPhase(s)
 
   const target = [...seller.roster].filter((p) => !p.contract?.ntc && p.age >= 28 && p.overall >= 78).sort((a, b) => b.overall - a.overall)[0]
   if (!target || !target.contract) return

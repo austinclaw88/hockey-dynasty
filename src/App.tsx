@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { GameState } from './types'
+import type { TradeOffer } from './engine'
 import { newGame, loadGame, saveGame, hasSave, deleteSave, getStandings } from './engine'
 import { Header } from './ui/Header'
 import { TabNav } from './ui/TabNav'
@@ -14,12 +15,43 @@ import { Playoffs } from './ui/Playoffs'
 import { OffseasonHub } from './ui/OffseasonHub'
 import type { DevSnapshot } from './ui/OffseasonHub'
 import { History } from './ui/History'
+import { ToastViewport } from './ui/components'
+import { TeamViewer } from './ui/TeamViewer'
+import { UIContext, type Toast, type ToastKind, type TradeIntent } from './ui/uiContext'
 
 export default function App() {
   const [state, setState] = useState<GameState | null>(() => (hasSave() ? loadGame() : null))
   const [tab, setTab] = useState<TabKey>('dashboard')
   const [devSnap, setDevSnap] = useState<DevSnapshot>({})
   const prevPhase = useRef<string | null>(state?.phase ?? null)
+
+  // ---- Global UI: toasts, team viewer, trade intent ----
+  const [toasts, setToasts] = useState<Toast[]>([])
+  const [viewTeam, setViewTeam] = useState<string | null>(null)
+  const [tradeIntent, setTradeIntent] = useState<TradeIntent | null>(null)
+  const toastId = useRef(0)
+  const nonce = useRef(0)
+
+  const dismissToast = useCallback((id: number) => {
+    setToasts((ts) => ts.filter((t) => t.id !== id))
+  }, [])
+
+  const pushToast = useCallback(
+    (kind: ToastKind, text: string) => {
+      const id = ++toastId.current
+      setToasts((ts) => [...ts, { id, kind, text }])
+      window.setTimeout(() => dismissToast(id), 3500)
+    },
+    [dismissToast],
+  )
+
+  const openTeam = useCallback((abbrev: string) => setViewTeam(abbrev), [])
+
+  const startTrade = useCallback((partner: string, offer?: TradeOffer) => {
+    setTradeIntent({ nonce: ++nonce.current, partner, offer })
+    setViewTeam(null)
+    setTab('trades')
+  }, [])
 
   // Auto-save after every state change.
   useEffect(() => {
@@ -76,12 +108,13 @@ export default function App() {
   const team = state.teams[state.userTeam]
   const userRow = getStandings(state).league.find((r) => r.team === state.userTeam)
 
+  const pendingCount = state.pendingOffers.length
   const tabs: TabDef[] = [
     { key: 'dashboard', label: 'Dashboard' },
     { key: 'roster', label: 'Roster' },
     { key: 'standings', label: 'Standings' },
     { key: 'leaders', label: 'Leaders' },
-    { key: 'trades', label: 'Trades' },
+    { key: 'trades', label: 'Trades', badge: pendingCount > 0 ? String(pendingCount) : undefined },
   ]
   if (state.phase === 'playoffs' || (state.playoffs && state.playoffs.length > 0)) {
     tabs.push({ key: 'playoffs', label: 'Playoffs', badge: state.phase === 'playoffs' ? '●' : undefined })
@@ -99,27 +132,36 @@ export default function App() {
   } as React.CSSProperties
 
   return (
-    <div className="app" style={rootStyle}>
-      <Header s={state} userRow={userRow} />
-      <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
-      <main className="app-main">
-        {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
-        {activeTab === 'roster' && <Roster s={state} apply={apply} />}
-        {activeTab === 'standings' && <Standings s={state} />}
-        {activeTab === 'leaders' && <Leaders s={state} />}
-        {activeTab === 'trades' && <Trades s={state} apply={apply} />}
-        {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
-        {activeTab === 'offseason' && (
-          <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
-        )}
-        {activeTab === 'history' && <History s={state} />}
+    <UIContext.Provider value={{ pushToast, openTeam, startTrade }}>
+      <div className="app" style={rootStyle}>
+        <Header s={state} userRow={userRow} />
+        <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
+        <main className="app-main">
+          {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
+          {activeTab === 'roster' && <Roster s={state} apply={apply} />}
+          {activeTab === 'standings' && <Standings s={state} />}
+          {activeTab === 'leaders' && <Leaders s={state} />}
+          {activeTab === 'trades' && (
+            <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
+          )}
+          {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
+          {activeTab === 'offseason' && (
+            <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
+          )}
+          {activeTab === 'history' && <History s={state} />}
 
-        <div style={{ marginTop: 40, textAlign: 'center' }}>
-          <button className="btn btn-ghost btn-sm" onClick={abandon} title="Delete save and return to team select">
-            Abandon dynasty
-          </button>
-        </div>
-      </main>
-    </div>
+          <div style={{ marginTop: 40, textAlign: 'center' }}>
+            <button className="btn btn-ghost btn-sm" onClick={abandon} title="Delete save and return to team select">
+              Abandon dynasty
+            </button>
+          </div>
+        </main>
+      </div>
+
+      {viewTeam && state.teams[viewTeam] && (
+        <TeamViewer s={state} abbrev={viewTeam} onClose={() => setViewTeam(null)} />
+      )}
+      <ToastViewport toasts={toasts} onDismiss={dismissToast} />
+    </UIContext.Provider>
   )
 }
