@@ -151,6 +151,26 @@ export interface FreeAgent extends Player {
   asking: { capHit: number; years: number }
 }
 
+/** A trade proposal between two teams. `from` pays fromPlayers/fromPicks, receives toPlayers/toPicks. */
+export interface TradeOffer {
+  from: string
+  to: string
+  fromPlayers: string[]
+  toPlayers: string[]
+  fromPicks: DraftPick[]
+  toPicks: DraftPick[]
+}
+
+/** An AI-initiated trade offer awaiting the user's response. */
+export interface PendingOffer {
+  id: number
+  /** Offer expressed from the USER's perspective (offer.from === userTeam). */
+  offer: TradeOffer
+  /** Day/season it arrived (for display + expiry). */
+  day: number
+  seasonYear: number
+}
+
 /** One archived season line for a player's career history. */
 export interface CareerSeason {
   year: number
@@ -201,6 +221,10 @@ export interface GameState {
   rngState: number
   /** Career stat archive keyed by playerId; appended at each season's end */
   careers: Record<string, CareerSeason[]>
+  /** Player ids (user's team) shopped on the trade block */
+  tradeBlock: string[]
+  /** AI-initiated trade offers awaiting user response */
+  pendingOffers: PendingOffer[]
 }
 
 /** Salary cap in $M by season start year. */

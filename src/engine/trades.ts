@@ -1,19 +1,12 @@
 // Trade value model, evaluation, execution, and AI trade generation.
-import type { GameState, Player, DraftPick, TeamState } from '../types.ts'
+import type { GameState, Player, DraftPick, TeamState, TradeOffer } from '../types.ts'
 import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { currentCap, teamCapUsed, rosterCounts, pushNews } from './helpers.ts'
 import { askingFor } from './contracts.ts'
 import { computeStandings, sortRows } from './standings.ts'
 
-export interface TradeOffer {
-  from: string
-  to: string
-  fromPlayers: string[]
-  toPlayers: string[]
-  fromPicks: DraftPick[]
-  toPicks: DraftPick[]
-}
+export type { TradeOffer } from '../types.ts'
 
 /** Player trade value on an abstract scale (an 80 OVR ≈ 3). */
 export function playerValue(p: Player, cap: number): number {
