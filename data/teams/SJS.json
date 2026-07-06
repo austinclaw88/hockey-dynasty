@@ -1,144 +1,1399 @@
 {
-  "info": { "abbrev": "SJS", "city": "San Jose", "name": "Sharks", "conference": "West", "division": "Pacific", "color": "#006D75", "colorSecondary": "#EA7200" },
+  "info": {
+    "abbrev": "SJS",
+    "city": "San Jose",
+    "name": "Sharks",
+    "conference": "West",
+    "division": "Pacific",
+    "color": "#006D75",
+    "colorSecondary": "#EA7200"
+  },
   "roster": [
-    { "id": "SJS-celebrini", "name": "Macklin Celebrini", "pos": "C", "age": 20, "shoots": "L", "overall": 88, "potential": 96, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" }, "history": [
-      { "year": 2024, "team": "SJS", "gp": 70, "goals": 25, "assists": 38, "points": 63, "plusMinus": -15, "pim": 24 },
-      { "year": 2025, "team": "SJS", "gp": 82, "goals": 45, "assists": 70, "points": 115, "plusMinus": 8, "pim": 44 }
-    ] },
-    { "id": "SJS-smith", "name": "William Smith", "pos": "C", "age": 21, "shoots": "R", "overall": 82, "potential": 91, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" }, "history": [
-      { "year": 2024, "team": "SJS", "gp": 74, "goals": 18, "assists": 27, "points": 45, "plusMinus": -21, "pim": 14 },
-      { "year": 2025, "team": "SJS", "gp": 69, "goals": 24, "assists": 35, "points": 59, "plusMinus": -3, "pim": 22 }
-    ] },
-    { "id": "SJS-misa", "name": "Michael Misa", "pos": "C", "age": 19, "shoots": "L", "overall": 78, "potential": 91, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" }, "history": [
-      { "year": 2025, "team": "SJS", "gp": 45, "goals": 9, "assists": 12, "points": 21, "plusMinus": -10, "pim": 12 }
-    ] },
-    { "id": "SJS-toffoli", "name": "Tyler Toffoli", "pos": "RW", "age": 34, "shoots": "R", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 6.0, "yearsLeft": 3, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "CGY", "gp": 73, "goals": 26, "assists": 24, "points": 50, "plusMinus": 12, "pim": 20 },
-      { "year": 2022, "team": "CGY", "gp": 82, "goals": 34, "assists": 39, "points": 73, "plusMinus": 2, "pim": 34 },
-      { "year": 2023, "team": "WPG", "gp": 80, "goals": 33, "assists": 21, "points": 54, "plusMinus": 5, "pim": 30 },
-      { "year": 2024, "team": "SJS", "gp": 78, "goals": 25, "assists": 23, "points": 48, "plusMinus": -18, "pim": 24 },
-      { "year": 2025, "team": "SJS", "gp": 79, "goals": 19, "assists": 30, "points": 49, "plusMinus": -12, "pim": 30 }
-    ] },
-    { "id": "SJS-marchment", "name": "Mason Marchment", "pos": "LW", "age": 31, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 6.75, "yearsLeft": 5, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "FLA", "gp": 54, "goals": 18, "assists": 19, "points": 37, "plusMinus": 24, "pim": 32 },
-      { "year": 2022, "team": "DAL", "gp": 66, "goals": 22, "assists": 25, "points": 47, "plusMinus": 9, "pim": 44 },
-      { "year": 2023, "team": "DAL", "gp": 75, "goals": 22, "assists": 34, "points": 56, "plusMinus": 16, "pim": 60 },
-      { "year": 2024, "team": "DAL", "gp": 61, "goals": 22, "assists": 25, "points": 47, "plusMinus": 12, "pim": 50 },
-      { "year": 2025, "team": "CBJ", "gp": 68, "goals": 19, "assists": 26, "points": 45, "plusMinus": -2, "pim": 50 }
-    ] },
-    { "id": "SJS-wennberg", "name": "Alexander Wennberg", "pos": "C", "age": 31, "shoots": "L", "overall": 77, "potential": 77, "nationality": "SWE", "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "SEA", "gp": 80, "goals": 11, "assists": 26, "points": 37, "plusMinus": -6, "pim": 20 },
-      { "year": 2022, "team": "SEA", "gp": 80, "goals": 13, "assists": 24, "points": 37, "plusMinus": 14, "pim": 16 },
-      { "year": 2023, "team": "NYR", "gp": 71, "goals": 8, "assists": 28, "points": 36, "plusMinus": 4, "pim": 12 },
-      { "year": 2024, "team": "SJS", "gp": 82, "goals": 11, "assists": 30, "points": 41, "plusMinus": -22, "pim": 18 },
-      { "year": 2025, "team": "SJS", "gp": 80, "goals": 18, "assists": 37, "points": 55, "plusMinus": -5, "pim": 20 }
-    ] },
-    { "id": "SJS-couture", "name": "Logan Couture", "pos": "C", "age": 37, "shoots": "L", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 8.0, "yearsLeft": 1, "expiry": "UFA", "ntc": true }, "history": [
-      { "year": 2021, "team": "SJS", "gp": 77, "goals": 23, "assists": 33, "points": 56, "plusMinus": -9, "pim": 40 },
-      { "year": 2022, "team": "SJS", "gp": 82, "goals": 27, "assists": 40, "points": 67, "plusMinus": -12, "pim": 44 },
-      { "year": 2023, "team": "SJS", "gp": 6, "goals": 0, "assists": 1, "points": 1, "plusMinus": -2, "pim": 2 }
-    ] },
-    { "id": "SJS-dellandrea", "name": "Ty Dellandrea", "pos": "C", "age": 25, "shoots": "R", "overall": 74, "potential": 76, "nationality": "CAN", "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "RFA" }, "history": [
-      { "year": 2021, "team": "DAL", "gp": 26, "goals": 2, "assists": 2, "points": 4, "plusMinus": -2, "pim": 12 },
-      { "year": 2022, "team": "DAL", "gp": 75, "goals": 13, "assists": 10, "points": 23, "plusMinus": 2, "pim": 20 },
-      { "year": 2023, "team": "DAL", "gp": 63, "goals": 4, "assists": 7, "points": 11, "plusMinus": -4, "pim": 24 },
-      { "year": 2024, "team": "DAL", "gp": 55, "goals": 4, "assists": 8, "points": 12, "plusMinus": -5, "pim": 22 },
-      { "year": 2025, "team": "SJS", "gp": 46, "goals": 2, "assists": 9, "points": 11, "plusMinus": -8, "pim": 20 }
-    ] },
-    { "id": "SJS-kovalenko", "name": "Nikolai Kovalenko", "pos": "RW", "age": 26, "shoots": "R", "overall": 74, "potential": 78, "nationality": "RUS", "contract": { "capHit": 1.8, "yearsLeft": 2, "expiry": "RFA" }, "history": [
-      { "year": 2024, "team": "SJS", "gp": 57, "goals": 7, "assists": 13, "points": 20, "plusMinus": -8, "pim": 20 }
-    ] },
-    { "id": "SJS-graf", "name": "Collin Graf", "pos": "RW", "age": 23, "shoots": "R", "overall": 74, "potential": 79, "nationality": "USA", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" }, "history": [
-      { "year": 2024, "team": "SJS", "gp": 32, "goals": 4, "assists": 9, "points": 13, "plusMinus": -5, "pim": 10 },
-      { "year": 2025, "team": "SJS", "gp": 81, "goals": 21, "assists": 25, "points": 46, "plusMinus": -8, "pim": 30 }
-    ] },
-    { "id": "SJS-barreboulet", "name": "Alex Barre-Boulet", "pos": "C", "age": 28, "shoots": "L", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 0.8, "yearsLeft": 2, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "TBL", "gp": 20, "goals": 4, "assists": 2, "points": 6, "plusMinus": -2, "pim": 6 },
-      { "year": 2022, "team": "TBL", "gp": 28, "goals": 5, "assists": 3, "points": 8, "plusMinus": 1, "pim": 8 },
-      { "year": 2023, "team": "TBL", "gp": 10, "goals": 2, "assists": 1, "points": 3, "plusMinus": -1, "pim": 4 },
-      { "year": 2025, "team": "COL", "gp": 2, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 0 }
-    ] },
-    { "id": "SJS-leason", "name": "Brett Leason", "pos": "RW", "age": 27, "shoots": "R", "overall": 72, "potential": 72, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "WSH", "gp": 26, "goals": 2, "assists": 3, "points": 5, "plusMinus": -2, "pim": 10 },
-      { "year": 2022, "team": "ANA", "gp": 55, "goals": 6, "assists": 6, "points": 12, "plusMinus": -10, "pim": 20 },
-      { "year": 2023, "team": "ANA", "gp": 56, "goals": 8, "assists": 8, "points": 16, "plusMinus": -8, "pim": 30 },
-      { "year": 2024, "team": "ANA", "gp": 40, "goals": 7, "assists": 7, "points": 14, "plusMinus": -6, "pim": 20 },
-      { "year": 2025, "team": "WSH", "gp": 6, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4 }
-    ] },
-    { "id": "SJS-tarasenko", "name": "Vladimir Tarasenko", "pos": "RW", "age": 34, "shoots": "L", "overall": 78, "potential": 78, "nationality": "RUS", "contract": { "capHit": 4.75, "yearsLeft": 2, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "STL", "gp": 75, "goals": 34, "assists": 48, "points": 82, "plusMinus": 26, "pim": 30 },
-      { "year": 2022, "team": "NYR", "gp": 69, "goals": 18, "assists": 32, "points": 50, "plusMinus": 5, "pim": 30 },
-      { "year": 2023, "team": "FLA", "gp": 76, "goals": 23, "assists": 32, "points": 55, "plusMinus": 10, "pim": 30 },
-      { "year": 2024, "team": "DET", "gp": 80, "goals": 11, "assists": 22, "points": 33, "plusMinus": -8, "pim": 24 },
-      { "year": 2025, "team": "MIN", "gp": 75, "goals": 23, "assists": 24, "points": 47, "plusMinus": 4, "pim": 24 }
-    ] },
-    { "id": "SJS-pacioretty", "name": "Max Pacioretty", "pos": "LW", "age": 37, "shoots": "L", "overall": 74, "potential": 74, "nationality": "USA", "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "VGK", "gp": 39, "goals": 19, "assists": 18, "points": 37, "plusMinus": 6, "pim": 20 },
-      { "year": 2022, "team": "CAR", "gp": 5, "goals": 3, "assists": 1, "points": 4, "plusMinus": 2, "pim": 2 },
-      { "year": 2023, "team": "WSH", "gp": 47, "goals": 12, "assists": 13, "points": 25, "plusMinus": 2, "pim": 20 },
-      { "year": 2024, "team": "TOR", "gp": 37, "goals": 5, "assists": 8, "points": 13, "plusMinus": 2, "pim": 14 }
-    ] },
-    { "id": "SJS-nurse", "name": "Darnell Nurse", "pos": "D", "age": 31, "shoots": "L", "overall": 81, "potential": 81, "nationality": "CAN", "contract": { "capHit": 9.25, "yearsLeft": 5, "expiry": "UFA", "ntc": true }, "history": [
-      { "year": 2021, "team": "EDM", "gp": 65, "goals": 5, "assists": 21, "points": 26, "plusMinus": 3, "pim": 74 },
-      { "year": 2022, "team": "EDM", "gp": 82, "goals": 10, "assists": 27, "points": 37, "plusMinus": 1, "pim": 90 },
-      { "year": 2023, "team": "EDM", "gp": 77, "goals": 5, "assists": 28, "points": 33, "plusMinus": 18, "pim": 70 },
-      { "year": 2024, "team": "EDM", "gp": 76, "goals": 10, "assists": 23, "points": 33, "plusMinus": 12, "pim": 80 },
-      { "year": 2025, "team": "EDM", "gp": 82, "goals": 7, "assists": 17, "points": 24, "plusMinus": -12, "pim": 104 }
-    ] },
-    { "id": "SJS-trouba", "name": "Jacob Trouba", "pos": "D", "age": 32, "shoots": "R", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 8.25, "yearsLeft": 4, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "NYR", "gp": 81, "goals": 11, "assists": 28, "points": 39, "plusMinus": 6, "pim": 90 },
-      { "year": 2022, "team": "NYR", "gp": 79, "goals": 4, "assists": 18, "points": 22, "plusMinus": 8, "pim": 66 },
-      { "year": 2023, "team": "NYR", "gp": 69, "goals": 10, "assists": 12, "points": 22, "plusMinus": 17, "pim": 80 },
-      { "year": 2024, "team": "ANA", "gp": 68, "goals": 3, "assists": 11, "points": 14, "plusMinus": -10, "pim": 70 },
-      { "year": 2025, "team": "ANA", "gp": 81, "goals": 10, "assists": 25, "points": 35, "plusMinus": -1, "pim": 67 }
-    ] },
-    { "id": "SJS-orlov", "name": "Dmitry Orlov", "pos": "D", "age": 34, "shoots": "L", "overall": 77, "potential": 77, "nationality": "RUS", "contract": { "capHit": 6.5, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "WSH", "gp": 78, "goals": 5, "assists": 19, "points": 24, "plusMinus": 25, "pim": 40 },
-      { "year": 2022, "team": "BOS", "gp": 74, "goals": 6, "assists": 29, "points": 35, "plusMinus": 25, "pim": 40 },
-      { "year": 2023, "team": "CAR", "gp": 82, "goals": 6, "assists": 25, "points": 31, "plusMinus": 9, "pim": 30 },
-      { "year": 2024, "team": "CAR", "gp": 76, "goals": 6, "assists": 22, "points": 28, "plusMinus": 12, "pim": 40 },
-      { "year": 2025, "team": "SJS", "gp": 82, "goals": 3, "assists": 34, "points": 37, "plusMinus": -12, "pim": 48 }
-    ] },
-    { "id": "SJS-liljegren", "name": "Timothy Liljegren", "pos": "D", "age": 26, "shoots": "R", "overall": 76, "potential": 78, "nationality": "SWE", "contract": { "capHit": 3.5, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "TOR", "gp": 61, "goals": 5, "assists": 18, "points": 23, "plusMinus": 26, "pim": 26 },
-      { "year": 2022, "team": "TOR", "gp": 68, "goals": 3, "assists": 20, "points": 23, "plusMinus": 13, "pim": 20 },
-      { "year": 2023, "team": "TOR", "gp": 65, "goals": 4, "assists": 19, "points": 23, "plusMinus": 8, "pim": 20 },
-      { "year": 2024, "team": "SJS", "gp": 71, "goals": 4, "assists": 22, "points": 26, "plusMinus": -6, "pim": 24 },
-      { "year": 2025, "team": "WSH", "gp": 47, "goals": 1, "assists": 10, "points": 11, "plusMinus": -6, "pim": 29 }
-    ] },
-    { "id": "SJS-dickinson", "name": "Sam Dickinson", "pos": "D", "age": 20, "shoots": "L", "overall": 74, "potential": 88, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" }, "history": [
-      { "year": 2025, "team": "SJS", "gp": 72, "goals": 1, "assists": 13, "points": 14, "plusMinus": -14, "pim": 22 }
-    ] },
-    { "id": "SJS-klingberg", "name": "John Klingberg", "pos": "D", "age": 34, "shoots": "R", "overall": 75, "potential": 75, "nationality": "SWE", "contract": { "capHit": 4.25, "yearsLeft": 1, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "DAL", "gp": 74, "goals": 6, "assists": 41, "points": 47, "plusMinus": 3, "pim": 40 },
-      { "year": 2022, "team": "MIN", "gp": 67, "goals": 5, "assists": 26, "points": 31, "plusMinus": -18, "pim": 22 },
-      { "year": 2023, "team": "TOR", "gp": 14, "goals": 1, "assists": 3, "points": 4, "plusMinus": -2, "pim": 6 },
-      { "year": 2024, "team": "EDM", "gp": 24, "goals": 3, "assists": 8, "points": 11, "plusMinus": -2, "pim": 12 },
-      { "year": 2025, "team": "SJS", "gp": 54, "goals": 10, "assists": 14, "points": 24, "plusMinus": -8, "pim": 24 }
-    ] },
-    { "id": "SJS-askarov", "name": "Yaroslav Askarov", "pos": "G", "age": 23, "shoots": "L", "overall": 84, "potential": 91, "nationality": "RUS", "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "RFA" }, "history": [
-      { "year": 2023, "team": "NSH", "gp": 2, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 1, "losses": 1, "otl": 0, "shutouts": 0, "gaa": 2.20, "svPct": 0.918 },
-      { "year": 2024, "team": "SJS", "gp": 13, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 0, "wins": 6, "losses": 6, "otl": 1, "shutouts": 0, "gaa": 3.10, "svPct": 0.905 },
-      { "year": 2025, "team": "SJS", "gp": 45, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 21, "losses": 19, "otl": 3, "shutouts": 0, "gaa": 3.60, "svPct": 0.885 }
-    ] },
-    { "id": "SJS-nedeljkovic", "name": "Alex Nedeljkovic", "pos": "G", "age": 30, "shoots": "L", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "UFA" }, "history": [
-      { "year": 2021, "team": "DET", "gp": 59, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 6, "wins": 20, "losses": 24, "otl": 8, "shutouts": 1, "gaa": 3.31, "svPct": 0.901 },
-      { "year": 2022, "team": "DET", "gp": 33, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 13, "losses": 12, "otl": 6, "shutouts": 2, "gaa": 3.31, "svPct": 0.894 },
-      { "year": 2023, "team": "PIT", "gp": 24, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 12, "losses": 8, "otl": 2, "shutouts": 2, "gaa": 2.75, "svPct": 0.902 },
-      { "year": 2024, "team": "PIT", "gp": 38, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4, "wins": 14, "losses": 15, "otl": 5, "shutouts": 1, "gaa": 3.12, "svPct": 0.894 },
-      { "year": 2025, "team": "SJS", "gp": 40, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 4, "wins": 18, "losses": 14, "otl": 4, "shutouts": 0, "gaa": 2.87, "svPct": 0.896 }
-    ] }
+    {
+      "id": "SJS-celebrini",
+      "name": "Macklin Celebrini",
+      "pos": "C",
+      "age": 20,
+      "shoots": "L",
+      "overall": 88,
+      "potential": 96,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 70,
+          "goals": 25,
+          "assists": 38,
+          "points": 63,
+          "plusMinus": -15,
+          "pim": 24
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 82,
+          "goals": 45,
+          "assists": 70,
+          "points": 115,
+          "plusMinus": 8,
+          "pim": 44
+        }
+      ]
+    },
+    {
+      "id": "SJS-smith",
+      "name": "William Smith",
+      "pos": "C",
+      "age": 21,
+      "shoots": "R",
+      "overall": 82,
+      "potential": 91,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 74,
+          "goals": 18,
+          "assists": 27,
+          "points": 45,
+          "plusMinus": -21,
+          "pim": 14
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 69,
+          "goals": 24,
+          "assists": 35,
+          "points": 59,
+          "plusMinus": -3,
+          "pim": 22
+        }
+      ]
+    },
+    {
+      "id": "SJS-misa",
+      "name": "Michael Misa",
+      "pos": "C",
+      "age": 19,
+      "shoots": "L",
+      "overall": 78,
+      "potential": 91,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 45,
+          "goals": 9,
+          "assists": 12,
+          "points": 21,
+          "plusMinus": -10,
+          "pim": 12
+        }
+      ]
+    },
+    {
+      "id": "SJS-toffoli",
+      "name": "Tyler Toffoli",
+      "pos": "RW",
+      "age": 34,
+      "shoots": "R",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 6,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CGY",
+          "gp": 73,
+          "goals": 26,
+          "assists": 24,
+          "points": 50,
+          "plusMinus": 12,
+          "pim": 20
+        },
+        {
+          "year": 2022,
+          "team": "CGY",
+          "gp": 82,
+          "goals": 34,
+          "assists": 39,
+          "points": 73,
+          "plusMinus": 2,
+          "pim": 34
+        },
+        {
+          "year": 2023,
+          "team": "WPG",
+          "gp": 80,
+          "goals": 33,
+          "assists": 21,
+          "points": 54,
+          "plusMinus": 5,
+          "pim": 30
+        },
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 78,
+          "goals": 25,
+          "assists": 23,
+          "points": 48,
+          "plusMinus": -18,
+          "pim": 24
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 79,
+          "goals": 19,
+          "assists": 30,
+          "points": 49,
+          "plusMinus": -12,
+          "pim": 30
+        }
+      ]
+    },
+    {
+      "id": "SJS-marchment",
+      "name": "Mason Marchment",
+      "pos": "LW",
+      "age": 31,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 6.75,
+        "yearsLeft": 5,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "FLA",
+          "gp": 54,
+          "goals": 18,
+          "assists": 19,
+          "points": 37,
+          "plusMinus": 24,
+          "pim": 32
+        },
+        {
+          "year": 2022,
+          "team": "DAL",
+          "gp": 66,
+          "goals": 22,
+          "assists": 25,
+          "points": 47,
+          "plusMinus": 9,
+          "pim": 44
+        },
+        {
+          "year": 2023,
+          "team": "DAL",
+          "gp": 75,
+          "goals": 22,
+          "assists": 34,
+          "points": 56,
+          "plusMinus": 16,
+          "pim": 60
+        },
+        {
+          "year": 2024,
+          "team": "DAL",
+          "gp": 61,
+          "goals": 22,
+          "assists": 25,
+          "points": 47,
+          "plusMinus": 12,
+          "pim": 50
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 68,
+          "goals": 19,
+          "assists": 26,
+          "points": 45,
+          "plusMinus": -2,
+          "pim": 50
+        }
+      ]
+    },
+    {
+      "id": "SJS-wennberg",
+      "name": "Alexander Wennberg",
+      "pos": "C",
+      "age": 31,
+      "shoots": "L",
+      "overall": 77,
+      "potential": 77,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 5,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "SEA",
+          "gp": 80,
+          "goals": 11,
+          "assists": 26,
+          "points": 37,
+          "plusMinus": -6,
+          "pim": 20
+        },
+        {
+          "year": 2022,
+          "team": "SEA",
+          "gp": 80,
+          "goals": 13,
+          "assists": 24,
+          "points": 37,
+          "plusMinus": 14,
+          "pim": 16
+        },
+        {
+          "year": 2023,
+          "team": "NYR",
+          "gp": 71,
+          "goals": 8,
+          "assists": 28,
+          "points": 36,
+          "plusMinus": 4,
+          "pim": 12
+        },
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 82,
+          "goals": 11,
+          "assists": 30,
+          "points": 41,
+          "plusMinus": -22,
+          "pim": 18
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 80,
+          "goals": 18,
+          "assists": 37,
+          "points": 55,
+          "plusMinus": -5,
+          "pim": 20
+        }
+      ]
+    },
+    {
+      "id": "SJS-couture",
+      "name": "Logan Couture",
+      "pos": "C",
+      "age": 37,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 72,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 8,
+        "yearsLeft": 1,
+        "expiry": "UFA",
+        "ntc": true
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "SJS",
+          "gp": 77,
+          "goals": 23,
+          "assists": 33,
+          "points": 56,
+          "plusMinus": -9,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "SJS",
+          "gp": 82,
+          "goals": 27,
+          "assists": 40,
+          "points": 67,
+          "plusMinus": -12,
+          "pim": 44
+        },
+        {
+          "year": 2023,
+          "team": "SJS",
+          "gp": 6,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": -2,
+          "pim": 2
+        }
+      ]
+    },
+    {
+      "id": "SJS-dellandrea",
+      "name": "Ty Dellandrea",
+      "pos": "C",
+      "age": 25,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 76,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "DAL",
+          "gp": 26,
+          "goals": 2,
+          "assists": 2,
+          "points": 4,
+          "plusMinus": -2,
+          "pim": 12
+        },
+        {
+          "year": 2022,
+          "team": "DAL",
+          "gp": 75,
+          "goals": 13,
+          "assists": 10,
+          "points": 23,
+          "plusMinus": 2,
+          "pim": 20
+        },
+        {
+          "year": 2023,
+          "team": "DAL",
+          "gp": 63,
+          "goals": 4,
+          "assists": 7,
+          "points": 11,
+          "plusMinus": -4,
+          "pim": 24
+        },
+        {
+          "year": 2024,
+          "team": "DAL",
+          "gp": 55,
+          "goals": 4,
+          "assists": 8,
+          "points": 12,
+          "plusMinus": -5,
+          "pim": 22
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 46,
+          "goals": 2,
+          "assists": 9,
+          "points": 11,
+          "plusMinus": -8,
+          "pim": 20
+        }
+      ]
+    },
+    {
+      "id": "SJS-kovalenko",
+      "name": "Nikolai Kovalenko",
+      "pos": "RW",
+      "age": 26,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 78,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 1.8,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 57,
+          "goals": 7,
+          "assists": 13,
+          "points": 20,
+          "plusMinus": -8,
+          "pim": 20
+        }
+      ]
+    },
+    {
+      "id": "SJS-graf",
+      "name": "Collin Graf",
+      "pos": "RW",
+      "age": 23,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 79,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 32,
+          "goals": 4,
+          "assists": 9,
+          "points": 13,
+          "plusMinus": -5,
+          "pim": 10
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 81,
+          "goals": 21,
+          "assists": 25,
+          "points": 46,
+          "plusMinus": -8,
+          "pim": 30
+        }
+      ]
+    },
+    {
+      "id": "SJS-barreboulet",
+      "name": "Alex Barre-Boulet",
+      "pos": "C",
+      "age": 28,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 72,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.8,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "TBL",
+          "gp": 20,
+          "goals": 4,
+          "assists": 2,
+          "points": 6,
+          "plusMinus": -2,
+          "pim": 6
+        },
+        {
+          "year": 2022,
+          "team": "TBL",
+          "gp": 28,
+          "goals": 5,
+          "assists": 3,
+          "points": 8,
+          "plusMinus": 1,
+          "pim": 8
+        },
+        {
+          "year": 2023,
+          "team": "TBL",
+          "gp": 10,
+          "goals": 2,
+          "assists": 1,
+          "points": 3,
+          "plusMinus": -1,
+          "pim": 4
+        },
+        {
+          "year": 2025,
+          "team": "COL",
+          "gp": 2,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 0
+        }
+      ]
+    },
+    {
+      "id": "SJS-leason",
+      "name": "Brett Leason",
+      "pos": "RW",
+      "age": 27,
+      "shoots": "R",
+      "overall": 72,
+      "potential": 72,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "WSH",
+          "gp": 26,
+          "goals": 2,
+          "assists": 3,
+          "points": 5,
+          "plusMinus": -2,
+          "pim": 10
+        },
+        {
+          "year": 2022,
+          "team": "ANA",
+          "gp": 55,
+          "goals": 6,
+          "assists": 6,
+          "points": 12,
+          "plusMinus": -10,
+          "pim": 20
+        },
+        {
+          "year": 2023,
+          "team": "ANA",
+          "gp": 56,
+          "goals": 8,
+          "assists": 8,
+          "points": 16,
+          "plusMinus": -8,
+          "pim": 30
+        },
+        {
+          "year": 2024,
+          "team": "ANA",
+          "gp": 40,
+          "goals": 7,
+          "assists": 7,
+          "points": 14,
+          "plusMinus": -6,
+          "pim": 20
+        },
+        {
+          "year": 2025,
+          "team": "WSH",
+          "gp": 6,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 4
+        }
+      ]
+    },
+    {
+      "id": "SJS-tarasenko",
+      "name": "Vladimir Tarasenko",
+      "pos": "RW",
+      "age": 34,
+      "shoots": "L",
+      "overall": 78,
+      "potential": 78,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 4.75,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "STL",
+          "gp": 75,
+          "goals": 34,
+          "assists": 48,
+          "points": 82,
+          "plusMinus": 26,
+          "pim": 30
+        },
+        {
+          "year": 2022,
+          "team": "NYR",
+          "gp": 69,
+          "goals": 18,
+          "assists": 32,
+          "points": 50,
+          "plusMinus": 5,
+          "pim": 30
+        },
+        {
+          "year": 2023,
+          "team": "FLA",
+          "gp": 76,
+          "goals": 23,
+          "assists": 32,
+          "points": 55,
+          "plusMinus": 10,
+          "pim": 30
+        },
+        {
+          "year": 2024,
+          "team": "DET",
+          "gp": 80,
+          "goals": 11,
+          "assists": 22,
+          "points": 33,
+          "plusMinus": -8,
+          "pim": 24
+        },
+        {
+          "year": 2025,
+          "team": "MIN",
+          "gp": 75,
+          "goals": 23,
+          "assists": 24,
+          "points": 47,
+          "plusMinus": 4,
+          "pim": 24
+        }
+      ]
+    },
+    {
+      "id": "SJS-olofsson",
+      "name": "Victor Olofsson",
+      "pos": "LW",
+      "age": 31,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 3,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "BUF",
+          "gp": 72,
+          "goals": 20,
+          "assists": 29,
+          "points": 49,
+          "plusMinus": -9,
+          "pim": 12
+        },
+        {
+          "year": 2022,
+          "team": "BUF",
+          "gp": 75,
+          "goals": 28,
+          "assists": 21,
+          "points": 49,
+          "plusMinus": -5,
+          "pim": 14
+        },
+        {
+          "year": 2023,
+          "team": "BUF",
+          "gp": 51,
+          "goals": 7,
+          "assists": 8,
+          "points": 15,
+          "plusMinus": 2,
+          "pim": 4
+        },
+        {
+          "year": 2024,
+          "team": "VGK",
+          "gp": 56,
+          "goals": 15,
+          "assists": 14,
+          "points": 29,
+          "plusMinus": 3,
+          "pim": 8
+        },
+        {
+          "year": 2025,
+          "team": "VGK",
+          "gp": 61,
+          "goals": 13,
+          "assists": 16,
+          "points": 29,
+          "plusMinus": 1,
+          "pim": 10
+        }
+      ]
+    },
+    {
+      "id": "SJS-nurse",
+      "name": "Darnell Nurse",
+      "pos": "D",
+      "age": 31,
+      "shoots": "L",
+      "overall": 81,
+      "potential": 81,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 9.25,
+        "yearsLeft": 5,
+        "expiry": "UFA",
+        "ntc": true
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "EDM",
+          "gp": 65,
+          "goals": 5,
+          "assists": 21,
+          "points": 26,
+          "plusMinus": 3,
+          "pim": 74
+        },
+        {
+          "year": 2022,
+          "team": "EDM",
+          "gp": 82,
+          "goals": 10,
+          "assists": 27,
+          "points": 37,
+          "plusMinus": 1,
+          "pim": 90
+        },
+        {
+          "year": 2023,
+          "team": "EDM",
+          "gp": 77,
+          "goals": 5,
+          "assists": 28,
+          "points": 33,
+          "plusMinus": 18,
+          "pim": 70
+        },
+        {
+          "year": 2024,
+          "team": "EDM",
+          "gp": 76,
+          "goals": 10,
+          "assists": 23,
+          "points": 33,
+          "plusMinus": 12,
+          "pim": 80
+        },
+        {
+          "year": 2025,
+          "team": "EDM",
+          "gp": 82,
+          "goals": 7,
+          "assists": 17,
+          "points": 24,
+          "plusMinus": -12,
+          "pim": 104
+        }
+      ]
+    },
+    {
+      "id": "SJS-trouba",
+      "name": "Jacob Trouba",
+      "pos": "D",
+      "age": 32,
+      "shoots": "R",
+      "overall": 78,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 8.25,
+        "yearsLeft": 4,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "NYR",
+          "gp": 81,
+          "goals": 11,
+          "assists": 28,
+          "points": 39,
+          "plusMinus": 6,
+          "pim": 90
+        },
+        {
+          "year": 2022,
+          "team": "NYR",
+          "gp": 79,
+          "goals": 4,
+          "assists": 18,
+          "points": 22,
+          "plusMinus": 8,
+          "pim": 66
+        },
+        {
+          "year": 2023,
+          "team": "NYR",
+          "gp": 69,
+          "goals": 10,
+          "assists": 12,
+          "points": 22,
+          "plusMinus": 17,
+          "pim": 80
+        },
+        {
+          "year": 2024,
+          "team": "ANA",
+          "gp": 68,
+          "goals": 3,
+          "assists": 11,
+          "points": 14,
+          "plusMinus": -10,
+          "pim": 70
+        },
+        {
+          "year": 2025,
+          "team": "ANA",
+          "gp": 81,
+          "goals": 10,
+          "assists": 25,
+          "points": 35,
+          "plusMinus": -1,
+          "pim": 67
+        }
+      ]
+    },
+    {
+      "id": "SJS-orlov",
+      "name": "Dmitry Orlov",
+      "pos": "D",
+      "age": 34,
+      "shoots": "L",
+      "overall": 77,
+      "potential": 77,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 6.5,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "WSH",
+          "gp": 78,
+          "goals": 5,
+          "assists": 19,
+          "points": 24,
+          "plusMinus": 25,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "BOS",
+          "gp": 74,
+          "goals": 6,
+          "assists": 29,
+          "points": 35,
+          "plusMinus": 25,
+          "pim": 40
+        },
+        {
+          "year": 2023,
+          "team": "CAR",
+          "gp": 82,
+          "goals": 6,
+          "assists": 25,
+          "points": 31,
+          "plusMinus": 9,
+          "pim": 30
+        },
+        {
+          "year": 2024,
+          "team": "CAR",
+          "gp": 76,
+          "goals": 6,
+          "assists": 22,
+          "points": 28,
+          "plusMinus": 12,
+          "pim": 40
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 82,
+          "goals": 3,
+          "assists": 34,
+          "points": 37,
+          "plusMinus": -12,
+          "pim": 48
+        }
+      ]
+    },
+    {
+      "id": "SJS-liljegren",
+      "name": "Timothy Liljegren",
+      "pos": "D",
+      "age": 26,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 78,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 3.5,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "TOR",
+          "gp": 61,
+          "goals": 5,
+          "assists": 18,
+          "points": 23,
+          "plusMinus": 26,
+          "pim": 26
+        },
+        {
+          "year": 2022,
+          "team": "TOR",
+          "gp": 68,
+          "goals": 3,
+          "assists": 20,
+          "points": 23,
+          "plusMinus": 13,
+          "pim": 20
+        },
+        {
+          "year": 2023,
+          "team": "TOR",
+          "gp": 65,
+          "goals": 4,
+          "assists": 19,
+          "points": 23,
+          "plusMinus": 8,
+          "pim": 20
+        },
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 71,
+          "goals": 4,
+          "assists": 22,
+          "points": 26,
+          "plusMinus": -6,
+          "pim": 24
+        },
+        {
+          "year": 2025,
+          "team": "WSH",
+          "gp": 47,
+          "goals": 1,
+          "assists": 10,
+          "points": 11,
+          "plusMinus": -6,
+          "pim": 29
+        }
+      ]
+    },
+    {
+      "id": "SJS-dickinson",
+      "name": "Sam Dickinson",
+      "pos": "D",
+      "age": 20,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 88,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 72,
+          "goals": 1,
+          "assists": 13,
+          "points": 14,
+          "plusMinus": -14,
+          "pim": 22
+        }
+      ]
+    },
+    {
+      "id": "SJS-klingberg",
+      "name": "John Klingberg",
+      "pos": "D",
+      "age": 34,
+      "shoots": "R",
+      "overall": 75,
+      "potential": 75,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 4.25,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "DAL",
+          "gp": 74,
+          "goals": 6,
+          "assists": 41,
+          "points": 47,
+          "plusMinus": 3,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "MIN",
+          "gp": 67,
+          "goals": 5,
+          "assists": 26,
+          "points": 31,
+          "plusMinus": -18,
+          "pim": 22
+        },
+        {
+          "year": 2023,
+          "team": "TOR",
+          "gp": 14,
+          "goals": 1,
+          "assists": 3,
+          "points": 4,
+          "plusMinus": -2,
+          "pim": 6
+        },
+        {
+          "year": 2024,
+          "team": "EDM",
+          "gp": 24,
+          "goals": 3,
+          "assists": 8,
+          "points": 11,
+          "plusMinus": -2,
+          "pim": 12
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 54,
+          "goals": 10,
+          "assists": 14,
+          "points": 24,
+          "plusMinus": -8,
+          "pim": 24
+        }
+      ]
+    },
+    {
+      "id": "SJS-askarov",
+      "name": "Yaroslav Askarov",
+      "pos": "G",
+      "age": 23,
+      "shoots": "L",
+      "overall": 84,
+      "potential": 91,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 2,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2023,
+          "team": "NSH",
+          "gp": 2,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 0,
+          "wins": 1,
+          "losses": 1,
+          "otl": 0,
+          "shutouts": 0,
+          "gaa": 2.2,
+          "svPct": 0.918
+        },
+        {
+          "year": 2024,
+          "team": "SJS",
+          "gp": 13,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 0,
+          "wins": 6,
+          "losses": 6,
+          "otl": 1,
+          "shutouts": 0,
+          "gaa": 3.1,
+          "svPct": 0.905
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 45,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 21,
+          "losses": 19,
+          "otl": 3,
+          "shutouts": 0,
+          "gaa": 3.6,
+          "svPct": 0.885
+        }
+      ]
+    },
+    {
+      "id": "SJS-nedeljkovic",
+      "name": "Alex Nedeljkovic",
+      "pos": "G",
+      "age": 30,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 3,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "DET",
+          "gp": 59,
+          "goals": 0,
+          "assists": 2,
+          "points": 2,
+          "plusMinus": 0,
+          "pim": 6,
+          "wins": 20,
+          "losses": 24,
+          "otl": 8,
+          "shutouts": 1,
+          "gaa": 3.31,
+          "svPct": 0.901
+        },
+        {
+          "year": 2022,
+          "team": "DET",
+          "gp": 33,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 13,
+          "losses": 12,
+          "otl": 6,
+          "shutouts": 2,
+          "gaa": 3.31,
+          "svPct": 0.894
+        },
+        {
+          "year": 2023,
+          "team": "PIT",
+          "gp": 24,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 12,
+          "losses": 8,
+          "otl": 2,
+          "shutouts": 2,
+          "gaa": 2.75,
+          "svPct": 0.902
+        },
+        {
+          "year": 2024,
+          "team": "PIT",
+          "gp": 38,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": 0,
+          "pim": 4,
+          "wins": 14,
+          "losses": 15,
+          "otl": 5,
+          "shutouts": 1,
+          "gaa": 3.12,
+          "svPct": 0.894
+        },
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 40,
+          "goals": 0,
+          "assists": 2,
+          "points": 2,
+          "plusMinus": 0,
+          "pim": 4,
+          "wins": 18,
+          "losses": 14,
+          "otl": 4,
+          "shutouts": 0,
+          "gaa": 2.87,
+          "svPct": 0.896
+        }
+      ]
+    }
   ],
   "prospects": [
-    { "id": "SJS-stenberg", "name": "Ivar Stenberg", "pos": "RW", "age": 18, "shoots": "L", "overall": 64, "potential": 90, "nationality": "SWE", "devLeague": "SHL", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "SJS-musty", "name": "Quentin Musty", "pos": "LW", "age": 21, "shoots": "L", "overall": 70, "potential": 85, "nationality": "USA", "devLeague": "AHL", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "SJS-chernyshov", "name": "Igor Chernyshov", "pos": "LW", "age": 21, "shoots": "L", "overall": 69, "potential": 83, "nationality": "RUS", "devLeague": "AHL", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" }, "history": [
-      { "year": 2025, "team": "SJS", "gp": 28, "goals": 9, "assists": 10, "points": 19, "plusMinus": -5, "pim": 10 }
-    ] },
-    { "id": "SJS-wallenius", "name": "Leo Sahlin Wallenius", "pos": "D", "age": 21, "shoots": "L", "overall": 64, "potential": 84, "nationality": "SWE", "devLeague": "AHL", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "SJS-lund", "name": "Cam Lund", "pos": "C", "age": 22, "shoots": "L", "overall": 64, "potential": 78, "nationality": "USA", "devLeague": "NCAA", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "SJS-cagnoni", "name": "Luca Cagnoni", "pos": "D", "age": 21, "shoots": "L", "overall": 65, "potential": 80, "nationality": "CAN", "devLeague": "AHL", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" }, "history": [
-      { "year": 2025, "team": "SJS", "gp": 6, "goals": 0, "assists": 2, "points": 2, "plusMinus": -2, "pim": 2 }
-    ] }
+    {
+      "id": "SJS-stenberg",
+      "name": "Ivar Stenberg",
+      "pos": "RW",
+      "age": 18,
+      "shoots": "L",
+      "overall": 64,
+      "potential": 90,
+      "nationality": "SWE",
+      "devLeague": "SHL",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "SJS-musty",
+      "name": "Quentin Musty",
+      "pos": "LW",
+      "age": 21,
+      "shoots": "L",
+      "overall": 70,
+      "potential": 85,
+      "nationality": "USA",
+      "devLeague": "AHL",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "SJS-chernyshov",
+      "name": "Igor Chernyshov",
+      "pos": "LW",
+      "age": 21,
+      "shoots": "L",
+      "overall": 69,
+      "potential": 83,
+      "nationality": "RUS",
+      "devLeague": "AHL",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 28,
+          "goals": 9,
+          "assists": 10,
+          "points": 19,
+          "plusMinus": -5,
+          "pim": 10
+        }
+      ]
+    },
+    {
+      "id": "SJS-wallenius",
+      "name": "Leo Sahlin Wallenius",
+      "pos": "D",
+      "age": 21,
+      "shoots": "L",
+      "overall": 64,
+      "potential": 84,
+      "nationality": "SWE",
+      "devLeague": "AHL",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "SJS-lund",
+      "name": "Cam Lund",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 64,
+      "potential": 78,
+      "nationality": "USA",
+      "devLeague": "NCAA",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "SJS-cagnoni",
+      "name": "Luca Cagnoni",
+      "pos": "D",
+      "age": 21,
+      "shoots": "L",
+      "overall": 65,
+      "potential": 80,
+      "nationality": "CAN",
+      "devLeague": "AHL",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2025,
+          "team": "SJS",
+          "gp": 6,
+          "goals": 0,
+          "assists": 2,
+          "points": 2,
+          "plusMinus": -2,
+          "pim": 2
+        }
+      ]
+    }
   ]
 }
