@@ -1,8 +1,8 @@
 # Hockey Dynasty — Architecture
 
 A browser-only NHL dynasty/franchise-mode manager (think EA NHL franchise mode **without** playable games).
-The user picks one of the 32 real NHL teams with its real 2025-26 roster and real contracts, then manages it
-for 10 seasons (2025-26 → 2034-35): simulate the schedule, make trades, re-sign players, sign free agents,
+The user picks one of the 32 real NHL teams with its real 2026-27 roster and real contracts, then manages it
+for 10 seasons (2026-27 → 2035-36): simulate the schedule, make trades, re-sign players, sign free agents,
 draft prospects, and watch players develop, age, and retire.
 
 ## Stack

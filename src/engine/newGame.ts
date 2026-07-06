@@ -64,7 +64,7 @@ export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
     freeAgents: [],
     draftClass: [],
     history: [],
-    news: [{ day: 0, seasonYear: START_YEAR, text: `Welcome to your dynasty with the ${teams[userTeam].city} ${teams[userTeam].name}. The 2025-26 season begins.` }],
+    news: [{ day: 0, seasonYear: START_YEAR, text: `Welcome to your dynasty with the ${teams[userTeam].city} ${teams[userTeam].name}. The ${START_YEAR}-${String((START_YEAR + 1) % 100).padStart(2, '0')} season begins.` }],
     rngState: rng.state,
   }
   s.schedule = buildSchedule(teams, rng)

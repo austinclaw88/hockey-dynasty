@@ -1,6 +1,6 @@
 // Game-state derived helpers used across screens (pure, read-only).
 import type { GameState, Player, TeamState, Game, Division } from '../types'
-import { SALARY_CAP } from '../types'
+import { SALARY_CAP, START_YEAR } from '../types'
 
 /** Average of the top-N overalls on a roster — a quick team-strength proxy. */
 export function teamOverall(roster: Player[], topN = 20): number {
@@ -108,7 +108,7 @@ export function divisionsByConference(): Record<'East' | 'West', Division[]> {
 /** Approximate calendar day label (Oct 8 -> Apr 10 over ~185 days). */
 export function dayLabel(day: number): string {
   // Season starts Oct 8. Each index ~= 1 calendar day.
-  const start = new Date(2025, 9, 8) // month 9 = October
+  const start = new Date(START_YEAR, 9, 8) // month 9 = October
   const d = new Date(start.getTime() + day * 24 * 3600 * 1000)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }

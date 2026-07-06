@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // fetch-rosters.mjs — refresh data/teams/*.json from the NHL public API.
 //
-// Rosters:  https://api-web.nhle.com/v1/roster/{TEAM}/20252026
+// Rosters:  https://api-web.nhle.com/v1/roster/{TEAM}/20262027
 // Player:   https://api-web.nhle.com/v1/player/{id}/landing
 //
 // Ratings: the NHL API has no "overall", so we DERIVE one from last season's
@@ -25,7 +25,7 @@ import { dirname, join } from 'node:path'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = join(__dirname, '..', 'data', 'teams')
-const SEASON = '20252026'
+const SEASON = '20262027'
 
 const TEAMS = [
   'ANA', 'BOS', 'BUF', 'CAR', 'CBJ', 'CGY', 'CHI', 'COL', 'DAL', 'DET', 'EDM', 'FLA',

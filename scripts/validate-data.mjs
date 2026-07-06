@@ -76,7 +76,7 @@ for (const f of files) {
   const roster = d.roster ?? []
   const prospects = d.prospects ?? []
   if (roster.length < 21 || roster.length > 23) errors.push(`${team}: roster size ${roster.length} (need 21-23)`)
-  if (prospects.length < 3 || prospects.length > 6) errors.push(`${team}: prospects ${prospects.length} (need 3-6)`)
+  if (prospects.length < 6 || prospects.length > 14) errors.push(`${team}: prospects ${prospects.length} (need 6-14)`)
   const byPos = { F: 0, D: 0, G: 0 }
   for (const p of roster) byPos[p.pos === 'D' ? 'D' : p.pos === 'G' ? 'G' : 'F']++
   if (byPos.F < 12 || byPos.F > 14) errors.push(`${team}: ${byPos.F} forwards (need 12-14)`)
@@ -85,7 +85,7 @@ for (const f of files) {
   for (const p of roster) checkPlayer(p, team, 'roster')
   for (const p of prospects) checkPlayer(p, team, 'prospects')
   const capTotal = roster.reduce((s, p) => s + (p.contract?.capHit ?? 0), 0)
-  if (capTotal < 78 || capTotal > 95.5) errors.push(`${team}: cap total $${capTotal.toFixed(2)}M outside 78-95.5`)
+  if (capTotal < 80 || capTotal > 104) errors.push(`${team}: cap total $${capTotal.toFixed(2)}M outside 80-104 (2026-27 cap = $104M)`)
   const avg = roster.reduce((s, p) => s + p.overall, 0) / roster.length
   if (avg < 74 || avg > 86) warns.push(`${team}: avg overall ${avg.toFixed(1)} looks off (expect ~76-84)`)
 }

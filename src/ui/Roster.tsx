@@ -128,6 +128,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                 <tr>
                   <th>Player</th>
                   <th>Pos</th>
+                  <th>League</th>
                   <th className="num">Age</th>
                   <th className="num">OVR</th>
                   <th className="num">POT</th>
@@ -148,6 +149,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                         <td>
                           <PosTag pos={p.pos} />
                         </td>
+                        <td className="dim">{p.devLeague ?? '—'}</td>
                         <td className="num">{p.age}</td>
                         <td className="num">
                           <OvrBadge overall={p.overall} />

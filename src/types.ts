@@ -40,6 +40,8 @@ export interface Player {
   injuryWeeks?: number
   /** True once the player has retired (kept for history) */
   retired?: boolean
+  /** Development league for prospects, e.g. 'NCAA', 'CHL', 'AHL', 'SHL', 'Liiga', 'KHL', 'Czechia' */
+  devLeague?: string
 }
 
 export interface SeasonStatLine {
@@ -130,7 +132,7 @@ export interface PlayoffSeries {
 }
 
 export interface SeasonSummary {
-  /** Start year, e.g. 2025 for the 2025-26 season */
+  /** Start year, e.g. 2026 for the 2026-27 season */
   year: number
   presidentsTrophy: string
   cupWinner: string
@@ -150,7 +152,7 @@ export interface FreeAgent extends Player {
 export interface GameState {
   /** Save-format version for migrations */
   v: number
-  /** Start year of current season: 2025 => 2025-26 */
+  /** Start year of current season: 2026 => 2026-27 */
   seasonYear: number
   /** Index 0..9 of the dynasty (10 seasons) */
   seasonIndex: number
@@ -189,12 +191,13 @@ export const SALARY_CAP: Record<number, number> = {
   2032: 145.3,
   2033: 152.6,
   2034: 160.2,
+  2035: 168.2,
 }
 
 export const ROSTER_MIN = 20
 export const ROSTER_MAX = 23
 export const SEASONS_TOTAL = 10
-export const START_YEAR = 2025
+export const START_YEAR = 2026
 
 /** Raw shape of the bundled team data files (data/teams/*.json) */
 export interface TeamDataFile {

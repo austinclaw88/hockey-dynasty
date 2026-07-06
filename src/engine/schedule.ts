@@ -2,6 +2,7 @@
 // calendar days (Oct 8 -> Apr 10). Not the exact NHL formula, but a valid,
 // balanced round-robin-ish mix with home/away roughly split.
 import type { Game, TeamState } from '../types.ts'
+import { START_YEAR } from '../types.ts'
 import type { Rng } from './rng.ts'
 
 export const SEASON_DAYS = 185
@@ -79,7 +80,7 @@ export function buildSchedule(teams: Record<string, TeamState>, rng: Rng): Game[
 
 /** Human-readable date label for a 0-based day index (Oct 8 -> Apr 10). */
 export function dayLabel(day: number): string {
-  const start = new Date(2025, 9, 8) // Oct 8
+  const start = new Date(START_YEAR, 9, 8) // Oct 8
   const d = new Date(start.getTime() + day * 86400000)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
