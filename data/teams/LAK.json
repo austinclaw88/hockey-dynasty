@@ -7,7 +7,6 @@
     { "id": "LAK-danault", "name": "Phillip Danault", "pos": "C", "age": 33, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
     { "id": "LAK-laferriere", "name": "Alex Laferriere", "pos": "RW", "age": 25, "shoots": "R", "overall": 81, "potential": 84, "nationality": "USA", "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "UFA" } },
     { "id": "LAK-moore", "name": "Trevor Moore", "pos": "LW", "age": 31, "shoots": "L", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 4.75, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "LAK-kuzmenko", "name": "Andrei Kuzmenko", "pos": "LW", "age": 30, "shoots": "L", "overall": 78, "potential": 78, "nationality": "RUS", "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" } },
     { "id": "LAK-foegele", "name": "Warren Foegele", "pos": "LW", "age": 30, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.5, "yearsLeft": 1, "expiry": "UFA" } },
     { "id": "LAK-haula", "name": "Erik Haula", "pos": "C", "age": 35, "shoots": "L", "overall": 76, "potential": 76, "nationality": "FIN", "contract": { "capHit": 3.6, "yearsLeft": 2, "expiry": "UFA" } },
     { "id": "LAK-zuccarello", "name": "Mats Zuccarello", "pos": "RW", "age": 39, "shoots": "R", "overall": 78, "potential": 78, "nationality": "NOR", "contract": { "capHit": 3.5, "yearsLeft": 1, "expiry": "UFA" } },

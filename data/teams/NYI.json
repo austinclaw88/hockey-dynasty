@@ -9,7 +9,6 @@
     { "id": "NYI-duclair", "name": "Anthony Duclair", "pos": "LW", "age": 31, "shoots": "L", "overall": 75, "potential": 75, "nationality": "CAN", "contract": { "capHit": 3.5, "yearsLeft": 2, "expiry": "UFA" } },
     { "id": "NYI-holmstrom", "name": "Simon Holmstrom", "pos": "RW", "age": 25, "shoots": "L", "overall": 77, "potential": 80, "nationality": "SWE", "contract": { "capHit": 2.55, "yearsLeft": 1, "expiry": "RFA" } },
     { "id": "NYI-cizikas", "name": "Casey Cizikas", "pos": "C", "age": 35, "shoots": "R", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "NYI-shabanov", "name": "Maxim Shabanov", "pos": "RW", "age": 25, "shoots": "L", "overall": 79, "potential": 84, "nationality": "RUS", "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "RFA" } },
     { "id": "NYI-maclean", "name": "Kyle MacLean", "pos": "C", "age": 27, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 1, "expiry": "UFA" } },
     { "id": "NYI-tsyplakov", "name": "Maxim Tsyplakov", "pos": "LW", "age": 27, "shoots": "L", "overall": 76, "potential": 79, "nationality": "RUS", "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "RFA" } },
     { "id": "NYI-heineman", "name": "Emil Heineman", "pos": "LW", "age": 25, "shoots": "L", "overall": 76, "potential": 80, "nationality": "SWE", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },

@@ -20,7 +20,6 @@
     { "id": "NJD-siegenthaler", "name": "Jonas Siegenthaler", "pos": "D", "age": 28, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CHE", "contract": { "capHit": 3.4, "yearsLeft": 3, "expiry": "UFA" } },
     { "id": "NJD-dillon", "name": "Brenden Dillon", "pos": "D", "age": 35, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" } },
     { "id": "NJD-casey", "name": "Seamus Casey", "pos": "D", "age": 22, "shoots": "R", "overall": 74, "potential": 84, "nationality": "USA", "contract": { "capHit": 0.918, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "NJD-kolyachonok", "name": "Vladislav Kolyachonok", "pos": "D", "age": 25, "shoots": "L", "overall": 73, "potential": 75, "nationality": "BLR", "contract": { "capHit": 1.0, "yearsLeft": 2, "expiry": "UFA" } },
     { "id": "NJD-allen", "name": "Jake Allen", "pos": "G", "age": 36, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 1.8, "yearsLeft": 2, "expiry": "UFA" } },
     { "id": "NJD-daws", "name": "Nico Daws", "pos": "G", "age": 25, "shoots": "L", "overall": 76, "potential": 80, "nationality": "CAN", "contract": { "capHit": 1.1, "yearsLeft": 2, "expiry": "RFA" } }
   ],
