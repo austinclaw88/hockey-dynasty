@@ -149,6 +149,26 @@ export interface FreeAgent extends Player {
   asking: { capHit: number; years: number }
 }
 
+/** One archived season line for a player's career history. */
+export interface CareerSeason {
+  year: number
+  /** Team abbrev the player finished the season with */
+  team: string
+  gp: number
+  goals: number
+  assists: number
+  points: number
+  plusMinus: number
+  pim: number
+  // goalies
+  wins?: number
+  losses?: number
+  otl?: number
+  shutouts?: number
+  gaa?: number
+  svPct?: number
+}
+
 export interface GameState {
   /** Save-format version for migrations */
   v: number
@@ -177,6 +197,8 @@ export interface GameState {
   news: { day: number; seasonYear: number; text: string }[]
   /** Seeded RNG state so saves are deterministic */
   rngState: number
+  /** Career stat archive keyed by playerId; appended at each season's end */
+  careers: Record<string, CareerSeason[]>
 }
 
 /** Salary cap in $M by season start year. */
