@@ -290,6 +290,24 @@ function ResignRow({ s, apply, player, setNotice }: { s: GameState; apply: (n: G
 
 // ---------------- Draft ----------------
 
+/** Small deterministic hash of a player id (stable across renders/saves). */
+function hashId(id: string): number {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0
+  return Math.abs(h)
+}
+
+/**
+ * Scouted potential band — a deterministic, honest range around the hidden
+ * true ceiling so the exact number stays concealed.
+ */
+function scoutRange(p: Player): { lo: number; hi: number } {
+  const h = hashId(p.id)
+  const lo = p.potential - 3 - (h % 6)
+  const hi = Math.min(99, p.potential + 1 + ((h >> 3) % 4))
+  return { lo, hi }
+}
+
 function potentialBand(pos: string, potential: number): string {
   const isG = pos === 'G'
   const isD = pos === 'D'
@@ -347,19 +365,27 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                 <tr>
                   <th>Prospect</th>
                   <th>Pos</th>
+                  <th>Nat</th>
                   <th className="num">Age</th>
                   <th className="num">OVR</th>
+                  <th className="num">Scout POT</th>
                   <th>Projection</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((p) => (
+                {filtered.map((p) => {
+                  const sc = scoutRange(p)
+                  return (
                   <tr key={p.id}>
-                    <td className="name-cell">{p.name} <Flag nat={p.nationality} /></td>
+                    <td className="name-cell">{p.name}</td>
                     <td><PosTag pos={p.pos} /></td>
+                    <td>{p.nationality ? <Flag nat={p.nationality} /> : <span className="muted">—</span>}</td>
                     <td className="num">{p.age}</td>
                     <td className="num"><OvrBadge overall={p.overall} /></td>
+                    <td className="num" title="Scouted potential range (true ceiling hidden)">
+                      {sc.lo}–{sc.hi}
+                    </td>
                     <td><span className="tag">{potentialBand(p.pos, p.potential)}</span></td>
                     <td>
                       {onUserClock && (
@@ -369,7 +395,8 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                       )}
                     </td>
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
             </table>
           </div>

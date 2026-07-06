@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import type { GameState, Player, DraftPick } from '../types'
 import type { TradeOffer } from '../engine'
 import { evaluateTrade, executeTrade, getAiTradeSuggestion } from '../engine'
-import { Card, OvrBadge, PosTag } from './components'
+import { Card, OvrBadge, PosTag, TeamLogo } from './components'
 import { fmtM, seasonLabel } from './format'
 
 const DEADLINE_DAY = 120
@@ -96,6 +96,7 @@ export function Trades({ s, apply }: { s: GameState; apply: (n: GameState) => vo
       <Card title="Trade Partner">
         <div className="card-pad">
           <div className="row">
+            <TeamLogo team={partnerTeam} size={28} />
             <select value={partner} onChange={(e) => { setPartner(e.target.value); reset(); setNotice(null) }}>
               {others.map((a) => (
                 <option key={a} value={a}>

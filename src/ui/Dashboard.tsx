@@ -1,6 +1,6 @@
 import type { GameState } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
-import { Card, CapBar, Crest } from './components'
+import { Card, CapBar, TeamLogo } from './components'
 import { nextGames, teamOverall, dayLabel } from './util'
 import { seasonLabel, ordinal } from './format'
 import type { TabKey } from './TabNav'
@@ -93,7 +93,7 @@ export function Dashboard({
                 return (
                   <div className="game-row" key={g.id}>
                     <span className="game-when">{dayLabel(g.day)}</span>
-                    <Crest team={opp} size="mini" />
+                    <TeamLogo team={opp} size={22} />
                     <span className="game-opp">
                       <span className="ha">{home ? 'vs' : '@'}</span>
                       {opp?.name ?? oppAbbrev}

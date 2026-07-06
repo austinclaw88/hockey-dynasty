@@ -1,6 +1,6 @@
 import type { GameState, PlayoffSeries } from '../types'
 import { simPlayoffRound } from '../engine'
-import { Card } from './components'
+import { Card, TeamLogo } from './components'
 
 const ROUND_NAME: Record<number, string> = {
   1: 'First Round',
@@ -73,16 +73,28 @@ function SeriesCard({ series, s }: { series: PlayoffSeries; s: GameState }) {
   return (
     <div className="series">
       <div className={`series-team ${series.winner ? (highWon ? 'win' : 'lose') : ''} ${series.high === s.userTeam ? 'me-series' : ''}`}>
-        <span className="mini-crest" style={{ background: highT?.color ?? '#444' }}>
-          {series.high}
-        </span>
+        <TeamLogo
+          team={highT}
+          size={22}
+          fallback={
+            <span className="mini-crest" style={{ background: highT?.color ?? '#444' }}>
+              {series.high}
+            </span>
+          }
+        />
         <span>{highT ? highT.name : series.high}</span>
         <span className="swins">{series.highWins}</span>
       </div>
       <div className={`series-team ${series.winner ? (lowWon ? 'win' : 'lose') : ''} ${series.low === s.userTeam ? 'me-series' : ''}`}>
-        <span className="mini-crest" style={{ background: lowT?.color ?? '#444' }}>
-          {series.low}
-        </span>
+        <TeamLogo
+          team={lowT}
+          size={22}
+          fallback={
+            <span className="mini-crest" style={{ background: lowT?.color ?? '#444' }}>
+              {series.low}
+            </span>
+          }
+        />
         <span>{lowT ? lowT.name : series.low}</span>
         <span className="swins">{series.lowWins}</span>
       </div>

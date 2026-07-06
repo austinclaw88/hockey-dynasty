@@ -5,6 +5,7 @@ import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag } from './components'
 import { PlayerModal } from './PlayerModal'
 import { fmtM, potArrow, posGroup } from './format'
 import { autoLines, isHealthy } from './util'
+import type { ForwardSlot } from './util'
 
 type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals'
 
@@ -222,12 +223,38 @@ function LinesCard({ team, onPick, s }: { team: GameState['teams'][string]; onPi
       {p.name.split(' ').slice(-1)[0]} {p.overall}
     </button>
   )
+  const slotChip = (fs: ForwardSlot, key: string) => {
+    const p = fs.player
+    if (!p) {
+      return (
+        <span key={key} className="line-slot">
+          <span className="slot-pos">{fs.slot}</span>
+          <span className="tag slot-empty">—</span>
+        </span>
+      )
+    }
+    const offPos = p.pos !== fs.slot
+    return (
+      <span key={p.id} className="line-slot">
+        <span className="slot-pos">{fs.slot}</span>
+        <button
+          className="tag"
+          style={{ cursor: 'pointer' }}
+          onClick={() => onPick(p.id)}
+          title={`${p.name} · ${p.pos} · ${p.overall} OVR${offPos ? ` (playing ${fs.slot})` : ''}`}
+        >
+          {p.name.split(' ').slice(-1)[0]} {p.overall}
+          {offPos && <span className="slot-off"> {p.pos}</span>}
+        </button>
+      </span>
+    )
+  }
   return (
     <Card title="Auto Lines">
       <div className="card-pad" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {lines.forwards.map((ln, i) => (
           <LineRow key={`f${i}`} label={`L${i + 1}`}>
-            {ln.map(chip)}
+            {ln.map((fs, j) => slotChip(fs, `f${i}-${j}`))}
           </LineRow>
         ))}
         {lines.defense.map((pr, i) => (

@@ -1,8 +1,55 @@
 // Small reusable presentational components.
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import type { Player, TeamState } from '../types'
 import { ovrClass } from './format'
 import { capZone } from './util'
+
+/**
+ * Real NHL team logo (light variant, for dark backgrounds). External images
+ * are blocked in the sandboxed/published build, so `onError` cleanly hides the
+ * broken image and swaps in a colored-circle abbrev monogram — same footprint,
+ * no layout shift. Pass `fallback` to reuse a context-specific monogram
+ * (e.g. the header / team-card crests); otherwise a generic circle is drawn.
+ */
+export function TeamLogo({
+  team,
+  size = 22,
+  fallback,
+}: {
+  team: { abbrev: string; color: string; colorSecondary?: string } | undefined
+  size?: number
+  fallback?: ReactNode
+}) {
+  const [failed, setFailed] = useState(false)
+  const abbrev = team?.abbrev
+  if (!abbrev || failed) {
+    if (fallback !== undefined) return <>{fallback}</>
+    return (
+      <span
+        className="team-logo-fallback"
+        style={{
+          width: size,
+          height: size,
+          background: team?.color ?? '#444',
+          fontSize: Math.max(8, Math.round(size * 0.3)),
+        }}
+      >
+        {abbrev ?? '?'}
+      </span>
+    )
+  }
+  return (
+    <img
+      className="team-logo"
+      src={`https://assets.nhle.com/logos/nhl/svg/${abbrev}_light.svg`}
+      alt={abbrev}
+      width={size}
+      height={size}
+      style={{ width: size, height: size }}
+      onError={() => setFailed(true)}
+    />
+  )
+}
 
 /** Colored circular team crest with abbreviation. */
 export function Crest({

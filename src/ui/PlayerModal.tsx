@@ -1,6 +1,6 @@
-import type { GameState, Player } from '../types'
+import type { GameState, Player, CareerSeason, SeasonStatLine } from '../types'
 import { Modal, OvrBadge, ExpiryTag } from './components'
-import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow } from './format'
+import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow, seasonLabel } from './format'
 
 export function PlayerModal({
   s,
@@ -106,9 +106,113 @@ export function PlayerModal({
           <div className="hint">No games played yet this season.</div>
         )}
 
+        <div className="mini-title">Career</div>
+        <CareerTable s={s} player={player} team={team} />
+
         {actions && <div className="row" style={{ marginTop: 16 }}>{actions}</div>}
       </div>
     </Modal>
+  )
+}
+
+function CareerTable({ s, player, team }: { s: GameState; player: Player; team?: string }) {
+  const isG = player.pos === 'G'
+  const seasons = [...(s.careers[player.id] ?? [])].sort((a, b) => b.year - a.year)
+  const current = s.stats[player.id]
+
+  if (!current && seasons.length === 0) {
+    return <div className="hint">No NHL seasons recorded yet.</div>
+  }
+
+  return (
+    <div className="table-wrap">
+      <table className="tbl">
+        <thead>
+          {isG ? (
+            <tr>
+              <th>Year</th>
+              <th>Team</th>
+              <th className="num">GP</th>
+              <th className="num">W</th>
+              <th className="num">L</th>
+              <th className="num">OTL</th>
+              <th className="num">SO</th>
+              <th className="num">GAA</th>
+              <th className="num">SV%</th>
+            </tr>
+          ) : (
+            <tr>
+              <th>Year</th>
+              <th>Team</th>
+              <th className="num">GP</th>
+              <th className="num">G</th>
+              <th className="num">A</th>
+              <th className="num">P</th>
+              <th className="num">+/-</th>
+              <th className="num">PIM</th>
+            </tr>
+          )}
+        </thead>
+        <tbody>
+          {current && (
+            <CareerRow
+              key="current"
+              isG={isG}
+              year={seasonLabel(s.seasonYear)}
+              team={team ?? '—'}
+              line={current}
+              current
+            />
+          )}
+          {seasons.map((cs, i) => (
+            <CareerRow key={`${cs.year}-${i}`} isG={isG} year={seasonLabel(cs.year)} team={cs.team} line={cs} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function CareerRow({
+  isG,
+  year,
+  team,
+  line,
+  current,
+}: {
+  isG: boolean
+  year: string
+  team: string
+  line: CareerSeason | SeasonStatLine
+  current?: boolean
+}) {
+  return (
+    <tr className={current ? 'me' : ''}>
+      <td>
+        {year}
+        {current ? <span className="muted"> *</span> : ''}
+      </td>
+      <td>{team}</td>
+      <td className="num">{line.gp}</td>
+      {isG ? (
+        <>
+          <td className="num">{line.wins ?? 0}</td>
+          <td className="num">{line.losses ?? 0}</td>
+          <td className="num">{line.otl ?? 0}</td>
+          <td className="num">{line.shutouts ?? 0}</td>
+          <td className="num">{fmtGaa(line.gaa)}</td>
+          <td className="num">{fmtSvPct(line.svPct)}</td>
+        </>
+      ) : (
+        <>
+          <td className="num">{line.goals}</td>
+          <td className="num">{line.assists}</td>
+          <td className="num" style={{ fontWeight: 700 }}>{line.points}</td>
+          <td className="num">{fmtSigned(line.plusMinus)}</td>
+          <td className="num">{line.pim}</td>
+        </>
+      )}
+    </tr>
   )
 }
 

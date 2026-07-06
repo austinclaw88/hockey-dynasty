@@ -4,6 +4,7 @@ import type { TeamDataFile } from '../types'
 import { teamOverall, rosterCapHit } from './util'
 import { fmtM } from './format'
 import { DIVISIONS } from './util'
+import { TeamLogo } from './components'
 
 export function TeamSelect({
   onSelect,
@@ -77,9 +78,15 @@ function TeamCard({
       onClick={() => onSelect(info.abbrev)}
     >
       <div className="tc-top">
-        <span className="crest" style={{ background: info.color }}>
-          {info.abbrev}
-        </span>
+        <TeamLogo
+          team={info}
+          size={38}
+          fallback={
+            <span className="crest" style={{ background: info.color }}>
+              {info.abbrev}
+            </span>
+          }
+        />
         <div className="tc-name">
           <div className="tc-city">{info.city}</div>
           <div className="tc-team">{info.name}</div>

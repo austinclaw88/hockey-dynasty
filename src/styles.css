@@ -1341,3 +1341,53 @@ input:focus {
   max-height: 200px;
   overflow-y: auto;
 }
+
+/* ---------------- Team logos ---------------- */
+
+.team-logo {
+  object-fit: contain;
+  flex: none;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Fallback monogram shown when the external logo is blocked / fails to load. */
+.team-logo-fallback {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 800;
+  color: #fff;
+  flex: none;
+  vertical-align: middle;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+/* ---------------- Auto lines (LW – C – RW) ---------------- */
+
+.line-slot {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.slot-pos {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+/* True position badge when a player is filling an off-position slot. */
+.slot-off {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--warn);
+}
+
+.tag.slot-empty {
+  opacity: 0.5;
+}

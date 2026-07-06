@@ -1,5 +1,6 @@
 import type { GameState, StandingsRow } from '../types'
 import { seasonLabel, fmtRecord } from './format'
+import { TeamLogo } from './components'
 
 const PHASE_LABEL: Record<GameState['phase'], string> = {
   regular: 'Regular Season',
@@ -18,7 +19,7 @@ export function Header({ s, userRow }: { s: GameState; userRow?: StandingsRow })
   return (
     <header className="header">
       <div className="header-inner">
-        <span className="header-crest">{team.abbrev}</span>
+        <TeamLogo team={team} size={46} fallback={<span className="header-crest">{team.abbrev}</span>} />
         <div className="header-titles">
           <div className="header-team">
             {team.city} {team.name}

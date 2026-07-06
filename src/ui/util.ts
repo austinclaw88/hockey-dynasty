@@ -49,8 +49,15 @@ export function isHealthy(p: Player): boolean {
   return !p.injuryWeeks || p.injuryWeeks <= 0
 }
 
+/** One forward-line slot: which position it represents and who (if anyone) fills it. */
+export interface ForwardSlot {
+  slot: 'LW' | 'C' | 'RW'
+  player: Player | null
+}
+
 export interface Lines {
-  forwards: Player[][] // 4 lines of up to 3
+  /** 4 lines, each ordered [LW, C, RW] */
+  forwards: ForwardSlot[][]
   defense: Player[][] // 3 pairs of up to 2
   goalies: Player[] // up to 2
   scratches: Player[]
@@ -60,22 +67,65 @@ export interface Lines {
  * UI-only auto line assignment for display. The engine picks the ACTIVE
  * players for sim internally; this mirrors the "best by overall" heuristic
  * purely so the Roster screen can show L1-L4 / P1-P3 / G1-G2.
+ *
+ * Forward lines are assembled position-aware and rendered LW – C – RW:
+ * each line takes the best remaining true C for the middle, best LW / RW for
+ * the wings, and falls back gracefully (a C or off-wing can fill a wing; a
+ * wing fills C only when no centre remains).
  */
 export function autoLines(roster: Player[]): Lines {
   const healthy = roster.filter(isHealthy)
+  const byOvr = (a: Player, b: Player) => b.overall - a.overall
   const fwd = healthy
     .filter((p) => p.pos === 'C' || p.pos === 'LW' || p.pos === 'RW')
-    .sort((a, b) => b.overall - a.overall)
-  const def = healthy.filter((p) => p.pos === 'D').sort((a, b) => b.overall - a.overall)
-  const goalies = healthy.filter((p) => p.pos === 'G').sort((a, b) => b.overall - a.overall).slice(0, 2)
+    .sort(byOvr)
+  const def = healthy.filter((p) => p.pos === 'D').sort(byOvr)
+  const goalies = healthy.filter((p) => p.pos === 'G').sort(byOvr).slice(0, 2)
 
-  const topF = fwd.slice(0, 12)
+  const dressed = fwd.slice(0, 12)
   const topD = def.slice(0, 6)
-  const usedIds = new Set([...topF, ...topD, ...goalies].map((p) => p.id))
+  const usedIds = new Set([...dressed, ...topD, ...goalies].map((p) => p.id))
   const scratches = roster.filter((p) => !usedIds.has(p.id))
 
-  const forwards: Player[][] = [[], [], [], []]
-  topF.forEach((p, i) => forwards[Math.floor(i / 3)]?.push(p))
+  // Position-aware forward assembly.
+  const used = new Set<string>()
+  const cPool = dressed.filter((p) => p.pos === 'C')
+  const lwPool = dressed.filter((p) => p.pos === 'LW')
+  const rwPool = dressed.filter((p) => p.pos === 'RW')
+  const take = (pool: Player[]): Player | null => {
+    for (const p of pool) {
+      if (!used.has(p.id)) {
+        used.add(p.id)
+        return p
+      }
+    }
+    return null
+  }
+  // Fallback fill from whoever's left. For a wing slot, prefer a spare wing/
+  // off-wing over stealing a centre; for a centre slot only wings remain.
+  const takeRemaining = (preferWing: boolean): Player | null => {
+    const rem = dressed.filter((p) => !used.has(p.id)).sort(byOvr)
+    const primary = preferWing ? rem.filter((p) => p.pos !== 'C') : rem
+    const pick = (primary.length > 0 ? primary : rem)[0]
+    if (pick) {
+      used.add(pick.id)
+      return pick
+    }
+    return null
+  }
+
+  const forwards: ForwardSlot[][] = []
+  for (let i = 0; i < 4; i++) {
+    const c = take(cPool) ?? takeRemaining(false)
+    const lw = take(lwPool) ?? takeRemaining(true)
+    const rw = take(rwPool) ?? takeRemaining(true)
+    forwards.push([
+      { slot: 'LW', player: lw },
+      { slot: 'C', player: c },
+      { slot: 'RW', player: rw },
+    ])
+  }
+
   const defense: Player[][] = [[], [], []]
   topD.forEach((p, i) => defense[Math.floor(i / 2)]?.push(p))
 

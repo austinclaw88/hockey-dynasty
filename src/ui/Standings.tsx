@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { GameState, StandingsRow, Division } from '../types'
 import { getStandings } from '../engine'
-import { Card, Crest } from './components'
+import { Card, TeamLogo } from './components'
 import { divisionsByConference } from './util'
 import { fmtSigned } from './format'
 
@@ -145,7 +145,7 @@ function StandingsTableBody({
                 <td className="muted num">{rank ? i + 1 : ''}</td>
                 <td className="name-cell">
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                    <Crest team={t} size="mini" />
+                    <TeamLogo team={t} size={22} />
                     {t ? `${t.city} ${t.name}` : r.team}
                   </span>
                 </td>
