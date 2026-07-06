@@ -66,6 +66,7 @@ export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
     history: [],
     news: [{ day: 0, seasonYear: START_YEAR, text: `Welcome to your dynasty with the ${teams[userTeam].city} ${teams[userTeam].name}. The ${START_YEAR}-${String((START_YEAR + 1) % 100).padStart(2, '0')} season begins.` }],
     rngState: rng.state,
+    careers: {},
   }
   s.schedule = buildSchedule(teams, rng)
   s.rngState = rng.state

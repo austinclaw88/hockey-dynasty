@@ -238,6 +238,23 @@ function main(): void {
   assert(s.history.length === 10, `history should have 10 seasons (got ${s.history.length})`)
   console.log(`Total time: ${totalMs}ms`)
 
+  // Career-history archive assertions.
+  const careerIds = Object.keys(s.careers)
+  assert(careerIds.length > 0, 'careers should be non-empty after 10 seasons')
+  const maxSeasons = careerIds.reduce((m, id) => Math.max(m, s.careers[id].length), 0)
+  assert(maxSeasons >= 5, `some player should have 5+ archived seasons (max was ${maxSeasons})`)
+  let careerNaN = false
+  for (const id of careerIds) {
+    for (const cs of s.careers[id]) {
+      const ok =
+        isNum(cs.year) && isNum(cs.gp) && isNum(cs.goals) && isNum(cs.assists) && isNum(cs.points) && isNum(cs.plusMinus) && isNum(cs.pim) &&
+        (cs.wins === undefined || isNum(cs.wins)) && (cs.losses === undefined || isNum(cs.losses)) && (cs.otl === undefined || isNum(cs.otl)) &&
+        (cs.shutouts === undefined || isNum(cs.shutouts)) && (cs.gaa === undefined || isNum(cs.gaa)) && (cs.svPct === undefined || isNum(cs.svPct))
+      if (!ok) careerNaN = true
+    }
+  }
+  assert(!careerNaN, 'no NaN should appear in any archived career line')
+
   if (failures === 0) console.log('\nALL ASSERTIONS PASSED ✔')
   else {
     console.error(`\n${failures} ASSERTION(S) FAILED ✘`)

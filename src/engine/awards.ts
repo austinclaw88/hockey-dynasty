@@ -1,5 +1,5 @@
 // Season-end awards + SeasonSummary construction.
-import type { GameState, Player, SeasonSummary, StandingsRow } from '../types.ts'
+import type { CareerSeason, GameState, Player, SeasonSummary, StandingsRow } from '../types.ts'
 import { computeStandings, sortRows } from './standings.ts'
 import { cupResult, userPlayoffFinish } from './playoffs.ts'
 import { pushNews } from './helpers.ts'
@@ -87,7 +87,39 @@ export function buildSeasonSummary(s: GameState): void {
   }
   s.history.push(summary)
 
+  archiveCareerSeasons(s, map)
+
   if (cup) pushNews(s, `The ${s.teams[cup.winner].name} win the Stanley Cup!`)
+}
+
+/**
+ * Append one CareerSeason entry per player with a stat line of gp > 0 this
+ * season, keyed by playerId. Team is resolved from the current roster/prospects
+ * (traded players get their current team). Archives persist forever — retiring
+ * or leaving the league never removes prior entries.
+ */
+function archiveCareerSeasons(s: GameState, map: Map<string, PT>): void {
+  for (const [id, line] of Object.entries(s.stats)) {
+    if (line.gp <= 0) continue
+    const team = map.get(id)?.team ?? ''
+    const entry: CareerSeason = {
+      year: s.seasonYear,
+      team,
+      gp: line.gp,
+      goals: line.goals,
+      assists: line.assists,
+      points: line.points,
+      plusMinus: line.plusMinus,
+      pim: line.pim,
+    }
+    if (line.wins !== undefined) entry.wins = line.wins
+    if (line.losses !== undefined) entry.losses = line.losses
+    if (line.otl !== undefined) entry.otl = line.otl
+    if (line.shutouts !== undefined) entry.shutouts = line.shutouts
+    if (line.gaa !== undefined) entry.gaa = line.gaa
+    if (line.svPct !== undefined) entry.svPct = line.svPct
+    ;(s.careers[id] ??= []).push(entry)
+  }
 }
 
 function buildUserFinish(s: GameState, rows: StandingsRow[]): string {

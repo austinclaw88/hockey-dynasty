@@ -26,7 +26,10 @@ export function loadGame(): GameState | null {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return null
-    return JSON.parse(raw) as GameState
+    const parsed = JSON.parse(raw) as GameState
+    // Migrate old saves that predate the career-history archive.
+    if (!parsed.careers) parsed.careers = {}
+    return parsed
   } catch {
     return null
   }
