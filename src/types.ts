@@ -101,6 +101,8 @@ export interface GoalEvent {
   scorerId: string
   /** 0-2 assist player ids */
   assistIds: string[]
+  /** Period scored in: 1-3, 4 = OT (absent on legacy saves) */
+  period?: 1 | 2 | 3 | 4
 }
 
 export interface Game {
@@ -263,6 +265,13 @@ export interface TeamDataFile {
   info: TeamInfo
   roster: Omit<Player, 'injuryWeeks' | 'retired'>[]
   prospects: Omit<Player, 'injuryWeeks' | 'retired'>[]
+}
+
+/** Raw shape of data/draft-2027.json — the real projected 2027 draft class used
+ *  for the FIRST in-game entry draft; later drafts generate fictional classes. */
+export interface DraftClassFile {
+  year: number
+  players: Omit<Player, 'injuryWeeks' | 'retired'>[]
 }
 
 /** Raw shape of data/free-agents.json — real unsigned UFAs as of the snapshot date.
