@@ -1,0 +1,33 @@
+{
+  "info": { "abbrev": "CBJ", "city": "Columbus", "name": "Blue Jackets", "conference": "East", "division": "Metropolitan", "color": "#002654", "colorSecondary": "#CE1126" },
+  "roster": [
+    { "id": "CBJ-marchenko", "name": "Kirill Marchenko", "pos": "RW", "age": 25, "shoots": "L", "overall": 85, "potential": 87, "nationality": "RUS", "contract": { "capHit": 6.0, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-fantilli", "name": "Adam Fantilli", "pos": "C", "age": 20, "shoots": "L", "overall": 85, "potential": 92, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "CBJ-monahan", "name": "Sean Monahan", "pos": "C", "age": 30, "shoots": "L", "overall": 81, "potential": 81, "nationality": "CAN", "contract": { "capHit": 5.5, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CBJ-jenner", "name": "Boone Jenner", "pos": "C", "age": 32, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 3.75, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "CBJ-coyle", "name": "Charlie Coyle", "pos": "C", "age": 33, "shoots": "R", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 5.25, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CBJ-voronkov", "name": "Dmitri Voronkov", "pos": "LW", "age": 25, "shoots": "L", "overall": 80, "potential": 83, "nationality": "RUS", "contract": { "capHit": 3.5, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-sillinger", "name": "Cole Sillinger", "pos": "C", "age": 22, "shoots": "L", "overall": 79, "potential": 84, "nationality": "CAN", "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-johnson", "name": "Kent Johnson", "pos": "C", "age": 22, "shoots": "L", "overall": 80, "potential": 86, "nationality": "CAN", "contract": { "capHit": 2.1, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-chinakhov", "name": "Yegor Chinakhov", "pos": "RW", "age": 24, "shoots": "L", "overall": 78, "potential": 82, "nationality": "RUS", "contract": { "capHit": 2.1, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-wood", "name": "Miles Wood", "pos": "LW", "age": 30, "shoots": "L", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 2.5, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "CBJ-lundestrom", "name": "Isac Lundestrom", "pos": "C", "age": 25, "shoots": "L", "overall": 75, "potential": 76, "nationality": "SWE", "contract": { "capHit": 1.75, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "CBJ-olivier", "name": "Mathieu Olivier", "pos": "RW", "age": 28, "shoots": "R", "overall": 75, "potential": 75, "nationality": "CAN", "contract": { "capHit": 2.09, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "CBJ-astonreese", "name": "Zach Aston-Reese", "pos": "LW", "age": 31, "shoots": "L", "overall": 74, "potential": 74, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CBJ-werenski", "name": "Zach Werenski", "pos": "D", "age": 28, "shoots": "L", "overall": 93, "potential": 93, "nationality": "USA", "contract": { "capHit": 9.583, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "CBJ-provorov", "name": "Ivan Provorov", "pos": "D", "age": 28, "shoots": "L", "overall": 82, "potential": 82, "nationality": "RUS", "contract": { "capHit": 8.5, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "CBJ-severson", "name": "Damon Severson", "pos": "D", "age": 31, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CBJ-fabbro", "name": "Dante Fabbro", "pos": "D", "age": 27, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CBJ-gudbranson", "name": "Erik Gudbranson", "pos": "D", "age": 33, "shoots": "R", "overall": 75, "potential": 75, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CBJ-mateychuk", "name": "Denton Mateychuk", "pos": "D", "age": 21, "shoots": "L", "overall": 78, "potential": 86, "nationality": "CAN", "contract": { "capHit": 0.894, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-christiansen", "name": "Jake Christiansen", "pos": "D", "age": 26, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CBJ-merzlikins", "name": "Elvis Merzlikins", "pos": "G", "age": 31, "shoots": "L", "overall": 79, "potential": 79, "nationality": "LVA", "contract": { "capHit": 5.4, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CBJ-greaves", "name": "Jet Greaves", "pos": "G", "age": 24, "shoots": "L", "overall": 80, "potential": 85, "nationality": "CAN", "contract": { "capHit": 0.813, "yearsLeft": 2, "expiry": "RFA" } }
+  ],
+  "prospects": [
+    { "id": "CBJ-lindstrom", "name": "Cayden Lindstrom", "pos": "C", "age": 19, "shoots": "L", "overall": 65, "potential": 88, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CBJ-delbelbelluz", "name": "Luca Del Bel Belluz", "pos": "C", "age": 21, "shoots": "L", "overall": 68, "potential": 79, "nationality": "CAN", "contract": { "capHit": 0.894, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-dumais", "name": "Jordan Dumais", "pos": "RW", "age": 21, "shoots": "R", "overall": 64, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.847, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CBJ-elick", "name": "Charlie Elick", "pos": "D", "age": 19, "shoots": "R", "overall": 60, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}

@@ -4,7 +4,7 @@
     { "id": "NJD-jhughes", "name": "Jack Hughes", "pos": "C", "age": 24, "shoots": "L", "overall": 91, "potential": 93, "nationality": "USA", "contract": { "capHit": 8.0, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
     { "id": "NJD-hischier", "name": "Nico Hischier", "pos": "C", "age": 26, "shoots": "L", "overall": 88, "potential": 89, "nationality": "CHE", "contract": { "capHit": 7.25, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
     { "id": "NJD-bratt", "name": "Jesper Bratt", "pos": "LW", "age": 27, "shoots": "L", "overall": 87, "potential": 88, "nationality": "SWE", "contract": { "capHit": 7.875, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "NJD-meier", "name": "Timo Meier", "pos": "RW", "age": 28, "shoots": "R", "overall": 85, "potential": 86, "nationality": "CHE", "contract": { "capHit": 8.8, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-meier", "name": "Timo Meier", "pos": "RW", "age": 28, "shoots": "R", "overall": 85, "potential": 85, "nationality": "CHE", "contract": { "capHit": 8.8, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
     { "id": "NJD-mercer", "name": "Dawson Mercer", "pos": "C", "age": 23, "shoots": "R", "overall": 80, "potential": 84, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "RFA" } },
     { "id": "NJD-palat", "name": "Ondrej Palat", "pos": "LW", "age": 34, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CZE", "contract": { "capHit": 6.0, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
     { "id": "NJD-brown", "name": "Connor Brown", "pos": "RW", "age": 31, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 4, "expiry": "UFA" } },

@@ -1,0 +1,34 @@
+{
+  "info": { "abbrev": "WSH", "city": "Washington", "name": "Capitals", "conference": "East", "division": "Metropolitan", "color": "#C8102E", "colorSecondary": "#041E42" },
+  "roster": [
+    { "id": "WSH-ovechkin", "name": "Alex Ovechkin", "pos": "LW", "age": 40, "shoots": "R", "overall": 85, "potential": 85, "nationality": "RUS", "contract": { "capHit": 9.5, "yearsLeft": 1, "expiry": "UFA", "ntc": true } },
+    { "id": "WSH-strome", "name": "Dylan Strome", "pos": "C", "age": 28, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "WSH-wilson", "name": "Tom Wilson", "pos": "RW", "age": 31, "shoots": "R", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 6.5, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
+    { "id": "WSH-dubois", "name": "Pierre-Luc Dubois", "pos": "C", "age": 27, "shoots": "L", "overall": 81, "potential": 81, "nationality": "CAN", "contract": { "capHit": 8.5, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "WSH-protas", "name": "Aliaksei Protas", "pos": "LW", "age": 24, "shoots": "L", "overall": 80, "potential": 84, "nationality": "BLR", "contract": { "capHit": 3.375, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "WSH-mcmichael", "name": "Connor McMichael", "pos": "C", "age": 24, "shoots": "L", "overall": 79, "potential": 83, "nationality": "CAN", "contract": { "capHit": 4.25, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "WSH-leonard", "name": "Ryan Leonard", "pos": "RW", "age": 20, "shoots": "R", "overall": 78, "potential": 90, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WSH-milano", "name": "Sonny Milano", "pos": "LW", "age": 29, "shoots": "L", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 1.9, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-beauvillier", "name": "Anthony Beauvillier", "pos": "LW", "age": 28, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 2.75, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-dowd", "name": "Nic Dowd", "pos": "C", "age": 35, "shoots": "R", "overall": 75, "potential": 75, "nationality": "USA", "contract": { "capHit": 1.25, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-duhaime", "name": "Brandon Duhaime", "pos": "RW", "age": 28, "shoots": "R", "overall": 74, "potential": 74, "nationality": "USA", "contract": { "capHit": 1.1, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-lapierre", "name": "Hendrix Lapierre", "pos": "C", "age": 23, "shoots": "L", "overall": 75, "potential": 80, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "WSH-sourdif", "name": "Justin Sourdif", "pos": "C", "age": 23, "shoots": "R", "overall": 73, "potential": 78, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "WSH-carlson", "name": "John Carlson", "pos": "D", "age": 35, "shoots": "R", "overall": 80, "potential": 80, "nationality": "USA", "contract": { "capHit": 8.0, "yearsLeft": 1, "expiry": "UFA", "ntc": true } },
+    { "id": "WSH-chychrun", "name": "Jakob Chychrun", "pos": "D", "age": 27, "shoots": "L", "overall": 82, "potential": 82, "nationality": "CAN", "contract": { "capHit": 9.0, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "WSH-roy", "name": "Matt Roy", "pos": "D", "age": 30, "shoots": "R", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 5.75, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "WSH-sandin", "name": "Rasmus Sandin", "pos": "D", "age": 25, "shoots": "L", "overall": 77, "potential": 78, "nationality": "SWE", "contract": { "capHit": 4.6, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "WSH-fehervary", "name": "Martin Fehervary", "pos": "D", "age": 25, "shoots": "L", "overall": 78, "potential": 80, "nationality": "SVK", "contract": { "capHit": 4.5, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "WSH-vanriemsdyk", "name": "Trevor van Riemsdyk", "pos": "D", "age": 34, "shoots": "R", "overall": 75, "potential": 75, "nationality": "USA", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-chisholm", "name": "Declan Chisholm", "pos": "D", "age": 25, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": { "capHit": 1.1, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "WSH-iorio", "name": "Vincent Iorio", "pos": "D", "age": 22, "shoots": "R", "overall": 72, "potential": 76, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "WSH-thompson", "name": "Logan Thompson", "pos": "G", "age": 28, "shoots": "L", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 5.85, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "WSH-lindgren", "name": "Charlie Lindgren", "pos": "G", "age": 31, "shoots": "R", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "WSH-protas2", "name": "Ilya Protas", "pos": "LW", "age": 19, "shoots": "L", "overall": 64, "potential": 82, "nationality": "BLR", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WSH-cristall", "name": "Andrew Cristall", "pos": "RW", "age": 20, "shoots": "L", "overall": 68, "potential": 83, "nationality": "CAN", "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WSH-hutson", "name": "Cole Hutson", "pos": "D", "age": 19, "shoots": "L", "overall": 66, "potential": 83, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "WSH-parascak", "name": "Terik Parascak", "pos": "RW", "age": 19, "shoots": "R", "overall": 64, "potential": 81, "nationality": "CAN", "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } }
+  ]
+}
