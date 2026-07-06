@@ -4,67 +4,206 @@
   "roster": [
     { "id": "FLA-barkov", "name": "Aleksander Barkov", "pos": "C", "age": 31, "shoots": "L",
       "overall": 90, "potential": 90, "nationality": "FIN",
-      "contract": { "capHit": 10.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 10.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 67, "goals": 39, "assists": 49, "points": 88, "plusMinus": 23, "pim": 26 },
+        { "year": 2022, "team": "FLA", "gp": 68, "goals": 23, "assists": 55, "points": 78, "plusMinus": 10, "pim": 26 },
+        { "year": 2023, "team": "FLA", "gp": 73, "goals": 23, "assists": 57, "points": 80, "plusMinus": 23, "pim": 8 },
+        { "year": 2024, "team": "FLA", "gp": 67, "goals": 20, "assists": 51, "points": 71, "plusMinus": 20, "pim": 30 }
+      ] },
     { "id": "FLA-tkachuk", "name": "Matthew Tkachuk", "pos": "LW", "age": 28, "shoots": "L",
       "overall": 89, "potential": 89, "nationality": "USA",
-      "contract": { "capHit": 9.5, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 9.5, "yearsLeft": 4, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "CGY", "gp": 82, "goals": 42, "assists": 62, "points": 104, "plusMinus": 57, "pim": 90 },
+        { "year": 2022, "team": "FLA", "gp": 79, "goals": 40, "assists": 69, "points": 109, "plusMinus": 7, "pim": 99 },
+        { "year": 2023, "team": "FLA", "gp": 80, "goals": 26, "assists": 62, "points": 88, "plusMinus": 14, "pim": 88 },
+        { "year": 2024, "team": "FLA", "gp": 52, "goals": 22, "assists": 35, "points": 57, "plusMinus": 10, "pim": 60 },
+        { "year": 2025, "team": "FLA", "gp": 31, "goals": 13, "assists": 21, "points": 34, "plusMinus": 2, "pim": 34 }
+      ] },
     { "id": "FLA-tkachuk2", "name": "Brady Tkachuk", "pos": "LW", "age": 27, "shoots": "L",
       "overall": 88, "potential": 89, "nationality": "USA",
-      "contract": { "capHit": 8.21, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 8.21, "yearsLeft": 2, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "OTT", "gp": 79, "goals": 30, "assists": 37, "points": 67, "plusMinus": -20, "pim": 92 },
+        { "year": 2022, "team": "OTT", "gp": 74, "goals": 35, "assists": 48, "points": 83, "plusMinus": 7, "pim": 91 },
+        { "year": 2023, "team": "OTT", "gp": 79, "goals": 37, "assists": 37, "points": 74, "plusMinus": -20, "pim": 99 },
+        { "year": 2024, "team": "OTT", "gp": 72, "goals": 29, "assists": 26, "points": 55, "plusMinus": 5, "pim": 80 },
+        { "year": 2025, "team": "OTT", "gp": 60, "goals": 22, "assists": 37, "points": 59, "plusMinus": 5, "pim": 70 }
+      ] },
     { "id": "FLA-reinhart", "name": "Sam Reinhart", "pos": "C", "age": 30, "shoots": "R",
       "overall": 89, "potential": 89, "nationality": "CAN",
-      "contract": { "capHit": 8.625, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 8.625, "yearsLeft": 6, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 78, "goals": 33, "assists": 49, "points": 82, "plusMinus": 5, "pim": 24 },
+        { "year": 2022, "team": "FLA", "gp": 82, "goals": 31, "assists": 51, "points": 82, "plusMinus": 9, "pim": 20 },
+        { "year": 2023, "team": "FLA", "gp": 82, "goals": 57, "assists": 37, "points": 94, "plusMinus": 30, "pim": 20 },
+        { "year": 2024, "team": "FLA", "gp": 79, "goals": 39, "assists": 42, "points": 81, "plusMinus": 5, "pim": 22 },
+        { "year": 2025, "team": "FLA", "gp": 64, "goals": 29, "assists": 32, "points": 61, "plusMinus": -18, "pim": 20 }
+      ] },
     { "id": "FLA-bennett", "name": "Sam Bennett", "pos": "C", "age": 30, "shoots": "L",
       "overall": 85, "potential": 85, "nationality": "CAN",
-      "contract": { "capHit": 8.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 8.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 76, "goals": 28, "assists": 21, "points": 49, "plusMinus": 22, "pim": 90 },
+        { "year": 2022, "team": "FLA", "gp": 72, "goals": 15, "assists": 25, "points": 40, "plusMinus": -6, "pim": 63 },
+        { "year": 2023, "team": "FLA", "gp": 69, "goals": 20, "assists": 21, "points": 41, "plusMinus": 5, "pim": 79 },
+        { "year": 2024, "team": "FLA", "gp": 76, "goals": 25, "assists": 26, "points": 51, "plusMinus": 10, "pim": 71 },
+        { "year": 2025, "team": "FLA", "gp": 76, "goals": 26, "assists": 32, "points": 58, "plusMinus": -5, "pim": 82 }
+      ] },
     { "id": "FLA-verhaeghe", "name": "Carter Verhaeghe", "pos": "LW", "age": 31, "shoots": "L",
       "overall": 83, "potential": 83, "nationality": "CAN",
-      "contract": { "capHit": 7.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 7.0, "yearsLeft": 7, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 76, "goals": 24, "assists": 31, "points": 55, "plusMinus": 6, "pim": 22 },
+        { "year": 2022, "team": "FLA", "gp": 78, "goals": 42, "assists": 31, "points": 73, "plusMinus": 8, "pim": 22 },
+        { "year": 2023, "team": "FLA", "gp": 82, "goals": 34, "assists": 39, "points": 73, "plusMinus": 6, "pim": 26 },
+        { "year": 2024, "team": "FLA", "gp": 82, "goals": 20, "assists": 33, "points": 53, "plusMinus": 4, "pim": 30 },
+        { "year": 2025, "team": "FLA", "gp": 77, "goals": 25, "assists": 30, "points": 55, "plusMinus": -10, "pim": 20 }
+      ] },
     { "id": "FLA-marchand", "name": "Brad Marchand", "pos": "LW", "age": 38, "shoots": "L",
       "overall": 80, "potential": 80, "nationality": "CAN",
-      "contract": { "capHit": 5.25, "yearsLeft": 5, "expiry": "UFA" } },
+      "contract": { "capHit": 5.25, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BOS", "gp": 70, "goals": 32, "assists": 48, "points": 80, "plusMinus": 26, "pim": 80 },
+        { "year": 2022, "team": "BOS", "gp": 73, "goals": 21, "assists": 46, "points": 67, "plusMinus": 26, "pim": 72 },
+        { "year": 2023, "team": "BOS", "gp": 82, "goals": 29, "assists": 38, "points": 67, "plusMinus": 21, "pim": 78 },
+        { "year": 2024, "team": "FLA", "gp": 71, "goals": 23, "assists": 28, "points": 51, "plusMinus": -2, "pim": 55 },
+        { "year": 2025, "team": "FLA", "gp": 52, "goals": 27, "assists": 27, "points": 54, "plusMinus": 10, "pim": 50 }
+      ] },
     { "id": "FLA-lundell", "name": "Anton Lundell", "pos": "C", "age": 25, "shoots": "L",
       "overall": 83, "potential": 86, "nationality": "FIN",
-      "contract": { "capHit": 5.0, "yearsLeft": 5, "expiry": "UFA" } },
+      "contract": { "capHit": 5.0, "yearsLeft": 5, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 65, "goals": 18, "assists": 26, "points": 44, "plusMinus": 19, "pim": 20 },
+        { "year": 2022, "team": "FLA", "gp": 78, "goals": 12, "assists": 20, "points": 32, "plusMinus": 5, "pim": 20 },
+        { "year": 2023, "team": "FLA", "gp": 82, "goals": 17, "assists": 27, "points": 44, "plusMinus": 8, "pim": 22 },
+        { "year": 2024, "team": "FLA", "gp": 80, "goals": 17, "assists": 28, "points": 45, "plusMinus": 6, "pim": 24 },
+        { "year": 2025, "team": "FLA", "gp": 64, "goals": 18, "assists": 26, "points": 44, "plusMinus": 0, "pim": 20 }
+      ] },
     { "id": "FLA-luostarinen", "name": "Eetu Luostarinen", "pos": "C", "age": 28, "shoots": "L",
       "overall": 78, "potential": 78, "nationality": "FIN",
-      "contract": { "capHit": 3.0, "yearsLeft": 3, "expiry": "UFA" } },
+      "contract": { "capHit": 3.0, "yearsLeft": 3, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 65, "goals": 7, "assists": 15, "points": 22, "plusMinus": 8, "pim": 16 },
+        { "year": 2022, "team": "FLA", "gp": 81, "goals": 9, "assists": 21, "points": 30, "plusMinus": 6, "pim": 18 },
+        { "year": 2023, "team": "FLA", "gp": 80, "goals": 8, "assists": 21, "points": 29, "plusMinus": 4, "pim": 20 },
+        { "year": 2024, "team": "FLA", "gp": 81, "goals": 9, "assists": 23, "points": 32, "plusMinus": 6, "pim": 20 },
+        { "year": 2025, "team": "FLA", "gp": 73, "goals": 11, "assists": 22, "points": 33, "plusMinus": 0, "pim": 20 }
+      ] },
     { "id": "FLA-gadjovich", "name": "Jonah Gadjovich", "pos": "LW", "age": 28, "shoots": "L",
       "overall": 73, "potential": 73, "nationality": "CAN",
-      "contract": { "capHit": 0.905, "yearsLeft": 2, "expiry": "UFA" } },
+      "contract": { "capHit": 0.905, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "FLA", "gp": 27, "goals": 4, "assists": 3, "points": 7, "plusMinus": 2, "pim": 44 },
+        { "year": 2023, "team": "FLA", "gp": 45, "goals": 4, "assists": 2, "points": 6, "plusMinus": 5, "pim": 60 },
+        { "year": 2024, "team": "FLA", "gp": 51, "goals": 6, "assists": 3, "points": 9, "plusMinus": 6, "pim": 70 },
+        { "year": 2025, "team": "FLA", "gp": 10, "goals": 0, "assists": 3, "points": 3, "plusMinus": 2, "pim": 7 }
+      ] },
     { "id": "FLA-nosek", "name": "Tomas Nosek", "pos": "C", "age": 34, "shoots": "L",
       "overall": 73, "potential": 73, "nationality": "CZE",
-      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "BOS", "gp": 49, "goals": 7, "assists": 6, "points": 13, "plusMinus": 2, "pim": 20 },
+        { "year": 2022, "team": "BOS", "gp": 65, "goals": 7, "assists": 8, "points": 15, "plusMinus": 6, "pim": 22 },
+        { "year": 2023, "team": "NJD", "gp": 60, "goals": 6, "assists": 8, "points": 14, "plusMinus": -2, "pim": 25 },
+        { "year": 2024, "team": "FLA", "gp": 40, "goals": 3, "assists": 5, "points": 8, "plusMinus": 2, "pim": 20 },
+        { "year": 2025, "team": "FLA", "gp": 21, "goals": 2, "assists": 2, "points": 4, "plusMinus": 0, "pim": 10 }
+      ] },
     { "id": "FLA-crookshank", "name": "Angus Crookshank", "pos": "LW", "age": 27, "shoots": "L",
       "overall": 72, "potential": 73, "nationality": "CAN",
-      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+      "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2024, "team": "OTT", "gp": 8, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4 },
+        { "year": 2025, "team": "NJD", "gp": 8, "goals": 1, "assists": 0, "points": 1, "plusMinus": 0, "pim": 2 }
+      ] },
     { "id": "FLA-forsling", "name": "Gustav Forsling", "pos": "D", "age": 30, "shoots": "L",
       "overall": 85, "potential": 85, "nationality": "SWE",
-      "contract": { "capHit": 5.75, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 5.75, "yearsLeft": 6, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 79, "goals": 6, "assists": 20, "points": 26, "plusMinus": 36, "pim": 26 },
+        { "year": 2022, "team": "FLA", "gp": 80, "goals": 10, "assists": 21, "points": 31, "plusMinus": 16, "pim": 26 },
+        { "year": 2023, "team": "FLA", "gp": 82, "goals": 10, "assists": 27, "points": 37, "plusMinus": 56, "pim": 42 },
+        { "year": 2024, "team": "FLA", "gp": 80, "goals": 8, "assists": 25, "points": 33, "plusMinus": 24, "pim": 40 },
+        { "year": 2025, "team": "FLA", "gp": 80, "goals": 2, "assists": 26, "points": 28, "plusMinus": -5, "pim": 51 }
+      ] },
     { "id": "FLA-ekblad", "name": "Aaron Ekblad", "pos": "D", "age": 30, "shoots": "R",
       "overall": 83, "potential": 83, "nationality": "CAN",
-      "contract": { "capHit": 6.1, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 6.1, "yearsLeft": 7, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 61, "goals": 15, "assists": 42, "points": 57, "plusMinus": 45, "pim": 45 },
+        { "year": 2022, "team": "FLA", "gp": 79, "goals": 9, "assists": 25, "points": 34, "plusMinus": 10, "pim": 48 },
+        { "year": 2023, "team": "FLA", "gp": 80, "goals": 6, "assists": 32, "points": 38, "plusMinus": 20, "pim": 60 },
+        { "year": 2024, "team": "FLA", "gp": 56, "goals": 7, "assists": 26, "points": 33, "plusMinus": 8, "pim": 50 },
+        { "year": 2025, "team": "FLA", "gp": 72, "goals": 4, "assists": 22, "points": 26, "plusMinus": -5, "pim": 50 }
+      ] },
     { "id": "FLA-jones", "name": "Seth Jones", "pos": "D", "age": 31, "shoots": "R",
       "overall": 82, "potential": 82, "nationality": "USA",
-      "contract": { "capHit": 7.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+      "contract": { "capHit": 7.0, "yearsLeft": 4, "expiry": "UFA", "ntc": true },
+      "history": [
+        { "year": 2021, "team": "CHI", "gp": 76, "goals": 5, "assists": 32, "points": 37, "plusMinus": -24, "pim": 42 },
+        { "year": 2022, "team": "CHI", "gp": 68, "goals": 3, "assists": 25, "points": 28, "plusMinus": -20, "pim": 40 },
+        { "year": 2023, "team": "CHI", "gp": 78, "goals": 10, "assists": 33, "points": 43, "plusMinus": -25, "pim": 46 },
+        { "year": 2024, "team": "FLA", "gp": 63, "goals": 9, "assists": 27, "points": 36, "plusMinus": -12, "pim": 40 },
+        { "year": 2025, "team": "FLA", "gp": 52, "goals": 7, "assists": 25, "points": 32, "plusMinus": -5, "pim": 40 }
+      ] },
     { "id": "FLA-mikkola", "name": "Niko Mikkola", "pos": "D", "age": 30, "shoots": "L",
       "overall": 79, "potential": 79, "nationality": "FIN",
-      "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" } },
+      "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "STL", "gp": 61, "goals": 1, "assists": 6, "points": 7, "plusMinus": 12, "pim": 40 },
+        { "year": 2022, "team": "NYR", "gp": 68, "goals": 3, "assists": 8, "points": 11, "plusMinus": 6, "pim": 50 },
+        { "year": 2023, "team": "FLA", "gp": 80, "goals": 3, "assists": 12, "points": 15, "plusMinus": 10, "pim": 55 },
+        { "year": 2024, "team": "FLA", "gp": 82, "goals": 4, "assists": 13, "points": 17, "plusMinus": 12, "pim": 50 },
+        { "year": 2025, "team": "FLA", "gp": 68, "goals": 3, "assists": 8, "points": 11, "plusMinus": -2, "pim": 45 }
+      ] },
     { "id": "FLA-gudas", "name": "Radko Gudas", "pos": "D", "age": 36, "shoots": "R",
       "overall": 76, "potential": 76, "nationality": "CZE",
-      "contract": { "capHit": 1.5, "yearsLeft": 6, "expiry": "UFA" } },
+      "contract": { "capHit": 1.5, "yearsLeft": 6, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "FLA", "gp": 62, "goals": 3, "assists": 14, "points": 17, "plusMinus": 40, "pim": 60 },
+        { "year": 2022, "team": "FLA", "gp": 78, "goals": 4, "assists": 18, "points": 22, "plusMinus": 12, "pim": 79 },
+        { "year": 2023, "team": "ANA", "gp": 79, "goals": 4, "assists": 15, "points": 19, "plusMinus": -18, "pim": 90 },
+        { "year": 2024, "team": "ANA", "gp": 68, "goals": 3, "assists": 12, "points": 15, "plusMinus": -10, "pim": 80 },
+        { "year": 2025, "team": "ANA", "gp": 56, "goals": 2, "assists": 11, "points": 13, "plusMinus": -5, "pim": 67 }
+      ] },
     { "id": "FLA-kulikov", "name": "Dmitry Kulikov", "pos": "D", "age": 35, "shoots": "L",
       "overall": 75, "potential": 75, "nationality": "RUS",
-      "contract": { "capHit": 1.15, "yearsLeft": 1, "expiry": "UFA" } },
+      "contract": { "capHit": 1.15, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "MIN", "gp": 79, "goals": 3, "assists": 11, "points": 14, "plusMinus": 14, "pim": 34 },
+        { "year": 2022, "team": "ANA", "gp": 62, "goals": 1, "assists": 12, "points": 13, "plusMinus": -12, "pim": 40 },
+        { "year": 2023, "team": "PIT", "gp": 79, "goals": 2, "assists": 10, "points": 12, "plusMinus": -6, "pim": 42 },
+        { "year": 2024, "team": "FLA", "gp": 68, "goals": 1, "assists": 9, "points": 10, "plusMinus": 8, "pim": 40 },
+        { "year": 2025, "team": "FLA", "gp": 19, "goals": 0, "assists": 0, "points": 0, "plusMinus": -5, "pim": 12 }
+      ] },
     { "id": "FLA-balinskis", "name": "Uvis Balinskis", "pos": "D", "age": 30, "shoots": "L",
       "overall": 73, "potential": 73, "nationality": "LAT",
-      "contract": { "capHit": 0.875, "yearsLeft": 2, "expiry": "UFA" } },
+      "contract": { "capHit": 0.875, "yearsLeft": 2, "expiry": "UFA" },
+      "history": [
+        { "year": 2023, "team": "FLA", "gp": 34, "goals": 2, "assists": 7, "points": 9, "plusMinus": 4, "pim": 20 },
+        { "year": 2024, "team": "FLA", "gp": 40, "goals": 2, "assists": 8, "points": 10, "plusMinus": 5, "pim": 22 },
+        { "year": 2025, "team": "FLA", "gp": 54, "goals": 5, "assists": 10, "points": 15, "plusMinus": -2, "pim": 25 }
+      ] },
     { "id": "FLA-markstrom", "name": "Jacob Markstrom", "pos": "G", "age": 36, "shoots": "L",
       "overall": 81, "potential": 81, "nationality": "SWE",
-      "contract": { "capHit": 6.0, "yearsLeft": 1, "expiry": "UFA" } },
+      "contract": { "capHit": 6.0, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2021, "team": "CGY", "gp": 63, "goals": 0, "assists": 2, "points": 2, "plusMinus": 0, "pim": 6, "wins": 37, "losses": 15, "otl": 9, "shutouts": 9, "gaa": 2.22, "svPct": 0.922 },
+        { "year": 2022, "team": "CGY", "gp": 61, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4, "wins": 23, "losses": 26, "otl": 9, "shutouts": 2, "gaa": 2.98, "svPct": 0.892 },
+        { "year": 2023, "team": "CGY", "gp": 48, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 4, "wins": 23, "losses": 20, "otl": 2, "shutouts": 3, "gaa": 2.78, "svPct": 0.905 },
+        { "year": 2024, "team": "NJD", "gp": 49, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 27, "losses": 15, "otl": 4, "shutouts": 3, "gaa": 2.50, "svPct": 0.900 },
+        { "year": 2025, "team": "NJD", "gp": 44, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 23, "losses": 19, "otl": 1, "shutouts": 1, "gaa": 3.07, "svPct": 0.883 }
+      ] },
     { "id": "FLA-schmid", "name": "Akira Schmid", "pos": "G", "age": 26, "shoots": "L",
       "overall": 76, "potential": 79, "nationality": "SUI",
-      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "UFA" } }
+      "contract": { "capHit": 0.9, "yearsLeft": 1, "expiry": "UFA" },
+      "history": [
+        { "year": 2022, "team": "NJD", "gp": 18, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 9, "losses": 5, "otl": 2, "shutouts": 1, "gaa": 2.13, "svPct": 0.922 },
+        { "year": 2023, "team": "NJD", "gp": 24, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 9, "losses": 10, "otl": 3, "shutouts": 0, "gaa": 3.28, "svPct": 0.892 },
+        { "year": 2024, "team": "VGK", "gp": 10, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 5, "losses": 3, "otl": 1, "shutouts": 1, "gaa": 2.60, "svPct": 0.905 },
+        { "year": 2025, "team": "VGK", "gp": 34, "goals": 0, "assists": 1, "points": 1, "plusMinus": 0, "pim": 2, "wins": 16, "losses": 10, "otl": 6, "shutouts": 2, "gaa": 2.59, "svPct": 0.893 }
+      ] }
   ],
   "prospects": [
     { "id": "FLA-vilmanis", "name": "Sandis Vilmanis", "pos": "LW", "age": 22, "shoots": "L",
