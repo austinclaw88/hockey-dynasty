@@ -682,14 +682,14 @@
       ]
     },
     {
-      "id": "SJS-olofsson",
-      "name": "Victor Olofsson",
-      "pos": "LW",
-      "age": 31,
+      "id": "SJS-sprong",
+      "name": "Daniel Sprong",
+      "pos": "RW",
+      "age": 29,
       "shoots": "L",
       "overall": 76,
       "potential": 76,
-      "nationality": "SWE",
+      "nationality": "NED",
       "contract": {
         "capHit": 3,
         "yearsLeft": 1,
@@ -698,53 +698,53 @@
       "history": [
         {
           "year": 2021,
-          "team": "BUF",
-          "gp": 72,
-          "goals": 20,
-          "assists": 29,
-          "points": 49,
-          "plusMinus": -9,
-          "pim": 12
+          "team": "SEA",
+          "gp": 47,
+          "goals": 13,
+          "assists": 8,
+          "points": 21,
+          "plusMinus": -2,
+          "pim": 10
         },
         {
           "year": 2022,
-          "team": "BUF",
-          "gp": 75,
-          "goals": 28,
-          "assists": 21,
-          "points": 49,
-          "plusMinus": -5,
-          "pim": 14
+          "team": "SEA",
+          "gp": 66,
+          "goals": 21,
+          "assists": 25,
+          "points": 46,
+          "plusMinus": 9,
+          "pim": 16
         },
         {
           "year": 2023,
-          "team": "BUF",
-          "gp": 51,
-          "goals": 7,
-          "assists": 8,
-          "points": 15,
+          "team": "DET",
+          "gp": 76,
+          "goals": 18,
+          "assists": 25,
+          "points": 43,
           "plusMinus": 2,
-          "pim": 4
+          "pim": 14
         },
         {
           "year": 2024,
-          "team": "VGK",
-          "gp": 56,
-          "goals": 15,
-          "assists": 14,
-          "points": 29,
-          "plusMinus": 3,
-          "pim": 8
+          "team": "VAN",
+          "gp": 27,
+          "goals": 2,
+          "assists": 5,
+          "points": 7,
+          "plusMinus": -3,
+          "pim": 6
         },
         {
           "year": 2025,
-          "team": "VGK",
-          "gp": 61,
-          "goals": 13,
-          "assists": 16,
-          "points": 29,
-          "plusMinus": 1,
-          "pim": 10
+          "team": "STL",
+          "gp": 44,
+          "goals": 9,
+          "assists": 10,
+          "points": 19,
+          "plusMinus": 0,
+          "pim": 8
         }
       ]
     },
