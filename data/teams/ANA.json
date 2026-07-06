@@ -1,0 +1,35 @@
+{
+  "info": { "abbrev": "ANA", "city": "Anaheim", "name": "Ducks", "conference": "West", "division": "Pacific", "color": "#F47A38", "colorSecondary": "#B09862" },
+  "roster": [
+    { "id": "ANA-carlsson", "name": "Leo Carlsson", "pos": "C", "age": 20, "shoots": "L", "overall": 84, "potential": 93, "nationality": "SWE", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-mctavish", "name": "Mason McTavish", "pos": "C", "age": 22, "shoots": "L", "overall": 82, "potential": 88, "nationality": "CAN", "contract": { "capHit": 7.0, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "ANA-terry", "name": "Troy Terry", "pos": "RW", "age": 27, "shoots": "R", "overall": 83, "potential": 83, "nationality": "USA", "contract": { "capHit": 7.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "ANA-gauthier", "name": "Cutter Gauthier", "pos": "LW", "age": 21, "shoots": "L", "overall": 81, "potential": 91, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "ANA-kreider", "name": "Chris Kreider", "pos": "LW", "age": 34, "shoots": "L", "overall": 81, "potential": 81, "nationality": "USA", "contract": { "capHit": 6.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-granlund", "name": "Mikael Granlund", "pos": "C", "age": 33, "shoots": "L", "overall": 82, "potential": 82, "nationality": "FIN", "contract": { "capHit": 7.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "ANA-vatrano", "name": "Frank Vatrano", "pos": "RW", "age": 31, "shoots": "L", "overall": 81, "potential": 81, "nationality": "USA", "contract": { "capHit": 3.65, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-killorn", "name": "Alex Killorn", "pos": "LW", "age": 35, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 6.25, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "ANA-strome", "name": "Ryan Strome", "pos": "C", "age": 32, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-fabbri", "name": "Robby Fabbri", "pos": "LW", "age": 29, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-lundestrom", "name": "Isac Lundestrom", "pos": "C", "age": 25, "shoots": "L", "overall": 77, "potential": 79, "nationality": "SWE", "contract": { "capHit": 1.8, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-colangelo", "name": "Sam Colangelo", "pos": "RW", "age": 23, "shoots": "R", "overall": 76, "potential": 82, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "ANA-johnston", "name": "Ross Johnston", "pos": "LW", "age": 31, "shoots": "L", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 1.15, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-nesterenko", "name": "Nikita Nesterenko", "pos": "LW", "age": 24, "shoots": "L", "overall": 73, "potential": 78, "nationality": "USA", "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-lacombe", "name": "Jackson LaCombe", "pos": "D", "age": 24, "shoots": "L", "overall": 84, "potential": 89, "nationality": "USA", "contract": { "capHit": 4.5, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "ANA-mintyukov", "name": "Pavel Mintyukov", "pos": "D", "age": 21, "shoots": "L", "overall": 78, "potential": 87, "nationality": "RUS", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-zellweger", "name": "Olen Zellweger", "pos": "D", "age": 22, "shoots": "L", "overall": 78, "potential": 86, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-gudas", "name": "Radko Gudas", "pos": "D", "age": 35, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CZE", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-trouba", "name": "Jacob Trouba", "pos": "D", "age": 31, "shoots": "R", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "ANA-helleson", "name": "Drew Helleson", "pos": "D", "age": 24, "shoots": "R", "overall": 75, "potential": 79, "nationality": "USA", "contract": { "capHit": 0.825, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-luneau", "name": "Tristan Luneau", "pos": "D", "age": 21, "shoots": "R", "overall": 73, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "ANA-dostal", "name": "Lukas Dostal", "pos": "G", "age": 25, "shoots": "L", "overall": 85, "potential": 87, "nationality": "CZE", "contract": { "capHit": 6.5, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "ANA-mrazek", "name": "Petr Mrazek", "pos": "G", "age": 33, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CZE", "contract": { "capHit": 4.25, "yearsLeft": 1, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "ANA-sennecke", "name": "Beckett Sennecke", "pos": "RW", "age": 19, "shoots": "R", "overall": 72, "potential": 89, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "ANA-mcqueen", "name": "Roger McQueen", "pos": "C", "age": 18, "shoots": "R", "overall": 68, "potential": 89, "nationality": "CAN", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "ANA-solberg", "name": "Stian Solberg", "pos": "D", "age": 20, "shoots": "L", "overall": 70, "potential": 84, "nationality": "NOR", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "ANA-gaucher", "name": "Nathan Gaucher", "pos": "C", "age": 22, "shoots": "R", "overall": 71, "potential": 79, "nationality": "CAN", "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "ANA-pastujov", "name": "Sasha Pastujov", "pos": "LW", "age": 22, "shoots": "L", "overall": 70, "potential": 80, "nationality": "USA", "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" } }
+  ]
+}

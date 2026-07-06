@@ -1,0 +1,33 @@
+{
+  "info": { "abbrev": "CAR", "city": "Carolina", "name": "Hurricanes", "conference": "East", "division": "Metropolitan", "color": "#CC0000", "colorSecondary": "#000000" },
+  "roster": [
+    { "id": "CAR-aho", "name": "Sebastian Aho", "pos": "C", "age": 28, "shoots": "L", "overall": 90, "potential": 90, "nationality": "FIN", "contract": { "capHit": 9.75, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "CAR-ehlers", "name": "Nikolaj Ehlers", "pos": "LW", "age": 29, "shoots": "L", "overall": 87, "potential": 87, "nationality": "DNK", "contract": { "capHit": 8.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "CAR-jarvis", "name": "Seth Jarvis", "pos": "RW", "age": 23, "shoots": "R", "overall": 86, "potential": 89, "nationality": "CAN", "contract": { "capHit": 7.42, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "CAR-svechnikov", "name": "Andrei Svechnikov", "pos": "RW", "age": 25, "shoots": "L", "overall": 85, "potential": 87, "nationality": "RUS", "contract": { "capHit": 7.75, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CAR-stankoven", "name": "Logan Stankoven", "pos": "C", "age": 22, "shoots": "R", "overall": 82, "potential": 89, "nationality": "CAN", "contract": { "capHit": 6.0, "yearsLeft": 8, "expiry": "UFA" } },
+    { "id": "CAR-kotkaniemi", "name": "Jesperi Kotkaniemi", "pos": "C", "age": 25, "shoots": "L", "overall": 78, "potential": 80, "nationality": "FIN", "contract": { "capHit": 4.82, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "CAR-hall", "name": "Taylor Hall", "pos": "LW", "age": 33, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CAR-staal", "name": "Jordan Staal", "pos": "C", "age": 36, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 2.9, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "CAR-martinook", "name": "Jordan Martinook", "pos": "LW", "age": 33, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 3.05, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CAR-blake", "name": "Jackson Blake", "pos": "RW", "age": 22, "shoots": "R", "overall": 79, "potential": 84, "nationality": "USA", "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CAR-carrier", "name": "William Carrier", "pos": "LW", "age": 30, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 2.0, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "CAR-robinson", "name": "Eric Robinson", "pos": "LW", "age": 30, "shoots": "L", "overall": 77, "potential": 77, "nationality": "USA", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CAR-jankowski", "name": "Mark Jankowski", "pos": "C", "age": 31, "shoots": "L", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CAR-slavin", "name": "Jaccob Slavin", "pos": "D", "age": 31, "shoots": "L", "overall": 88, "potential": 88, "nationality": "USA", "contract": { "capHit": 6.396, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
+    { "id": "CAR-miller", "name": "K'Andre Miller", "pos": "D", "age": 25, "shoots": "L", "overall": 84, "potential": 86, "nationality": "USA", "contract": { "capHit": 7.5, "yearsLeft": 8, "expiry": "UFA" } },
+    { "id": "CAR-walker", "name": "Sean Walker", "pos": "D", "age": 30, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 3.6, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "CAR-gostisbehere", "name": "Shayne Gostisbehere", "pos": "D", "age": 32, "shoots": "L", "overall": 79, "potential": 79, "nationality": "USA", "contract": { "capHit": 3.2, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CAR-chatfield", "name": "Jalen Chatfield", "pos": "D", "age": 29, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "CAR-nikishin", "name": "Alexander Nikishin", "pos": "D", "age": 24, "shoots": "L", "overall": 80, "potential": 86, "nationality": "RUS", "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "CAR-reilly", "name": "Mike Reilly", "pos": "D", "age": 32, "shoots": "L", "overall": 75, "potential": 75, "nationality": "USA", "contract": { "capHit": 1.1, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CAR-andersen", "name": "Frederik Andersen", "pos": "G", "age": 35, "shoots": "L", "overall": 84, "potential": 84, "nationality": "DNK", "contract": { "capHit": 2.75, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "CAR-kochetkov", "name": "Pyotr Kochetkov", "pos": "G", "age": 26, "shoots": "L", "overall": 82, "potential": 85, "nationality": "RUS", "contract": { "capHit": 2.0, "yearsLeft": 4, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "CAR-nadeau", "name": "Bradly Nadeau", "pos": "LW", "age": 20, "shoots": "L", "overall": 68, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "CAR-trikozov", "name": "Gleb Trikozov", "pos": "RW", "age": 21, "shoots": "L", "overall": 65, "potential": 80, "nationality": "RUS", "contract": { "capHit": 0.918, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CAR-ungersorum", "name": "Felix Unger Sorum", "pos": "RW", "age": 21, "shoots": "R", "overall": 64, "potential": 79, "nationality": "SWE", "contract": { "capHit": 0.894, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "CAR-heimosalmi", "name": "Aleksi Heimosalmi", "pos": "D", "age": 22, "shoots": "R", "overall": 64, "potential": 78, "nationality": "FIN", "contract": { "capHit": 0.894, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}

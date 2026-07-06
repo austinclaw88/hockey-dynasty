@@ -1,0 +1,33 @@
+{
+  "info": { "abbrev": "NJD", "city": "New Jersey", "name": "Devils", "conference": "East", "division": "Metropolitan", "color": "#CE1126", "colorSecondary": "#000000" },
+  "roster": [
+    { "id": "NJD-jhughes", "name": "Jack Hughes", "pos": "C", "age": 24, "shoots": "L", "overall": 91, "potential": 93, "nationality": "USA", "contract": { "capHit": 8.0, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-hischier", "name": "Nico Hischier", "pos": "C", "age": 26, "shoots": "L", "overall": 88, "potential": 89, "nationality": "CHE", "contract": { "capHit": 7.25, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-bratt", "name": "Jesper Bratt", "pos": "LW", "age": 27, "shoots": "L", "overall": 87, "potential": 88, "nationality": "SWE", "contract": { "capHit": 7.875, "yearsLeft": 6, "expiry": "UFA" } },
+    { "id": "NJD-meier", "name": "Timo Meier", "pos": "RW", "age": 28, "shoots": "R", "overall": 85, "potential": 86, "nationality": "CHE", "contract": { "capHit": 8.8, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-mercer", "name": "Dawson Mercer", "pos": "C", "age": 23, "shoots": "R", "overall": 80, "potential": 84, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NJD-palat", "name": "Ondrej Palat", "pos": "LW", "age": 34, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CZE", "contract": { "capHit": 6.0, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-brown", "name": "Connor Brown", "pos": "RW", "age": 31, "shoots": "R", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "NJD-glass", "name": "Cody Glass", "pos": "C", "age": 26, "shoots": "R", "overall": 76, "potential": 77, "nationality": "CAN", "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NJD-noesen", "name": "Stefan Noesen", "pos": "RW", "age": 32, "shoots": "R", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 2.75, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NJD-dadonov", "name": "Evgenii Dadonov", "pos": "RW", "age": 36, "shoots": "L", "overall": 75, "potential": 75, "nationality": "RUS", "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NJD-bastian", "name": "Nathan Bastian", "pos": "RW", "age": 27, "shoots": "R", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 1.35, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NJD-gritsyuk", "name": "Arseni Gritsyuk", "pos": "LW", "age": 24, "shoots": "L", "overall": 76, "potential": 82, "nationality": "RUS", "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "NJD-dowling", "name": "Justin Dowling", "pos": "C", "age": 35, "shoots": "L", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NJD-hamilton", "name": "Dougie Hamilton", "pos": "D", "age": 32, "shoots": "R", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 9.0, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
+    { "id": "NJD-lhughes", "name": "Luke Hughes", "pos": "D", "age": 22, "shoots": "L", "overall": 84, "potential": 90, "nationality": "USA", "contract": { "capHit": 9.0, "yearsLeft": 7, "expiry": "UFA" } },
+    { "id": "NJD-pesce", "name": "Brett Pesce", "pos": "D", "age": 30, "shoots": "R", "overall": 80, "potential": 80, "nationality": "USA", "contract": { "capHit": 5.5, "yearsLeft": 5, "expiry": "UFA" } },
+    { "id": "NJD-siegenthaler", "name": "Jonas Siegenthaler", "pos": "D", "age": 28, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CHE", "contract": { "capHit": 3.4, "yearsLeft": 4, "expiry": "UFA" } },
+    { "id": "NJD-dillon", "name": "Brenden Dillon", "pos": "D", "age": 34, "shoots": "L", "overall": 77, "potential": 77, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NJD-nemec", "name": "Simon Nemec", "pos": "D", "age": 21, "shoots": "R", "overall": 77, "potential": 85, "nationality": "SVK", "contract": { "capHit": 0.894, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "NJD-cholowski", "name": "Dennis Cholowski", "pos": "D", "age": 27, "shoots": "L", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NJD-markstrom", "name": "Jacob Markstrom", "pos": "G", "age": 35, "shoots": "L", "overall": 84, "potential": 84, "nationality": "SWE", "contract": { "capHit": 4.125, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NJD-allen", "name": "Jake Allen", "pos": "G", "age": 35, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 1.8, "yearsLeft": 3, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "NJD-silayev", "name": "Anton Silayev", "pos": "D", "age": 19, "shoots": "L", "overall": 66, "potential": 87, "nationality": "RUS", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NJD-casey", "name": "Seamus Casey", "pos": "D", "age": 21, "shoots": "R", "overall": 72, "potential": 84, "nationality": "USA", "contract": { "capHit": 0.918, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "NJD-hameenaho", "name": "Lenni Hameenaho", "pos": "RW", "age": 20, "shoots": "L", "overall": 64, "potential": 80, "nationality": "FIN", "contract": { "capHit": 0.894, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "NJD-melovsky", "name": "Matyas Melovsky", "pos": "C", "age": 21, "shoots": "R", "overall": 62, "potential": 77, "nationality": "CZE", "contract": { "capHit": 0.847, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "info": { "abbrev": "NYI", "city": "New York", "name": "Islanders", "conference": "East", "division": "Metropolitan", "color": "#00539B", "colorSecondary": "#F47D30" },
+  "roster": [
+    { "id": "NYI-barzal", "name": "Mathew Barzal", "pos": "C", "age": 28, "shoots": "R", "overall": 87, "potential": 88, "nationality": "CAN", "contract": { "capHit": 9.155, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-horvat", "name": "Bo Horvat", "pos": "C", "age": 30, "shoots": "L", "overall": 84, "potential": 84, "nationality": "CAN", "contract": { "capHit": 8.5, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-lee", "name": "Anders Lee", "pos": "LW", "age": 35, "shoots": "L", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 7.0, "yearsLeft": 1, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-pageau", "name": "Jean-Gabriel Pageau", "pos": "C", "age": 32, "shoots": "R", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 5.0, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NYI-palmieri", "name": "Kyle Palmieri", "pos": "RW", "age": 34, "shoots": "R", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 3.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NYI-drouin", "name": "Jonathan Drouin", "pos": "LW", "age": 30, "shoots": "L", "overall": 78, "potential": 78, "nationality": "CAN", "contract": { "capHit": 4.0, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NYI-duclair", "name": "Anthony Duclair", "pos": "LW", "age": 30, "shoots": "L", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 3.5, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "NYI-holmstrom", "name": "Simon Holmstrom", "pos": "RW", "age": 24, "shoots": "L", "overall": 76, "potential": 79, "nationality": "SWE", "contract": { "capHit": 2.55, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "NYI-cizikas", "name": "Casey Cizikas", "pos": "C", "age": 34, "shoots": "R", "overall": 74, "potential": 74, "nationality": "CAN", "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NYI-shabanov", "name": "Maxim Shabanov", "pos": "RW", "age": 24, "shoots": "L", "overall": 78, "potential": 84, "nationality": "RUS", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "NYI-maclean", "name": "Kyle MacLean", "pos": "C", "age": 26, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": { "capHit": 0.875, "yearsLeft": 2, "expiry": "UFA" } },
+    { "id": "NYI-tsyplakov", "name": "Maxim Tsyplakov", "pos": "LW", "age": 26, "shoots": "L", "overall": 75, "potential": 78, "nationality": "RUS", "contract": { "capHit": 0.95, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "NYI-gatcomb", "name": "Marc Gatcomb", "pos": "C", "age": 27, "shoots": "R", "overall": 73, "potential": 74, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NYI-heineman", "name": "Emil Heineman", "pos": "LW", "age": 24, "shoots": "L", "overall": 76, "potential": 80, "nationality": "SWE", "contract": { "capHit": 0.925, "yearsLeft": 2, "expiry": "RFA" } },
+    { "id": "NYI-pulock", "name": "Ryan Pulock", "pos": "D", "age": 30, "shoots": "R", "overall": 81, "potential": 81, "nationality": "CAN", "contract": { "capHit": 6.15, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-pelech", "name": "Adam Pelech", "pos": "D", "age": 31, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": { "capHit": 5.75, "yearsLeft": 4, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-romanov", "name": "Alexander Romanov", "pos": "D", "age": 25, "shoots": "L", "overall": 80, "potential": 82, "nationality": "RUS", "contract": { "capHit": 6.25, "yearsLeft": 8, "expiry": "UFA" } },
+    { "id": "NYI-mayfield", "name": "Scott Mayfield", "pos": "D", "age": 32, "shoots": "R", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 3.5, "yearsLeft": 3, "expiry": "UFA" } },
+    { "id": "NYI-schaefer", "name": "Matthew Schaefer", "pos": "D", "age": 18, "shoots": "L", "overall": 80, "potential": 95, "nationality": "CAN", "contract": { "capHit": 0.975, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NYI-deangelo", "name": "Tony DeAngelo", "pos": "D", "age": 29, "shoots": "R", "overall": 76, "potential": 77, "nationality": "USA", "contract": { "capHit": 1.75, "yearsLeft": 1, "expiry": "UFA" } },
+    { "id": "NYI-boqvist", "name": "Adam Boqvist", "pos": "D", "age": 25, "shoots": "R", "overall": 75, "potential": 78, "nationality": "SWE", "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "RFA" } },
+    { "id": "NYI-sorokin", "name": "Ilya Sorokin", "pos": "G", "age": 30, "shoots": "L", "overall": 89, "potential": 89, "nationality": "RUS", "contract": { "capHit": 8.25, "yearsLeft": 7, "expiry": "UFA", "ntc": true } },
+    { "id": "NYI-rittich", "name": "David Rittich", "pos": "G", "age": 33, "shoots": "R", "overall": 77, "potential": 77, "nationality": "CZE", "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" } }
+  ],
+  "prospects": [
+    { "id": "NYI-ritchie", "name": "Calum Ritchie", "pos": "C", "age": 20, "shoots": "R", "overall": 70, "potential": 84, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NYI-eklund", "name": "Victor Eklund", "pos": "RW", "age": 18, "shoots": "L", "overall": 66, "potential": 86, "nationality": "SWE", "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NYI-aitcheson", "name": "Kashawn Aitcheson", "pos": "D", "age": 18, "shoots": "L", "overall": 62, "potential": 83, "nationality": "CAN", "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } },
+    { "id": "NYI-nelson", "name": "Danny Nelson", "pos": "C", "age": 20, "shoots": "L", "overall": 62, "potential": 78, "nationality": "USA", "contract": { "capHit": 0.847, "yearsLeft": 2, "expiry": "RFA" } }
+  ]
+}
