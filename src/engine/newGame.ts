@@ -33,10 +33,19 @@ function initialPicks(abbrev: string): DraftPick[] {
 
 export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
   const teams: Record<string, TeamState> = {}
+  // Real past-season stats bundled with the data snapshot seed the career archive.
+  const careers: GameState['careers'] = {}
+  const absorbHistory = (p: Player): Player => {
+    if (p.history && p.history.length > 0) {
+      careers[p.id] = [...p.history].sort((a, b) => a.year - b.year)
+    }
+    const { history, ...rest } = p
+    return rest
+  }
   for (const file of data) {
     const abbrev = file.info.abbrev
-    const roster = file.roster.map(hydratePlayer)
-    const prospects = file.prospects.map(hydratePlayer)
+    const roster = file.roster.map(hydratePlayer).map(absorbHistory)
+    const prospects = file.prospects.map(hydratePlayer).map(absorbHistory)
     teams[abbrev] = {
       ...file.info,
       roster,
@@ -66,7 +75,7 @@ export function newGame(userTeam: string, data: TeamDataFile[]): GameState {
     history: [],
     news: [{ day: 0, seasonYear: START_YEAR, text: `Welcome to your dynasty with the ${teams[userTeam].city} ${teams[userTeam].name}. The ${START_YEAR}-${String((START_YEAR + 1) % 100).padStart(2, '0')} season begins.` }],
     rngState: rng.state,
-    careers: {},
+    careers,
   }
   s.schedule = buildSchedule(teams, rng)
   s.rngState = rng.state

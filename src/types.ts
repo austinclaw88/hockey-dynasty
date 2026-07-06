@@ -42,6 +42,8 @@ export interface Player {
   retired?: boolean
   /** Development league for prospects, e.g. 'NCAA', 'CHL', 'AHL', 'SHL', 'Liiga', 'KHL', 'Czechia' */
   devLeague?: string
+  /** Real past NHL seasons bundled with the data snapshot (newGame moves these into GameState.careers) */
+  history?: CareerSeason[]
 }
 
 export interface SeasonStatLine {

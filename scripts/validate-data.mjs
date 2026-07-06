@@ -53,6 +53,28 @@ function checkPlayer(p, team, kind) {
     if (!Number.isInteger(c.yearsLeft) || c.yearsLeft < 1 || c.yearsLeft > 8) errors.push(`${ctx}: bad yearsLeft ${c.yearsLeft}`)
     if (!['RFA', 'UFA'].includes(c.expiry)) errors.push(`${ctx}: bad expiry`)
   }
+  if (p.history != null) {
+    if (!Array.isArray(p.history)) { errors.push(`${ctx}: history must be an array`); return }
+    const years = new Set()
+    for (const h of p.history) {
+      const hctx = `${ctx}/history/${h.year}`
+      if (!Number.isInteger(h.year) || h.year < 2005 || h.year > 2025) errors.push(`${hctx}: bad year`)
+      if (years.has(h.year)) errors.push(`${hctx}: duplicate year`)
+      years.add(h.year)
+      if (typeof h.team !== 'string' || !/^[A-Z]{2,4}$/.test(h.team)) errors.push(`${hctx}: bad team ${h.team}`)
+      if (!Number.isInteger(h.gp) || h.gp < 1 || h.gp > 84) errors.push(`${hctx}: bad gp ${h.gp}`)
+      const maxes = { goals: 75, assists: 110, points: 160, pim: 250 }
+      for (const k of ['goals', 'assists', 'points', 'pim']) {
+        if (!Number.isInteger(h[k]) || h[k] < 0 || h[k] > maxes[k]) errors.push(`${hctx}: bad ${k} ${h[k]}`)
+      }
+      if (!Number.isInteger(h.plusMinus) || h.plusMinus < -70 || h.plusMinus > 90) errors.push(`${hctx}: bad plusMinus`)
+      if (h.points !== h.goals + h.assists) errors.push(`${hctx}: points ${h.points} != G+A`)
+      if (p.pos === 'G') {
+        if (h.svPct != null && (h.svPct < 0.8 || h.svPct > 0.96)) errors.push(`${hctx}: bad svPct ${h.svPct}`)
+        if (h.gaa != null && (h.gaa < 1 || h.gaa > 5.5)) errors.push(`${hctx}: bad gaa ${h.gaa}`)
+      }
+    }
+  }
 }
 
 for (const f of files) {

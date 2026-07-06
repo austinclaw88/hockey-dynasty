@@ -60,3 +60,23 @@ potential up to 96.
 - Pacific: ANA, CGY, EDM, LAK, SJS, SEA, VAN, VGK
 
 Validate with `npm run validate-data`.
+
+## Player history (real past NHL seasons)
+
+Every ROSTER player may (and should, if they have played NHL games) carry a `history` array of
+their real past NHL seasons — most recent 5 seasons max (2021-22 → 2025-26), oldest first,
+NHL seasons only (gp >= 1; skip AHL/junior years and seasons they missed entirely):
+
+```json
+"history": [
+  { "year": 2024, "team": "TOR", "gp": 67, "goals": 33, "assists": 45, "points": 78, "plusMinus": 21, "pim": 20 },
+  { "year": 2025, "team": "TOR", "gp": 74, "goals": 41, "assists": 44, "points": 85, "plusMinus": 18, "pim": 16 }
+]
+```
+
+- `year` = season start year (2025 = the 2025-26 season). `team` = the club he FINISHED that season with
+  (old/relocated clubs fine: ARI, etc.). `points` must equal goals + assists.
+- Goalies additionally get `wins`, `losses`, `otl`, `shutouts`, `gaa`, `svPct` (skater counting fields still required;
+  use 0 goals/assists/points as appropriate).
+- Accuracy priority: stars must be exact; regulars close; 4th-liners/7th-D may be realistic estimates.
+- Prospects: only include `history` if they actually played NHL games.
