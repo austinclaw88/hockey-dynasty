@@ -64,11 +64,11 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
     pushToast('success', onBlock ? `Removed ${p.name} from the trade block.` : 'On the block — teams will call.')
   }
 
-  function th(key: SortKey, label: string, num = false) {
+  function th(key: SortKey, label: string, num = false, cls = '') {
     const active = sort.key === key
     return (
       <th
-        className={`sortable ${num ? 'num' : ''}`}
+        className={`sortable ${num ? 'num' : ''} ${cls}`}
         onClick={() => setSort((p) => ({ key, dir: p.key === key && p.dir === -1 ? 1 : -1 }))}
       >
         {label}
@@ -94,12 +94,12 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                 <tr>
                   {th('name', 'Player')}
                   {th('pos', 'Pos')}
-                  {th('age', 'Age', true)}
+                  {th('age', 'Age', true, 'm-hide')}
                   {th('overall', 'OVR', true)}
-                  {th('potential', 'POT', true)}
+                  {th('potential', 'POT', true, 'm-hide')}
                   {th('capHit', 'Cap', true)}
-                  {th('yearsLeft', 'Yrs', true)}
-                  <th>Exp</th>
+                  {th('yearsLeft', 'Yrs', true, 'm-hide')}
+                  <th className="m-hide">Exp</th>
                   {th('goals', 'G', true)}
                   {th('assists', 'A', true)}
                   {th('points', 'P', true)}
@@ -130,17 +130,17 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                       <td>
                         <PosTag pos={p.pos} />
                       </td>
-                      <td className="num">{p.age}</td>
+                      <td className="num m-hide">{p.age}</td>
                       <td className="num">
                         <OvrBadge overall={p.overall} />
                       </td>
-                      <td className="num">
+                      <td className="num m-hide">
                         {p.potential}
                         <span className={pot.cls}> {pot.symbol}</span>
                       </td>
                       <td className="num">{p.contract ? fmtM(p.contract.capHit) : '—'}</td>
-                      <td className="num">{p.contract?.yearsLeft ?? '—'}</td>
-                      <td>{p.contract ? <ExpiryTag expiry={p.contract.expiry} /> : '—'}</td>
+                      <td className="num m-hide">{p.contract?.yearsLeft ?? '—'}</td>
+                      <td className="m-hide">{p.contract ? <ExpiryTag expiry={p.contract.expiry} /> : '—'}</td>
                       <td className="num">{p.pos === 'G' ? '—' : line?.goals ?? 0}</td>
                       <td className="num">{p.pos === 'G' ? '—' : line?.assists ?? 0}</td>
                       <td className="num">{p.pos === 'G' ? '—' : line?.points ?? 0}</td>
@@ -189,11 +189,11 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                 <tr>
                   <th>Player</th>
                   <th>Pos</th>
-                  <th>League</th>
-                  <th className="num">Age</th>
+                  <th className="m-hide">League</th>
+                  <th className="num m-hide">Age</th>
                   <th className="num">OVR</th>
                   <th className="num">POT</th>
-                  <th className="num">Cap</th>
+                  <th className="num m-hide">Cap</th>
                   <th></th>
                 </tr>
               </thead>
@@ -212,8 +212,8 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                         <td>
                           <PosTag pos={p.pos} />
                         </td>
-                        <td className="dim">{p.devLeague ?? '—'}</td>
-                        <td className="num">{p.age}</td>
+                        <td className="dim m-hide">{p.devLeague ?? '—'}</td>
+                        <td className="num m-hide">{p.age}</td>
                         <td className="num">
                           <OvrBadge overall={p.overall} />
                         </td>
@@ -221,7 +221,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                           {p.potential}
                           <span className={pot.cls}> {pot.symbol}</span>
                         </td>
-                        <td className="num">{p.contract ? fmtM(p.contract.capHit) : '—'}</td>
+                        <td className="num m-hide">{p.contract ? fmtM(p.contract.capHit) : '—'}</td>
                         <td>
                           <div className="row" style={{ gap: 6, justifyContent: 'flex-end' }}>
                             <button

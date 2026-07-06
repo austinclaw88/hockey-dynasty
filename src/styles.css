@@ -35,6 +35,10 @@
   --radius-sm: 6px;
   --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 
+  /* Height of the sticky header — the tab bar sticks directly below it.
+     Overridden in the mobile media query where the header compresses. */
+  --header-h: 76px;
+
   --mono: 'SF Mono', 'Roboto Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -140,6 +144,14 @@ button {
   line-height: 1.15;
 }
 
+/* Full name shows on desktop; a compact abbreviation replaces it on mobile. */
+.header-abbrev {
+  display: none;
+}
+.header-fullname {
+  display: inline;
+}
+
 .header-sub {
   font-size: 12.5px;
   color: rgba(255, 255, 255, 0.85);
@@ -192,7 +204,7 @@ button {
   background: var(--bg-2);
   border-bottom: 1px solid var(--border);
   position: sticky;
-  top: 76px;
+  top: var(--header-h);
   z-index: 15;
 }
 
@@ -2108,4 +2120,340 @@ input:focus {
 .live-final {
   text-align: center;
   margin-top: 14px;
+}
+
+/* ============================================================
+   Mobile / touch layout  (<= 720px)
+   CSS-first responsive pass. Structural JS changes are limited
+   to: header abbrev, collapsible trade columns.
+   ============================================================ */
+
+/* Helpers — no-ops on desktop. */
+.m-only {
+  display: none !important;
+}
+.btn-mblock {
+  /* full-width only on mobile; unchanged on desktop */
+}
+
+@media (max-width: 720px) {
+  :root {
+    --header-h: 54px;
+  }
+
+  /* Never allow the page itself to scroll sideways. Wide content lives inside
+     .table-wrap (internal overflow) so this only clips true overflow bugs. */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .m-only {
+    display: inline-flex !important;
+  }
+  .m-hide {
+    display: none !important;
+  }
+
+  .app-main {
+    padding: 14px 12px calc(48px + env(safe-area-inset-bottom, 0px));
+    max-width: 100%;
+  }
+
+  .stack {
+    gap: 12px;
+  }
+
+  /* ---------------- Header ---------------- */
+
+  .header-inner {
+    padding: 8px 12px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  .header-crest {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+  .header .team-logo {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .header-team {
+    font-size: 17px;
+  }
+  .header-fullname {
+    display: none;
+  }
+  .header-abbrev {
+    display: inline;
+  }
+  .header-sub {
+    display: none;
+  }
+  .header-record {
+    white-space: nowrap;
+  }
+  .header-record .big {
+    font-size: 18px;
+  }
+  .header-record .small {
+    font-size: 10px;
+  }
+
+  /* ---------------- Tabs: scrollable sticky bar ---------------- */
+
+  .tabs-inner {
+    padding: 0 6px;
+    padding-left: max(6px, env(safe-area-inset-left));
+    padding-right: max(6px, env(safe-area-inset-right));
+    gap: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs-inner::-webkit-scrollbar {
+    display: none;
+  }
+  .tab {
+    padding: 0 14px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  /* ---------------- Grids collapse ---------------- */
+
+  .grid-2,
+  .grid-3,
+  .dash-grid,
+  .trade-cols,
+  .offer-body {
+    grid-template-columns: 1fr !important;
+  }
+  .offer-arrow {
+    display: none;
+  }
+
+  /* Stat tiles: 2 per row. */
+  .tiles {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* ---------------- Buttons / touch targets ---------------- */
+
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-sm {
+    min-height: 34px;
+    padding: 6px 10px;
+  }
+  .btn-mblock {
+    display: flex;
+    width: 100%;
+  }
+
+  /* ---------------- Banners stack ---------------- */
+
+  .banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .banner .btn {
+    width: 100%;
+  }
+
+  /* ---------------- Dashboard sim buttons: grid ---------------- */
+
+  .sim-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sim-buttons .btn {
+    width: 100%;
+  }
+  /* Play Today's Game spans the full row when present. */
+  .sim-buttons .btn-accent {
+    grid-column: 1 / -1;
+  }
+
+  /* ---------------- Cards / heads wrap ---------------- */
+
+  .card-head {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .card-head h3 {
+    flex: 1 1 auto;
+  }
+
+  /* ---------------- Tables: bigger rows, readable text ---------------- */
+
+  .table-wrap {
+    -webkit-overflow-scrolling: touch;
+  }
+  table.tbl {
+    font-size: 13px;
+  }
+  .tbl th,
+  .tbl td {
+    padding: 11px 9px;
+  }
+  .tbl th {
+    font-size: 11px;
+  }
+
+  .hint {
+    font-size: 13px;
+  }
+  .cap-legend {
+    font-size: 12.5px;
+  }
+
+  /* ---------------- Filters wrap ---------------- */
+
+  .search-input {
+    max-width: none;
+    flex: 1 1 auto;
+    min-width: 120px;
+  }
+
+  /* ---------------- Modals: full-screen sheets ---------------- */
+
+  .modal-backdrop {
+    padding: 0;
+    place-items: stretch;
+  }
+  .modal,
+  .modal-wide {
+    width: 100dvw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
+    border: none;
+  }
+  .modal-head {
+    padding-top: max(14px, env(safe-area-inset-top));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    z-index: 2;
+  }
+  .modal-close {
+    font-size: 30px;
+    padding: 4px 8px;
+    margin: -4px -4px -4px 0;
+  }
+  .modal-body {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+  /* Action rows inside modals stack full-width for easy tapping. */
+  .modal .modal-body .row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .modal .modal-body .row > .btn {
+    width: 100%;
+  }
+  .modal .modal-body .row > .spacer {
+    display: none;
+  }
+
+  /* ---------------- Trades: collapsible columns + verdict ---------------- */
+
+  .resign-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .resign-controls .btn {
+    width: 100%;
+  }
+
+  /* ---------------- Offseason stepper: horizontal scroll ---------------- */
+
+  .stepper {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+  }
+  .stepper::-webkit-scrollbar {
+    display: none;
+  }
+  .step {
+    flex: none;
+  }
+
+  /* ---------------- Bigger range thumbs for touch ---------------- */
+
+  input[type='range'] {
+    height: 30px;
+  }
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--card-2);
+    border: 1px solid var(--border-2);
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px;
+    height: 26px;
+    margin-top: -11px;
+    border-radius: 50%;
+    background: var(--team);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  input[type='range']::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--card-2);
+    border: 1px solid var(--border-2);
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--team);
+    border: 2px solid #fff;
+  }
+
+  /* Larger tap area for select / text inputs. */
+  input[type='number'],
+  input[type='text'],
+  select {
+    min-height: 42px;
+    font-size: 16px; /* prevents iOS zoom-on-focus */
+  }
+
+  /* ---------------- Toasts span the width ---------------- */
+
+  .toast-viewport {
+    right: 12px;
+    left: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    max-width: none;
+  }
+
+  /* ---------------- Subtabs wrap ---------------- */
+
+  .subtabs {
+    flex-wrap: wrap;
+  }
 }

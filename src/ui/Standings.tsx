@@ -108,10 +108,10 @@ function StandingsTableBody({
   cutAfter: number
   rank?: boolean
 }) {
-  function th(key: SortKey, label: string) {
+  function th(key: SortKey, label: string, cls = '') {
     return (
       <th
-        className="sortable num"
+        className={`sortable num ${cls}`}
         onClick={() => setSort((p) => ({ key, dir: p.key === key && p.dir === -1 ? 1 : -1 }))}
       >
         {label}
@@ -131,8 +131,8 @@ function StandingsTableBody({
             {th('l', 'L')}
             {th('otl', 'OTL')}
             {th('pts', 'PTS')}
-            {th('gf', 'GF')}
-            {th('ga', 'GA')}
+            {th('gf', 'GF', 'm-hide')}
+            {th('ga', 'GA', 'm-hide')}
             {th('diff', 'DIFF')}
           </tr>
         </thead>
@@ -156,8 +156,8 @@ function StandingsTableBody({
                 <td className="num" style={{ fontWeight: 800 }}>
                   {r.pts}
                 </td>
-                <td className="num">{r.gf}</td>
-                <td className="num">{r.ga}</td>
+                <td className="num m-hide">{r.gf}</td>
+                <td className="num m-hide">{r.ga}</td>
                 <td className="num">{fmtSigned(r.gf - r.ga)}</td>
               </tr>
             )

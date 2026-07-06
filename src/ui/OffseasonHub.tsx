@@ -151,10 +151,10 @@ function DevelopmentStep({ s, apply, devSnap }: { s: GameState; apply: (n: GameS
                 <th>Player</th>
                 <th>Pos</th>
                 <th className="num">Age</th>
-                <th className="num">Was</th>
+                <th className="num m-hide">Was</th>
                 <th className="num">Now</th>
                 <th className="num">Δ</th>
-                <th className="num">POT</th>
+                <th className="num m-hide">POT</th>
               </tr>
             </thead>
             <tbody>
@@ -170,7 +170,7 @@ function DevelopmentStep({ s, apply, devSnap }: { s: GameState; apply: (n: GameS
                       </td>
                       <td><PosTag pos={p.pos} /></td>
                       <td className="num">{p.age}</td>
-                      <td className="num muted">{prev ? prev.overall : '—'}</td>
+                      <td className="num muted m-hide">{prev ? prev.overall : '—'}</td>
                       <td className="num"><OvrBadge overall={p.overall} /></td>
                       <td className="num">
                         {prev ? (
@@ -181,7 +181,7 @@ function DevelopmentStep({ s, apply, devSnap }: { s: GameState; apply: (n: GameS
                           '—'
                         )}
                       </td>
-                      <td className="num">{p.potential}</td>
+                      <td className="num m-hide">{p.potential}</td>
                     </tr>
                   )
                 })}
@@ -292,7 +292,7 @@ function ResignRow({ s, apply, player, setNotice }: { s: GameState; apply: (n: G
             </div>
           </div>
         </div>
-        <div className="row" style={{ marginTop: 12, gap: 18, alignItems: 'flex-end' }}>
+        <div className="row resign-controls" style={{ marginTop: 12, gap: 18, alignItems: 'flex-end' }}>
           <SliderField label={`Cap Hit — ${fmtM(capHit)}`} min={0.775} max={17} step={0.05} value={capHit} onChange={setCapHit} />
           <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
           <button className="btn btn-primary" onClick={sign}>Sign</button>
@@ -386,10 +386,10 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                 <tr>
                   <th>Prospect</th>
                   <th>Pos</th>
-                  <th>Nat</th>
-                  <th className="num">Age</th>
+                  <th className="m-hide">Nat</th>
+                  <th className="num m-hide">Age</th>
                   <th className="num">OVR</th>
-                  <th className="num">Scout POT</th>
+                  <th className="num m-hide">Scout POT</th>
                   <th>Projection</th>
                   <th></th>
                 </tr>
@@ -403,10 +403,10 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
                       <PlayerLink id={p.id} player={p}>{p.name}</PlayerLink>
                     </td>
                     <td><PosTag pos={p.pos} /></td>
-                    <td>{p.nationality ? <Flag nat={p.nationality} /> : <span className="muted">—</span>}</td>
-                    <td className="num">{p.age}</td>
+                    <td className="m-hide">{p.nationality ? <Flag nat={p.nationality} /> : <span className="muted">—</span>}</td>
+                    <td className="num m-hide">{p.age}</td>
                     <td className="num"><OvrBadge overall={p.overall} /></td>
-                    <td className="num" title="Scouted potential range (true ceiling hidden)">
+                    <td className="num m-hide" title="Scouted potential range (true ceiling hidden)">
                       {sc.lo}–{sc.hi}
                     </td>
                     <td><span className="tag">{potentialBand(p.pos, p.potential)}</span></td>
@@ -517,10 +517,10 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                 <tr>
                   <th>Player</th>
                   <th>Pos</th>
-                  <th className="num">Age</th>
+                  <th className="num m-hide">Age</th>
                   <th className="num">OVR</th>
                   <th className="num">Asking</th>
-                  <th className="num">Yrs</th>
+                  <th className="num m-hide">Yrs</th>
                   <th></th>
                 </tr>
               </thead>
@@ -538,10 +538,10 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                       <PlayerLink id={p.id} player={p}>{p.name}</PlayerLink> <Flag nat={p.nationality} />
                     </td>
                     <td><PosTag pos={p.pos} /></td>
-                    <td className="num">{p.age}</td>
+                    <td className="num m-hide">{p.age}</td>
                     <td className="num"><OvrBadge overall={p.overall} /></td>
                     <td className="num">{fmtM(p.asking.capHit)}</td>
-                    <td className="num">{p.asking.years}</td>
+                    <td className="num m-hide">{p.asking.years}</td>
                     <td>
                       <button className="btn btn-sm btn-primary" onClick={() => setTarget(p)}>Offer</button>
                     </td>
