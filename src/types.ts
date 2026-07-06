@@ -164,6 +164,17 @@ export interface FreeAgent extends Player {
   asking: { capHit: number; years: number }
 }
 
+/** User-set line assignments (player ids). Slots may be empty/invalid — the
+ *  engine falls back to auto-selection per slot. */
+export interface LineAssignments {
+  /** 4 forward lines x [LW, C, RW] */
+  forwards: string[][]
+  /** 3 defense pairs x [LD, RD] */
+  defense: string[][]
+  /** [starter, backup] */
+  goalies: string[]
+}
+
 /** A trade proposal between two teams. `from` pays fromPlayers/fromPicks, receives toPlayers/toPicks. */
 export interface TradeOffer {
   from: string
@@ -238,6 +249,8 @@ export interface GameState {
   tradeBlock: string[]
   /** AI-initiated trade offers awaiting user response */
   pendingOffers: PendingOffer[]
+  /** Manual line assignments for the user's team; absent = full auto */
+  userLines?: LineAssignments
 }
 
 /** Salary cap in $M by season start year. */
