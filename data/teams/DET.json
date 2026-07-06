@@ -1,83 +1,391 @@
 {
-  "info": { "abbrev": "DET", "city": "Detroit", "name": "Red Wings", "conference": "East",
-            "division": "Atlantic", "color": "#CE1126", "colorSecondary": "#FFFFFF" },
+  "info": {
+    "abbrev": "DET",
+    "city": "Detroit",
+    "name": "Red Wings",
+    "conference": "East",
+    "division": "Atlantic",
+    "color": "#CE1126",
+    "colorSecondary": "#FFFFFF"
+  },
   "roster": [
-    { "id": "DET-larkin", "name": "Dylan Larkin", "pos": "C", "age": 29, "shoots": "L",
-      "overall": 85, "potential": 85, "nationality": "USA",
-      "contract": { "capHit": 8.7, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
-    { "id": "DET-raymond", "name": "Lucas Raymond", "pos": "RW", "age": 23, "shoots": "L",
-      "overall": 85, "potential": 89, "nationality": "SWE",
-      "contract": { "capHit": 8.075, "yearsLeft": 8, "expiry": "UFA" } },
-    { "id": "DET-debrincat", "name": "Alex DeBrincat", "pos": "LW", "age": 27, "shoots": "L",
-      "overall": 84, "potential": 84, "nationality": "USA",
-      "contract": { "capHit": 7.875, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "DET-kane", "name": "Patrick Kane", "pos": "RW", "age": 36, "shoots": "L",
-      "overall": 80, "potential": 80, "nationality": "USA",
-      "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-kasper", "name": "Marco Kasper", "pos": "C", "age": 21, "shoots": "L",
-      "overall": 78, "potential": 85, "nationality": "AUT",
-      "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "DET-copp", "name": "Andrew Copp", "pos": "C", "age": 31, "shoots": "L",
-      "overall": 77, "potential": 77, "nationality": "USA",
-      "contract": { "capHit": 5.625, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "DET-tarasenko", "name": "Vladimir Tarasenko", "pos": "RW", "age": 33, "shoots": "L",
-      "overall": 78, "potential": 78, "nationality": "RUS",
-      "contract": { "capHit": 4.75, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-compher", "name": "J.T. Compher", "pos": "C", "age": 30, "shoots": "L",
-      "overall": 76, "potential": 76, "nationality": "USA",
-      "contract": { "capHit": 5.1, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "DET-rasmussen", "name": "Michael Rasmussen", "pos": "C", "age": 26, "shoots": "L",
-      "overall": 76, "potential": 78, "nationality": "CAN",
-      "contract": { "capHit": 3.2, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "DET-berggren", "name": "Jonatan Berggren", "pos": "LW", "age": 25, "shoots": "L",
-      "overall": 74, "potential": 77, "nationality": "SWE",
-      "contract": { "capHit": 0.825, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "DET-appleton", "name": "Mason Appleton", "pos": "RW", "age": 29, "shoots": "R",
-      "overall": 74, "potential": 74, "nationality": "USA",
-      "contract": { "capHit": 2.9, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "DET-vanriemsdyk", "name": "James van Riemsdyk", "pos": "LW", "age": 36, "shoots": "L",
-      "overall": 73, "potential": 73, "nationality": "USA",
-      "contract": { "capHit": 1.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-seider", "name": "Moritz Seider", "pos": "D", "age": 24, "shoots": "R",
-      "overall": 86, "potential": 88, "nationality": "GER",
-      "contract": { "capHit": 8.55, "yearsLeft": 7, "expiry": "UFA" } },
-    { "id": "DET-edvinsson", "name": "Simon Edvinsson", "pos": "D", "age": 22, "shoots": "L",
-      "overall": 80, "potential": 86, "nationality": "SWE",
-      "contract": { "capHit": 0.925, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "DET-chiarot", "name": "Ben Chiarot", "pos": "D", "age": 34, "shoots": "L",
-      "overall": 75, "potential": 75, "nationality": "CAN",
-      "contract": { "capHit": 4.75, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-holl", "name": "Justin Holl", "pos": "D", "age": 33, "shoots": "R",
-      "overall": 73, "potential": 73, "nationality": "USA",
-      "contract": { "capHit": 3.4, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-gustafsson", "name": "Erik Gustafsson", "pos": "D", "age": 33, "shoots": "L",
-      "overall": 74, "potential": 74, "nationality": "SWE",
-      "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-petry", "name": "Jeff Petry", "pos": "D", "age": 37, "shoots": "R",
-      "overall": 73, "potential": 73, "nationality": "USA",
-      "contract": { "capHit": 2.2, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "DET-johansson", "name": "Albert Johansson", "pos": "D", "age": 24, "shoots": "L",
-      "overall": 74, "potential": 79, "nationality": "SWE",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "DET-gibson", "name": "John Gibson", "pos": "G", "age": 32, "shoots": "L",
-      "overall": 82, "potential": 82, "nationality": "USA",
-      "contract": { "capHit": 6.4, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "DET-talbot", "name": "Cam Talbot", "pos": "G", "age": 38, "shoots": "R",
-      "overall": 76, "potential": 76, "nationality": "CAN",
-      "contract": { "capHit": 2.5, "yearsLeft": 1, "expiry": "UFA" } }
+    {
+      "id": "DET-larkin",
+      "name": "Dylan Larkin",
+      "pos": "C",
+      "age": 29,
+      "shoots": "L",
+      "overall": 85,
+      "potential": 85,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 8.7,
+        "yearsLeft": 6,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "DET-raymond",
+      "name": "Lucas Raymond",
+      "pos": "RW",
+      "age": 23,
+      "shoots": "L",
+      "overall": 85,
+      "potential": 89,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 8.075,
+        "yearsLeft": 8,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-debrincat",
+      "name": "Alex DeBrincat",
+      "pos": "LW",
+      "age": 27,
+      "shoots": "L",
+      "overall": 84,
+      "potential": 84,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 7.875,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-kane",
+      "name": "Patrick Kane",
+      "pos": "RW",
+      "age": 36,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 3,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-kasper",
+      "name": "Marco Kasper",
+      "pos": "C",
+      "age": 21,
+      "shoots": "L",
+      "overall": 78,
+      "potential": 85,
+      "nationality": "AUT",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-copp",
+      "name": "Andrew Copp",
+      "pos": "C",
+      "age": 31,
+      "shoots": "L",
+      "overall": 77,
+      "potential": 77,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 5.625,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-compher",
+      "name": "J.T. Compher",
+      "pos": "C",
+      "age": 30,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 5.1,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-rasmussen",
+      "name": "Michael Rasmussen",
+      "pos": "C",
+      "age": 26,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 78,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 3.2,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-berggren",
+      "name": "Jonatan Berggren",
+      "pos": "LW",
+      "age": 25,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 77,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.825,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-appleton",
+      "name": "Mason Appleton",
+      "pos": "RW",
+      "age": 29,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 2.9,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-vanriemsdyk",
+      "name": "James van Riemsdyk",
+      "pos": "LW",
+      "age": 36,
+      "shoots": "L",
+      "overall": 73,
+      "potential": 73,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 1,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-seider",
+      "name": "Moritz Seider",
+      "pos": "D",
+      "age": 24,
+      "shoots": "R",
+      "overall": 86,
+      "potential": 88,
+      "nationality": "GER",
+      "contract": {
+        "capHit": 8.55,
+        "yearsLeft": 7,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-edvinsson",
+      "name": "Simon Edvinsson",
+      "pos": "D",
+      "age": 22,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 86,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-chiarot",
+      "name": "Ben Chiarot",
+      "pos": "D",
+      "age": 34,
+      "shoots": "L",
+      "overall": 75,
+      "potential": 75,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 4.75,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-holl",
+      "name": "Justin Holl",
+      "pos": "D",
+      "age": 33,
+      "shoots": "R",
+      "overall": 73,
+      "potential": 73,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 3.4,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-gustafsson",
+      "name": "Erik Gustafsson",
+      "pos": "D",
+      "age": 33,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 2,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-petry",
+      "name": "Jeff Petry",
+      "pos": "D",
+      "age": 37,
+      "shoots": "R",
+      "overall": 73,
+      "potential": 73,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 2.2,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-johansson",
+      "name": "Albert Johansson",
+      "pos": "D",
+      "age": 24,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 79,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-gibson",
+      "name": "John Gibson",
+      "pos": "G",
+      "age": 32,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 6.4,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-talbot",
+      "name": "Cam Talbot",
+      "pos": "G",
+      "age": 38,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.5,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "DET-soderblom",
+      "name": "Elmer Soderblom",
+      "pos": "LW",
+      "age": 24,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 78,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    }
   ],
   "prospects": [
-    { "id": "DET-danielson", "name": "Nate Danielson", "pos": "C", "age": 20, "shoots": "L",
-      "overall": 70, "potential": 84, "nationality": "CAN",
-      "contract": { "capHit": 0.888, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "DET-sandin-pellikka", "name": "Axel Sandin-Pellikka", "pos": "D", "age": 20, "shoots": "R",
-      "overall": 68, "potential": 86, "nationality": "SWE",
-      "contract": { "capHit": 0.918, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "DET-augustine", "name": "Trey Augustine", "pos": "G", "age": 20, "shoots": "L",
-      "overall": 65, "potential": 85, "nationality": "USA",
-      "contract": { "capHit": 0.888, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "DET-mazur", "name": "Carter Mazur", "pos": "LW", "age": 23, "shoots": "L",
-      "overall": 66, "potential": 78, "nationality": "USA",
-      "contract": { "capHit": 0.828, "yearsLeft": 2, "expiry": "RFA" } }
+    {
+      "id": "DET-danielson",
+      "name": "Nate Danielson",
+      "pos": "C",
+      "age": 20,
+      "shoots": "L",
+      "overall": 70,
+      "potential": 84,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.888,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-sandin-pellikka",
+      "name": "Axel Sandin-Pellikka",
+      "pos": "D",
+      "age": 20,
+      "shoots": "R",
+      "overall": 68,
+      "potential": 86,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.918,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-augustine",
+      "name": "Trey Augustine",
+      "pos": "G",
+      "age": 20,
+      "shoots": "L",
+      "overall": 65,
+      "potential": 85,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.888,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "DET-mazur",
+      "name": "Carter Mazur",
+      "pos": "LW",
+      "age": 23,
+      "shoots": "L",
+      "overall": 66,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.828,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    }
   ]
 }

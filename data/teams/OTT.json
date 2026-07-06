@@ -1,83 +1,391 @@
 {
-  "info": { "abbrev": "OTT", "city": "Ottawa", "name": "Senators", "conference": "East",
-            "division": "Atlantic", "color": "#C52032", "colorSecondary": "#000000" },
+  "info": {
+    "abbrev": "OTT",
+    "city": "Ottawa",
+    "name": "Senators",
+    "conference": "East",
+    "division": "Atlantic",
+    "color": "#C52032",
+    "colorSecondary": "#000000"
+  },
   "roster": [
-    { "id": "OTT-tkachuk", "name": "Brady Tkachuk", "pos": "LW", "age": 26, "shoots": "L",
-      "overall": 90, "potential": 90, "nationality": "USA",
-      "contract": { "capHit": 8.2, "yearsLeft": 3, "expiry": "UFA", "ntc": true } },
-    { "id": "OTT-stutzle", "name": "Tim Stutzle", "pos": "C", "age": 23, "shoots": "L",
-      "overall": 88, "potential": 90, "nationality": "GER",
-      "contract": { "capHit": 8.35, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "OTT-batherson", "name": "Drake Batherson", "pos": "RW", "age": 27, "shoots": "R",
-      "overall": 82, "potential": 82, "nationality": "CAN",
-      "contract": { "capHit": 4.975, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "OTT-giroux", "name": "Claude Giroux", "pos": "RW", "age": 37, "shoots": "R",
-      "overall": 80, "potential": 80, "nationality": "CAN",
-      "contract": { "capHit": 2.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "OTT-cozens", "name": "Dylan Cozens", "pos": "C", "age": 24, "shoots": "R",
-      "overall": 79, "potential": 83, "nationality": "CAN",
-      "contract": { "capHit": 7.1, "yearsLeft": 5, "expiry": "UFA" } },
-    { "id": "OTT-pinto", "name": "Shane Pinto", "pos": "C", "age": 24, "shoots": "R",
-      "overall": 78, "potential": 82, "nationality": "USA",
-      "contract": { "capHit": 3.75, "yearsLeft": 4, "expiry": "UFA" } },
-    { "id": "OTT-zetterlund", "name": "Fabian Zetterlund", "pos": "LW", "age": 26, "shoots": "L",
-      "overall": 76, "potential": 78, "nationality": "SWE",
-      "contract": { "capHit": 2.125, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "OTT-greig", "name": "Ridly Greig", "pos": "C", "age": 23, "shoots": "L",
-      "overall": 76, "potential": 81, "nationality": "CAN",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "OTT-perron", "name": "David Perron", "pos": "RW", "age": 37, "shoots": "R",
-      "overall": 74, "potential": 74, "nationality": "CAN",
-      "contract": { "capHit": 4.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "OTT-amadio", "name": "Michael Amadio", "pos": "RW", "age": 29, "shoots": "R",
-      "overall": 74, "potential": 74, "nationality": "CAN",
-      "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "OTT-gaudette", "name": "Adam Gaudette", "pos": "C", "age": 28, "shoots": "R",
-      "overall": 74, "potential": 74, "nationality": "USA",
-      "contract": { "capHit": 2.0, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "OTT-ostapchuk", "name": "Zack Ostapchuk", "pos": "C", "age": 22, "shoots": "L",
-      "overall": 72, "potential": 78, "nationality": "CAN",
-      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "OTT-sanderson", "name": "Jake Sanderson", "pos": "D", "age": 23, "shoots": "L",
-      "overall": 87, "potential": 90, "nationality": "USA",
-      "contract": { "capHit": 8.05, "yearsLeft": 8, "expiry": "UFA" } },
-    { "id": "OTT-chabot", "name": "Thomas Chabot", "pos": "D", "age": 28, "shoots": "L",
-      "overall": 82, "potential": 82, "nationality": "CAN",
-      "contract": { "capHit": 8.0, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "OTT-zub", "name": "Artem Zub", "pos": "D", "age": 29, "shoots": "R",
-      "overall": 79, "potential": 79, "nationality": "RUS",
-      "contract": { "capHit": 4.6, "yearsLeft": 4, "expiry": "UFA" } },
-    { "id": "OTT-jensen", "name": "Nick Jensen", "pos": "D", "age": 34, "shoots": "R",
-      "overall": 76, "potential": 76, "nationality": "USA",
-      "contract": { "capHit": 4.05, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "OTT-spence", "name": "Jordan Spence", "pos": "D", "age": 24, "shoots": "R",
-      "overall": 75, "potential": 79, "nationality": "CAN",
-      "contract": { "capHit": 2.16, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "OTT-kleven", "name": "Tyler Kleven", "pos": "D", "age": 23, "shoots": "L",
-      "overall": 74, "potential": 78, "nationality": "USA",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "OTT-matinpalo", "name": "Nikolas Matinpalo", "pos": "D", "age": 26, "shoots": "R",
-      "overall": 72, "potential": 74, "nationality": "FIN",
-      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "OTT-ullmark", "name": "Linus Ullmark", "pos": "G", "age": 32, "shoots": "L",
-      "overall": 85, "potential": 85, "nationality": "SWE",
-      "contract": { "capHit": 8.25, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "OTT-merilainen", "name": "Leevi Merilainen", "pos": "G", "age": 23, "shoots": "L",
-      "overall": 74, "potential": 81, "nationality": "FIN",
-      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } }
+    {
+      "id": "OTT-tkachuk",
+      "name": "Brady Tkachuk",
+      "pos": "LW",
+      "age": 26,
+      "shoots": "L",
+      "overall": 90,
+      "potential": 90,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 8.2,
+        "yearsLeft": 3,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "OTT-stutzle",
+      "name": "Tim Stutzle",
+      "pos": "C",
+      "age": 23,
+      "shoots": "L",
+      "overall": 88,
+      "potential": 90,
+      "nationality": "GER",
+      "contract": {
+        "capHit": 8.35,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-batherson",
+      "name": "Drake Batherson",
+      "pos": "RW",
+      "age": 27,
+      "shoots": "R",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 4.975,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-giroux",
+      "name": "Claude Giroux",
+      "pos": "RW",
+      "age": 37,
+      "shoots": "R",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-cozens",
+      "name": "Dylan Cozens",
+      "pos": "C",
+      "age": 24,
+      "shoots": "R",
+      "overall": 79,
+      "potential": 83,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 7.1,
+        "yearsLeft": 5,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-pinto",
+      "name": "Shane Pinto",
+      "pos": "C",
+      "age": 24,
+      "shoots": "R",
+      "overall": 78,
+      "potential": 82,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 3.75,
+        "yearsLeft": 4,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-zetterlund",
+      "name": "Fabian Zetterlund",
+      "pos": "LW",
+      "age": 26,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 78,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 2.125,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-greig",
+      "name": "Ridly Greig",
+      "pos": "C",
+      "age": 23,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 81,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-perron",
+      "name": "David Perron",
+      "pos": "RW",
+      "age": 37,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 4,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-amadio",
+      "name": "Michael Amadio",
+      "pos": "RW",
+      "age": 29,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-ostapchuk",
+      "name": "Zack Ostapchuk",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 78,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-sanderson",
+      "name": "Jake Sanderson",
+      "pos": "D",
+      "age": 23,
+      "shoots": "L",
+      "overall": 87,
+      "potential": 90,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 8.05,
+        "yearsLeft": 8,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-chabot",
+      "name": "Thomas Chabot",
+      "pos": "D",
+      "age": 28,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 8,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-zub",
+      "name": "Artem Zub",
+      "pos": "D",
+      "age": 29,
+      "shoots": "R",
+      "overall": 79,
+      "potential": 79,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 4.6,
+        "yearsLeft": 4,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-jensen",
+      "name": "Nick Jensen",
+      "pos": "D",
+      "age": 34,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 4.05,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-spence",
+      "name": "Jordan Spence",
+      "pos": "D",
+      "age": 24,
+      "shoots": "R",
+      "overall": 75,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.16,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-kleven",
+      "name": "Tyler Kleven",
+      "pos": "D",
+      "age": 23,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-matinpalo",
+      "name": "Nikolas Matinpalo",
+      "pos": "D",
+      "age": 26,
+      "shoots": "R",
+      "overall": 72,
+      "potential": 74,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-ullmark",
+      "name": "Linus Ullmark",
+      "pos": "G",
+      "age": 32,
+      "shoots": "L",
+      "overall": 85,
+      "potential": 85,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 8.25,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "OTT-merilainen",
+      "name": "Leevi Merilainen",
+      "pos": "G",
+      "age": 23,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 81,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-eller",
+      "name": "Lars Eller",
+      "pos": "C",
+      "age": 36,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "DEN",
+      "contract": {
+        "capHit": 1.25,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    }
   ],
   "prospects": [
-    { "id": "OTT-yakemchuk", "name": "Carter Yakemchuk", "pos": "D", "age": 19, "shoots": "R",
-      "overall": 64, "potential": 85, "nationality": "CAN",
-      "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "OTT-halliday", "name": "Stephen Halliday", "pos": "C", "age": 22, "shoots": "L",
-      "overall": 66, "potential": 78, "nationality": "USA",
-      "contract": { "capHit": 0.855, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "OTT-stanley", "name": "Hoyt Stanley", "pos": "D", "age": 20, "shoots": "R",
-      "overall": 62, "potential": 79, "nationality": "CAN",
-      "contract": { "capHit": 0.828, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "OTT-boucher", "name": "Tyler Boucher", "pos": "RW", "age": 22, "shoots": "R",
-      "overall": 63, "potential": 76, "nationality": "USA",
-      "contract": { "capHit": 0.828, "yearsLeft": 1, "expiry": "RFA" } }
+    {
+      "id": "OTT-yakemchuk",
+      "name": "Carter Yakemchuk",
+      "pos": "D",
+      "age": 19,
+      "shoots": "R",
+      "overall": 64,
+      "potential": 85,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-halliday",
+      "name": "Stephen Halliday",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 66,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.855,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-stanley",
+      "name": "Hoyt Stanley",
+      "pos": "D",
+      "age": 20,
+      "shoots": "R",
+      "overall": 62,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.828,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "OTT-boucher",
+      "name": "Tyler Boucher",
+      "pos": "RW",
+      "age": 22,
+      "shoots": "R",
+      "overall": 63,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.828,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    }
   ]
 }

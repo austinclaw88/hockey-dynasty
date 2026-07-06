@@ -1,86 +1,392 @@
 {
-  "info": { "abbrev": "MTL", "city": "Montreal", "name": "Canadiens", "conference": "East",
-            "division": "Atlantic", "color": "#AF1E2D", "colorSecondary": "#192168" },
+  "info": {
+    "abbrev": "MTL",
+    "city": "Montreal",
+    "name": "Canadiens",
+    "conference": "East",
+    "division": "Atlantic",
+    "color": "#AF1E2D",
+    "colorSecondary": "#192168"
+  },
   "roster": [
-    { "id": "MTL-suzuki", "name": "Nick Suzuki", "pos": "C", "age": 26, "shoots": "R",
-      "overall": 87, "potential": 88, "nationality": "CAN",
-      "contract": { "capHit": 7.875, "yearsLeft": 5, "expiry": "UFA", "ntc": true } },
-    { "id": "MTL-caufield", "name": "Cole Caufield", "pos": "RW", "age": 24, "shoots": "R",
-      "overall": 85, "potential": 88, "nationality": "USA",
-      "contract": { "capHit": 7.85, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "MTL-slafkovsky", "name": "Juraj Slafkovsky", "pos": "LW", "age": 21, "shoots": "L",
-      "overall": 82, "potential": 88, "nationality": "SVK",
-      "contract": { "capHit": 7.6, "yearsLeft": 8, "expiry": "UFA" } },
-    { "id": "MTL-laine", "name": "Patrik Laine", "pos": "RW", "age": 27, "shoots": "R",
-      "overall": 80, "potential": 80, "nationality": "FIN",
-      "contract": { "capHit": 8.7, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "MTL-demidov", "name": "Ivan Demidov", "pos": "RW", "age": 19, "shoots": "L",
-      "overall": 80, "potential": 93, "nationality": "RUS",
-      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "MTL-dach", "name": "Kirby Dach", "pos": "C", "age": 24, "shoots": "R",
-      "overall": 79, "potential": 84, "nationality": "CAN",
-      "contract": { "capHit": 3.362, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-anderson", "name": "Josh Anderson", "pos": "RW", "age": 31, "shoots": "R",
-      "overall": 76, "potential": 76, "nationality": "CAN",
-      "contract": { "capHit": 5.5, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "MTL-gallagher", "name": "Brendan Gallagher", "pos": "RW", "age": 33, "shoots": "R",
-      "overall": 75, "potential": 75, "nationality": "CAN",
-      "contract": { "capHit": 6.5, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "MTL-newhook", "name": "Alex Newhook", "pos": "C", "age": 24, "shoots": "L",
-      "overall": 77, "potential": 81, "nationality": "CAN",
-      "contract": { "capHit": 2.9, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-bolduc", "name": "Zack Bolduc", "pos": "LW", "age": 22, "shoots": "L",
-      "overall": 78, "potential": 84, "nationality": "CAN",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-evans", "name": "Jake Evans", "pos": "C", "age": 29, "shoots": "R",
-      "overall": 75, "potential": 75, "nationality": "CAN",
-      "contract": { "capHit": 2.85, "yearsLeft": 4, "expiry": "UFA" } },
-    { "id": "MTL-heineman", "name": "Emil Heineman", "pos": "LW", "age": 23, "shoots": "L",
-      "overall": 74, "potential": 78, "nationality": "SWE",
-      "contract": { "capHit": 0.825, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-kapanen", "name": "Oliver Kapanen", "pos": "C", "age": 22, "shoots": "L",
-      "overall": 73, "potential": 79, "nationality": "FIN",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-dobson", "name": "Noah Dobson", "pos": "D", "age": 25, "shoots": "R",
-      "overall": 85, "potential": 87, "nationality": "CAN",
-      "contract": { "capHit": 9.5, "yearsLeft": 8, "expiry": "UFA", "ntc": true } },
-    { "id": "MTL-hutson", "name": "Lane Hutson", "pos": "D", "age": 21, "shoots": "L",
-      "overall": 86, "potential": 93, "nationality": "USA",
-      "contract": { "capHit": 0.863, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-matheson", "name": "Mike Matheson", "pos": "D", "age": 31, "shoots": "L",
-      "overall": 80, "potential": 80, "nationality": "CAN",
-      "contract": { "capHit": 4.875, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "MTL-guhle", "name": "Kaiden Guhle", "pos": "D", "age": 23, "shoots": "L",
-      "overall": 79, "potential": 84, "nationality": "CAN",
-      "contract": { "capHit": 5.55, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "MTL-carrier", "name": "Alexandre Carrier", "pos": "D", "age": 28, "shoots": "R",
-      "overall": 77, "potential": 77, "nationality": "CAN",
-      "contract": { "capHit": 3.75, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "MTL-xhekaj", "name": "Arber Xhekaj", "pos": "D", "age": 24, "shoots": "L",
-      "overall": 75, "potential": 78, "nationality": "CAN",
-      "contract": { "capHit": 1.3, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "MTL-struble", "name": "Jayden Struble", "pos": "D", "age": 23, "shoots": "L",
-      "overall": 74, "potential": 78, "nationality": "USA",
-      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "MTL-montembeault", "name": "Sam Montembeault", "pos": "G", "age": 28, "shoots": "L",
-      "overall": 82, "potential": 82, "nationality": "CAN",
-      "contract": { "capHit": 3.15, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "MTL-dobes", "name": "Jakub Dobes", "pos": "G", "age": 24, "shoots": "L",
-      "overall": 74, "potential": 80, "nationality": "CZE",
-      "contract": { "capHit": 0.85, "yearsLeft": 1, "expiry": "RFA" } }
+    {
+      "id": "MTL-suzuki",
+      "name": "Nick Suzuki",
+      "pos": "C",
+      "age": 26,
+      "shoots": "R",
+      "overall": 87,
+      "potential": 88,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 7.875,
+        "yearsLeft": 5,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "MTL-caufield",
+      "name": "Cole Caufield",
+      "pos": "RW",
+      "age": 24,
+      "shoots": "R",
+      "overall": 85,
+      "potential": 88,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 7.85,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-slafkovsky",
+      "name": "Juraj Slafkovsky",
+      "pos": "LW",
+      "age": 21,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 88,
+      "nationality": "SVK",
+      "contract": {
+        "capHit": 7.6,
+        "yearsLeft": 8,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-laine",
+      "name": "Patrik Laine",
+      "pos": "RW",
+      "age": 27,
+      "shoots": "R",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 8.7,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-demidov",
+      "name": "Ivan Demidov",
+      "pos": "RW",
+      "age": 19,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 93,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-dach",
+      "name": "Kirby Dach",
+      "pos": "C",
+      "age": 24,
+      "shoots": "R",
+      "overall": 79,
+      "potential": 84,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 3.362,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-anderson",
+      "name": "Josh Anderson",
+      "pos": "RW",
+      "age": 31,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 5.5,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-gallagher",
+      "name": "Brendan Gallagher",
+      "pos": "RW",
+      "age": 33,
+      "shoots": "R",
+      "overall": 75,
+      "potential": 75,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 6.5,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-newhook",
+      "name": "Alex Newhook",
+      "pos": "C",
+      "age": 24,
+      "shoots": "L",
+      "overall": 77,
+      "potential": 81,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.9,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-bolduc",
+      "name": "Zack Bolduc",
+      "pos": "LW",
+      "age": 22,
+      "shoots": "L",
+      "overall": 78,
+      "potential": 84,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-evans",
+      "name": "Jake Evans",
+      "pos": "C",
+      "age": 29,
+      "shoots": "R",
+      "overall": 75,
+      "potential": 75,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.85,
+        "yearsLeft": 4,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-kapanen",
+      "name": "Oliver Kapanen",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 73,
+      "potential": 79,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-dobson",
+      "name": "Noah Dobson",
+      "pos": "D",
+      "age": 25,
+      "shoots": "R",
+      "overall": 85,
+      "potential": 87,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 9.5,
+        "yearsLeft": 8,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "MTL-hutson",
+      "name": "Lane Hutson",
+      "pos": "D",
+      "age": 21,
+      "shoots": "L",
+      "overall": 86,
+      "potential": 93,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-matheson",
+      "name": "Mike Matheson",
+      "pos": "D",
+      "age": 31,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 4.875,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-guhle",
+      "name": "Kaiden Guhle",
+      "pos": "D",
+      "age": 23,
+      "shoots": "L",
+      "overall": 79,
+      "potential": 84,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 5.55,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-carrier",
+      "name": "Alexandre Carrier",
+      "pos": "D",
+      "age": 28,
+      "shoots": "R",
+      "overall": 77,
+      "potential": 77,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 3.75,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-xhekaj",
+      "name": "Arber Xhekaj",
+      "pos": "D",
+      "age": 24,
+      "shoots": "L",
+      "overall": 75,
+      "potential": 78,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 1.3,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-struble",
+      "name": "Jayden Struble",
+      "pos": "D",
+      "age": 23,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-montembeault",
+      "name": "Sam Montembeault",
+      "pos": "G",
+      "age": 28,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 3.15,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "MTL-dobes",
+      "name": "Jakub Dobes",
+      "pos": "G",
+      "age": 24,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 80,
+      "nationality": "CZE",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    }
   ],
   "prospects": [
-    { "id": "MTL-hage", "name": "Michael Hage", "pos": "C", "age": 19, "shoots": "R",
-      "overall": 66, "potential": 86, "nationality": "CAN",
-      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "MTL-reinbacher", "name": "David Reinbacher", "pos": "D", "age": 20, "shoots": "R",
-      "overall": 66, "potential": 85, "nationality": "AUT",
-      "contract": { "capHit": 0.95, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "MTL-fowler", "name": "Jacob Fowler", "pos": "G", "age": 20, "shoots": "L",
-      "overall": 66, "potential": 86, "nationality": "USA",
-      "contract": { "capHit": 0.888, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "MTL-beck", "name": "Owen Beck", "pos": "C", "age": 21, "shoots": "R",
-      "overall": 68, "potential": 80, "nationality": "CAN",
-      "contract": { "capHit": 0.863, "yearsLeft": 2, "expiry": "RFA" } }
+    {
+      "id": "MTL-hage",
+      "name": "Michael Hage",
+      "pos": "C",
+      "age": 19,
+      "shoots": "R",
+      "overall": 66,
+      "potential": 86,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-reinbacher",
+      "name": "David Reinbacher",
+      "pos": "D",
+      "age": 20,
+      "shoots": "R",
+      "overall": 66,
+      "potential": 85,
+      "nationality": "AUT",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-fowler",
+      "name": "Jacob Fowler",
+      "pos": "G",
+      "age": 20,
+      "shoots": "L",
+      "overall": 66,
+      "potential": 86,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.888,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "MTL-beck",
+      "name": "Owen Beck",
+      "pos": "C",
+      "age": 21,
+      "shoots": "R",
+      "overall": 68,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.863,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    }
   ]
 }

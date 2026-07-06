@@ -1,35 +1,407 @@
 {
-  "info": { "abbrev": "VAN", "city": "Vancouver", "name": "Canucks", "conference": "West", "division": "Pacific", "color": "#001F5B", "colorSecondary": "#00843D" },
+  "info": {
+    "abbrev": "VAN",
+    "city": "Vancouver",
+    "name": "Canucks",
+    "conference": "West",
+    "division": "Pacific",
+    "color": "#001F5B",
+    "colorSecondary": "#00843D"
+  },
   "roster": [
-    { "id": "VAN-pettersson", "name": "Elias Pettersson", "pos": "C", "age": 26, "shoots": "L", "overall": 88, "potential": 88, "nationality": "SWE", "contract": { "capHit": 11.6, "yearsLeft": 6, "expiry": "UFA", "ntc": true } },
-    { "id": "VAN-boeser", "name": "Brock Boeser", "pos": "RW", "age": 28, "shoots": "R", "overall": 84, "potential": 84, "nationality": "USA", "contract": { "capHit": 7.25, "yearsLeft": 7, "expiry": "UFA" } },
-    { "id": "VAN-garland", "name": "Conor Garland", "pos": "RW", "age": 29, "shoots": "R", "overall": 82, "potential": 82, "nationality": "USA", "contract": { "capHit": 4.95, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "VAN-kane", "name": "Evander Kane", "pos": "LW", "age": 34, "shoots": "L", "overall": 79, "potential": 79, "nationality": "CAN", "contract": { "capHit": 5.125, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "VAN-chytil", "name": "Filip Chytil", "pos": "C", "age": 26, "shoots": "L", "overall": 79, "potential": 80, "nationality": "CZE", "contract": { "capHit": 4.4375, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "VAN-hoglander", "name": "Nils Hoglander", "pos": "LW", "age": 24, "shoots": "L", "overall": 78, "potential": 80, "nationality": "SWE", "contract": { "capHit": 3.0, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "VAN-sherwood", "name": "Kiefer Sherwood", "pos": "RW", "age": 30, "shoots": "R", "overall": 78, "potential": 78, "nationality": "USA", "contract": { "capHit": 1.5, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "VAN-joshua", "name": "Dakota Joshua", "pos": "LW", "age": 29, "shoots": "L", "overall": 77, "potential": 77, "nationality": "USA", "contract": { "capHit": 3.25, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "VAN-oconnor", "name": "Drew O'Connor", "pos": "LW", "age": 27, "shoots": "L", "overall": 76, "potential": 76, "nationality": "USA", "contract": { "capHit": 2.5, "yearsLeft": 2, "expiry": "UFA" } },
-    { "id": "VAN-blueger", "name": "Teddy Blueger", "pos": "C", "age": 31, "shoots": "L", "overall": 76, "potential": 76, "nationality": "LAT", "contract": { "capHit": 1.8, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "VAN-lekkerimaki", "name": "Jonathan Lekkerimaki", "pos": "RW", "age": 21, "shoots": "R", "overall": 76, "potential": 85, "nationality": "SWE", "contract": { "capHit": 0.95, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "VAN-raty", "name": "Aatu Raty", "pos": "C", "age": 22, "shoots": "L", "overall": 74, "potential": 80, "nationality": "FIN", "contract": { "capHit": 0.8, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "VAN-sasson", "name": "Max Sasson", "pos": "C", "age": 24, "shoots": "L", "overall": 72, "potential": 74, "nationality": "USA", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "VAN-aman", "name": "Nils Aman", "pos": "C", "age": 25, "shoots": "L", "overall": 72, "potential": 74, "nationality": "SWE", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "RFA" } },
-    { "id": "VAN-hughes", "name": "Quinn Hughes", "pos": "D", "age": 25, "shoots": "L", "overall": 94, "potential": 94, "nationality": "USA", "contract": { "capHit": 7.85, "yearsLeft": 2, "expiry": "UFA", "ntc": true } },
-    { "id": "VAN-hronek", "name": "Filip Hronek", "pos": "D", "age": 27, "shoots": "R", "overall": 83, "potential": 83, "nationality": "CZE", "contract": { "capHit": 7.25, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "VAN-mpettersson", "name": "Marcus Pettersson", "pos": "D", "age": 29, "shoots": "L", "overall": 80, "potential": 80, "nationality": "SWE", "contract": { "capHit": 5.5, "yearsLeft": 6, "expiry": "UFA" } },
-    { "id": "VAN-myers", "name": "Tyler Myers", "pos": "D", "age": 35, "shoots": "R", "overall": 76, "potential": 76, "nationality": "CAN", "contract": { "capHit": 3.0, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "VAN-forbort", "name": "Derek Forbort", "pos": "D", "age": 33, "shoots": "L", "overall": 74, "potential": 74, "nationality": "USA", "contract": { "capHit": 1.5, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "VAN-pettersson2", "name": "Elias Pettersson", "pos": "D", "age": 21, "shoots": "L", "overall": 74, "potential": 83, "nationality": "SWE", "contract": { "capHit": 0.855, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "VAN-juulsen", "name": "Noah Juulsen", "pos": "D", "age": 28, "shoots": "R", "overall": 73, "potential": 73, "nationality": "CAN", "contract": { "capHit": 0.775, "yearsLeft": 1, "expiry": "UFA" } },
-    { "id": "VAN-demko", "name": "Thatcher Demko", "pos": "G", "age": 29, "shoots": "L", "overall": 88, "potential": 88, "nationality": "USA", "contract": { "capHit": 8.5, "yearsLeft": 3, "expiry": "UFA" } },
-    { "id": "VAN-lankinen", "name": "Kevin Lankinen", "pos": "G", "age": 30, "shoots": "L", "overall": 82, "potential": 82, "nationality": "FIN", "contract": { "capHit": 4.5, "yearsLeft": 5, "expiry": "UFA" } }
+    {
+      "id": "VAN-pettersson",
+      "name": "Elias Pettersson",
+      "pos": "C",
+      "age": 26,
+      "shoots": "L",
+      "overall": 88,
+      "potential": 88,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 11.6,
+        "yearsLeft": 6,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "VAN-boeser",
+      "name": "Brock Boeser",
+      "pos": "RW",
+      "age": 28,
+      "shoots": "R",
+      "overall": 84,
+      "potential": 84,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 7.25,
+        "yearsLeft": 7,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-garland",
+      "name": "Conor Garland",
+      "pos": "RW",
+      "age": 29,
+      "shoots": "R",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 4.95,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-kane",
+      "name": "Evander Kane",
+      "pos": "LW",
+      "age": 34,
+      "shoots": "L",
+      "overall": 79,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 5.125,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-chytil",
+      "name": "Filip Chytil",
+      "pos": "C",
+      "age": 26,
+      "shoots": "L",
+      "overall": 79,
+      "potential": 80,
+      "nationality": "CZE",
+      "contract": {
+        "capHit": 4.4375,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-hoglander",
+      "name": "Nils Hoglander",
+      "pos": "LW",
+      "age": 24,
+      "shoots": "L",
+      "overall": 78,
+      "potential": 80,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 3,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-sherwood",
+      "name": "Kiefer Sherwood",
+      "pos": "RW",
+      "age": 30,
+      "shoots": "R",
+      "overall": 78,
+      "potential": 78,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 1.5,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-oconnor",
+      "name": "Drew O'Connor",
+      "pos": "LW",
+      "age": 27,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 2.5,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-blueger",
+      "name": "Teddy Blueger",
+      "pos": "C",
+      "age": 31,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "LAT",
+      "contract": {
+        "capHit": 1.8,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-lekkerimaki",
+      "name": "Jonathan Lekkerimaki",
+      "pos": "RW",
+      "age": 21,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 85,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.95,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-raty",
+      "name": "Aatu Raty",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 80,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 0.8,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-sasson",
+      "name": "Max Sasson",
+      "pos": "C",
+      "age": 24,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 74,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 0.775,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-aman",
+      "name": "Nils Aman",
+      "pos": "C",
+      "age": 25,
+      "shoots": "L",
+      "overall": 72,
+      "potential": 74,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.775,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-hughes",
+      "name": "Quinn Hughes",
+      "pos": "D",
+      "age": 25,
+      "shoots": "L",
+      "overall": 94,
+      "potential": 94,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 7.85,
+        "yearsLeft": 2,
+        "expiry": "UFA",
+        "ntc": true
+      }
+    },
+    {
+      "id": "VAN-hronek",
+      "name": "Filip Hronek",
+      "pos": "D",
+      "age": 27,
+      "shoots": "R",
+      "overall": 83,
+      "potential": 83,
+      "nationality": "CZE",
+      "contract": {
+        "capHit": 7.25,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-mpettersson",
+      "name": "Marcus Pettersson",
+      "pos": "D",
+      "age": 29,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 5.5,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-myers",
+      "name": "Tyler Myers",
+      "pos": "D",
+      "age": 35,
+      "shoots": "R",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 3,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-forbort",
+      "name": "Derek Forbort",
+      "pos": "D",
+      "age": 33,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 1.5,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-pettersson2",
+      "name": "Elias Pettersson",
+      "pos": "D",
+      "age": 21,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 83,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.855,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-demko",
+      "name": "Thatcher Demko",
+      "pos": "G",
+      "age": 29,
+      "shoots": "L",
+      "overall": 88,
+      "potential": 88,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 8.5,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      }
+    },
+    {
+      "id": "VAN-lankinen",
+      "name": "Kevin Lankinen",
+      "pos": "G",
+      "age": 30,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 4.5,
+        "yearsLeft": 5,
+        "expiry": "UFA"
+      }
+    }
   ],
   "prospects": [
-    { "id": "VAN-cootes", "name": "Braeden Cootes", "pos": "C", "age": 18, "shoots": "R", "overall": 65, "potential": 85, "nationality": "CAN", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "VAN-willander", "name": "Tom Willander", "pos": "D", "age": 20, "shoots": "R", "overall": 70, "potential": 85, "nationality": "SWE", "contract": { "capHit": 0.925, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "VAN-mynio", "name": "Sawyer Mynio", "pos": "D", "age": 20, "shoots": "L", "overall": 65, "potential": 79, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 3, "expiry": "RFA" } },
-    { "id": "VAN-kudryavtsev", "name": "Kirill Kudryavtsev", "pos": "D", "age": 21, "shoots": "L", "overall": 66, "potential": 78, "nationality": "RUS", "contract": { "capHit": 0.85, "yearsLeft": 2, "expiry": "RFA" } },
-    { "id": "VAN-romani", "name": "Anthony Romani", "pos": "RW", "age": 20, "shoots": "R", "overall": 64, "potential": 79, "nationality": "CAN", "contract": { "capHit": 0.9, "yearsLeft": 2, "expiry": "RFA" } }
+    {
+      "id": "VAN-cootes",
+      "name": "Braeden Cootes",
+      "pos": "C",
+      "age": 18,
+      "shoots": "R",
+      "overall": 65,
+      "potential": 85,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-willander",
+      "name": "Tom Willander",
+      "pos": "D",
+      "age": 20,
+      "shoots": "R",
+      "overall": 70,
+      "potential": 85,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-mynio",
+      "name": "Sawyer Mynio",
+      "pos": "D",
+      "age": 20,
+      "shoots": "L",
+      "overall": 65,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-kudryavtsev",
+      "name": "Kirill Kudryavtsev",
+      "pos": "D",
+      "age": 21,
+      "shoots": "L",
+      "overall": 66,
+      "potential": 78,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    },
+    {
+      "id": "VAN-romani",
+      "name": "Anthony Romani",
+      "pos": "RW",
+      "age": 20,
+      "shoots": "R",
+      "overall": 64,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.9,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      }
+    }
   ]
 }
