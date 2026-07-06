@@ -1,0 +1,204 @@
+// ============================================================
+// Hockey Dynasty — shared type contract
+// All engine modules, UI components, and data files conform to
+// these types. Do not change signatures without updating
+// ARCHITECTURE.md and every consumer.
+// ============================================================
+
+export type Position = 'C' | 'LW' | 'RW' | 'D' | 'G'
+export type Conference = 'East' | 'West'
+export type Division = 'Atlantic' | 'Metropolitan' | 'Central' | 'Pacific'
+export type ExpiryStatus = 'RFA' | 'UFA'
+
+export interface Contract {
+  /** Cap hit in millions of dollars, e.g. 13.25 */
+  capHit: number
+  /** Seasons remaining INCLUDING the current one. 1 = expires after this season. */
+  yearsLeft: number
+  /** Status when the contract expires */
+  expiry: ExpiryStatus
+  /** No-trade / no-move clause — AI won't accept trades sending this player without waiver */
+  ntc?: boolean
+}
+
+export interface Player {
+  id: string
+  name: string
+  pos: Position
+  /** Age in years as of Oct 1 of the CURRENT in-game season (mutated each offseason) */
+  age: number
+  shoots: 'L' | 'R'
+  /** EA-style 25..99 current ability */
+  overall: number
+  /** EA-style ceiling; >= overall for young players, == overall for 27+ */
+  potential: number
+  /** null for unsigned draft prospects */
+  contract: Contract | null
+  /** Country code for flavor, e.g. 'CAN', 'USA', 'SWE' */
+  nationality?: string
+  /** Weeks remaining out injured; 0/undefined = healthy */
+  injuryWeeks?: number
+  /** True once the player has retired (kept for history) */
+  retired?: boolean
+}
+
+export interface SeasonStatLine {
+  playerId: string
+  gp: number
+  goals: number
+  assists: number
+  points: number
+  plusMinus: number
+  pim: number
+  // goalies
+  wins?: number
+  losses?: number
+  otl?: number
+  shutouts?: number
+  gaa?: number
+  svPct?: number
+}
+
+export interface DraftPick {
+  /** Draft year, e.g. 2026 */
+  year: number
+  round: number // 1..7
+  /** Abbrev of the team whose finish determines the slot */
+  originalTeam: string
+  /** Abbrev of the team that currently owns the pick */
+  owner: string
+}
+
+export interface TeamInfo {
+  abbrev: string // 'TOR'
+  city: string // 'Toronto'
+  name: string // 'Maple Leafs'
+  conference: Conference
+  division: Division
+  /** Primary hex color for UI, e.g. '#00205B' */
+  color: string
+  colorSecondary?: string
+}
+
+export interface TeamState extends TeamInfo {
+  /** Signed players on the NHL roster */
+  roster: Player[]
+  /** Drafted/signed young players not on the NHL roster */
+  prospects: Player[]
+  picks: DraftPick[]
+  /** GM behavior profile for AI teams */
+  strategy: 'contend' | 'retool' | 'rebuild'
+}
+
+export interface Game {
+  id: number
+  /** 0-based day index within the season calendar */
+  day: number
+  home: string
+  away: string
+  played: boolean
+  homeGoals?: number
+  awayGoals?: number
+  /** 'REG' | 'OT' | 'SO' */
+  endType?: 'REG' | 'OT' | 'SO'
+}
+
+export interface StandingsRow {
+  team: string
+  gp: number
+  w: number
+  l: number
+  otl: number
+  pts: number
+  gf: number
+  ga: number
+}
+
+export type Phase =
+  | 'regular' // day-by-day sim of the 82-game season
+  | 'playoffs' // 16-team bracket, best-of-7
+  | 'offseason' // retirement, development, re-sign own expiring, draft, free agency
+  | 'over' // 10 seasons complete
+
+export interface PlayoffSeries {
+  round: number // 1..4
+  high: string // higher seed abbrev
+  low: string
+  highWins: number
+  lowWins: number
+  winner?: string
+}
+
+export interface SeasonSummary {
+  /** Start year, e.g. 2025 for the 2025-26 season */
+  year: number
+  presidentsTrophy: string
+  cupWinner: string
+  cupRunnerUp: string
+  userFinish: string // human-readable, e.g. "Lost in Round 2", "Missed playoffs (5th in Atlantic)"
+  awards: { name: string; playerId: string; playerName: string; team: string }[]
+  /** Top-10 scorers that season for the history screen */
+  topScorers: { playerName: string; team: string; points: number; goals: number }[]
+  userRecord: { w: number; l: number; otl: number; pts: number }
+}
+
+export interface FreeAgent extends Player {
+  /** What the player wants: capHit ($M) and years. UI shows this; signing at/above it succeeds. */
+  asking: { capHit: number; years: number }
+}
+
+export interface GameState {
+  /** Save-format version for migrations */
+  v: number
+  /** Start year of current season: 2025 => 2025-26 */
+  seasonYear: number
+  /** Index 0..9 of the dynasty (10 seasons) */
+  seasonIndex: number
+  phase: Phase
+  /** Sub-step within the offseason, in order */
+  offseasonStep?: 'awards' | 'development' | 'resign' | 'draft' | 'freeAgency' | 'rosterCheck'
+  userTeam: string
+  teams: Record<string, TeamState>
+  schedule: Game[]
+  /** Current day pointer into the schedule calendar (0..~185) */
+  day: number
+  /** Season player stats, keyed by playerId */
+  stats: Record<string, SeasonStatLine>
+  playoffs?: PlayoffSeries[]
+  freeAgents: FreeAgent[]
+  /** Current draft class (offseason only) */
+  draftClass: Player[]
+  /** Draft order of team abbrevs (offseason only), index 0 = 1st overall slot owner-original */
+  draftOrder?: string[]
+  history: SeasonSummary[]
+  /** Message log shown in the UI (trades, signings, injuries, milestones) */
+  news: { day: number; seasonYear: number; text: string }[]
+  /** Seeded RNG state so saves are deterministic */
+  rngState: number
+}
+
+/** Salary cap in $M by season start year. */
+export const SALARY_CAP: Record<number, number> = {
+  2025: 95.5,
+  2026: 104,
+  2027: 113.5,
+  2028: 119.5,
+  2029: 125.5,
+  2030: 131.8,
+  2031: 138.4,
+  2032: 145.3,
+  2033: 152.6,
+  2034: 160.2,
+}
+
+export const ROSTER_MIN = 20
+export const ROSTER_MAX = 23
+export const SEASONS_TOTAL = 10
+export const START_YEAR = 2025
+
+/** Raw shape of the bundled team data files (data/teams/*.json) */
+export interface TeamDataFile {
+  info: TeamInfo
+  roster: Omit<Player, 'injuryWeeks' | 'retired'>[]
+  prospects: Omit<Player, 'injuryWeeks' | 'retired'>[]
+}
