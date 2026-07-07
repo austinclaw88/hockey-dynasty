@@ -3389,6 +3389,9 @@ input:focus {
   min-height: 34px;
   display: inline-flex;
   align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
   gap: 5px;
   padding: 4px 8px;
   border-radius: 6px;
@@ -3449,6 +3452,8 @@ input:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-width: 0;
+  flex: 0 1 auto;
 }
 .lineup-chip .chip-ovr {
   margin-left: auto;
