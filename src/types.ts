@@ -138,6 +138,17 @@ export type Phase =
   | 'offseason' // retirement, development, re-sign own expiring, draft, free agency
   | 'over' // 10 seasons complete
 
+/** One completed playoff game within a series. */
+export interface PlayoffGame {
+  /** Abbrev of the home team for this game */
+  home: string
+  homeGoals: number
+  awayGoals: number
+  endType: 'REG' | 'OT'
+  /** Box score (scorer/assists/period), same shape as regular-season games */
+  goals?: GoalEvent[]
+}
+
 export interface PlayoffSeries {
   round: number // 1..4
   high: string // higher seed abbrev
@@ -145,6 +156,8 @@ export interface PlayoffSeries {
   highWins: number
   lowWins: number
   winner?: string
+  /** Game-by-game results, in order played (absent on legacy saves) */
+  games?: PlayoffGame[]
 }
 
 export interface SeasonSummary {
