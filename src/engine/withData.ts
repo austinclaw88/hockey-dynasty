@@ -30,6 +30,15 @@ export function hydrateStaticData(s: GameState): GameState {
   if (s.seasonYear <= 2027 && !ext(s)._draft2027 && DRAFT_2027.players.length > 0) {
     ext(s)._draft2027 = DRAFT_2027
   }
+  // One-time repair for saves created before playoff stats were separated:
+  // regular-season lines (current + archived careers) had playoff GP baked in.
+  // Clamp GP to 82; merged playoff points can't be un-mixed retroactively.
+  for (const line of Object.values(s.stats)) {
+    if (line.gp > 82) line.gp = 82
+  }
+  for (const seasons of Object.values(s.careers ?? {})) {
+    for (const c of seasons) if (c.gp > 82) c.gp = 82
+  }
   return s
 }
 
