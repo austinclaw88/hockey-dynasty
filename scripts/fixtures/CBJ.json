@@ -1,0 +1,307 @@
+{
+  "forwards": [
+    {
+      "id": 8481793,
+      "firstName": {
+        "default": "Kirill"
+      },
+      "lastName": {
+        "default": "Marchenko"
+      },
+      "positionCode": "R",
+      "shootsCatches": "L",
+      "birthDate": "1997-03-03",
+      "birthCountry": "RUS"
+    },
+    {
+      "id": 9100022,
+      "firstName": {
+        "default": "Adam"
+      },
+      "lastName": {
+        "default": "Fantilli"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100023,
+      "firstName": {
+        "default": "Sean"
+      },
+      "lastName": {
+        "default": "Monahan"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100024,
+      "firstName": {
+        "default": "Charlie"
+      },
+      "lastName": {
+        "default": "Coyle"
+      },
+      "positionCode": "C",
+      "shootsCatches": "R",
+      "birthDate": "1999-05-05",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100025,
+      "firstName": {
+        "default": "Dmitri"
+      },
+      "lastName": {
+        "default": "Voronkov"
+      },
+      "positionCode": "L",
+      "shootsCatches": "L",
+      "birthDate": "1998-04-04",
+      "birthCountry": "RUS"
+    },
+    {
+      "id": 9100026,
+      "firstName": {
+        "default": "Cole"
+      },
+      "lastName": {
+        "default": "Sillinger"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100027,
+      "firstName": {
+        "default": "Kent"
+      },
+      "lastName": {
+        "default": "Johnson"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100028,
+      "firstName": {
+        "default": "Miles"
+      },
+      "lastName": {
+        "default": "Wood"
+      },
+      "positionCode": "L",
+      "shootsCatches": "L",
+      "birthDate": "1998-04-04",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100029,
+      "firstName": {
+        "default": "Isac"
+      },
+      "lastName": {
+        "default": "Lundestrom"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "SWE"
+    },
+    {
+      "id": 9100030,
+      "firstName": {
+        "default": "Mathieu"
+      },
+      "lastName": {
+        "default": "Olivier"
+      },
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "birthDate": "1997-03-03",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100031,
+      "firstName": {
+        "default": "Ryan"
+      },
+      "lastName": {
+        "default": "Lomberg"
+      },
+      "positionCode": "L",
+      "shootsCatches": "L",
+      "birthDate": "1998-04-04",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100032,
+      "firstName": {
+        "default": "Luca"
+      },
+      "lastName": {
+        "default": "Del Bel Belluz"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100041,
+      "firstName": {
+        "default": "Sonny"
+      },
+      "lastName": {
+        "default": "Milano"
+      },
+      "positionCode": "L",
+      "shootsCatches": "L",
+      "birthDate": "1998-04-04",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9000001,
+      "firstName": {
+        "default": "Milo"
+      },
+      "lastName": {
+        "default": "Testander"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "2004-03-15",
+      "birthCountry": "SWE"
+    }
+  ],
+  "defensemen": [
+    {
+      "id": 9100033,
+      "firstName": {
+        "default": "Zach"
+      },
+      "lastName": {
+        "default": "Werenski"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100034,
+      "firstName": {
+        "default": "Ivan"
+      },
+      "lastName": {
+        "default": "Provorov"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "RUS"
+    },
+    {
+      "id": 9100035,
+      "firstName": {
+        "default": "Damon"
+      },
+      "lastName": {
+        "default": "Severson"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100036,
+      "firstName": {
+        "default": "Dante"
+      },
+      "lastName": {
+        "default": "Fabbro"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100037,
+      "firstName": {
+        "default": "Erik"
+      },
+      "lastName": {
+        "default": "Gudbranson"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100038,
+      "firstName": {
+        "default": "Denton"
+      },
+      "lastName": {
+        "default": "Mateychuk"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100039,
+      "firstName": {
+        "default": "Jake"
+      },
+      "lastName": {
+        "default": "Christiansen"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    }
+  ],
+  "goalies": [
+    {
+      "id": 8480193,
+      "firstName": {
+        "default": "Elvis"
+      },
+      "lastName": {
+        "default": "Merzlikins"
+      },
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "birthDate": "1995-01-01",
+      "birthCountry": "LVA"
+    },
+    {
+      "id": 9100040,
+      "firstName": {
+        "default": "Jet"
+      },
+      "lastName": {
+        "default": "Greaves"
+      },
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "birthDate": "1995-01-01",
+      "birthCountry": "CAN"
+    }
+  ]
+}

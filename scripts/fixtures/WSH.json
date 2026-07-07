@@ -1,0 +1,281 @@
+{
+  "forwards": [
+    {
+      "id": 9100001,
+      "firstName": {
+        "default": "Alex"
+      },
+      "lastName": {
+        "default": "Ovechkin"
+      },
+      "positionCode": "L",
+      "shootsCatches": "R",
+      "birthDate": "1998-04-04",
+      "birthCountry": "RUS"
+    },
+    {
+      "id": 9100002,
+      "firstName": {
+        "default": "Dylan"
+      },
+      "lastName": {
+        "default": "Strome"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100003,
+      "firstName": {
+        "default": "Tom"
+      },
+      "lastName": {
+        "default": "Wilson"
+      },
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "birthDate": "1997-03-03",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100004,
+      "firstName": {
+        "default": "Alex"
+      },
+      "lastName": {
+        "default": "Tuch"
+      },
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "birthDate": "1997-03-03",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100005,
+      "firstName": {
+        "default": "Jordan"
+      },
+      "lastName": {
+        "default": "Kyrou"
+      },
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "birthDate": "1997-03-03",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100006,
+      "firstName": {
+        "default": "Pierre-Luc"
+      },
+      "lastName": {
+        "default": "Dubois"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100007,
+      "firstName": {
+        "default": "Boone"
+      },
+      "lastName": {
+        "default": "Jenner"
+      },
+      "positionCode": "C",
+      "shootsCatches": "L",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100008,
+      "firstName": {
+        "default": "Aliaksei"
+      },
+      "lastName": {
+        "default": "Protas"
+      },
+      "positionCode": "L",
+      "shootsCatches": "L",
+      "birthDate": "1998-04-04",
+      "birthCountry": "BLR"
+    },
+    {
+      "id": 9100009,
+      "firstName": {
+        "default": "Ryan"
+      },
+      "lastName": {
+        "default": "Leonard"
+      },
+      "positionCode": "R",
+      "shootsCatches": "R",
+      "birthDate": "1997-03-03",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100010,
+      "firstName": {
+        "default": "Nic"
+      },
+      "lastName": {
+        "default": "Dowd"
+      },
+      "positionCode": "C",
+      "shootsCatches": "R",
+      "birthDate": "1999-05-05",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100011,
+      "firstName": {
+        "default": "Jonny"
+      },
+      "lastName": {
+        "default": "Brodzinski"
+      },
+      "positionCode": "C",
+      "shootsCatches": "R",
+      "birthDate": "1999-05-05",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100012,
+      "firstName": {
+        "default": "Justin"
+      },
+      "lastName": {
+        "default": "Sourdif"
+      },
+      "positionCode": "C",
+      "shootsCatches": "R",
+      "birthDate": "1999-05-05",
+      "birthCountry": "CAN"
+    }
+  ],
+  "defensemen": [
+    {
+      "id": 9100013,
+      "firstName": {
+        "default": "Jakob"
+      },
+      "lastName": {
+        "default": "Chychrun"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100014,
+      "firstName": {
+        "default": "Matt"
+      },
+      "lastName": {
+        "default": "Roy"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100015,
+      "firstName": {
+        "default": "Rasmus"
+      },
+      "lastName": {
+        "default": "Sandin"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "SWE"
+    },
+    {
+      "id": 9100016,
+      "firstName": {
+        "default": "Martin"
+      },
+      "lastName": {
+        "default": "Fehervary"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "SVK"
+    },
+    {
+      "id": 9100017,
+      "firstName": {
+        "default": "Vincent"
+      },
+      "lastName": {
+        "default": "Desharnais"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100018,
+      "firstName": {
+        "default": "Justin"
+      },
+      "lastName": {
+        "default": "Holl"
+      },
+      "positionCode": "D",
+      "shootsCatches": "R",
+      "birthDate": "1996-02-02",
+      "birthCountry": "USA"
+    },
+    {
+      "id": 9100019,
+      "firstName": {
+        "default": "Declan"
+      },
+      "lastName": {
+        "default": "Chisholm"
+      },
+      "positionCode": "D",
+      "shootsCatches": "L",
+      "birthDate": "1996-02-02",
+      "birthCountry": "CAN"
+    }
+  ],
+  "goalies": [
+    {
+      "id": 9100020,
+      "firstName": {
+        "default": "Logan"
+      },
+      "lastName": {
+        "default": "Thompson"
+      },
+      "positionCode": "G",
+      "shootsCatches": "L",
+      "birthDate": "1995-01-01",
+      "birthCountry": "CAN"
+    },
+    {
+      "id": 9100021,
+      "firstName": {
+        "default": "Charlie"
+      },
+      "lastName": {
+        "default": "Lindgren"
+      },
+      "positionCode": "G",
+      "shootsCatches": "R",
+      "birthDate": "1995-01-01",
+      "birthCountry": "USA"
+    }
+  ]
+}

@@ -49,10 +49,27 @@ assigned from real-world performance with league-wide anchors (McDavid 97). A fe
 unresolved on July 6 (pending arbitration/offer sheets) carry documented estimates. Run
 `npm run validate-data` to check any edits against the roster/cap rules.
 
-To refresh rosters from live data, run `node scripts/fetch-rosters.mjs` on a machine with
-normal internet access — it pulls current rosters from the NHL's public API and maps recent
-stats to ratings, preserving the bundled contract data (the NHL API doesn't expose salaries;
-cross-check contract edits against [PuckPedia](https://puckpedia.com)).
+### Keeping rosters updated
+
+Refreshing the dataset is a three-layer job — automate the structure, hand-fix the money,
+and only occasionally re-baseline the ratings:
+
+1. **Structure + stats — the NHL API.** On a machine with internet, run
+   `npm run update-rosters -- --apply` (add `--append-history` to pull each player's
+   just-completed real season into his `history`). It diffs the live NHL rosters against
+   `data/teams/*.json`: moves traded players (carrying their whole record), adds players new
+   to the NHL with a *derived* overall, and routes players who left every roster to
+   `data/free-agents.json` — while preserving existing contracts, overalls, and potentials.
+   It defaults to a **dry run** that prints a change report and writes `data/update-report.md`;
+   `--apply` writes the files and then runs `validate-data`, restoring the originals if anything
+   comes out invalid. Test the diff engine offline with `--fixtures scripts/fixtures`.
+2. **Contracts — manual, against [PuckPedia](https://puckpedia.com).** The NHL API exposes no
+   salary data, so new players get a flagged league-minimum placeholder
+   (`{ capHit: 0.85, yearsLeft: 1 }`). Correct those (and any changed AAVs) by hand; the update
+   report lists exactly which contracts need review.
+3. **Full re-baseline — the research pipeline.** For a brand-new season where ratings need to be
+   re-anchored to the latest performance (breakouts up, decliners down), re-run the Claude
+   research pipeline described in `DATA_SPEC.md` to regenerate the snapshot from current sources.
 
 ## Engine
 

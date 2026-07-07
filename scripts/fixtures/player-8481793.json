@@ -1,0 +1,45 @@
+{
+  "playerId": 8481793,
+  "firstName": {
+    "default": "Kirill"
+  },
+  "lastName": {
+    "default": "Marchenko"
+  },
+  "birthDate": "2000-07-21",
+  "birthCountry": "RUS",
+  "shootsCatches": "L",
+  "position": "R",
+  "seasonTotals": [
+    {
+      "season": 20242025,
+      "gameTypeId": 2,
+      "leagueAbbrev": "NHL",
+      "teamAbbrev": "CBJ",
+      "teamName": {
+        "default": "Columbus Blue Jackets"
+      },
+      "gamesPlayed": 79,
+      "goals": 31,
+      "assists": 43,
+      "points": 74,
+      "plusMinus": 6,
+      "pim": 30
+    },
+    {
+      "season": 20252026,
+      "gameTypeId": 2,
+      "leagueAbbrev": "NHL",
+      "teamAbbrev": "CBJ",
+      "teamName": {
+        "default": "Columbus Blue Jackets"
+      },
+      "gamesPlayed": 76,
+      "goals": 27,
+      "assists": 40,
+      "points": 67,
+      "plusMinus": 7,
+      "pim": 28
+    }
+  ]
+}

@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "validate-data": "node scripts/validate-data.mjs",
+    "update-rosters": "node scripts/update-rosters.mjs",
     "sim-test": "node --experimental-strip-types scripts/sim-test.ts"
   },
   "dependencies": {
