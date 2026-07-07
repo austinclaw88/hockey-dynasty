@@ -1,5 +1,5 @@
 // Statistical game simulation with player-level attribution. No play-by-play.
-import type { GameState, Game, Player, TeamState, LineAssignments } from '../types.ts'
+import type { GameState, Game, Player, TeamState, LineAssignments, Position } from '../types.ts'
 import type { Rng } from './rng.ts'
 import {
   clamp,
@@ -42,10 +42,14 @@ function groupOf(p: Player): PosGroup {
 
 /** Resolve a team's lineup to fully-filled slots. When `manual` is supplied
  *  (the user's saved lines), each slot entry that names a healthy roster player
- *  of the correct position group is honoured; empty/invalid slots fall back to
- *  the best remaining healthy player. Every slot the roster can fill is filled;
- *  unfillable slots stay ''. Auto-fill draws from best-by-overall, so a manual =
- *  undefined resolution reproduces the pure auto lineup exactly. */
+ *  of the correct position GROUP is honoured wherever the user put it (a manual
+ *  center on the wing stays there). Empty/invalid slots are AUTO-filled to the
+ *  correct on-ice position: forwards.[line] = [LW, C, RW] — the C slot (index 1)
+ *  draws the best remaining true center, LW (0) the best LW, RW (2) the best RW,
+ *  and only when a position pool is exhausted does an off-position forward fill
+ *  the slot (last resort). Lines fill L1-first so the top trio is the best of
+ *  each position. Defense pairs are [LD, RD]: slot 0 prefers a left-shot D, slot
+ *  1 a right-shot D. Every slot the roster can fill is filled; the rest stay ''. */
 function resolveLineup(team: TeamState, manual: LineAssignments | undefined): LineAssignments {
   const byId = new Map(team.roster.map((p) => [p.id, p]))
   const healthy = team.roster.filter(isHealthy)
@@ -62,7 +66,7 @@ function resolveLineup(team: TeamState, manual: LineAssignments | undefined): Li
     used.add(id)
     return id
   }
-  const takeAuto = (pool: Player[]): string => {
+  const takeFrom = (pool: Player[]): string => {
     for (const p of pool) {
       if (!used.has(p.id)) {
         used.add(p.id)
@@ -71,23 +75,58 @@ function resolveLineup(team: TeamState, manual: LineAssignments | undefined): Li
     }
     return ''
   }
-  const fillSlot = (id: string | undefined, group: PosGroup, pool: Player[]): string => {
-    return takeManual(id, group) ?? takeAuto(pool)
+
+  // ---- forwards: position-aware, line-by-line, off-position as a last resort.
+  const slotPos: Position[] = ['LW', 'C', 'RW'] // forwards[line] = [LW, C, RW]
+  const manualFwd: boolean[][] = [[], [], [], []]
+  const forwards: string[][] = [[], [], [], []]
+  // Pass A: honour manual picks, then fill each slot from its TRUE position pool.
+  for (let line = 0; line < 4; line++) {
+    for (let slot = 0; slot < 3; slot++) {
+      const m = takeManual(manual?.forwards?.[line]?.[slot], 'F')
+      if (m) {
+        forwards[line][slot] = m
+        manualFwd[line][slot] = true
+      } else {
+        forwards[line][slot] = takeFrom(fwdPool.filter((p) => p.pos === slotPos[slot]))
+      }
+    }
+  }
+  // Pass B: any slot still empty (its position pool ran dry) takes the best
+  // remaining forward of ANY position — off-position fill is the last resort.
+  for (let line = 0; line < 4; line++) {
+    for (let slot = 0; slot < 3; slot++) {
+      if (!forwards[line][slot]) forwards[line][slot] = takeFrom(fwdPool)
+    }
   }
 
-  const forwards: string[][] = []
-  for (let line = 0; line < 4; line++) {
-    const row: string[] = []
-    for (let slot = 0; slot < 3; slot++) row.push(fillSlot(manual?.forwards?.[line]?.[slot], 'F', fwdPool))
-    forwards.push(row)
-  }
-  const defense: string[][] = []
+  // ---- defense: [LD, RD] with a shot-side preference. Fill best-by-overall
+  // (unchanged pair assignment, so ratings are unaffected — within-pair order
+  // does not change top-4/top-6 slicing), then, for fully-auto pairs, put the
+  // left-shot on LD (slot 0) and right-shot on RD (slot 1).
+  const manualDef: boolean[][] = [[], [], []]
+  const defense: string[][] = [[], [], []]
   for (let pair = 0; pair < 3; pair++) {
-    const row: string[] = []
-    for (let slot = 0; slot < 2; slot++) row.push(fillSlot(manual?.defense?.[pair]?.[slot], 'D', defPool))
-    defense.push(row)
+    for (let slot = 0; slot < 2; slot++) {
+      const m = takeManual(manual?.defense?.[pair]?.[slot], 'D')
+      if (m) {
+        defense[pair][slot] = m
+        manualDef[pair][slot] = true
+      } else {
+        defense[pair][slot] = takeFrom(defPool)
+      }
+    }
   }
-  const goalies = [fillSlot(manual?.goalies?.[0], 'G', goaliePool), fillSlot(manual?.goalies?.[1], 'G', goaliePool)]
+  for (let pair = 0; pair < 3; pair++) {
+    if (manualDef[pair][0] || manualDef[pair][1]) continue // respect user's placement
+    const ld = byId.get(defense[pair][0])
+    const rd = byId.get(defense[pair][1])
+    if (ld && rd && ld.shoots === 'R' && rd.shoots === 'L') {
+      defense[pair] = [defense[pair][1], defense[pair][0]]
+    }
+  }
+
+  const goalies = [takeManual(manual?.goalies?.[0], 'G') ?? takeFrom(goaliePool), takeManual(manual?.goalies?.[1], 'G') ?? takeFrom(goaliePool)]
   return { forwards, defense, goalies }
 }
 

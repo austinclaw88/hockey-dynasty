@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { GameState, Player } from '../types'
-import { getStandings, getCapUsage } from '../engine'
+import { getStandings, getCapUsage, effectiveLines } from '../engine'
 import { Modal, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, TeamLogo, teamStyleVars } from './components'
 import { PlayerModal } from './PlayerModal'
 import { fmtM, fmtRecord, seasonLabel, posGroup, potArrow } from './format'
@@ -88,6 +88,8 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
                 </button>
               </div>
             )}
+
+            <TeamLines s={s} abbrev={abbrev} />
 
             <div className="mini-title" style={{ marginTop: 16 }}>
               Roster · {team.roster.length}
@@ -185,6 +187,63 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
 
       {selPlayer && <PlayerModal s={s} player={selPlayer} team={abbrev} onClose={() => setSel(null)} />}
     </>
+  )
+}
+
+const FWD_SLOT = ['LW', 'C', 'RW']
+const DEF_SLOT = ['LD', 'RD']
+const GOALIE_SLOT = ['S', 'B']
+
+/** Read-only display of a team's current effective lineup (engine-resolved). */
+function TeamLines({ s, abbrev }: { s: GameState; abbrev: string }) {
+  const team = s.teams[abbrev]
+  const eff = effectiveLines(s, abbrev)
+  const byId = new Map(team.roster.map((p) => [p.id, p]))
+
+  const chip = (id: string, pos: string, key: string) => {
+    const p = id ? byId.get(id) : undefined
+    return (
+      <span className="line-slot" key={key}>
+        <span className="slot-pos">{pos}</span>
+        <span
+          className={`lineup-chip readonly ${p ? '' : 'empty'}`}
+          title={p ? `${p.name} · ${p.pos} · ${p.overall} OVR` : 'Empty slot'}
+        >
+          {p ? (
+            <>
+              <span className="chip-name">{p.name.split(' ').slice(-1)[0]}</span>
+              <span className="chip-ovr">{p.overall}</span>
+            </>
+          ) : (
+            <span className="chip-none">—</span>
+          )}
+        </span>
+      </span>
+    )
+  }
+
+  return (
+    <details className="tv-lines" open>
+      <summary className="mini-title">Lines</summary>
+      <div className="lines-editor" style={{ marginTop: 8 }}>
+        {[0, 1, 2, 3].map((i) => (
+          <div className="line-group" key={`f${i}`}>
+            <span className="line-label">L{i + 1}</span>
+            {[0, 1, 2].map((j) => chip(eff.forwards[i]?.[j] ?? '', FWD_SLOT[j], `f${i}-${j}`))}
+          </div>
+        ))}
+        {[0, 1, 2].map((i) => (
+          <div className="line-group" key={`d${i}`}>
+            <span className="line-label">P{i + 1}</span>
+            {[0, 1].map((j) => chip(eff.defense[i]?.[j] ?? '', DEF_SLOT[j], `d${i}-${j}`))}
+          </div>
+        ))}
+        <div className="line-group">
+          <span className="line-label">G</span>
+          {[0, 1].map((j) => chip(eff.goalies[j] ?? '', GOALIE_SLOT[j], `g${j}`))}
+        </div>
+      </div>
+    </details>
   )
 }
 

@@ -3,6 +3,7 @@ import { seasonLabel, fmtRecord } from './format'
 import { TeamLogo } from './components'
 
 const PHASE_LABEL: Record<GameState['phase'], string> = {
+  fantasyDraft: 'Fantasy Draft',
   regular: 'Regular Season',
   playoffs: 'Playoffs',
   offseason: 'Offseason',

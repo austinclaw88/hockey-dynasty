@@ -71,15 +71,25 @@ effectiveLines(s: GameState, team: string): LineAssignments
 // offseason — call advanceOffseason() to move through steps in order:
 // awards -> development -> resign -> draft -> freeAgency -> rosterCheck -> next season (phase 'regular')
 advanceOffseason(s: GameState): GameState
-// during 'resign': user decisions on own expiring contracts
-resignPlayer(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; reason?: string }
+// during 'resign': user decisions on own expiring contracts. Optional trailing
+// `ntc` offers a no-trade clause (lowers the player's effective ask; the signed
+// deal carries ntc: true). Extra term vs the ask also lowers the effective ask,
+// fewer years raises it — see getSigningPreview.
+resignPlayer(s: GameState, playerId: string, years: number, capHit: number, ntc?: boolean): { s: GameState; ok: boolean; reason?: string }
 letWalk(s: GameState, playerId: string): GameState      // expiring player goes to FA pool
 getResignAsking(s: GameState, playerId: string): { capHit: number; years: number }
 // during 'draft': draft proceeds pick-by-pick; AI picks auto-advance until it's the user's pick
 draftPlayer(s: GameState, playerId: string): GameState  // user makes their pick, then AI continues to next user pick
+autoDraftPick(s: GameState): GameState                  // autodraft the user's current pick (best available by potential-weighted board value)
+autoCompleteDraft(s: GameState): GameState              // autodraft ALL remaining user picks + let AI finish the round order
 getDraftBoard(s: GameState): { onClock: string; pickNumber: number; available: Player[]; results: {pick:number; team:string; playerName:string}[] }
-// during 'freeAgency': day-based; each advanceFreeAgencyDay, AI teams sign players
-signFreeAgent(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; reason?: string }
+// during 'freeAgency': day-based; each advanceFreeAgencyDay, AI teams sign players.
+// Optional trailing `ntc` behaves as in resignPlayer.
+signFreeAgent(s: GameState, playerId: string, years: number, capHit: number, ntc?: boolean): { s: GameState; ok: boolean; reason?: string }
+// Live negotiation preview for the UI meter (pure). Works for pool FAs (via asking)
+// and the user's own expiring players (via askingFor). Verdict is one of
+// 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'.
+getSigningPreview(s: GameState, playerId: string, years: number, capHit: number, ntc: boolean): { effectiveAsk: number; verdict: SigningVerdict }
 advanceFreeAgencyDay(s: GameState): GameState           // ~5 FA days total, then step is done
 // roster moves (any time)
 callUp(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string }     // prospect -> roster
@@ -113,9 +123,12 @@ toggleTradeBlock(s: GameState, playerId: string): GameState
 // when a referenced player leaves either roster.
 respondToOffer(s: GameState, offerId: number, accept: boolean): { s: GameState; ok: boolean; reason?: string }
 
-// persistence
+// persistence — loadGame is re-exported from withData (engine barrel) so a loaded
+// save is re-hydrated with bundled static data (the real 2027 draft class) for
+// legacy saves that predate it. persistence.ts itself stays data-free.
 saveGame(s: GameState): void
-loadGame(): GameState | null
+loadGame(): GameState | null                            // barrel: withData.loadGame (hydrates static data)
+hydrateStaticData(s: GameState): GameState              // re-attach DRAFT_2027 to a save when seasonYear <= 2027 and absent
 hasSave(): boolean
 deleteSave(): void
 ```
@@ -125,11 +138,15 @@ deleteSave(): void
 No play-by-play. Each game is resolved statistically:
 
 0. **Lineup selection** (`effectiveLines(s, team)`): the ACTIVE lineup is 12 F / 6 D / starter+backup G.
-   Every team is full-auto (best healthy players by overall) EXCEPT the user team when `s.userLines` is set:
-   each valid slot entry (player on roster, healthy, right position group — any F fills any F slot, D fills D,
-   G fills G) is honoured; empty/invalid slots auto-fill from the best remaining player. `effectiveLines`
-   returns the fully-resolved assignment (all slots filled, unfillable = '') that the UI shows and the sim
-   drives. Auto-fill draws best-by-overall, so a team with no manual lines resolves to the exact old lineup.
+   Every team is full-auto EXCEPT the user team when `s.userLines` is set: a valid manual slot entry (player on
+   roster, healthy, right position GROUP — any F fills any F slot, D fills D, G fills G) is honoured wherever the
+   user put it (a manual center on the wing stays there). Auto-fill is POSITION-AWARE: `forwards[line]` is
+   `[LW, C, RW]`, so the C slot (index 1) draws the best remaining true center, LW (0) the best LW, RW (2) the
+   best RW; lines fill L1-first so the top trio is the best of each position, and an off-position forward fills a
+   slot only as a LAST resort (that position's pool exhausted). Defense pairs are `[LD, RD]` filled best-by-overall
+   (unchanged pairing → ratings unaffected), then within a fully-auto pair the left-shot D takes LD and the
+   right-shot D takes RD. `effectiveLines` returns the fully-resolved assignment (all slots filled, unfillable = '')
+   that the UI shows and the sim drives.
 1. **Team strength** from the effective lineup IN SLOT ORDER (so line placement, not raw overall, drives it):
    - `off = 0.65 * wAvg(top9 F overalls) + 0.35 * wAvg(top4 D overalls)` (weight top-3 F double)
    - `def = 0.55 * wAvg(top6 D) + 0.45 * wAvg(top12 F)`
@@ -194,28 +211,45 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   high-potential young players ask longer term. Years asked: stars 6-8, mid 3-5, old/depth 1-2.
 - RFAs: re-sign at asking always succeeds; lowball (< 90% ask) risks holdout (misses 20 games) — keep simple: reject below 90%.
 - UFAs: at/above asking succeeds; 90-100% = 50/50; below 90% rejected.
+- **Signing incentives (effective ask)**: acceptance is compared against an EFFECTIVE ask, not the raw ask.
+  Offering a no-trade clause lowers it ~7% for established veterans (age 27+ AND 80+ OVR; ~2% for anyone else,
+  who barely care); offering MORE years than asked lowers it ~3%/extra year (cap -6%); FEWER years raises it
+  ~4%/missing year. An offered NTC carries onto the signed contract (`ntc: true`). `getSigningPreview` returns
+  the effective ask + a verdict for a live UI negotiation meter. AI never offers NTCs to depth (it only re-signs
+  85+ stars, carrying an existing ntc over).
+- **FA pool composition**: the pool is dominated by REAL players (the 35 seeded UFAs + anyone who walked). Only
+  a handful of depth-tier fillers (<= 72 OVR) are generated — at most ~8 league-wide, and only when the pool is
+  thin (< 25). rosterCheck "Journeyman" fills go straight onto AI rosters and never enter the FA pool.
 - AI FA logic per FA day: each AI team with cap space + roster need signs best available fitting need; stars sign days 1-2.
 - Every roster must end offseason with 20-23 players, >= 2 G, >= 6 D, >= 12 F; AI auto-fixes with cheap generated depth signings ("Journeyman" pool) if short.
 
 ## Draft (`src/engine/draft.ts`)
 
-- 2 rounds (64 picks) — teams own their natural picks for all 10 drafts (tradeable via DraftPick objects).
+- 3 rounds (96 picks) — teams own their natural picks for all 10 drafts (tradeable via DraftPick objects).
+  `roundOfSlot(orderLen, slot)` maps a draft slot to its round (order = reverse-standings order repeated 3x).
+  Existing saves created before round 3 keep their 2-round pick INVENTORIES (fewer tradeable picks — acceptable);
+  the draft still runs all 96 slots (untracked round-3 slots fall back to the original-team owner).
 - Order: reverse standings with a simple lottery (bottom-5 teams can jump to #1: 25/18/14/10/8%), playoff teams by elimination order.
-- Prospect generation: 64+ prospects per class, names from nationality-weighted name pools (CAN/USA/SWE/FIN/RUS/CZE),
-  age 18, overall 55-72, potential 68-96 skewed so ~3 franchise (90+ pot), ~10 top-6/top-4 (83+), rest mid.
-  Position mix ~ 30 F / 22 D / 6 G per 64. Busts/steals: potential shown to user is a RANGE band (e.g. "Top-6 F"), actual number hidden.
+- Prospect generation: ~110 prospects per class (96 picks + margin), names from nationality-weighted name pools
+  (CAN/USA/SWE/FIN/RUS/CZE), age 18. Potential distribution shape is UNCHANGED at the top (gems are NOT tripled):
+  the first ~3 slots are franchise (90-96 pot), next ~10 top-6/top-4 (83-89), a mid tier (68-82) to slot 60, and a
+  late-round depth tail (55-62 OVR / 70-80 pot). Busts/steals: potential shown to user is a RANGE band, actual number hidden.
 - Drafted players go to `prospects` with a 3-year cheap ELC (capHit 0.95, RFA expiry).
-- **Real 2027 class**: the FIRST in-game draft (June 2027) seeds from `data/draft-2027.json` (threaded via
-  `newGame`, stored on a private engine field). Real players convert to age-18 prospects (contract null,
-  hidden potential from the file, devLeague kept) anchoring the top of the board in file order (index 0 =
-  best), topped up with generated prospects to the usual class size. Drafts 2028+ (and an empty file) are
-  fully generated.
+- **Autodraft**: `autoDraftPick` makes the user's current pick with the best available prospect by potential-weighted
+  board value (`potential*0.7 + overall*0.3`); `autoCompleteDraft` autodrafts every remaining user pick and lets the
+  AI finish the round order until the draft step is complete. Both are no-ops outside the draft step.
+- **Real 2027 class**: the FIRST in-game draft (June 2027) seeds from `data/draft-2027.json`. For a FRESH game it is
+  threaded via `newGame` (the browser entry `withData.newGame` passes the bundled `DRAFT_2027`); for a LOADED save it
+  is re-attached by `withData.hydrateStaticData`/`loadGame` (legacy saves predate the private field). Stored on a
+  private engine field. Real players convert to age-18 prospects (contract null, hidden potential from the file,
+  devLeague kept) anchoring the top of the board in file order (index 0 = best, e.g. Landon DuPont), topped up with
+  generated prospects to the usual class size. Drafts 2028+ (and an empty file) are fully generated.
 
 ## Trades (`src/engine/trades.ts`)
 
 - Value model: player value = f(overall, age, potential, capHit, yearsLeft). Base curve exponential in overall
   (85 OVR ≈ 2x 80 OVR), young + high potential multiplies up to 2.5x, age 30+ decays, bad contract (capHit > value) subtracts.
-  Pick value: R1 ≈ 70-OVR-prospect equivalent scaled by expected slot (use owner's current standing), R2 ≈ third of R1.
+  Pick value: R1 ≈ 70-OVR-prospect equivalent scaled by expected slot (use owner's current standing), R2 ≈ third of R1, R3 ≈ 40% of R2.
 - AI accepts if `valueReceived >= valueGiven * 1.05` AND fits strategy (contenders want now-value, rebuilders want picks/prospects/U24)
   AND cap works both ways AND roster sizes stay legal. `verdict` strings: "insulting", "not close", "close — sweeten it", "accepted".
 - `getAiTradeSuggestion`: builds a fair offer around a player the partner would move by strategy.

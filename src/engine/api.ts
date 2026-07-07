@@ -9,8 +9,9 @@ import { standingsView } from './standings.ts'
 import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
 import { advancePlayoffRound } from './playoffs.ts'
 import { enterOffseason, advanceOffseasonStep, doResignPlayer, doLetWalk, getResignAsking as getResignAskingCore } from './offseason.ts'
-import { doDraftPlayer, draftBoard, type DraftBoard } from './draft.ts'
+import { doDraftPlayer, draftBoard, doAutoDraftPick, doAutoCompleteDraft, type DraftBoard } from './draft.ts'
 import { doSignFreeAgent, aiFreeAgencyDay } from './freeAgency.ts'
+import { getSigningPreview as getSigningPreviewCore, type SigningVerdict } from './contracts.ts'
 import { doCallUp, doSendDown } from './roster.ts'
 import {
   evaluateTrade as evaluateTradeCore,
@@ -27,6 +28,7 @@ import { saveGame, loadGame, hasSave, deleteSave } from './persistence.ts'
 
 export type { TradeOffer } from './trades.ts'
 export type { DraftBoard } from './draft.ts'
+export type { SigningVerdict } from './contracts.ts'
 export { saveGame, loadGame, hasSave, deleteSave }
 
 function clone<T>(x: T): T {
@@ -70,8 +72,8 @@ export function advanceOffseason(s: GameState): GameState {
     if (st.phase === 'offseason') advanceOffseasonStep(st, rng)
   })
 }
-export function resignPlayer(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; reason?: string } {
-  return withResult(s, (st, rng) => doResignPlayer(st, playerId, years, capHit, rng))
+export function resignPlayer(s: GameState, playerId: string, years: number, capHit: number, ntc = false): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st, rng) => doResignPlayer(st, playerId, years, capHit, rng, ntc))
 }
 export function letWalk(s: GameState, playerId: string): GameState {
   return withRng(s, (st) => doLetWalk(st, playerId))
@@ -85,8 +87,27 @@ export function draftPlayer(s: GameState, playerId: string): GameState {
 export function getDraftBoard(s: GameState): DraftBoard {
   return draftBoard(s)
 }
-export function signFreeAgent(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; reason?: string } {
-  return withResult(s, (st, rng) => doSignFreeAgent(st, playerId, years, capHit, rng))
+/** Autodraft the user's current pick (best available by potential-weighted board
+ *  value), then AI continues. No-op unless the user is on the clock in the draft step. */
+export function autoDraftPick(s: GameState): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase === 'offseason' && st.offseasonStep === 'draft') doAutoDraftPick(st, rng)
+  })
+}
+/** Autodraft ALL remaining user picks and let AI finish the round order until the
+ *  draft is complete. No-op unless in the draft step. */
+export function autoCompleteDraft(s: GameState): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase === 'offseason' && st.offseasonStep === 'draft') doAutoCompleteDraft(st, rng)
+  })
+}
+export function signFreeAgent(s: GameState, playerId: string, years: number, capHit: number, ntc = false): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st, rng) => doSignFreeAgent(st, playerId, years, capHit, rng, ntc))
+}
+/** Live signing preview for the UI negotiation meter (effective ask + verdict).
+ *  Works for pool free agents and the user's own expiring players. Pure. */
+export function getSigningPreview(s: GameState, playerId: string, years: number, capHit: number, ntc: boolean): { effectiveAsk: number; verdict: SigningVerdict } {
+  return getSigningPreviewCore(s, playerId, years, capHit, ntc)
 }
 export function advanceFreeAgencyDay(s: GameState): GameState {
   return withRng(s, (st, rng) => {

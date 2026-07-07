@@ -21,13 +21,14 @@ function inferStrategy(roster: Player[]): 'contend' | 'retool' | 'rebuild' {
   return 'retool'
 }
 
-/** Natural draft picks (2 rounds) for every upcoming draft in the dynasty. */
+/** Natural draft picks (3 rounds) for every upcoming draft in the dynasty. */
 function initialPicks(abbrev: string): DraftPick[] {
   const picks: DraftPick[] = []
   // Drafts run in the offseason after each season: years START_YEAR+1 .. +SEASONS_TOTAL.
   for (let y = START_YEAR + 1; y <= START_YEAR + SEASONS_TOTAL; y++) {
     picks.push({ year: y, round: 1, originalTeam: abbrev, owner: abbrev })
     picks.push({ year: y, round: 2, originalTeam: abbrev, owner: abbrev })
+    picks.push({ year: y, round: 3, originalTeam: abbrev, owner: abbrev })
   }
   return picks
 }

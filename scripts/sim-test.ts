@@ -24,6 +24,9 @@ import {
   resignPlayer,
   getDraftBoard,
   draftPlayer,
+  autoCompleteDraft,
+  effectiveLines,
+  getSigningPreview,
   toggleTradeBlock,
   respondToOffer,
   executeTrade,
@@ -136,6 +139,36 @@ function isNum(x: number | undefined): boolean {
   return x !== undefined && typeof x === 'number' && !Number.isNaN(x)
 }
 
+// Real 2027 draft-class player names (empty when the data file is absent / the
+// synthetic fallback is in use — the DuPont assertion is then skipped).
+const DRAFT_2027_NAMES = new Set((loadDraft2027()?.players ?? []).map((p) => p.name))
+
+/** Task 2 (fresh path): the first entry draft must be seeded from the real 2027
+ *  class — Landon DuPont and other D27 prospects sit at the top of the board. */
+function assertDraft2027Seeded(s: GameState): void {
+  assert(s.draftOrder?.length === 96, `first draft should have 96 slots (3 rounds), got ${s.draftOrder?.length}`)
+  if (DRAFT_2027_NAMES.size === 0) return // synthetic run — no real class to check
+  const board = getDraftBoard(s)
+  // Board top = picks already auto-made (results, in pick order) then best available.
+  const topBoard = [...board.results.map((r) => r.playerName), ...board.available.map((p) => p.name)]
+  assert(topBoard.slice(0, 3).includes('Landon DuPont'), `Landon DuPont should be atop the first draft board (top-3: ${topBoard.slice(0, 3).join(', ')})`)
+  const realAtTop = topBoard.slice(0, 5).filter((n) => DRAFT_2027_NAMES.has(n)).length
+  assert(realAtTop >= 3, `top of first draft board should be real 2027 prospects (only ${realAtTop}/5 were: ${topBoard.slice(0, 5).join(', ')})`)
+}
+
+/** Task 6: auto-filled forward lines must be POSITION-CORRECT — the C slot holds
+ *  a true center and the wings hold wingers when the roster has them. */
+function assertLinesPositionCorrect(s: GameState, abbr: string): void {
+  const lines = effectiveLines(s, abbr)
+  const roster = s.teams[abbr].roster
+  const posById = new Map(roster.map((p) => [p.id, p.pos]))
+  const has = (pos: string): boolean => roster.some((p) => p.pos === pos)
+  const l1 = lines.forwards[0]
+  if (has('C')) assert(posById.get(l1[1]) === 'C', `${abbr} L1 center slot should hold a true C, got ${posById.get(l1[1])}`)
+  if (has('LW')) assert(posById.get(l1[0]) === 'LW', `${abbr} L1 LW slot should hold a true LW, got ${posById.get(l1[0])}`)
+  if (has('RW')) assert(posById.get(l1[2]) === 'RW', `${abbr} L1 RW slot should hold a true RW, got ${posById.get(l1[2])}`)
+}
+
 // ---- new-systems assertions -----------------------------------------------
 function onTeam(s: GameState, abbr: string, id: string): boolean {
   const t = s.teams[abbr]
@@ -170,6 +203,16 @@ function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
       // committed `used` must rise by EXACTLY the new AAV and never fall (an
       // expiring player's dead 0-year hit must not be counted).
       const expiring = s.teams[s.userTeam].roster.filter((p) => p.contract && p.contract.yearsLeft <= 0).map((p) => p.id)
+      // Task 1: signing preview + NTC negotiation. Offering an NTC never RAISES
+      // the effective ask, and an offer at the (base) ask is not rejected.
+      if (expiring.length > 0) {
+        const id0 = expiring[0]
+        const a0 = getResignAsking(s, id0)
+        const base = getSigningPreview(s, id0, a0.years, a0.capHit, false)
+        const withNtc = getSigningPreview(s, id0, a0.years, a0.capHit, true)
+        assert(withNtc.effectiveAsk <= base.effectiveAsk + 0.0001, `NTC should not raise effective ask for ${id0} (${base.effectiveAsk}→${withNtc.effectiveAsk})`)
+        assert(base.verdict !== 'rejected', `offer at ask should not be rejected for ${id0} (verdict ${base.verdict})`)
+      }
       for (const id of expiring) {
         const ask = getResignAsking(s, id)
         const beforeUsed = getCapUsage(s, s.userTeam).used
@@ -186,14 +229,19 @@ function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
         }
       }
     } else if (step === 'draft') {
-      // Make user picks: best available by potential.
-      let board = getDraftBoard(s)
-      let picks = 0
-      while (board.onClock === s.userTeam && board.available.length > 0 && picks++ < 30) {
-        const best = [...board.available].sort((a, b) => b.potential - a.potential || b.overall - a.overall)[0]
-        s = draftPlayer(s, best.id)
-        board = getDraftBoard(s)
+      // First in-game draft (June 2027) must be seeded from the REAL 2027 class:
+      // Landon DuPont & co. anchor the top of the board (task 2, fresh path).
+      if (s.seasonYear === 2026) {
+        assertDraft2027Seeded(s)
+        // Exercise the manual pick path for one user selection, then autodraft.
+        const board = getDraftBoard(s)
+        if (board.onClock === s.userTeam && board.available.length > 0) {
+          const best = [...board.available].sort((a, b) => b.potential - a.potential || b.overall - a.overall)[0]
+          s = draftPlayer(s, best.id)
+        }
       }
+      // Autodraft all remaining user picks + let AI finish the order (task 5).
+      s = autoCompleteDraft(s)
     }
     s = advanceOffseason(s)
   }
@@ -215,6 +263,10 @@ function main(): void {
   const t0 = Date.now()
   let s = newGame(userTeam, data, undefined, loadDraft2027())
   const rows: string[] = []
+
+  // Task 6: a fresh lineup must be position-correct (true C on the C slot, etc.).
+  assertLinesPositionCorrect(s, userTeam)
+  for (const abbr of Object.keys(s.teams)) assertLinesPositionCorrect(s, abbr)
 
   for (let season = 0; season < 10; season++) {
     const seasonYear = s.seasonYear
@@ -266,8 +318,11 @@ function main(): void {
     assert(leaders.assists.length > 0 && (leaders.assists[0].assists ?? 0) >= (leaders.assists[19]?.assists ?? 0), `assist leaders not sorted/populated in ${seasonYear}`)
     // Upper bound is generous: late-dynasty leaders climb as young stars develop
     // toward 99 OVR, and elite scorers now stay in the league (AI no longer lets
-    // 85+ players walk to the FA void) rather than disappearing mid-prime.
-    assert(leaderPts >= 70 && leaderPts <= 180, `scoring leader has ${leaderPts} pts (expect 70-180) in ${seasonYear}`)
+    // 85+ players walk to the FA void) rather than disappearing mid-prime. The
+    // 3-round draft + larger class deepen the young-talent pipeline and lines are
+    // now position-correct (best C paired with best wings), which concentrates a
+    // developed superstar's share — so a peak 99-OVR season now tops out ~200.
+    assert(leaderPts >= 70 && leaderPts <= 205, `scoring leader has ${leaderPts} pts (expect 70-205) in ${seasonYear}`)
     for (const line of Object.values(s.stats)) {
       const ok = isNum(line.goals) && isNum(line.assists) && isNum(line.points) && isNum(line.plusMinus) && isNum(line.pim) && isNum(line.gp)
       assert(ok, `NaN in skater stat line ${line.playerId} (${seasonYear})`)

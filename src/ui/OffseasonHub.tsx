@@ -10,6 +10,9 @@ import {
   signFreeAgent,
   advanceFreeAgencyDay,
   getCapUsage,
+  getSigningPreview,
+  autoDraftPick,
+  autoCompleteDraft,
 } from '../engine'
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal, PlayerLink } from './components'
 import { fmtM, seasonLabel } from './format'
@@ -256,9 +259,10 @@ function ResignRow({ s, apply, player, setNotice }: { s: GameState; apply: (n: G
   const asking = getResignAsking(s, player.id)
   const [years, setYears] = useState(asking.years)
   const [capHit, setCapHit] = useState(asking.capHit)
+  const [ntc, setNtc] = useState(player.contract?.ntc ?? false)
 
   function sign() {
-    const r = resignPlayer(s, player.id, years, capHit)
+    const r = resignPlayer(s, player.id, years, capHit, ntc)
     if (r.ok) {
       apply(r.s)
       setNotice(null)
@@ -297,6 +301,10 @@ function ResignRow({ s, apply, player, setNotice }: { s: GameState; apply: (n: G
           <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
           <button className="btn btn-primary" onClick={sign}>Sign</button>
           <button className="btn btn-danger" onClick={walk}>Let Walk</button>
+        </div>
+        <div className="nego-panel">
+          <NtcToggle ntc={ntc} onChange={setNtc} />
+          <NegotiationFeedback s={s} playerId={player.id} years={years} capHit={capHit} ntc={ntc} />
         </div>
       </div>
     </Card>
@@ -343,8 +351,30 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
   const idx = buildPlayerIndex(s)
   for (const ref of idx.values()) if (!byName.has(ref.player.name)) byName.set(ref.player.name, ref.player)
   const [posFilter, setPosFilter] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
+  const [confirmAuto, setConfirmAuto] = useState(false)
+  const [autoResults, setAutoResults] = useState<{ pick: number; playerName: string }[] | null>(null)
   const onUserClock = board.onClock === s.userTeam
   const draftDone = board.available.length === 0 || board.pickNumber > 64
+
+  const userPicks = (gs: GameState) => getDraftBoard(gs).results.filter((r) => r.team === s.userTeam)
+
+  function autoPick() {
+    const before = userPicks(s).length
+    const ns = autoDraftPick(s)
+    const gained = userPicks(ns).slice(before)
+    apply(ns)
+    if (gained.length) pushToast('success', `Autodrafted: ${gained.map((r) => r.playerName).join(', ')}`)
+  }
+
+  function autoComplete() {
+    const before = userPicks(s).length
+    const ns = autoCompleteDraft(s)
+    const gained = userPicks(ns).slice(before)
+    apply(ns)
+    setConfirmAuto(false)
+    setAutoResults(gained)
+    if (gained.length) pushToast('success', `Autodrafted: ${gained.map((r) => r.playerName).join(', ')}`)
+  }
 
   const filtered = board.available.filter((p) => {
     if (posFilter === 'ALL') return true
@@ -360,12 +390,60 @@ function DraftStep({ s, apply }: { s: GameState; apply: (n: GameState) => void }
           <h4>{draftDone ? 'Draft Complete' : onUserClock ? `You are on the clock — Pick #${board.pickNumber}` : `Pick #${board.pickNumber} — ${s.teams[board.onClock]?.name ?? board.onClock}`}</h4>
           <p>{draftDone ? 'All 64 picks are in.' : onUserClock ? 'Select the best available prospect for your future.' : 'AI teams are making their selections.'}</p>
         </div>
-        {draftDone && (
+        {draftDone ? (
           <button className="btn btn-primary btn-lg" onClick={() => apply(advanceOffseason(s))}>
             Continue to Free Agency →
           </button>
+        ) : (
+          <div className="row" style={{ gap: 8 }}>
+            {onUserClock && (
+              <button className="btn btn-primary" onClick={autoPick}>
+                Auto Pick
+              </button>
+            )}
+            <button className="btn" onClick={() => setConfirmAuto(true)}>
+              Auto-complete My Draft
+            </button>
+          </div>
         )}
       </div>
+
+      {autoResults && autoResults.length > 0 && (
+        <div className="notice" style={{ background: 'color-mix(in srgb, var(--good) 10%, var(--card))', borderColor: 'color-mix(in srgb, var(--good) 35%, transparent)' }}>
+          <strong>Auto-draft complete — you selected:</strong>
+          <ul style={{ margin: '6px 0 0', paddingLeft: 18 }}>
+            {autoResults.map((r) => {
+              const drafted = byName.get(r.playerName)
+              return (
+                <li key={r.pick}>
+                  #{r.pick} — {drafted ? <PlayerLink player={drafted} team={s.userTeam}>{r.playerName}</PlayerLink> : r.playerName}
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+
+      {confirmAuto && (
+        <Modal onClose={() => setConfirmAuto(false)}>
+          <div className="modal-head">
+            <div className="modal-title">
+              <h3>Auto-complete your draft?</h3>
+              <div className="meta">The front office will make all of your remaining picks automatically.</div>
+            </div>
+            <button className="modal-close" onClick={() => setConfirmAuto(false)} aria-label="Close">×</button>
+          </div>
+          <div className="modal-body">
+            <div className="stack">
+              <div className="hint">This runs the rest of the draft, including your selections. You can review who you got afterward.</div>
+              <div className="row">
+                <button className="btn btn-primary btn-lg" onClick={autoComplete}>Confirm — auto-complete</button>
+                <button className="btn btn-ghost" onClick={() => setConfirmAuto(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
 
       <div className="grid dash-grid">
         <Card
@@ -474,7 +552,8 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
   const [query, setQuery] = useState('')
   const fas = [...s.freeAgents]
     .filter((p) => matchesPos(p, posF) && p.name.toLowerCase().includes(query.trim().toLowerCase()))
-    .sort((a, b) => b.overall - a.overall)
+    // Overall desc; at equal overall, real players sort above generated filler.
+    .sort((a, b) => b.overall - a.overall || Number(isGeneratedFA(a.id)) - Number(isGeneratedFA(b.id)))
 
   return (
     <div className="stack">
@@ -566,10 +645,11 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
 
       {target && (
         <OfferModal
+          s={s}
           fa={target}
           onClose={() => setTarget(null)}
-          onSubmit={(years, capHit) => {
-            const r = signFreeAgent(s, target.id, years, capHit)
+          onSubmit={(years, capHit, ntc) => {
+            const r = signFreeAgent(s, target.id, years, capHit, ntc)
             if (r.ok) {
               apply(r.s)
               setNotice({ kind: 'ok', text: `Signed ${target.name}.` })
@@ -587,9 +667,10 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
   )
 }
 
-function OfferModal({ fa, onClose, onSubmit }: { fa: FreeAgent; onClose: () => void; onSubmit: (years: number, capHit: number) => void }) {
+function OfferModal({ s, fa, onClose, onSubmit }: { s: GameState; fa: FreeAgent; onClose: () => void; onSubmit: (years: number, capHit: number, ntc: boolean) => void }) {
   const [years, setYears] = useState(fa.asking.years)
   const [capHit, setCapHit] = useState(fa.asking.capHit)
+  const [ntc, setNtc] = useState(false)
   return (
     <Modal onClose={onClose}>
       <div className="modal-head">
@@ -603,9 +684,13 @@ function OfferModal({ fa, onClose, onSubmit }: { fa: FreeAgent; onClose: () => v
         <div className="stack">
           <SliderField label={`Cap Hit — ${fmtM(capHit)}`} min={0.775} max={17} step={0.05} value={capHit} onChange={setCapHit} />
           <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
-          <div className="hint">Offer at or above the asking price to land the player. Lowballs may be rejected.</div>
+          <div className="nego-panel">
+            <NtcToggle ntc={ntc} onChange={setNtc} />
+            <NegotiationFeedback s={s} playerId={fa.id} years={years} capHit={capHit} ntc={ntc} />
+          </div>
+          <div className="hint">Offer at or above the effective ask to land the player. Lowballs may be rejected.</div>
           <div className="row">
-            <button className="btn btn-primary btn-lg" onClick={() => onSubmit(years, capHit)}>Submit Offer</button>
+            <button className="btn btn-primary btn-lg" onClick={() => onSubmit(years, capHit, ntc)}>Submit Offer</button>
             <button className="btn btn-ghost" onClick={onClose}>Cancel</button>
           </div>
         </div>
@@ -691,6 +776,76 @@ function SliderField({ label, min, max, step, value, onChange }: { label: string
     <div className="field" style={{ minWidth: 180, flex: 1 }}>
       <label>{label}</label>
       <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </div>
+  )
+}
+
+// ---------------- negotiation shared ----------------
+
+/** Generated filler free agents carry an `FA-` id; real players do not. */
+function isGeneratedFA(id: string): boolean {
+  return /^FA-/.test(id)
+}
+
+type Verdict = 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'
+const VERDICT_ORDER: Verdict[] = ['certain', 'likely', 'coin flip', 'unlikely', 'rejected']
+
+/** A styled "include no-trade clause" switch with helper text. */
+function NtcToggle({ ntc, onChange }: { ntc: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="ntc-switch">
+      <span className={`switch ${ntc ? 'on' : ''}`} role="switch" aria-checked={ntc}>
+        <input type="checkbox" checked={ntc} onChange={(e) => onChange(e.target.checked)} />
+        <span className="knob" />
+      </span>
+      <span className="ntc-switch-text">
+        <span className="ntc-switch-label">Include no-trade clause</span>
+        <span className="hint">Sweetens the deal — veterans may accept less money.</span>
+      </span>
+    </label>
+  )
+}
+
+/** 5-state acceptance meter, color coded green → red. */
+function AcceptanceMeter({ verdict }: { verdict: Verdict }) {
+  const idx = VERDICT_ORDER.indexOf(verdict)
+  return (
+    <div className="accept-meter" data-verdict={verdict}>
+      <div className="accept-segs" aria-hidden>
+        {VERDICT_ORDER.map((v, i) => (
+          <span key={v} className={`seg seg-${i} ${i === idx ? 'active' : ''}`} />
+        ))}
+      </div>
+      <div className="accept-label">{verdict}</div>
+    </div>
+  )
+}
+
+/** Live signing feedback: effective ask + acceptance meter for the current offer. */
+function NegotiationFeedback({
+  s,
+  playerId,
+  years,
+  capHit,
+  ntc,
+}: {
+  s: GameState
+  playerId: string
+  years: number
+  capHit: number
+  ntc: boolean
+}) {
+  const preview = getSigningPreview(s, playerId, years, capHit, ntc)
+  return (
+    <div className="nego-feedback">
+      <div className="nego-ask">
+        <span className="k">Effective ask</span>
+        <span className="v">
+          {fmtM(preview.effectiveAsk)} × {years}yr
+          {ntc && <span className="ntc-tag">NTC</span>}
+        </span>
+      </div>
+      <AcceptanceMeter verdict={preview.verdict as Verdict} />
     </div>
   )
 }

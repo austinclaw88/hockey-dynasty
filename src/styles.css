@@ -592,6 +592,180 @@ table.tbl {
   margin-left: 6px;
 }
 
+/* ---------------- Negotiation controls ---------------- */
+
+.nego-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card-2);
+}
+
+.ntc-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+
+.ntc-switch .switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.ntc-switch .switch.on {
+  background: color-mix(in srgb, var(--good) 65%, transparent);
+  border-color: var(--good);
+}
+
+.ntc-switch .switch input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.ntc-switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+  pointer-events: none;
+}
+
+.ntc-switch .switch.on .knob {
+  transform: translateX(16px);
+}
+
+.ntc-switch-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ntc-switch-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.nego-feedback {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1 1 260px;
+  justify-content: flex-end;
+}
+
+.nego-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: right;
+}
+
+.nego-ask .k {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+}
+
+.nego-ask .v {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.accept-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.accept-segs {
+  display: flex;
+  gap: 3px;
+}
+
+.accept-segs .seg {
+  flex: 1;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  opacity: 0.4;
+}
+
+.accept-segs .seg.active {
+  opacity: 1;
+}
+
+.accept-segs .seg-0.active {
+  background: var(--good);
+  border-color: var(--good);
+}
+.accept-segs .seg-1.active {
+  background: color-mix(in srgb, var(--good) 65%, var(--warn));
+  border-color: color-mix(in srgb, var(--good) 65%, var(--warn));
+}
+.accept-segs .seg-2.active {
+  background: var(--warn);
+  border-color: var(--warn);
+}
+.accept-segs .seg-3.active {
+  background: color-mix(in srgb, var(--warn) 45%, var(--bad));
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--bad));
+}
+.accept-segs .seg-4.active {
+  background: var(--bad);
+  border-color: var(--bad);
+}
+
+.accept-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  text-align: right;
+}
+
+.accept-meter[data-verdict='certain'] .accept-label {
+  color: var(--good);
+}
+.accept-meter[data-verdict='likely'] .accept-label {
+  color: color-mix(in srgb, var(--good) 65%, var(--warn));
+}
+.accept-meter[data-verdict='coin flip'] .accept-label {
+  color: var(--warn);
+}
+.accept-meter[data-verdict='unlikely'] .accept-label {
+  color: color-mix(in srgb, var(--warn) 45%, var(--bad));
+}
+.accept-meter[data-verdict='rejected'] .accept-label {
+  color: var(--bad);
+}
+
 .tag {
   font-size: 10px;
   font-weight: 700;
@@ -2519,6 +2693,26 @@ input:focus {
 .lineup-chip:hover {
   background: var(--card-hover);
   border-color: var(--team);
+}
+/* Read-only chips in the team viewer: no interaction affordance. */
+.lineup-chip.readonly {
+  cursor: default;
+}
+.lineup-chip.readonly:hover {
+  background: var(--card-2);
+  border-color: var(--border-2);
+}
+
+.tv-lines {
+  margin-top: 16px;
+}
+.tv-lines > summary {
+  cursor: pointer;
+  margin: 0;
+  list-style-position: inside;
+}
+.tv-lines > summary::-webkit-details-marker {
+  color: var(--text-faint);
 }
 /* Manual (user-pinned) picks read solid + team-tinted. */
 .lineup-chip.manual {
