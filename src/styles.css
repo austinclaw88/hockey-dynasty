@@ -123,12 +123,213 @@ button {
   flex-direction: column;
 }
 
+.app-body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .app-main {
   flex: 1;
   max-width: 1180px;
   width: 100%;
   margin: 0 auto;
   padding: 20px 20px 60px;
+}
+
+/* ============================================================
+   Desktop frame: fixed left rail + freed content width (>= 1000px).
+   Below 1000px the rail is hidden and the top Header + TabNav return
+   (mobile keeps the vertical flow untouched).
+   ============================================================ */
+:root {
+  --rail-w: 84px;
+}
+
+/* Rail is desktop-only. */
+.rail {
+  display: none;
+}
+
+@media (min-width: 1000px) {
+  /* The top Header + tab bar collapse; the rail carries identity + nav. */
+  .app.has-rail > .app-body > .header,
+  .app.has-rail > .app-body > .tabs {
+    display: none;
+  }
+
+  .app.has-rail > .app-body {
+    margin-left: var(--rail-w);
+  }
+
+  .app-main {
+    max-width: 1320px;
+    padding: 26px 32px 72px;
+  }
+
+  .rail {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--rail-w);
+    z-index: 30;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--team) 30%, var(--bg-2)) 0%, var(--bg-2) 130px);
+    border-right: 1px solid var(--border-2);
+    box-shadow: inset -1px 0 0 0 rgba(255, 255, 255, 0.02);
+  }
+
+  /* Crest block: team mark on a jersey-hem cap edge. */
+  .rail-crest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 16px 6px 14px;
+    border-bottom: 2px solid var(--team2);
+    background: linear-gradient(160deg, var(--team) 0%, color-mix(in srgb, var(--team) 55%, #05070b) 100%);
+    box-shadow: inset 0 -4px 0 0 var(--team);
+  }
+  .rail-crest .team-logo,
+  .rail-crest .team-logo-fallback {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  .rail-mono {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--team2);
+    color: var(--team);
+    font-weight: 800;
+    font-size: 13px;
+  }
+  .rail-abbrev {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .rail-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 10px 0;
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .rail-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Icon over tiny label; active state gets a team-color left seam. */
+  .rail-tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 11px 4px 9px;
+    background: none;
+    border: none;
+    border-left: 2px solid transparent;
+    color: var(--text-dim);
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .rail-tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .rail-tab.active {
+    color: #fff;
+    border-left-color: var(--team);
+    background: color-mix(in srgb, var(--team) 16%, transparent);
+  }
+  .rail-ico {
+    display: block;
+    line-height: 0;
+  }
+  .rail-ico svg {
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .rail-tab.active .rail-ico svg {
+    stroke: var(--team2);
+  }
+  .rail-label {
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .rail-badge {
+    position: absolute;
+    top: 6px;
+    right: 14px;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 4px;
+    display: grid;
+    place-items: center;
+    font-size: 9px;
+    font-weight: 800;
+    color: #fff;
+    background: var(--team);
+    border-radius: 999px;
+    line-height: 1;
+  }
+
+  /* Footer chip: record + phase + season, pinned to the bottom. */
+  .rail-foot {
+    padding: 12px 6px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .rail-record {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .rail-phase {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--team2);
+  }
+  .rail-season {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-faint);
+  }
+  .rail-season-of {
+    opacity: 0.6;
+  }
 }
 
 /* ---------------- Header ---------------- */
@@ -305,6 +506,331 @@ button {
 
 .card-pad {
   padding: 16px;
+}
+
+/* ============================================================
+   Dashboard — composed page (hero band + 3-column body).
+   The hero has NO card chrome; it sits directly on the base.
+   ============================================================ */
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: 32px;
+  align-items: center;
+  padding: 4px 2px 22px;
+  border-bottom: 1px solid var(--border-2);
+}
+
+.hero-id {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.hero-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-dim);
+}
+.hero-eyebrow .dot {
+  opacity: 0.4;
+}
+
+.hero-team {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.hero-crest {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 16px;
+  background: var(--team);
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  flex: none;
+}
+.hero-team-names {
+  min-width: 0;
+  line-height: 1.05;
+}
+.hero-city {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}
+.hero-name {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: #fff;
+  margin-top: 1px;
+}
+
+.hero-record {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hero-rec-num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #f2f5f9;
+}
+.hero-rec-sub {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+/* Right region: next-game marquee + integrated control deck. */
+.hero-action {
+  min-width: 0;
+}
+.hero-play {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hero-next-label,
+.hero-next-empty {
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-faint);
+}
+.hero-next {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  border-left: 2px solid var(--team);
+}
+.hero-next-empty {
+  padding: 14px 16px;
+}
+.hero-next-when {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  min-width: 48px;
+}
+.hero-next-ha {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.hero-next-opp {
+  flex: 1;
+  min-width: 0;
+  gap: 10px !important;
+}
+.hero-next-name {
+  font-weight: 800;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-next-str {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* Control deck: recessed strip of sim buttons under the marquee. */
+.hero-controls-deck {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.hero-controls-deck .btn {
+  width: 100%;
+  padding: 9px 8px;
+}
+.hero-controls-deck .btn-accent {
+  grid-column: 1 / -1;
+}
+
+/* Phase CTA (playoffs / offseason / over) fills the hero-action region. */
+.hero-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border-left: 2px solid var(--team);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--team) 22%, var(--bg-2)), var(--bg-2) 78%);
+}
+.hero-cta-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+.hero-cta p {
+  margin: 4px 0 0;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+/* 3-column body. Center column (news) is the widest. */
+.dash-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: 20px;
+  align-items: start;
+}
+
+/* News fills more of the column in the composed layout. */
+.dash-cols .news {
+  max-height: 560px;
+}
+
+.snapshot-tbl td,
+.snapshot-tbl th {
+  padding: 7px 10px;
+}
+
+.form-recent-head {
+  padding: 9px 14px 4px;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-faint);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 1080px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .dash-cols {
+    grid-template-columns: 1fr;
+  }
+  .dash-cols .news {
+    max-height: 420px;
+  }
+}
+
+/* ============================================================
+   Roster — identity band + table-dominant asymmetric body.
+   ============================================================ */
+.roster-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 28px;
+  flex-wrap: wrap;
+  padding: 2px 2px 18px;
+  border-bottom: 1px solid var(--border-2);
+}
+.roster-band-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.roster-band-id .team-logo,
+.roster-band-id .team-logo-fallback,
+.roster-band-id .hero-crest {
+  width: 44px !important;
+  height: 44px !important;
+}
+.roster-band-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-dim);
+}
+.roster-band-name {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.015em;
+  color: #fff;
+  margin-top: 2px;
+  line-height: 1.1;
+}
+.roster-band-stats {
+  display: flex;
+  gap: 26px;
+}
+.rb-stat {
+  text-align: right;
+}
+.rb-k {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-faint);
+}
+.rb-v {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 20px;
+  font-weight: 800;
+  color: #f2f5f9;
+  margin-top: 2px;
+}
+.rb-cap.ok .rb-v {
+  color: var(--good);
+}
+.rb-cap.warn .rb-v {
+  color: var(--warn);
+}
+.rb-cap.over .rb-v {
+  color: var(--bad);
+}
+
+/* Table dominant (left), lines/cap docked right on wide screens. */
+.roster-body {
+  display: grid;
+  grid-template-columns: minmax(0, 2.35fr) minmax(300px, 0.9fr);
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 1080px) {
+  .roster-body {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Section header as an uppercase eyebrow sitting ON the seam. */
@@ -2467,10 +2993,14 @@ input:focus {
   }
 
   /* Never allow the page itself to scroll sideways. Wide content lives inside
-     .table-wrap (internal overflow) so this only clips true overflow bugs. */
+     .table-wrap (internal overflow) so this only clips true overflow bugs.
+     `clip` (not `hidden`) is essential: `overflow-x: hidden` on a height:100%
+     html/body forces overflow-y to `auto`, turning the body into a viewport-
+     tall scroll container that clips the page to one screen. `clip` leaves the
+     block axis untouched so the page scrolls normally. */
   html,
   body {
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .m-only {
@@ -2651,6 +3181,35 @@ input:focus {
     max-width: none;
     flex: 1 1 auto;
     min-width: 120px;
+  }
+
+  /* Filter chips / subtabs / mode toggle: comfortable 40px+ tap targets. */
+  .chip,
+  .subtab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .ts-mode-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Tables with a trailing action button (Roster Shop, Draft, Call Up):
+     let the name column wrap so the table shrinks to the viewport and the
+     action button never scrolls off the right edge. */
+  .tbl .name-cell {
+    white-space: normal;
+    min-width: 92px;
+  }
+  .tbl th,
+  .tbl td {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   /* ---------------- Modals: full-screen sheets ---------------- */
