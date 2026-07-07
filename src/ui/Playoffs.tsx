@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import type { GameState, PlayoffSeries, PlayoffGame, Game } from '../types'
-import { simPlayoffRound, simPlayoffGame } from '../engine'
-import { Card, TeamLogo, TeamLink } from './components'
+import type { GameState, PlayoffSeries, PlayoffGame, Game, SeasonStatLine } from '../types'
+import { simPlayoffRound, simPlayoffGame, getPlayoffLeaders } from '../engine'
+import { Card, TeamLogo, TeamLink, Crest, PlayerLink } from './components'
+import { buildPlayerIndex } from './util'
+import { fmtGaa, fmtSvPct } from './format'
 import { BoxScoreModal } from './BoxScore'
 
 const ROUND_NAME: Record<number, string> = {
@@ -88,7 +90,116 @@ export function Playoffs({ s, apply, busy }: { s: GameState; apply: (n: GameStat
         ))}
       </div>
 
+      <PlayoffLeaders s={s} />
+
       {boxGame && <BoxScoreModal s={s} game={boxGame} onClose={() => setBoxGame(null)} />}
+    </div>
+  )
+}
+
+/** Postseason scoring + goaltending leaders, from the engine's playoff stat
+ *  archive. User-team players are highlighted. Hidden until games are played. */
+function PlayoffLeaders({ s }: { s: GameState }) {
+  const leaders = getPlayoffLeaders(s)
+  const idx = buildPlayerIndex(s)
+  const points = leaders.points.slice(0, 10)
+  const goalies = leaders.goalies.slice(0, 5)
+  if (points.length === 0 && goalies.length === 0) return null
+
+  function nameCell(line: SeasonStatLine) {
+    const ref = idx.get(line.playerId)
+    const team = ref?.team
+    const t = team ? s.teams[team] : undefined
+    return (
+      <>
+        <td className="name-cell">
+          <PlayerLink id={line.playerId} player={ref?.player}>
+            {ref?.player.name ?? line.playerId}
+          </PlayerLink>
+        </td>
+        <td>
+          {team ? (
+            <TeamLink abbrev={team} className="team-link-inline">
+              <Crest team={t} size="mini" />
+              {team}
+            </TeamLink>
+          ) : (
+            <span className="muted">—</span>
+          )}
+        </td>
+      </>
+    )
+  }
+
+  return (
+    <div className="grid dash-grid">
+      <Card title="Playoff Leaders · Scoring">
+        <div className="table-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th className="num" style={{ width: 28 }}>#</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th className="num">GP</th>
+                <th className="num">G</th>
+                <th className="num">A</th>
+                <th className="num">PTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {points.map((line, i) => (
+                <tr key={line.playerId} className={idx.get(line.playerId)?.team === s.userTeam ? 'me' : ''}>
+                  <td className="num muted">{i + 1}</td>
+                  {nameCell(line)}
+                  <td className="num">{line.gp}</td>
+                  <td className="num">{line.goals}</td>
+                  <td className="num">{line.assists}</td>
+                  <td className="num" style={{ fontWeight: 800 }}>{line.points}</td>
+                </tr>
+              ))}
+              {points.length === 0 && (
+                <tr><td className="muted" colSpan={7} style={{ padding: 16 }}>No playoff scoring yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      <Card title="Playoff Leaders · Goaltending">
+        <div className="table-wrap">
+          <table className="tbl">
+            <thead>
+              <tr>
+                <th className="num" style={{ width: 28 }}>#</th>
+                <th>Player</th>
+                <th>Team</th>
+                <th className="num">GP</th>
+                <th className="num">W</th>
+                <th className="num m-hide">SO</th>
+                <th className="num">GAA</th>
+                <th className="num">SV%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {goalies.map((line, i) => (
+                <tr key={line.playerId} className={idx.get(line.playerId)?.team === s.userTeam ? 'me' : ''}>
+                  <td className="num muted">{i + 1}</td>
+                  {nameCell(line)}
+                  <td className="num">{line.gp}</td>
+                  <td className="num">{line.wins ?? 0}</td>
+                  <td className="num m-hide">{line.shutouts ?? 0}</td>
+                  <td className="num">{fmtGaa(line.gaa)}</td>
+                  <td className="num">{fmtSvPct(line.svPct)}</td>
+                </tr>
+              ))}
+              {goalies.length === 0 && (
+                <tr><td className="muted" colSpan={8} style={{ padding: 16 }}>No playoff goaltending yet.</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </div>
   )
 }

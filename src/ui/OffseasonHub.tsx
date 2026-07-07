@@ -13,12 +13,13 @@ import {
   autoDraftPick,
   autoCompleteDraft,
 } from '../engine'
-import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal, PlayerLink } from './components'
+import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, Modal, PlayerLink, TeamLogo } from './components'
 import { fmtM, seasonLabel } from './format'
 import { rosterCounts, buildPlayerIndex } from './util'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 import { useUI } from './uiContext'
 import { SliderField, NtcToggle, NegotiationFeedback } from './negotiation'
+import { OfferModal, OfferSheetModal, IncomingSheetsPanel, submitOfferSheet, RosterStatusStrip, rosterStatus, needsList } from './signing'
 import { ROSTER_MIN, ROSTER_MAX, SEASONS_TOTAL } from '../types'
 
 const OFFSEASON_CAP_NOTE = 'Signings count against next season’s cap.'
@@ -550,10 +551,17 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
   const [notice, setNotice] = useState<{ kind: 'ok' | 'err'; text: string } | null>(null)
   const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
   const [query, setQuery] = useState('')
+  const [confirmFinish, setConfirmFinish] = useState(false)
+  const status = rosterStatus(s.teams[s.userTeam].roster)
   const fas = [...s.freeAgents]
     .filter((p) => matchesPos(p, posF) && p.name.toLowerCase().includes(query.trim().toLowerCase()))
     // Overall desc; at equal overall, real players sort above generated filler.
     .sort((a, b) => b.overall - a.overall || Number(isGeneratedFA(a.id)) - Number(isGeneratedFA(b.id)))
+
+  function finishFA() {
+    if (status.belowMin) setConfirmFinish(true)
+    else apply(advanceOffseason(s))
+  }
 
   return (
     <div className="stack">
@@ -566,21 +574,50 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
           <button className="btn" onClick={() => { apply(advanceFreeAgencyDay(s)); setNotice(null) }}>
             Advance FA Day
           </button>
-          <button className="btn btn-primary btn-lg" onClick={() => apply(advanceOffseason(s))}>
+          <button className="btn btn-primary btn-lg" onClick={finishFA}>
             Finish Free Agency →
           </button>
         </div>
       </div>
 
+      <IncomingSheetsPanel s={s} apply={apply} />
+
       <Card title="Salary Cap">
-        <div className="card-pad">
+        <div className="card-pad stack" style={{ gap: 12 }}>
           <CapBar used={cap.used} cap={cap.cap} capYear={cap.capYear} note={OFFSEASON_CAP_NOTE} />
+          <RosterStatusStrip roster={s.teams[s.userTeam].roster} />
         </div>
       </Card>
 
+      {confirmFinish && (
+        <Modal onClose={() => setConfirmFinish(false)}>
+          <div className="modal-head">
+            <div className="modal-title">
+              <h3>Your roster is short</h3>
+              <div className="meta">You still need {needsList(status.needs)} to reach the {'20'}-man minimum.</div>
+            </div>
+            <button className="modal-close" onClick={() => setConfirmFinish(false)} aria-label="Close">×</button>
+          </div>
+          <div className="modal-body">
+            <div className="stack">
+              <div className="notice">
+                If you continue, league-minimum journeymen will be auto-signed to fill your roster before the season
+                starts.
+              </div>
+              <div className="row">
+                <button className="btn btn-primary btn-lg" onClick={() => { setConfirmFinish(false); apply(advanceOffseason(s)) }}>
+                  Continue anyway
+                </button>
+                <button className="btn btn-ghost" onClick={() => setConfirmFinish(false)}>Keep signing</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
+
       {notice && <div className={`notice ${notice.kind === 'err' ? 'err' : ''}`}>{notice.text}</div>}
 
-      <div className="grid dash-grid">
+      <div className="stack">
         <Card
           title={`Available Free Agents · ${fas.length}`}
           right={
@@ -611,10 +648,19 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                     </td>
                   </tr>
                 )}
-                {fas.map((p) => (
+                {fas.map((p) => {
+                  const rights = p.rightsTeam ? s.teams[p.rightsTeam] : undefined
+                  return (
                   <tr key={p.id}>
                     <td className="name-cell">
                       <PlayerLink id={p.id} player={p}>{p.name}</PlayerLink> <Flag nat={p.nationality} />
+                      {p.rightsTeam && (
+                        <span className="rfa-rights-tag" title={`Restricted — rights held by ${rights?.name ?? p.rightsTeam}`}>
+                          <span className="tag rfa">RFA</span>
+                          <TeamLogo team={rights} size={14} />
+                          {p.rightsTeam}
+                        </span>
+                      )}
                     </td>
                     <td><PosTag pos={p.pos} /></td>
                     <td className="num m-hide">{p.age}</td>
@@ -622,10 +668,13 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
                     <td className="num">{fmtM(p.asking.capHit)}</td>
                     <td className="num m-hide">{p.asking.years}</td>
                     <td>
-                      <button className="btn btn-sm btn-primary" onClick={() => setTarget(p)}>Offer</button>
+                      <button className="btn btn-sm btn-primary" onClick={() => setTarget(p)}>
+                        {p.rightsTeam ? 'Offer Sheet' : 'Offer'}
+                      </button>
                     </td>
                   </tr>
-                ))}
+                  )
+                })}
               </tbody>
             </table>
           </div>
@@ -643,7 +692,19 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
         </Card>
       </div>
 
-      {target && (
+      {target && (target.rightsTeam ? (
+        <OfferSheetModal
+          s={s}
+          fa={target}
+          onClose={() => setTarget(null)}
+          onSubmit={(years, capHit) => {
+            if (submitOfferSheet(s, target, years, capHit, apply, pushToast)) {
+              setNotice(null)
+              setTarget(null)
+            }
+          }}
+        />
+      ) : (
         <OfferModal
           s={s}
           fa={target}
@@ -662,40 +723,8 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
             }
           }}
         />
-      )}
+      ))}
     </div>
-  )
-}
-
-function OfferModal({ s, fa, onClose, onSubmit }: { s: GameState; fa: FreeAgent; onClose: () => void; onSubmit: (years: number, capHit: number, ntc: boolean) => void }) {
-  const [years, setYears] = useState(fa.asking.years)
-  const [capHit, setCapHit] = useState(fa.asking.capHit)
-  const [ntc, setNtc] = useState(false)
-  return (
-    <Modal onClose={onClose}>
-      <div className="modal-head">
-        <div className="modal-title">
-          <h3>{fa.name}</h3>
-          <div className="meta">{fa.pos} · Age {fa.age} · {fa.overall} OVR · Asking {fmtM(fa.asking.capHit)} × {fa.asking.years}yr</div>
-        </div>
-        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
-      </div>
-      <div className="modal-body">
-        <div className="stack">
-          <SliderField label={`Cap Hit — ${fmtM(capHit)}`} min={0.775} max={17} step={0.05} value={capHit} onChange={setCapHit} />
-          <SliderField label={`Years — ${years}`} min={1} max={8} step={1} value={years} onChange={setYears} />
-          <div className="nego-panel">
-            <NtcToggle ntc={ntc} onChange={setNtc} />
-            <NegotiationFeedback s={s} playerId={fa.id} years={years} capHit={capHit} ntc={ntc} />
-          </div>
-          <div className="hint">Offer at or above the effective ask to land the player. Lowballs may be rejected.</div>
-          <div className="row">
-            <button className="btn btn-primary btn-lg" onClick={() => onSubmit(years, capHit, ntc)}>Submit Offer</button>
-            <button className="btn btn-ghost" onClick={onClose}>Cancel</button>
-          </div>
-        </div>
-      </div>
-    </Modal>
   )
 }
 

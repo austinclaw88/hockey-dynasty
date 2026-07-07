@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { GameState, PlayoffSeries } from '../types'
-import { getStandings } from '../engine'
+import { getStandings, getPlayoffLeaders } from '../engine'
 import { fmtRecord, seasonLabel } from './format'
 import { buildPlayerIndex } from './util'
 
@@ -49,24 +49,13 @@ export function Celebration({ s, seasonYear, onClose }: { s: GameState; seasonYe
   }, [s])
 
   const topScorer = useMemo(() => {
+    // Use the engine's playoff scoring archive — more accurate than re-deriving
+    // from box scores, and consistent with the Playoff Leaders card.
     const idx = buildPlayerIndex(s)
-    const pts = new Map<string, number>()
-    for (const ser of s.playoffs ?? []) {
-      for (const g of ser.games ?? []) {
-        for (const ev of g.goals ?? []) {
-          const bump = (id: string) => {
-            const ref = idx.get(id)
-            if (ref?.team === s.userTeam) pts.set(id, (pts.get(id) ?? 0) + 1)
-          }
-          bump(ev.scorerId)
-          for (const a of ev.assistIds) bump(a)
-        }
-      }
-    }
-    let best: { id: string; points: number } | null = null
-    for (const [id, p] of pts) if (!best || p > best.points) best = { id, points: p }
-    if (!best || best.points === 0) return null
-    return { name: idx.get(best.id)?.player.name ?? 'Unknown', points: best.points }
+    const leaders = getPlayoffLeaders(s)
+    const mine = leaders.points.find((l) => idx.get(l.playerId)?.team === s.userTeam)
+    if (!mine || mine.points === 0) return null
+    return { name: idx.get(mine.playerId)?.player.name ?? 'Unknown', points: mine.points }
   }, [s])
 
   const rootStyle = {

@@ -13,6 +13,7 @@ import { Roster } from './ui/Roster'
 import { Players } from './ui/Players'
 import { Standings } from './ui/Standings'
 import { Leaders } from './ui/Leaders'
+import { TeamStats } from './ui/TeamStats'
 import { Trades } from './ui/Trades'
 import { Playoffs } from './ui/Playoffs'
 import { FantasyDraft } from './ui/FantasyDraft'
@@ -39,6 +40,9 @@ export default function App() {
   const [viewPlayer, setViewPlayer] = useState<{ player: Player; team?: string } | null>(null)
   const [wwit, setWwit] = useState<{ partner: string; playerId: string } | null>(null)
   const [celebration, setCelebration] = useState<number | null>(null)
+  const [faNonce, setFaNonce] = useState(0)
+  const [statsTeam, setStatsTeam] = useState<string | null>(null)
+  const [statsNonce, setStatsNonce] = useState(0)
   const toastId = useRef(0)
   const nonce = useRef(0)
 
@@ -175,13 +179,15 @@ export default function App() {
       { key: 'players', label: 'Players' },
       { key: 'standings', label: 'Standings' },
       { key: 'leaders', label: 'Leaders' },
+      { key: 'teamStats', label: 'Team Stats' },
       { key: 'trades', label: 'Trades', badge: pendingCount > 0 ? String(pendingCount) : undefined },
     ]
     if (state.phase === 'playoffs' || (state.playoffs && state.playoffs.length > 0)) {
       tabs.push({ key: 'playoffs', label: 'Playoffs', badge: state.phase === 'playoffs' ? '●' : undefined })
     }
     if (state.phase === 'offseason') {
-      tabs.push({ key: 'offseason', label: 'Offseason', badge: '●' })
+      const sheetCount = state.pendingSheets?.length ?? 0
+      tabs.push({ key: 'offseason', label: 'Offseason', badge: sheetCount > 0 ? String(sheetCount) : '●' })
     }
     tabs.push({ key: 'history', label: 'History' })
   }
@@ -205,11 +211,22 @@ export default function App() {
               activeTab === 'players' ? <Players s={state} /> : <FantasyDraft s={state} apply={apply} />
             ) : (
               <>
-                {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
+                {activeTab === 'dashboard' && (
+                  <Dashboard
+                    s={state}
+                    apply={apply}
+                    onNavigate={setTab}
+                    onBrowseFA={() => { setFaNonce((n) => n + 1); setTab('players') }}
+                    busy={false}
+                  />
+                )}
                 {activeTab === 'roster' && <Roster s={state} apply={apply} />}
-                {activeTab === 'players' && <Players s={state} />}
+                {activeTab === 'players' && <Players s={state} apply={apply} faIntent={faNonce} />}
                 {activeTab === 'standings' && <Standings s={state} />}
                 {activeTab === 'leaders' && <Leaders s={state} />}
+                {activeTab === 'teamStats' && (
+                  <TeamStats s={state} initialTeam={statsTeam ?? undefined} intent={statsNonce} />
+                )}
                 {activeTab === 'trades' && (
                   <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
                 )}
@@ -231,7 +248,17 @@ export default function App() {
       </div>
 
       {viewTeam && state.teams[viewTeam] && (
-        <TeamViewer s={state} abbrev={viewTeam} onClose={() => setViewTeam(null)} />
+        <TeamViewer
+          s={state}
+          abbrev={viewTeam}
+          onClose={() => setViewTeam(null)}
+          onFullStats={(abbrev) => {
+            setStatsTeam(abbrev)
+            setStatsNonce((n) => n + 1)
+            setViewTeam(null)
+            setTab('teamStats')
+          }}
+        />
       )}
       {viewPlayer && (
         <PlayerModal

@@ -22,6 +22,7 @@ export function PlayerModal({
   const { whatWouldItTake } = useUI()
   const teamInfo = team ? s.teams[team] : undefined
   const line = s.stats[player.id]
+  const playoffLine = s.playoffStats?.[player.id]
   const isG = player.pos === 'G'
   const pot = potArrow(player.overall, player.potential)
   const asking = 'asking' in player ? (player as FreeAgent).asking : undefined
@@ -122,6 +123,33 @@ export function PlayerModal({
           )
         ) : (
           <div className="hint">No games played yet this season.</div>
+        )}
+
+        {playoffLine && (
+          <>
+            <div className="mini-title">
+              Playoffs <span className="tag" style={{ marginLeft: 6 }}>{seasonLabel(s.seasonYear)}</span>
+            </div>
+            {isG ? (
+              <div className="kv">
+                <Stat k="GP" v={playoffLine.gp} />
+                <Stat k="W" v={playoffLine.wins ?? 0} />
+                <Stat k="L" v={playoffLine.losses ?? 0} />
+                <Stat k="SO" v={playoffLine.shutouts ?? 0} />
+                <Stat k="GAA" v={fmtGaa(playoffLine.gaa)} />
+                <Stat k="SV%" v={fmtSvPct(playoffLine.svPct)} />
+              </div>
+            ) : (
+              <div className="kv">
+                <Stat k="GP" v={playoffLine.gp} />
+                <Stat k="G" v={playoffLine.goals} />
+                <Stat k="A" v={playoffLine.assists} />
+                <Stat k="PTS" v={playoffLine.points} />
+                <Stat k="+/-" v={fmtSigned(playoffLine.plusMinus)} />
+                <Stat k="PIM" v={playoffLine.pim} />
+              </div>
+            )}
+          </>
         )}
 
         <ScoringLog s={s} player={player} />

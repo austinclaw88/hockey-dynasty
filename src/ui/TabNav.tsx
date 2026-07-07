@@ -4,6 +4,7 @@ export type TabKey =
   | 'players'
   | 'standings'
   | 'leaders'
+  | 'teamStats'
   | 'trades'
   | 'playoffs'
   | 'offseason'

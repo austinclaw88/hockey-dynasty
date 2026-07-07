@@ -40,6 +40,8 @@ function tabIcon(key: TabKey): ReactNode {
           {p('M7 4h10v4a5 5 0 0 1-10 0zM9 14h6M8 20h8M12 13v3')}
         </svg>
       )
+    case 'teamStats':
+      return <svg viewBox="0 0 24 24">{p('M4 20V4M4 20h16M8 20v-6M12 20V9M16 20v-9M20 20v-4')}</svg>
     case 'trades':
       return <svg viewBox="0 0 24 24">{p('M7 7h11l-3-3M17 17H6l3 3')}</svg>
     case 'playoffs':
