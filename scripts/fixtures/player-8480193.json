@@ -1,0 +1,32 @@
+{
+  "playerId": 8480193,
+  "firstName": {
+    "default": "Elvis"
+  },
+  "lastName": {
+    "default": "Merzlikins"
+  },
+  "birthDate": "1994-04-13",
+  "birthCountry": "LVA",
+  "shootsCatches": "L",
+  "position": "G",
+  "seasonTotals": [
+    {
+      "season": 20252026,
+      "gameTypeId": 2,
+      "leagueAbbrev": "NHL",
+      "teamAbbrev": "CBJ",
+      "teamName": {
+        "default": "Columbus Blue Jackets"
+      },
+      "gamesPlayed": 30,
+      "wins": 14,
+      "losses": 11,
+      "otLosses": 3,
+      "shutouts": 1,
+      "goalsAgainstAvg": 3.4,
+      "savePctg": 0.883,
+      "pim": 2
+    }
+  ]
+}

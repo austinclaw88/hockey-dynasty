@@ -1,0 +1,30 @@
+{
+  "playerId": 9000001,
+  "firstName": {
+    "default": "Milo"
+  },
+  "lastName": {
+    "default": "Testander"
+  },
+  "birthDate": "2004-03-15",
+  "birthCountry": "SWE",
+  "shootsCatches": "L",
+  "position": "C",
+  "seasonTotals": [
+    {
+      "season": 20252026,
+      "gameTypeId": 2,
+      "leagueAbbrev": "NHL",
+      "teamAbbrev": "CBJ",
+      "teamName": {
+        "default": "Columbus Blue Jackets"
+      },
+      "gamesPlayed": 70,
+      "goals": 18,
+      "assists": 27,
+      "points": 45,
+      "plusMinus": -4,
+      "pim": 22
+    }
+  ]
+}

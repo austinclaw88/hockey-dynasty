@@ -26,7 +26,7 @@ draft prospects, and watch players develop, age, and retire.
 | `src/ui/**`, `src/App.tsx`, `src/main.tsx`, `src/styles.css` | UI agent | all React components |
 | `scripts/validate-data.mjs` | FROZEN — already written | data sanity checks |
 | `scripts/sim-test.ts` | engine agent | headless 10-season smoke test |
-| `scripts/fetch-rosters.mjs` | engine agent | optional roster refresher from NHL API (for users running locally) |
+|  `scripts/update-rosters.mjs` | engine agent | roster updater: diffs live NHL rosters against the dataset (see README) |
 
 Agents must ONLY touch paths they own. Integration fixes happen in a later pass.
 
