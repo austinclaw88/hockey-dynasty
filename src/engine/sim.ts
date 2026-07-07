@@ -1,5 +1,5 @@
 // Statistical game simulation with player-level attribution. No play-by-play.
-import type { GameState, Game, Player, TeamState, LineAssignments, Position } from '../types.ts'
+import type { GameState, Game, GoalEvent, Player, TeamState, LineAssignments, Position } from '../types.ts'
 import type { Rng } from './rng.ts'
 import {
   clamp,
@@ -306,10 +306,10 @@ function regulationPeriod(rng: Rng): 1 | 2 | 3 {
 }
 
 /** Attribute `goals` for the scoring team: credit stat lines AND record each
- *  goal into the game's box score (same scorer/assists — attributed once).
+ *  goal into the box score `box` (same scorer/assists — attributed once).
  *  When `otWinner` is true the LAST attributed goal is the overtime winner and
  *  gets period 4; all other goals are regulation (periods 1-3). */
-function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng, otWinner: boolean): void {
+function attributeGoals(s: GameState, box: GoalEvent[], teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng, otWinner: boolean): void {
   const factorOf = (p: Player): number => ctx.factors.get(p.id) ?? 1
   const goalW = (p: Player): number => goalWeight(p) * factorOf(p)
   const assistW = (p: Player): number => assistWeight(p) * factorOf(p)
@@ -337,7 +337,7 @@ function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamG
       assistIds.push(helper.id)
     }
     const period: 1 | 2 | 3 | 4 = otWinner && g === goals - 1 ? 4 : regulationPeriod(rng)
-    game.goals!.push({ team: teamAbbrev, scorerId: scorer.id, assistIds, period })
+    box.push({ team: teamAbbrev, scorerId: scorer.id, assistIds, period })
     // Conceding team: charge a few on-ice skaters -1.
     const onIce = rng.shuffle([...conceding.scorers]).slice(0, Math.min(3, conceding.scorers.length))
     for (const p of onIce) ensureStat(s, p.id).plusMinus--
@@ -368,10 +368,20 @@ function maybeInjure(s: GameState, team: TeamState, ctx: TeamGameCtx, rng: Rng):
   pushNews(s, `${victim.name} (${team.abbrev}) injured — out ${victim.injuryWeeks} week${victim.injuryWeeks > 1 ? 's' : ''}.`)
 }
 
-/** Simulate one game in place, writing result + player stats into `s`. */
-export function simGame(s: GameState, game: Game, rng: Rng): void {
-  const home = s.teams[game.home]
-  const away = s.teams[game.away]
+/** Result of one simulated game: final score, how it ended, and the full box
+ *  score (every scored goal). Player stat lines are already credited into `s`. */
+export interface PlayedGame {
+  homeGoals: number
+  awayGoals: number
+  endType: 'REG' | 'OT' | 'SO'
+  goals: GoalEvent[]
+}
+
+/** Simulate one game between two teams, crediting player stats into `s` and
+ *  returning the score + box score. `allowShootout` false forces every tie to
+ *  overtime (playoff games never end in a shootout). The home team gets the
+ *  home-ice scoring edge. Shared by the regular-season and playoff sims. */
+function playMatch(s: GameState, home: TeamState, away: TeamState, rng: Rng, allowShootout: boolean): PlayedGame {
   const hc = buildCtx(s, home, rng)
   const ac = buildCtx(s, away, rng)
   const gH = hc.goalie ? hc.goalie.overall : 74
@@ -396,7 +406,8 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
     const homeBetter = strH >= strA
     const winProb = homeBetter ? 0.55 : 0.45
     homeWon = rng.chance(winProb)
-    endType = rng.chance(0.6) ? 'OT' : 'SO'
+    // Playoffs (allowShootout=false): sudden-death OT always, never a shootout.
+    endType = allowShootout ? (rng.chance(0.6) ? 'OT' : 'SO') : 'OT'
     if (homeWon) goalsH++
     else goalsA++
     if (endType === 'OT') {
@@ -411,11 +422,7 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
     attribA = goalsA
   }
 
-  game.homeGoals = goalsH
-  game.awayGoals = goalsA
-  game.endType = endType
-  game.played = true
-  game.goals = [] // box score for this game (regular season only)
+  const box: GoalEvent[] = [] // box score for this game
 
   // GP for active players + starting goalie.
   for (const p of hc.scorers) ensureStat(s, p.id).gp++
@@ -425,8 +432,8 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
 
   // Attribution: regulation goals spread across periods 1-3; the OT winner (if
   // any) is the final attributed goal for its team and gets period 4.
-  attributeGoals(s, game, game.home, hc, ac, attribH, rng, otWinner === 'H')
-  attributeGoals(s, game, game.away, ac, hc, attribA, rng, otWinner === 'A')
+  attributeGoals(s, box, home.abbrev, hc, ac, attribH, rng, otWinner === 'H')
+  attributeGoals(s, box, away.abbrev, ac, hc, attribA, rng, otWinner === 'A')
 
   // Goalie decisions. GA counts scored goals only (shootout decider excluded),
   // so goalie GA stays consistent with the summed skater goals + box score.
@@ -437,6 +444,27 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
 
   maybeInjure(s, home, hc, rng)
   maybeInjure(s, away, ac, rng)
+
+  return { homeGoals: goalsH, awayGoals: goalsA, endType, goals: box }
+}
+
+/** Simulate one regular-season game in place, writing result + player stats
+ *  into `s` (box score attached to the Game). */
+export function simGame(s: GameState, game: Game, rng: Rng): void {
+  const res = playMatch(s, s.teams[game.home], s.teams[game.away], rng, true)
+  game.homeGoals = res.homeGoals
+  game.awayGoals = res.awayGoals
+  game.endType = res.endType
+  game.played = true
+  game.goals = res.goals
+}
+
+/** Simulate one playoff game between `homeAbbrev` (home ice) and `awayAbbrev`.
+ *  Ties always resolve in overtime (no shootout), so endType is 'REG' | 'OT'.
+ *  Player stats accrue to `s` exactly like a regular-season game. */
+export function simPlayoffGameResult(s: GameState, homeAbbrev: string, awayAbbrev: string, rng: Rng): { homeGoals: number; awayGoals: number; endType: 'REG' | 'OT'; goals: GoalEvent[] } {
+  const res = playMatch(s, s.teams[homeAbbrev], s.teams[awayAbbrev], rng, false)
+  return { homeGoals: res.homeGoals, awayGoals: res.awayGoals, endType: res.endType === 'SO' ? 'OT' : res.endType, goals: res.goals }
 }
 
 /** Play every unplayed game scheduled for `day`. */
@@ -453,33 +481,4 @@ export function healInjuries(s: GameState): void {
       if (p.injuryWeeks && p.injuryWeeks > 0) p.injuryWeeks = Math.max(0, p.injuryWeeks - 1)
     }
   }
-}
-
-/** Best-of-7 playoff series sim (no player stat attribution). Returns winner. */
-export function simSeries(s: GameState, high: string, low: string, rng: Rng): { winner: string; highWins: number; lowWins: number } {
-  const hc = buildCtx(s, s.teams[high], rng)
-  const lc = buildCtx(s, s.teams[low], rng)
-  const gH = hc.goalie ? hc.goalie.overall : 74
-  const gL = lc.goalie ? lc.goalie.overall : 74
-  let highWins = 0
-  let lowWins = 0
-  let gameNo = 0
-  while (highWins < 4 && lowWins < 4) {
-    // Home ice for higher seed in games 1,2,5,7 (0-indexed 0,1,4,6).
-    const highHome = gameNo === 0 || gameNo === 1 || gameNo === 4 || gameNo === 6
-    const xgHigh = expectedGoals(hc.off, lc.def, gL, highHome)
-    const xgLow = expectedGoals(lc.off, hc.def, gH, !highHome)
-    let a = rng.poisson(xgHigh)
-    let b = rng.poisson(xgLow)
-    if (a === b) {
-      const highBetter = hc.off - lc.def >= lc.off - hc.def
-      const highWinsGame = rng.chance(highBetter ? 0.55 : 0.45)
-      if (highWinsGame) a++
-      else b++
-    }
-    if (a > b) highWins++
-    else lowWins++
-    gameNo++
-  }
-  return { winner: highWins > lowWins ? high : low, highWins, lowWins }
 }

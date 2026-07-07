@@ -41,11 +41,19 @@ The UI calls ONLY these functions. All are pure-ish: they take `GameState` and r
 // TEAM_DATA, FA_POOL, DRAFT_2027). draft2027 (data/draft-2027.json) seeds the
 // FIRST in-game entry draft (June 2027); empty/absent => that draft is generated.
 newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile, draft2027?: DraftClassFile): GameState
+// Dynasty FANTASY-draft mode: build the league, then EVERY team's roster players
+// enter a 23-round snake draft (see "Fantasy draft" below). Prospects/picks/FA pool
+// stay with their clubs. Core: newGameFantasyCore (data-free); browser barrel wraps
+// it with the bundled data as newGameFantasy(userTeam).
+newGameFantasy(userTeam: string, data?: TeamDataFile[], faPool?: FreeAgentPoolFile): GameState
 
 // simulation (regular season + playoffs)
 simDays(s: GameState, days: number): GameState          // plays all games in the next N calendar days
 simToEndOfSeason(s: GameState): GameState
-simPlayoffRound(s: GameState): GameState                // advances playoffs one round (sims all series)
+// Playoffs are played GAME-BY-GAME (each game simmed with the full game-sim
+// machinery, box scores included, stats accruing to s.stats):
+simPlayoffGame(s: GameState): GameState                 // one "playoff night": ONE game in every undecided series of the round; a call on a completed round seeds the next round; the Cup-clinching call enters the offseason
+simPlayoffRound(s: GameState): GameState                // sims game-nights until the whole current round completes, then seeds the next round
 
 // derived views (read-only helpers)
 getStandings(s: GameState): { league: StandingsRow[]; byDivision: Record<Division, StandingsRow[]> }
@@ -78,6 +86,13 @@ advanceOffseason(s: GameState): GameState
 resignPlayer(s: GameState, playerId: string, years: number, capHit: number, ntc?: boolean): { s: GameState; ok: boolean; reason?: string }
 letWalk(s: GameState, playerId: string): GameState      // expiring player goes to FA pool
 getResignAsking(s: GameState, playerId: string): { capHit: number; years: number }
+// MID-SEASON extension (phase 'regular' only): re-up a USER roster player in the
+// final year of his deal (contract.yearsLeft === 1). Acceptance uses the effective-
+// ask machinery plus a ~3% loyalty discount; the new AAV applies IMMEDIATELY (single-
+// AAV) and must fit the CURRENT season cap (teamCapUsed - oldHit + newHit <= currentCap).
+// On success: { capHit: newAAV, yearsLeft: 1 + years, expiry by age at new expiry,
+// ntc }. getSigningPreview handles this case too (roster player, yearsLeft 1, regular).
+extendPlayer(s: GameState, playerId: string, years: number, capHit: number, ntc?: boolean): { s: GameState; ok: boolean; reason?: string }
 // during 'draft': draft proceeds pick-by-pick; AI picks auto-advance until it's the user's pick
 draftPlayer(s: GameState, playerId: string): GameState  // user makes their pick, then AI continues to next user pick
 autoDraftPick(s: GameState): GameState                  // autodraft the user's current pick (best available by potential-weighted board value)
@@ -91,6 +106,13 @@ signFreeAgent(s: GameState, playerId: string, years: number, capHit: number, ntc
 // 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'.
 getSigningPreview(s: GameState, playerId: string, years: number, capHit: number, ntc: boolean): { effectiveAsk: number; verdict: SigningVerdict }
 advanceFreeAgencyDay(s: GameState): GameState           // ~5 FA days total, then step is done
+
+// dynasty fantasy draft (phase 'fantasyDraft' only) — mirrors the entry-draft flow
+getFantasyBoard(s: GameState): { onClock: string; pickIndex: number; round: number; totalPicks: number; recent: { pick: number; team: string; playerName: string }[] }
+fantasyPick(s: GameState, playerId: string): GameState  // user's pick (when on the clock), then AI auto-picks to the user's next turn
+autoFantasyPick(s: GameState): GameState                // autodraft the user's current pick, then AI continues
+autoCompleteFantasyDraft(s: GameState): GameState       // autodraft everything, build the schedule, enter 'regular'
+
 // roster moves (any time)
 callUp(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string }     // prospect -> roster
 sendDown(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string }   // roster -> prospects (age<=25 & overall<=78 only)
@@ -181,7 +203,15 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   schedule where each team plays 82 with realistic mix; exact NHL formula not required, but every team
   must total exactly 82, home/away roughly balanced), spread over 185 days (Oct 8 → Apr 10 labels).
 - Trade deadline at day 120 — after that, `executeTrade` rejects until offseason FA step.
-- Playoffs: top 3 per division + 2 wildcards per conference, NHL bracket, best-of-7 (2-2-1-1-1 irrelevant — just sim 4-7 games).
+- Playoffs: top 3 per division + 2 wildcards per conference, NHL bracket, best-of-7. Each series is
+  played GAME-BY-GAME with the full game-sim machinery (`simPlayoffGameResult` in sim.ts → `playMatch`,
+  the shared core behind regular-season `simGame`), so playoff games produce box scores (`GoalEvent`s) and
+  player stats accrue to `s.stats` exactly like the regular season. Home ice alternates 2-2-1-1-1 with the
+  higher seed opening at home (games 1,2,5,7). Playoff ties always go to sudden-death OT — never a shootout —
+  so `PlayoffGame.endType` is `'REG' | 'OT'`. Each game is appended to `PlayoffSeries.games`. `simPlayoffGame`
+  plays ONE game per undecided series (a "playoff night"); `simPlayoffRound` loops nights until the round ends.
+  A round completes → the next call (or `simPlayoffRound`) seeds the next round from consecutive winner pairs.
+  Legacy saves without a `games` array don't crash (game index falls back to `highWins + lowWins`).
 
 ## Player development (`src/engine/development.ts`) — run each offseason
 
@@ -217,6 +247,14 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   ~4%/missing year. An offered NTC carries onto the signed contract (`ntc: true`). `getSigningPreview` returns
   the effective ask + a verdict for a live UI negotiation meter. AI never offers NTCs to depth (it only re-signs
   85+ stars, carrying an existing ntc over).
+- **Mid-season extensions (`src/engine/extensions.ts`)**: during phase 'regular', a USER roster player in the
+  final year of his deal (`contract.yearsLeft === 1`) can be extended via `extendPlayer`. Acceptance reuses the
+  effective-ask machinery with an extra ~3% loyalty discount (`extensionEffectiveAsk`/`LOYALTY_DISCOUNT` in
+  contracts.ts, shared with `getSigningPreview`). The new AAV applies IMMEDIATELY and must fit the CURRENT
+  season cap (`teamCapUsed - oldHit + newHit <= currentCap`). The new deal is `{ capHit: newAAV,
+  yearsLeft: 1 + years, expiry by age at new expiry, ntc }`. AI teams run `aiMidSeasonExtensions` once per
+  season in the day 40-80 window: each expiring 83+ OVR player they can afford is extended with 65% probability
+  (news item), reducing offseason star churn while still leaving some stars to reach the resign step.
 - **FA pool composition**: the pool is dominated by REAL players (the 35 seeded UFAs + anyone who walked). Only
   a handful of depth-tier fillers (<= 72 OVR) are generated — at most ~8 league-wide, and only when the pool is
   thin (< 25). rosterCheck "Journeyman" fills go straight onto AI rosters and never enter the FA pool.
@@ -244,6 +282,37 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   private engine field. Real players convert to age-18 prospects (contract null, hidden potential from the file,
   devLeague kept) anchoring the top of the board in file order (index 0 = best, e.g. Landon DuPont), topped up with
   generated prospects to the usual class size. Drafts 2028+ (and an empty file) are fully generated.
+
+## Fantasy draft (`src/engine/fantasy.ts`)
+
+Optional dynasty start mode ("draft anyone when you select a team"). `newGameFantasyCore` builds the league
+exactly like `newGame`, then moves EVERY team's NHL **roster** players (keeping their real contracts) into
+`s.fantasyDraft.pool`; **prospects, draft picks and the seeded FA pool stay with their original clubs**. It sets
+`phase 'fantasyDraft'`, `mode 'fantasy'`, `fantasyDraft.rounds = 23`, `pickIndex = 0`, and a snake `order` = a
+seeded random shuffle of the 32 teams (reverses each round). The schedule is cleared and (re)built when the
+draft finishes.
+
+- **Snake order / board**: `onClockTeam` maps `pickIndex` to a team (even rounds forward, odd rounds reversed).
+  `getFantasyBoard` returns `{ onClock, pickIndex, round, totalPicks (=32×23=736), recent }`; `recent` is the last
+  ~12 picks (tracked on `_fantasyResults`).
+- **User pick**: `fantasyPick(s, playerId)` drafts for the user when on the clock, then AI auto-picks up to the
+  user's next turn (mirrors the entry-draft flow). A user pick is BLOCKED only if it makes a legal completion
+  impossible — too few remaining picks for the outstanding minimums, the remaining pool can't cover a needed
+  position, or remaining-mandatory-slots × league-min would exceed remaining cap. `autoFantasyPick` /
+  `autoCompleteFantasyDraft` autodraft.
+- **AI drafting**: value = `overall*0.75 + potential*0.25`, adjusted for positional need toward a final
+  **13F / 7D / 2G** (soft targets) with **hard minimums 12F / 6D / 2G** every team must reach. Two feasibility
+  guards keep every roster legal without a post-draft fixup: (1) each team's picks never drop below its
+  outstanding mandatory-minimum count (so it can always fill its own minimums), and (2) a beyond-minimum pick of a
+  position is only allowed if the remaining pool would still cover every team's outstanding minimum at that
+  position (the goalie supply is tight — 67 for 64 needed — so goalies are also hard-capped at 2/team). Cap
+  legality is enforced per pick: `used + capHit + (remaining mandatory slots × league-min) <= currentCap`; players
+  that would break it are skipped.
+- **End**: the draft ends when the pool empties OR every team hits 23 (in practice the pool — ~688 players —
+  empties first, so teams finish with 20-22 players). Any leftover pool players become free agents (rare). Then
+  the schedule is built, `phase 'regular'`, a news item is posted, and the season proceeds identically —
+  offseason / entry draft / free agency all work unchanged (`mode` stays 'fantasy' for flavor). All fantasy
+  state is plain serializable data, so save/load works mid-draft.
 
 ## Trades (`src/engine/trades.ts`)
 
@@ -302,3 +371,10 @@ late-dynasty leaders climb as young stars develop and elite scorers now stay in 
 stats. It also shops a user player each season to exercise incoming AI offers, asserting every `pendingOffer`
 references live assets and that no >=88 OVR player reaches free agency in the first 3 offseasons.
 Print a 10-season summary table.
+
+It also exercises the newer systems: **playoffs** are advanced partly via `simPlayoffGame` (game-by-game) then
+finished by `simPlayoffRound`, asserting every finished series has 4-7 games, the winner exactly 4 wins, and each
+game's box-score goal counts match its score per team; a **mid-season extension** of a user player in his final
+year is verified (term grows by the offered years, cap stays legal); and a compact **fantasy-mode** exercise
+(`newGameFantasyCore` → `autoCompleteFantasyDraft`) asserts every team ends 20-23 players / 2G+6D+12F / cap-legal,
+then sims one full season + playoffs + offseason without failures.

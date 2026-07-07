@@ -3,7 +3,7 @@
 // consuming or mutating RNG state.
 import type { Player, GameState, FreeAgent } from '../types.ts'
 import { hash01 } from './rng.ts'
-import { clamp, nextCap } from './helpers.ts'
+import { clamp, nextCap, currentCap } from './helpers.ts'
 
 export interface Asking {
   capHit: number
@@ -92,6 +92,17 @@ export function effectiveAsk(ask: Asking, p: Player, years: number, ntc: boolean
   return Math.max(0.775, Math.round(ask.capHit * mult * 1000) / 1000)
 }
 
+/** Extra discount a player gives his current club when signing a MID-SEASON
+ *  extension in the final year of his deal — loyalty / avoiding free agency. */
+export const LOYALTY_DISCOUNT = 0.03
+
+/** Effective ask for a mid-season extension: the standard effective ask with the
+ *  loyalty discount applied on top. Shared by the live preview and extendPlayer. */
+export function extensionEffectiveAsk(ask: Asking, p: Player, years: number, ntc: boolean): number {
+  const base = effectiveAsk(ask, p, years, ntc)
+  return Math.max(0.775, Math.round(base * (1 - LOYALTY_DISCOUNT) * 1000) / 1000)
+}
+
 export type SigningVerdict = 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'
 
 /** Descriptive verdict for a UI negotiation meter, given the offer ratio vs the
@@ -111,9 +122,11 @@ export function signingVerdict(ratio: number, isRFA: boolean): SigningVerdict {
   return 'rejected'
 }
 
-/** Live signing preview for the UI negotiation meter. Works for both pool free
- *  agents (asking carried on the FreeAgent) and the user's own expiring players
- *  (asking computed via askingFor). Pure — no RNG, no mutation. */
+/** Live signing preview for the UI negotiation meter. Works for pool free agents
+ *  (asking carried on the FreeAgent), the user's own expiring players in the
+ *  offseason re-sign step (asking via askingFor), and MID-SEASON extensions of a
+ *  user roster player in his contract's final year (yearsLeft === 1 during the
+ *  regular season — asking via askingFor with the loyalty discount). Pure. */
 export function getSigningPreview(
   s: GameState,
   playerId: string,
@@ -121,21 +134,17 @@ export function getSigningPreview(
   capHit: number,
   ntc: boolean,
 ): { effectiveAsk: number; verdict: SigningVerdict } {
-  const cap = nextCap(s.seasonYear)
   const fa = s.freeAgents.find((x) => x.id === playerId) as FreeAgent | undefined
-  let player: Player | undefined = fa
-  let ask: Asking | undefined = fa?.asking
-  let isRFA: boolean
   if (fa) {
-    isRFA = fa.age < 27
-  } else {
-    const p = s.teams[s.userTeam]?.roster.find((x) => x.id === playerId)
-    player = p
-    if (p) ask = askingFor(p, cap)
-    isRFA = !!p && (p.age < 27 || p.contract?.expiry === 'RFA')
+    const eff = effectiveAsk(fa.asking, fa, years, ntc)
+    return { effectiveAsk: eff, verdict: signingVerdict(capHit / eff, fa.age < 27) }
   }
-  if (!player || !ask) return { effectiveAsk: capHit, verdict: 'rejected' }
-  const eff = effectiveAsk(ask, player, years, ntc)
-  const ratio = capHit / eff
-  return { effectiveAsk: eff, verdict: signingVerdict(ratio, isRFA) }
+  const p = s.teams[s.userTeam]?.roster.find((x) => x.id === playerId)
+  if (!p) return { effectiveAsk: capHit, verdict: 'rejected' }
+  const isExtension = s.phase === 'regular' && !!p.contract && p.contract.yearsLeft === 1
+  const cap = isExtension ? currentCap(s.seasonYear) : nextCap(s.seasonYear)
+  const ask = askingFor(p, cap)
+  const eff = isExtension ? extensionEffectiveAsk(ask, p, years, ntc) : effectiveAsk(ask, p, years, ntc)
+  const isRFA = p.age < 27 || p.contract?.expiry === 'RFA'
+  return { effectiveAsk: eff, verdict: signingVerdict(capHit / eff, isRFA) }
 }

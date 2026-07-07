@@ -11,11 +11,12 @@ import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import type { TeamDataFile, GameState, Player, Position, DraftClassFile } from '../src/types.ts'
-import { newGame } from '../src/engine/newGame.ts'
+import { newGame, newGameFantasyCore } from '../src/engine/newGame.ts'
 import {
   simDays,
   simToEndOfSeason,
   simPlayoffRound,
+  simPlayoffGame,
   advanceOffseason,
   getStandings,
   getLeaders,
@@ -27,6 +28,9 @@ import {
   autoCompleteDraft,
   effectiveLines,
   getSigningPreview,
+  extendPlayer,
+  getFantasyBoard,
+  autoCompleteFantasyDraft,
   toggleTradeBlock,
   respondToOffer,
   executeTrade,
@@ -190,6 +194,28 @@ function assertNoStarFreeAgents(s: GameState, when: string): void {
   }
 }
 
+/** Task 1: every FINISHED series must have 4-7 games, the winner exactly 4 wins,
+ *  and each game's box-score goal counts must match its score (per team). */
+function assertPlayoffGames(s: GameState, year: number): void {
+  if (!s.playoffs) return
+  for (const ser of s.playoffs) {
+    if (!ser.winner) continue
+    const games = ser.games ?? []
+    assert(games.length >= 4 && games.length <= 7, `R${ser.round} ${ser.high}-${ser.low} has ${games.length} games (expect 4-7) in ${year}`)
+    const winnerWins = ser.winner === ser.high ? ser.highWins : ser.lowWins
+    assert(winnerWins === 4, `series winner ${ser.winner} has ${winnerWins} wins (expect 4) in ${year}`)
+    for (const pg of games) {
+      assert(pg.endType === 'REG' || pg.endType === 'OT', `playoff game endType ${pg.endType} (expect REG/OT) in ${year}`)
+      const box = pg.goals ?? []
+      const awayTeam = pg.home === ser.high ? ser.low : ser.high
+      const homeScored = box.filter((e) => e.team === pg.home).length
+      const awayScored = box.filter((e) => e.team === awayTeam).length
+      assert(homeScored === pg.homeGoals, `box home goals ${homeScored} != score ${pg.homeGoals} (R${ser.round} ${ser.high}-${ser.low}) in ${year}`)
+      assert(awayScored === pg.awayGoals, `box away goals ${awayScored} != score ${pg.awayGoals} (R${ser.round} ${ser.high}-${ser.low}) in ${year}`)
+    }
+  }
+}
+
 // ---- offseason auto-driver ------------------------------------------------
 function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
   let guard = 0
@@ -260,6 +286,9 @@ function main(): void {
   const userTeam = data.some((d) => d.info.abbrev === 'TOR') ? 'TOR' : data[0].info.abbrev
   console.log(`User team: ${userTeam}\n`)
 
+  // Task 2: compact fantasy-mode exercise (own game; one season + offseason).
+  fantasyExercise(data, loadDraft2027())
+
   const t0 = Date.now()
   let s = newGame(userTeam, data, undefined, loadDraft2027())
   const rows: string[] = []
@@ -274,6 +303,9 @@ function main(): void {
     // Prospects are tradeable like roster players: sell a user prospect for a
     // pick via the API and confirm rosters/prospect lists stay legal (item 6).
     if (season === 0) exerciseProspectTrade((next) => (s = next), s, userTeam)
+
+    // Task 3: mid-season contract extension of a user player in his final year.
+    if (season === 0) s = exerciseExtension(s, userTeam)
 
     // Exercise the trade block + incoming offers: shop a mid-tier user player.
     const shopId = pickShoppable(s)
@@ -356,10 +388,14 @@ function main(): void {
       }
     }
 
-    // Playoffs.
+    // Playoffs. Task 1: sim a few "playoff nights" game-by-game (simPlayoffGame),
+    // then finish the run round-by-round; both paths must interoperate.
+    let png = 0
+    while (s.phase === 'playoffs' && png++ < 3) s = simPlayoffGame(s)
     let pguard = 0
-    while (s.phase === 'playoffs' && pguard++ < 6) s = simPlayoffRound(s)
+    while (s.phase === 'playoffs' && pguard++ < 10) s = simPlayoffRound(s)
     assert(s.phase === 'offseason', `phase should be offseason after playoffs (${seasonYear})`)
+    assertPlayoffGames(s, seasonYear)
 
     const summary = s.history[s.history.length - 1]
     assert(!!summary && !!summary.cupWinner, `a Cup winner should exist for ${seasonYear}`)
@@ -439,6 +475,98 @@ function main(): void {
     console.error(`\n${failures} ASSERTION(S) FAILED ✘`)
     process.exit(1)
   }
+}
+
+/** Task 3: extend a user roster player in the final year of his deal and assert
+ *  the new contract took effect (longer term, cap-legal, immediate new AAV). */
+function exerciseExtension(s: GameState, userTeam: string): GameState {
+  const p = s.teams[userTeam].roster.find((x) => x.contract && x.contract.yearsLeft === 1 && x.overall >= 76 && x.overall <= 88)
+  if (!p || !p.contract) return s
+  const cap = getCapUsage(s, userTeam)
+  const ask = getResignAsking(s, p.id) // askingFor is shared with extensions
+  // Fit within the current-season cap (replace old hit with new).
+  if (cap.used - p.contract.capHit + ask.capHit > cap.cap + 0.001) return s
+  const preview = getSigningPreview(s, p.id, ask.years, ask.capHit, false)
+  assert(preview.verdict !== 'rejected', `extension at ask should not be rejected for ${p.name} (verdict ${preview.verdict})`)
+  const beforeYears = p.contract.yearsLeft
+  const r = extendPlayer(s, p.id, ask.years, ask.capHit, false)
+  if (!r.ok) {
+    // A coin-flip UFA can decline; that is acceptable — nothing changed.
+    return s
+  }
+  const np = r.s.teams[userTeam].roster.find((x) => x.id === p.id)
+  assert(!!np && !!np.contract, `extended player ${p.name} must still be on the roster with a contract`)
+  if (np && np.contract) {
+    assert(np.contract.yearsLeft === beforeYears + ask.years, `extension term wrong for ${p.name}: ${np.contract.yearsLeft} (expect ${beforeYears + ask.years})`)
+    const c2 = getCapUsage(r.s, userTeam)
+    assert(c2.used <= c2.cap + 0.001, `extension left ${userTeam} over cap (${c2.used.toFixed(1)}/${c2.cap})`)
+  }
+  return r.s
+}
+
+/** Task 2: compact fantasy-mode exercise. Build a fantasy game, auto-complete the
+ *  draft, assert every team is 20-23 players / position-legal / cap-legal, then
+ *  sim ONE full season + offseason without assertion failures. */
+function fantasyExercise(data: TeamDataFile[], draft2027: DraftClassFile | undefined): void {
+  const userTeam = data.some((d) => d.info.abbrev === 'TOR') ? 'TOR' : data[0].info.abbrev
+  let s = newGameFantasyCore(userTeam, data, undefined, draft2027)
+  assert(s.phase === 'fantasyDraft', `fantasy game should start in the draft phase (got ${s.phase})`)
+  assert(!!s.fantasyDraft && s.fantasyDraft.order.length === 32, 'fantasy draft should snake-order all 32 teams')
+  assert(!!s.fantasyDraft && s.fantasyDraft.rounds === 23, 'fantasy draft should run 23 rounds')
+  const board = getFantasyBoard(s)
+  assert(board.onClock !== '' && board.totalPicks === 32 * 23, `fantasy board should show a team on the clock and ${32 * 23} total picks`)
+
+  s = autoCompleteFantasyDraft(s)
+  assert(s.phase === 'regular', `fantasy game should enter the regular season after the draft (got ${s.phase})`)
+  assert(s.mode === 'fantasy', 'fantasy game mode flag should be set')
+  assert(s.schedule.length > 0, 'schedule should be built after the fantasy draft')
+
+  const cap = currentCapFor(s.seasonYear)
+  for (const abbr of Object.keys(s.teams)) {
+    const t = s.teams[abbr]
+    const n = t.roster.length
+    assert(n >= 20 && n <= 23, `fantasy ${abbr} roster size ${n} (expect 20-23)`)
+    const nG = t.roster.filter((p) => p.pos === 'G').length
+    const nD = t.roster.filter((p) => p.pos === 'D').length
+    const nF = t.roster.filter((p) => p.pos !== 'G' && p.pos !== 'D').length
+    assert(nG >= 2 && nD >= 6 && nF >= 12, `fantasy ${abbr} illegal position counts F${nF}/D${nD}/G${nG}`)
+    const used = getCapUsage(s, abbr).used
+    assert(used <= cap + 0.001, `fantasy ${abbr} over cap: ${used.toFixed(1)}/${cap}`)
+  }
+
+  // Sim one full season + playoffs + offseason in the fantasy game.
+  s = simToEndOfSeason(s)
+  assert(s.phase === 'playoffs', 'fantasy season should reach the playoffs')
+  let pg = 0
+  while (s.phase === 'playoffs' && pg++ < 10) s = simPlayoffRound(s)
+  assert(s.phase === 'offseason', 'fantasy playoffs should reach the offseason')
+  let og = 0
+  while (s.phase === 'offseason' && og++ < 30) {
+    if (s.offseasonStep === 'draft') s = autoCompleteDraft(s)
+    else if (s.offseasonStep === 'resign') {
+      for (const id of s.teams[userTeam].roster.filter((p) => p.contract && p.contract.yearsLeft <= 0).map((p) => p.id)) {
+        const a = getResignAsking(s, id)
+        const r = resignPlayer(s, id, a.years, a.capHit)
+        if (r.ok) s = r.s
+      }
+    }
+    s = advanceOffseason(s)
+  }
+  assert(s.phase === 'regular', `fantasy game should start a new season after offseason (got ${s.phase})`)
+  for (const abbr of Object.keys(s.teams)) {
+    const t = s.teams[abbr]
+    assert(t.roster.length >= 20 && t.roster.length <= 23, `fantasy ${abbr} roster ${t.roster.length} after offseason`)
+    const c = getCapUsage(s, abbr)
+    assert(c.used <= c.cap + 0.001, `fantasy ${abbr} over cap after offseason (${c.used.toFixed(1)}/${c.cap})`)
+  }
+  console.log('Fantasy exercise: draft + full season + offseason OK')
+}
+
+/** Current-season cap for a start year (mirrors helpers.currentCap without the
+ *  data-file import chain). */
+function currentCapFor(seasonYear: number): number {
+  const CAP: Record<number, number> = { 2025: 95.5, 2026: 104, 2027: 113.5, 2028: 119.5, 2029: 125.5, 2030: 131.8, 2031: 138.4, 2032: 145.3, 2033: 152.6, 2034: 160.2, 2035: 168.2 }
+  return CAP[seasonYear] ?? 168.2
 }
 
 /** A tradeable mid-tier user player to shop (or null if none). */

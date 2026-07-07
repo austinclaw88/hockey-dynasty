@@ -4,7 +4,7 @@
 // files present). The engine CORE stays data-free — only this module may reach
 // into src/data, so re-attaching bundled static data to a save happens HERE.
 import type { GameState, TeamDataFile, FreeAgentPoolFile } from '../types.ts'
-import { newGame as newGameCore } from './newGame.ts'
+import { newGame as newGameCore, newGameFantasyCore } from './newGame.ts'
 import { loadGame as loadGameCore } from './persistence.ts'
 import { ext } from './helpers.ts'
 import { TEAM_DATA, FA_POOL, DRAFT_2027 } from '../data/index.ts'
@@ -14,6 +14,12 @@ export function newGame(userTeam: string, data: TeamDataFile[] = TEAM_DATA, faPo
   // seeds from it (Landon DuPont et al). Without this the 2027 draft generated a
   // fully fictional class — the fresh-game DuPont bug.
   return newGameCore(userTeam, data, faPool, DRAFT_2027)
+}
+
+/** Dynasty FANTASY draft mode with the bundled data (browser entry). Every NHL
+ *  player enters a 23-round snake draft; see engine/newGame.newGameFantasyCore. */
+export function newGameFantasy(userTeam: string, data: TeamDataFile[] = TEAM_DATA, faPool: FreeAgentPoolFile = FA_POOL): GameState {
+  return newGameFantasyCore(userTeam, data, faPool, DRAFT_2027)
 }
 
 /** Re-attach bundled static data (the real 2027 draft class) to a loaded save.

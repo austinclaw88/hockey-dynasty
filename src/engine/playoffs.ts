@@ -1,9 +1,10 @@
-// Playoff bracket: seeding into an NHL-style bracket, best-of-7 series.
-import type { GameState, PlayoffSeries, Conference, StandingsRow } from '../types.ts'
+// Playoff bracket: seeding into an NHL-style bracket, best-of-7 series played
+// game-by-game with the full game-sim machinery (box scores + stat attribution).
+import type { GameState, PlayoffSeries, PlayoffGame, Conference, StandingsRow } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { computeStandings } from './standings.ts'
 import { playoffSeeds, type Seed } from './standings.ts'
-import { simSeries } from './sim.ts'
+import { simPlayoffGameResult } from './sim.ts'
 
 function ptsMap(s: GameState): Record<string, number> {
   const rows = computeStandings(s)
@@ -53,30 +54,76 @@ export function startPlayoffs(s: GameState, rng: Rng): void {
   s.pendingOffers = [] // regular-season trade offers expire at season end
 }
 
-/** Sim the current round; build the next round. Returns true when the Cup is won. */
-export function advancePlayoffRound(s: GameState, rng: Rng): boolean {
-  if (!s.playoffs || s.playoffs.length === 0) return false
-  const maxRound = Math.max(...s.playoffs.map((x) => x.round))
-  const cur = s.playoffs.filter((x) => x.round === maxRound)
+/** Games played so far in a series (robust for legacy saves that lack `games`). */
+function gamesPlayed(ser: PlayoffSeries): number {
+  return ser.games ? ser.games.length : ser.highWins + ser.lowWins
+}
+
+/** Play the NEXT game of one (undecided) series: appends to `ser.games`, updates
+ *  the win totals, and sets `winner` at 4. Home ice alternates 2-2-1-1-1 with the
+ *  higher seed opening at home (games 1,2,5,7 → indices 0,1,4,6). */
+function playSeriesGame(s: GameState, ser: PlayoffSeries, rng: Rng): void {
+  const g = gamesPlayed(ser)
+  const highHome = g === 0 || g === 1 || g === 4 || g === 6
+  const home = highHome ? ser.high : ser.low
+  const away = highHome ? ser.low : ser.high
+  const res = simPlayoffGameResult(s, home, away, rng)
+  const pg: PlayoffGame = { home, homeGoals: res.homeGoals, awayGoals: res.awayGoals, endType: res.endType, goals: res.goals }
+  if (!ser.games) ser.games = []
+  ser.games.push(pg)
+  const highGoals = home === ser.high ? res.homeGoals : res.awayGoals
+  const lowGoals = home === ser.low ? res.homeGoals : res.awayGoals
+  if (highGoals > lowGoals) ser.highWins += 1
+  else ser.lowWins += 1
+  if (ser.highWins >= 4) ser.winner = ser.high
+  else if (ser.lowWins >= 4) ser.winner = ser.low
+}
+
+/** Seed the round after `round` from its consecutive winner pairs. */
+function seedNextRound(s: GameState, round: number, cur: PlayoffSeries[]): void {
   const pts = ptsMap(s)
-
-  for (const ser of cur) {
-    if (ser.winner) continue
-    const res = simSeries(s, ser.high, ser.low, rng)
-    ser.highWins = res.highWins
-    ser.lowWins = res.lowWins
-    ser.winner = res.winner
-  }
-
-  if (maxRound >= 4) return true // Cup decided.
-
-  // Build next round from consecutive winner pairs.
   const winners = cur.map((x) => x.winner!)
   const next: PlayoffSeries[] = []
   for (let i = 0; i < winners.length; i += 2) {
-    next.push(series(maxRound + 1, winners[i], winners[i + 1], pts))
+    next.push(series(round + 1, winners[i], winners[i + 1], pts))
   }
-  s.playoffs.push(...next)
+  s.playoffs!.push(...next)
+}
+
+/** One "playoff night": play exactly ONE game in every undecided series of the
+ *  current round. When the round is already complete, this call instead seeds the
+ *  next round (or reports the Cup when round 4 is done). Returns true when the
+ *  Cup has just been decided. */
+export function playPlayoffNight(s: GameState, rng: Rng): boolean {
+  if (!s.playoffs || s.playoffs.length === 0) return false
+  const maxRound = Math.max(...s.playoffs.map((x) => x.round))
+  const cur = s.playoffs.filter((x) => x.round === maxRound)
+  const undecided = cur.filter((x) => !x.winner)
+  if (undecided.length === 0) {
+    // Round complete — seed the next round, or the Cup is already won.
+    if (maxRound >= 4) return true
+    seedNextRound(s, maxRound, cur)
+    return false
+  }
+  for (const ser of undecided) playSeriesGame(s, ser, rng)
+  // A final that just concluded ends the playoffs immediately.
+  return maxRound >= 4 && !!cur[0].winner
+}
+
+/** Sim the entire current round (looping playoff nights), then seed the next
+ *  round. Returns true when the Cup is won. */
+export function advancePlayoffRound(s: GameState, rng: Rng): boolean {
+  if (!s.playoffs || s.playoffs.length === 0) return false
+  const round = Math.max(...s.playoffs.map((x) => x.round))
+  let guard = 0
+  while (guard++ < 200) {
+    const cur = s.playoffs.filter((x) => x.round === round)
+    const undecided = cur.filter((x) => !x.winner)
+    if (undecided.length === 0) break
+    for (const ser of undecided) playSeriesGame(s, ser, rng)
+  }
+  if (round >= 4) return true // Cup decided.
+  seedNextRound(s, round, s.playoffs.filter((x) => x.round === round))
   return false
 }
 

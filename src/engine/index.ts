@@ -3,4 +3,4 @@
 export * from './api.ts'
 // withData's newGame/loadGame re-attach bundled static data (2027 draft class);
 // these override the data-free versions re-exported from api.ts above.
-export { newGame, loadGame, hydrateStaticData } from './withData.ts'
+export { newGame, newGameFantasy, loadGame, hydrateStaticData } from './withData.ts'

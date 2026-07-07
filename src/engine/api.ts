@@ -7,11 +7,13 @@ import { currentCap, nextCap, teamCapUsed, committedCapUsed, pruneTradeBlock } f
 import { effectiveLines } from './sim.ts'
 import { standingsView } from './standings.ts'
 import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
-import { advancePlayoffRound } from './playoffs.ts'
+import { advancePlayoffRound, playPlayoffNight } from './playoffs.ts'
 import { enterOffseason, advanceOffseasonStep, doResignPlayer, doLetWalk, getResignAsking as getResignAskingCore } from './offseason.ts'
 import { doDraftPlayer, draftBoard, doAutoDraftPick, doAutoCompleteDraft, type DraftBoard } from './draft.ts'
 import { doSignFreeAgent, aiFreeAgencyDay } from './freeAgency.ts'
 import { getSigningPreview as getSigningPreviewCore, type SigningVerdict } from './contracts.ts'
+import { doExtendPlayer } from './extensions.ts'
+import { fantasyBoard, doFantasyPick, doAutoFantasyPick, doAutoCompleteFantasyDraft, type FantasyBoard } from './fantasy.ts'
 import { doCallUp, doSendDown } from './roster.ts'
 import {
   evaluateTrade as evaluateTradeCore,
@@ -29,6 +31,7 @@ import { saveGame, loadGame, hasSave, deleteSave } from './persistence.ts'
 export type { TradeOffer } from './trades.ts'
 export type { DraftBoard } from './draft.ts'
 export type { SigningVerdict } from './contracts.ts'
+export type { FantasyBoard } from './fantasy.ts'
 export { saveGame, loadGame, hasSave, deleteSave }
 
 function clone<T>(x: T): T {
@@ -62,6 +65,17 @@ export function simPlayoffRound(s: GameState): GameState {
   return withRng(s, (st, rng) => {
     if (st.phase !== 'playoffs') return
     const cupDecided = advancePlayoffRound(st, rng)
+    if (cupDecided) enterOffseason(st, rng)
+  })
+}
+/** Play ONE game in every undecided series of the current playoff round (a
+ *  "playoff night"). When the round is complete the next call seeds the next
+ *  round; when the Cup is won it transitions into the offseason. No-op outside
+ *  the playoffs. */
+export function simPlayoffGame(s: GameState): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase !== 'playoffs') return
+    const cupDecided = playPlayoffNight(st, rng)
     if (cupDecided) enterOffseason(st, rng)
   })
 }
@@ -116,6 +130,43 @@ export function advanceFreeAgencyDay(s: GameState): GameState {
       maybeGenerateUserOffers(st, rng, st.day, true)
       st.day += 1
     }
+  })
+}
+
+// ---- mid-season contract extensions ---------------------------------------
+/** Extend a USER-team roster player in the final year of his deal (regular
+ *  season only). Acceptance uses the effective-ask machinery plus a small loyalty
+ *  discount; the new AAV applies immediately and must fit the CURRENT season cap
+ *  (teamCapUsed - oldHit + newHit <= currentCap). */
+export function extendPlayer(s: GameState, playerId: string, years: number, capHit: number, ntc = false): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st, rng) => doExtendPlayer(st, playerId, years, capHit, rng, ntc))
+}
+
+// ---- dynasty fantasy draft ------------------------------------------------
+/** Read-only board for the fantasy draft (on-clock team, pick pointer, round,
+ *  total picks, and the recent picks feed). */
+export function getFantasyBoard(s: GameState): FantasyBoard {
+  return fantasyBoard(s)
+}
+/** User makes their fantasy-draft pick (when on the clock); AI then auto-picks up
+ *  to the user's next turn. No-op outside the fantasy draft. */
+export function fantasyPick(s: GameState, playerId: string): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase === 'fantasyDraft') doFantasyPick(st, playerId, rng)
+  })
+}
+/** Autodraft the user's current fantasy pick, then AI continues to the next user
+ *  pick. No-op unless the user is on the clock. */
+export function autoFantasyPick(s: GameState): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase === 'fantasyDraft') doAutoFantasyPick(st, rng)
+  })
+}
+/** Autodraft every remaining pick and finish the fantasy draft (builds the
+ *  schedule, enters the regular season). No-op outside the fantasy draft. */
+export function autoCompleteFantasyDraft(s: GameState): GameState {
+  return withRng(s, (st, rng) => {
+    if (st.phase === 'fantasyDraft') doAutoCompleteFantasyDraft(st, rng)
   })
 }
 
