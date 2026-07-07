@@ -17,6 +17,8 @@ import { useUI, type TradeIntent } from './uiContext'
 import { useMediaQuery } from './useMediaQuery'
 
 const DEADLINE_DAY = 120
+/** Realistic package ceiling per side (engine enforces max 6/side, 11 total). */
+const MAX_PER_SIDE = 6
 const pickKey = (p: DraftPick) => `${p.year}-${p.round}-${p.originalTeam}`
 
 function tradingAllowed(s: GameState): { ok: boolean; reason?: string } {
@@ -111,6 +113,9 @@ export function Trades({
 
   const hasAssets = offer != null && (offer.fromPlayers.length + offer.fromPicks.length > 0 || offer.toPlayers.length + offer.toPicks.length > 0)
   const evalResult = offer && allowed.ok && hasAssets ? evaluateTrade(s, offer) : null
+  const fromCount = fromPlayers.size + fromPicks.size
+  const toCount = toPlayers.size + toPicks.size
+  const bigPackage = fromCount >= 4 || toCount >= 4
 
   const focusRef = focus ? idx.get(focus) : undefined
   const focusPlayer = focusRef?.player
@@ -224,6 +229,8 @@ export function Trades({
           block={new Set(s.tradeBlock)}
           selPlayers={fromPlayers}
           selPicks={fromPicks}
+          count={fromCount}
+          max={MAX_PER_SIDE}
           focus={focus}
           onFocus={setFocus}
           togglePlayer={(id) => setFromPlayers((p) => toggle(p, id))}
@@ -235,6 +242,8 @@ export function Trades({
           block={new Set()}
           selPlayers={toPlayers}
           selPicks={toPicks}
+          count={toCount}
+          max={MAX_PER_SIDE}
           focus={focus}
           onFocus={setFocus}
           togglePlayer={(id) => setToPlayers((p) => toggle(p, id))}
@@ -263,6 +272,11 @@ export function Trades({
                 </button>
                 {!evalResult.accept && <span className="hint">Sweeten the package to get it over the line.</span>}
               </div>
+              {bigPackage && (
+                <div className="hint trade-package-hint" style={{ marginTop: 10 }}>
+                  Big packages lose value — quality beats quantity.
+                </div>
+              )}
             </>
           ) : (
             <div className="hint">Trades are closed right now.</div>
@@ -537,6 +551,8 @@ function AssetColumn({
   block,
   selPlayers,
   selPicks,
+  count,
+  max,
   focus,
   onFocus,
   togglePlayer,
@@ -547,6 +563,8 @@ function AssetColumn({
   block: Set<string>
   selPlayers: Set<string>
   selPicks: Set<string>
+  count: number
+  max: number
   focus: string | null
   onFocus: (id: string) => void
   togglePlayer: (id: string) => void
@@ -558,23 +576,38 @@ function AssetColumn({
   const roster = [...team.roster].sort((a, b) => b.overall - a.overall)
   const prospects = [...team.prospects].sort((a, b) => b.overall - a.overall)
   const picks = [...team.picks].sort((a, b) => a.year - b.year || a.round - b.round)
-  const selCount = selPlayers.size + selPicks.size
   const showBody = !isMobile || !collapsed
+  const full = count >= max
+  const counterTone = count >= max ? 'bad' : count >= max - 1 ? 'warn' : ''
+  const FULL_TIP = 'Real trades max out around six pieces a side.'
+  // Block ADDING new assets once the side is full; deselecting always works.
+  const guardPlayer = (id: string) => {
+    if (!selPlayers.has(id) && full) return
+    togglePlayer(id)
+  }
+  const guardPick = (k: string) => {
+    if (!selPicks.has(k) && full) return
+    togglePick(k)
+  }
   return (
     <Card
       title={title}
       right={
-        isMobile ? (
-          <button
-            type="button"
-            className="btn btn-sm btn-ghost"
-            aria-expanded={showBody}
-            onClick={() => setCollapsed((c) => !c)}
-          >
-            {selCount > 0 ? `${selCount} selected · ` : ''}
-            {collapsed ? 'Show' : 'Hide'}
-          </button>
-        ) : undefined
+        <div className="row" style={{ gap: 8, alignItems: 'center' }}>
+          <span className={`asset-counter ${counterTone}`} title={FULL_TIP}>
+            Assets {count}/{max}
+          </span>
+          {isMobile && (
+            <button
+              type="button"
+              className="btn btn-sm btn-ghost"
+              aria-expanded={showBody}
+              onClick={() => setCollapsed((c) => !c)}
+            >
+              {collapsed ? 'Show' : 'Hide'}
+            </button>
+          )}
+        </div>
       }
     >
       {showBody && (
@@ -588,7 +621,9 @@ function AssetColumn({
             checked={selPlayers.has(p.id)}
             focused={focus === p.id}
             onBlock={block.has(p.id)}
-            onToggle={() => togglePlayer(p.id)}
+            disabled={full && !selPlayers.has(p.id)}
+            disabledTip={FULL_TIP}
+            onToggle={() => guardPlayer(p.id)}
             onFocus={() => onFocus(p.id)}
           />
         ))}
@@ -604,7 +639,9 @@ function AssetColumn({
                 checked={selPlayers.has(p.id)}
                 focused={focus === p.id}
                 onBlock={block.has(p.id)}
-                onToggle={() => togglePlayer(p.id)}
+                disabled={full && !selPlayers.has(p.id)}
+                disabledTip={FULL_TIP}
+                onToggle={() => guardPlayer(p.id)}
                 onFocus={() => onFocus(p.id)}
               />
             ))}
@@ -615,9 +652,14 @@ function AssetColumn({
             <div className="group-label">Draft Picks</div>
             {picks.map((p) => {
               const k = pickKey(p)
+              const pickDisabled = full && !selPicks.has(k)
               return (
-                <label key={k} className={`asset ${selPicks.has(k) ? 'sel' : ''}`}>
-                  <input type="checkbox" checked={selPicks.has(k)} onChange={() => togglePick(k)} />
+                <label
+                  key={k}
+                  className={`asset ${selPicks.has(k) ? 'sel' : ''} ${pickDisabled ? 'asset-disabled' : ''}`}
+                  title={pickDisabled ? FULL_TIP : undefined}
+                >
+                  <input type="checkbox" checked={selPicks.has(k)} disabled={pickDisabled} onChange={() => guardPick(k)} />
                   <span className="a-name">
                     {seasonLabel(p.year)} · Round {p.round}
                   </span>
@@ -640,6 +682,8 @@ function PlayerAsset({
   checked,
   focused,
   onBlock,
+  disabled,
+  disabledTip,
   onToggle,
   onFocus,
 }: {
@@ -649,6 +693,8 @@ function PlayerAsset({
   checked: boolean
   focused: boolean
   onBlock: boolean
+  disabled?: boolean
+  disabledTip?: string
   onToggle: () => void
   onFocus: () => void
 }) {
@@ -656,15 +702,18 @@ function PlayerAsset({
   // Row click selects the asset for the trade and focuses it (for build-around);
   // the name is an explicit link that opens the player card instead.
   function selectRow() {
+    if (disabled) return
     onToggle()
     onFocus()
   }
   return (
     <div
-      className={`asset ${checked ? 'sel' : ''} ${focused ? 'focused' : ''}`}
+      className={`asset ${checked ? 'sel' : ''} ${focused ? 'focused' : ''} ${disabled ? 'asset-disabled' : ''}`}
       role="button"
       tabIndex={0}
       aria-pressed={checked}
+      aria-disabled={disabled || undefined}
+      title={disabled ? disabledTip : undefined}
       onClick={selectRow}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

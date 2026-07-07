@@ -15,7 +15,7 @@ const STRATEGY_LABEL: Record<GameState['teams'][string]['strategy'], string> = {
 }
 
 /** Read-only scouting view of any team, reachable from links across the app. */
-export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: string; onClose: () => void }) {
+export function TeamViewer({ s, abbrev, onClose, onFullStats }: { s: GameState; abbrev: string; onClose: () => void; onFullStats?: (abbrev: string) => void }) {
   const { startTrade } = useUI()
   const team = s.teams[abbrev]
   const [sel, setSel] = useState<string | null>(null)
@@ -91,8 +91,21 @@ export function TeamViewer({ s, abbrev, onClose }: { s: GameState; abbrev: strin
 
             <TeamLines s={s} abbrev={abbrev} />
 
-            <div className="mini-title" style={{ marginTop: 16 }}>
-              Roster · {team.roster.length}
+            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+              <div className="mini-title" style={{ margin: 0 }}>
+                Roster · {team.roster.length}
+              </div>
+              {onFullStats && (
+                <button
+                  className="btn btn-sm btn-ghost"
+                  onClick={() => {
+                    onFullStats(abbrev)
+                    onClose()
+                  }}
+                >
+                  Full team stats →
+                </button>
+              )}
             </div>
             <div className="table-wrap">
               <table className="tbl">

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { GameState, Game, StandingsRow } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
 import { Card, CapBar, TeamLogo, TeamLink } from './components'
+import { IncomingSheetsPanel, RosterStatusStrip, rosterStatus } from './signing'
 import { BoxScoreModal } from './BoxScore'
 import { LiveGameModal } from './LiveGame'
 import { ScheduleModal } from './ScheduleModal'
@@ -26,11 +27,13 @@ export function Dashboard({
   s,
   apply,
   onNavigate,
+  onBrowseFA,
   busy,
 }: {
   s: GameState
   apply: (next: GameState) => void
   onNavigate: (t: TabKey) => void
+  onBrowseFA?: () => void
   busy: boolean
 }) {
   const team = s.teams[s.userTeam]
@@ -116,6 +119,8 @@ export function Dashboard({
         </div>
       </section>
 
+      <IncomingSheetsPanel s={s} apply={apply} />
+
       <div className="dash-cols">
         {/* LEFT — division snapshot + form + recent results */}
         <div className="dash-col stack">
@@ -144,6 +149,18 @@ export function Dashboard({
               />
             </div>
           </Card>
+
+          {s.phase === 'regular' && (s.freeAgents.length > 0 || rosterStatus(team.roster).belowMin) && (
+            <Card title={`Free Agents Available · ${s.freeAgents.length}`}>
+              <div className="card-pad stack" style={{ gap: 10 }}>
+                {rosterStatus(team.roster).belowMin && <RosterStatusStrip roster={team.roster} />}
+                <div className="hint">Unsigned veterans are still on the market. Their asking prices soften as the season wears on.</div>
+                <button className="btn btn-primary" onClick={() => (onBrowseFA ? onBrowseFA() : onNavigate('players'))}>
+                  Browse free agents →
+                </button>
+              </div>
+            </Card>
+          )}
 
           <Card
             title="Next 5 Games"

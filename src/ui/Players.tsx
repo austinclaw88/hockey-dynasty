@@ -1,10 +1,13 @@
-import { useMemo, useState } from 'react'
-import type { GameState, Player } from '../types'
+import { useEffect, useMemo, useState } from 'react'
+import type { GameState, Player, FreeAgent } from '../types'
+import { signFreeAgent } from '../engine'
 import { Card, OvrBadge, PosTag, TeamLogo, PlayerLink } from './components'
 import { fmtM, potArrow, posGroup } from './format'
 import { buildPlayerIndex } from './util'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 import type { PosFilterValue } from './filters'
+import { useUI } from './uiContext'
+import { OfferModal } from './signing'
 
 type Status = 'NHL' | 'prospect' | 'FA'
 type StatusFilter = 'ALL' | Status
@@ -27,13 +30,27 @@ const STATUS_LABEL: Record<StatusFilter, string> = { ALL: 'All', NHL: 'NHL', pro
  * in one searchable, sortable table. Rows open the shared player card.
  * Paginated with a "show more" control so ~1300 rows stay responsive.
  */
-export function Players({ s }: { s: GameState }) {
+export function Players({ s, apply, faIntent }: { s: GameState; apply?: (n: GameState) => void; faIntent?: number }) {
+  const { pushToast } = useUI()
   const [query, setQuery] = useState('')
   const [posF, setPosF] = useState<PosFilterValue>('ALL')
   const [statusF, setStatusF] = useState<StatusFilter>('ALL')
   const [teamF, setTeamF] = useState<string>('ALL')
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'overall', dir: -1 })
   const [limit, setLimit] = useState(PAGE)
+  const [target, setTarget] = useState<FreeAgent | null>(null)
+
+  // In-season only: unsigned FAs can be signed straight from this directory.
+  const canSign = s.phase === 'regular' && apply !== undefined
+
+  // Deep-link from the Dashboard "Free Agents available" card: pre-filter to FAs.
+  useEffect(() => {
+    if (faIntent && faIntent > 0) {
+      setStatusF('FA')
+      setPosF('ALL')
+      setLimit(PAGE)
+    }
+  }, [faIntent])
 
   const allRows = useMemo<Row[]>(() => {
     const idx = buildPlayerIndex(s)
@@ -131,12 +148,13 @@ export function Players({ s }: { s: GameState }) {
                 {th('goals', 'G', true, 'm-hide')}
                 {th('assists', 'A', true, 'm-hide')}
                 {th('points', 'P', true)}
+                {canSign && <th></th>}
               </tr>
             </thead>
             <tbody>
               {visible.length === 0 && (
                 <tr>
-                  <td colSpan={10} className="muted" style={{ textAlign: 'center', padding: 20 }}>
+                  <td colSpan={canSign ? 11 : 10} className="muted" style={{ textAlign: 'center', padding: 20 }}>
                     No players match those filters.
                   </td>
                 </tr>
@@ -171,6 +189,20 @@ export function Players({ s }: { s: GameState }) {
                     <td className="num m-hide">{isG ? '—' : line?.goals ?? 0}</td>
                     <td className="num m-hide">{isG ? '—' : line?.assists ?? 0}</td>
                     <td className="num">{isG ? '—' : line?.points ?? 0}</td>
+                    {canSign && (
+                      <td>
+                        {r.status === 'FA' &&
+                          ('asking' in p ? (
+                            (p as FreeAgent).rightsTeam ? (
+                              <span className="tag rfa" title={`Rights held by ${(p as FreeAgent).rightsTeam}`}>RFA</span>
+                            ) : (
+                              <button className="btn btn-sm btn-primary" onClick={() => setTarget(p as FreeAgent)}>
+                                Sign
+                              </button>
+                            )
+                          ) : null)}
+                      </td>
+                    )}
                   </tr>
                 )
               })}
@@ -186,6 +218,24 @@ export function Players({ s }: { s: GameState }) {
           </div>
         )}
       </Card>
+
+      {target && apply && (
+        <OfferModal
+          s={s}
+          fa={target}
+          onClose={() => setTarget(null)}
+          onSubmit={(years, capHit, ntc) => {
+            const r = signFreeAgent(s, target.id, years, capHit, ntc)
+            if (r.ok) {
+              apply(r.s)
+              pushToast('success', `Signed ${target.name} — ${fmtM(capHit)} × ${years}yr.`)
+              setTarget(null)
+            } else {
+              pushToast('error', r.reason ?? `${target.name} rejected the offer.`)
+            }
+          }}
+        />
+      )}
     </div>
   )
 }

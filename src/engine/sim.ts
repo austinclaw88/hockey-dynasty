@@ -424,11 +424,19 @@ function playMatch(s: GameState, home: TeamState, away: TeamState, rng: Rng, all
 
   const box: GoalEvent[] = [] // box score for this game
 
-  // GP for active players + starting goalie.
-  for (const p of hc.scorers) ensureStat(s, p.id).gp++
-  for (const p of ac.scorers) ensureStat(s, p.id).gp++
-  if (hc.goalie) ensureStat(s, hc.goalie.id).gp++
-  if (ac.goalie) ensureStat(s, ac.goalie.id).gp++
+  // GP for active players + starting goalie. Regular-season GP is capped at the
+  // 82-game schedule: a player who changes teams mid-season (trade / signing) can
+  // otherwise catch a new club's games-in-hand and drift past 82. Playoff GP (a
+  // separate store) accrues freely.
+  const gpCap = s.phase === 'playoffs' ? Infinity : 82
+  const creditGp = (id: string): void => {
+    const l = ensureStat(s, id)
+    if (l.gp < gpCap) l.gp++
+  }
+  for (const p of hc.scorers) creditGp(p.id)
+  for (const p of ac.scorers) creditGp(p.id)
+  if (hc.goalie) creditGp(hc.goalie.id)
+  if (ac.goalie) creditGp(ac.goalie.id)
 
   // Attribution: regulation goals spread across periods 1-3; the OT winner (if
   // any) is the final attributed goal for its team and gets period 4.

@@ -176,6 +176,20 @@ export interface SeasonSummary {
 export interface FreeAgent extends Player {
   /** What the player wants: capHit ($M) and years. UI shows this; signing at/above it succeeds. */
   asking: { capHit: number; years: number }
+  /** RFA whose rights belong to this team — signing requires an offer sheet (match + pick compensation). */
+  rightsTeam?: string
+}
+
+/** An offer sheet tendered to one of the USER's restricted free agents by an AI team. */
+export interface PendingOfferSheet {
+  id: number
+  playerId: string
+  /** AI team tendering the sheet */
+  from: string
+  years: number
+  capHit: number
+  /** FA day it arrived (user must match or decline before FA ends) */
+  day: number
 }
 
 /** User-set line assignments (player ids). Slots may be empty/invalid — the
@@ -265,6 +279,10 @@ export interface GameState {
   pendingOffers: PendingOffer[]
   /** Manual line assignments for the user's team; absent = full auto */
   userLines?: LineAssignments
+  /** Offer sheets tendered to the user's RFAs, awaiting match/decline */
+  pendingSheets?: PendingOfferSheet[]
+  /** Playoff stat lines, kept separate from the 82-game season (keyed by playerId) */
+  playoffStats?: Record<string, SeasonStatLine>
   /** 'fantasy' = rosters were built via the dynasty fantasy draft */
   mode?: 'standard' | 'fantasy'
   /** Transient fantasy-draft state (phase === 'fantasyDraft' only) */

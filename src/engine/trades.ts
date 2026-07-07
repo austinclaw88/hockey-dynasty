@@ -56,6 +56,55 @@ function sumPicks(s: GameState, picks: DraftPick[]): number {
   return v
 }
 
+// ---- package sizing + diminishing returns ---------------------------------
+// Real NHL trades are small: the biggest ever moved 13 pieces across BOTH sides,
+// so one side never ships ~10 assets. We cap sizes hard and value a package with
+// DIMINISHING RETURNS — the nth-best asset counts for less — so a pile of depth
+// can never equal a star.
+const MAX_ASSETS_PER_SIDE = 6
+const MAX_ASSETS_TOTAL = 11
+/** Per-rank weights applied to a side's assets sorted by value (best first). */
+const DIMINISH = [1.0, 0.9, 0.78, 0.62, 0.45, 0.3]
+
+/** Assets (players + prospects + picks) on one side of an offer. */
+function sideCount(players: string[], picks: DraftPick[]): number {
+  return players.length + picks.length
+}
+
+/** Reason string if an offer violates the hard piece limits, else null. */
+function sizeViolation(offer: TradeOffer): string | null {
+  const fromN = sideCount(offer.fromPlayers, offer.fromPicks)
+  const toN = sideCount(offer.toPlayers, offer.toPicks)
+  if (fromN > MAX_ASSETS_PER_SIDE || toN > MAX_ASSETS_PER_SIDE) return 'Too many pieces — real trades max out around six a side.'
+  if (fromN + toN > MAX_ASSETS_TOTAL) return 'Too many pieces — real trades max out around six a side.'
+  return null
+}
+
+/** Diminishing-returns value of a package given its individual asset values. */
+function packageValue(values: number[]): number {
+  const sorted = [...values].sort((a, b) => b - a)
+  let v = 0
+  for (let i = 0; i < sorted.length; i++) v += sorted[i] * (DIMINISH[i] ?? 0.2)
+  return v
+}
+
+/** Individual asset values (players then picks) for one side of an offer, plus
+ *  the resolved player objects (for NTC / strategy checks). */
+function sideValues(s: GameState, team: string, ids: string[], picks: DraftPick[], cap: number): { values: number[]; players: Player[] } {
+  const t = s.teams[team]
+  const players: Player[] = []
+  const values: number[] = []
+  for (const id of ids) {
+    const p = t.roster.find((x) => x.id === id) ?? t.prospects.find((x) => x.id === id)
+    if (p) {
+      players.push(p)
+      values.push(playerValue(p, cap))
+    }
+  }
+  for (const pk of picks) values.push(pickValue(s, pk))
+  return { values, players }
+}
+
 /** Strategy fit multiplier for value the partner RECEIVES. */
 function strategyFit(strategy: TeamState['strategy'], players: Player[], picksVal: number): number {
   let mult = 1
@@ -78,18 +127,23 @@ export function evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolea
   const partner = s.teams[offer.to]
   if (!partner) return { accept: false, verdict: 'not close', delta: 0 }
 
-  const received = sumPlayers(s, offer.from, offer.fromPlayers, cap)
-  const givenBack = sumPlayers(s, offer.to, offer.toPlayers, cap)
+  // Hard piece limits: no side ships more than six assets, no more than eleven
+  // total — real trades don't look like a fantasy-league dump.
+  const oversize = sizeViolation(offer)
+  if (oversize) return { accept: false, verdict: oversize, delta: 0 }
+
+  const received = sideValues(s, offer.from, offer.fromPlayers, offer.fromPicks, cap) // what the partner GETS
+  const givenBack = sideValues(s, offer.to, offer.toPlayers, offer.toPicks, cap) // what the partner GIVES
   const recPicks = sumPicks(s, offer.fromPicks)
-  const givePicks = sumPicks(s, offer.toPicks)
 
   // Partner won't move a no-trade player.
   if (givenBack.players.some((p) => p.contract?.ntc)) {
     return { accept: false, verdict: 'not close', delta: -1 }
   }
 
-  const partnerReceives = (received.val + recPicks) * strategyFit(partner.strategy, received.players, recPicks)
-  const partnerGives = givenBack.val + givePicks
+  // Diminishing returns: quantity can't buy quality (nth-best asset counts less).
+  const partnerReceives = packageValue(received.values) * strategyFit(partner.strategy, received.players, recPicks)
+  const partnerGives = packageValue(givenBack.values)
   const delta = partnerReceives - partnerGives
 
   // Cap + roster legality for the partner after the swap. Prospects carry ELCs
@@ -247,45 +301,27 @@ function buildUserPaysPackage(s: GameState, partner: string, target: Player, cap
   const user = s.teams[s.userTeam]
   if (!user || target.contract?.ntc) return null
   const targetVal = playerValue(target, cap)
+  // Blockbusters (a star worth > ~2 first-rounders) justify 4 pieces; otherwise
+  // keep it compact at 3.
+  const maxPieces = targetVal > 12 ? 4 : 3
 
-  const userAssets = [...user.roster]
-    .filter((p) => !p.contract?.ntc && p.overall < target.overall + 2)
-    .sort((a, b) => a.overall - b.overall)
-  const chosen: Player[] = []
-  let val = 0
-  for (const p of userAssets) {
-    if (val >= targetVal * 1.05) break
-    chosen.push(p)
-    val += playerValue(p, cap)
+  // Candidate outgoing assets — roster players not clearly better than the target,
+  // plus spare picks — considered BIGGEST-FIRST so the package stays compact (the
+  // fewest, best pieces) rather than a pile of depth.
+  type Asset = { playerId?: string; pick?: DraftPick; v: number }
+  const assets: Asset[] = [
+    ...user.roster.filter((p) => !p.contract?.ntc && p.overall < target.overall + 2).map((p) => ({ playerId: p.id, v: playerValue(p, cap) })),
+    ...user.picks.map((pk) => ({ pick: pk, v: pickValue(s, pk) })),
+  ].sort((a, b) => b.v - a.v)
+
+  const offer: TradeOffer = { from: s.userTeam, to: partner, fromPlayers: [], toPlayers: [target.id], fromPicks: [], toPicks: [] }
+  for (const a of assets) {
+    if (sideCount(offer.fromPlayers, offer.fromPicks) >= maxPieces) break
+    if (a.playerId) offer.fromPlayers.push(a.playerId)
+    else if (a.pick) offer.fromPicks.push(a.pick)
+    if (evaluateTrade(s, offer).accept) return offer
   }
-  const fromPicks: DraftPick[] = []
-  const sparePicks = [...user.picks].sort((a, b) => pickValue(s, a) - pickValue(s, b)).reverse()
-  let pickIdx = 0
-  const offer: TradeOffer = {
-    from: s.userTeam,
-    to: partner,
-    fromPlayers: chosen.map((p) => p.id),
-    toPlayers: [target.id],
-    fromPicks,
-    toPicks: [],
-  }
-  // Sweeten with picks, then extra depth players, until the AI accepts.
-  let guard = 0
-  while (!evaluateTrade(s, offer).accept && guard++ < 12) {
-    if (pickIdx < sparePicks.length && offer.fromPicks.length < 3) {
-      offer.fromPicks.push(sparePicks[pickIdx++])
-      continue
-    }
-    const extra = userAssets.find((p) => !offer.fromPlayers.includes(p.id))
-    if (extra) {
-      offer.fromPlayers.push(extra.id)
-      continue
-    }
-    return null // exhausted reasonable assets
-  }
-  if (!evaluateTrade(s, offer).accept) return null
-  if (offer.fromPlayers.length === 0 && offer.fromPicks.length === 0) return null
-  return offer
+  return evaluateTrade(s, offer).accept && sideCount(offer.fromPlayers, offer.fromPicks) > 0 ? offer : null
 }
 
 /** Build the package a `partner` would GIVE to acquire the user's `target` —
@@ -298,11 +334,15 @@ function buildPartnerPaysPackage(s: GameState, partner: string, target: Player, 
   if (!user || !pt || target.contract?.ntc) return null
   const targetVal = playerValue(target, cap)
 
+  // Blockbusters (a target worth > ~2 first-rounders) may run to 4 pieces; normal
+  // deals stay compact at 3. Sweeteners are added BIGGEST-FIRST so the package is
+  // the fewest, best pieces rather than a pile of depth.
+  const maxPieces = targetVal > 12 ? 4 : 3
   // Sweeteners never change roster size: picks + partner prospects.
   const sweeteners: { pick?: DraftPick; prospectId?: string; v: number }[] = [
     ...pt.picks.map((pk) => ({ pick: pk, v: pickValue(s, pk) })),
     ...pt.prospects.filter((p) => !p.contract?.ntc && p.overall >= 60).map((p) => ({ prospectId: p.id, v: playerValue(p, cap) })),
-  ].sort((a, b) => a.v - b.v)
+  ].sort((a, b) => b.v - a.v)
 
   const build = (anchorId: string | null, anchorVal: number): TradeOffer | null => {
     const toPlayers = anchorId ? [anchorId] : []
@@ -310,6 +350,7 @@ function buildPartnerPaysPackage(s: GameState, partner: string, target: Player, 
     let val = anchorVal
     for (const sw of sweeteners) {
       if (val >= targetVal) break
+      if (toPlayers.length + toPicks.length >= maxPieces) break
       if (sw.pick) {
         toPicks.push(sw.pick)
         val += sw.v
@@ -366,9 +407,10 @@ export function getAiTradeSuggestionFor(s: GameState, partner: string, playerId:
   return null
 }
 
-/** Value the partner GIVES the user in an offer (return players + picks). */
+/** Diminishing-returns value the partner GIVES the user in an offer (players +
+ *  picks), used to rank options — consistent with evaluateTrade's valuation. */
 function offerReturnValue(s: GameState, offer: TradeOffer, cap: number): number {
-  return sumPlayers(s, offer.to, offer.toPlayers, cap).val + sumPicks(s, offer.toPicks)
+  return packageValue(sideValues(s, offer.to, offer.toPlayers, offer.toPicks, cap).values)
 }
 
 /**
@@ -519,6 +561,8 @@ export function respondToOffer(s: GameState, offerId: number, accept: boolean): 
   if (!accept) return { ok: true }
   // Re-validate against the live state before committing.
   if (!tradesAllowed(s)) return { ok: false, reason: 'Trades are closed (past the deadline).' }
+  const oversize = sizeViolation(po.offer)
+  if (oversize) return { ok: false, reason: oversize }
   if (!offerAssetsPresent(s, po.offer)) return { ok: false, reason: 'A player in this offer is no longer available.' }
   const cap = capForPhase(s)
   if (!tradeLegalBothWays(s, po.offer, cap)) return { ok: false, reason: 'This trade would no longer be cap/roster legal.' }
