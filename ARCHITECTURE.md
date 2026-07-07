@@ -51,13 +51,18 @@ newGameFantasy(userTeam: string, data?: TeamDataFile[], faPool?: FreeAgentPoolFi
 simDays(s: GameState, days: number): GameState          // plays all games in the next N calendar days
 simToEndOfSeason(s: GameState): GameState
 // Playoffs are played GAME-BY-GAME (each game simmed with the full game-sim
-// machinery, box scores included, stats accruing to s.stats):
+// machinery, box scores included). Playoff player stats accrue to a SEPARATE
+// store — s.playoffStats — NOT s.stats, so the 82-game regular season (and every
+// downstream consumer: awards, leaders, careers) never inflates past 82 GP. See
+// "Playoff stats separation" below.
 simPlayoffGame(s: GameState): GameState                 // one "playoff night": ONE game in every undecided series of the round; a call on a completed round seeds the next round; the Cup-clinching call enters the offseason
 simPlayoffRound(s: GameState): GameState                // sims game-nights until the whole current round completes, then seeds the next round
 
 // derived views (read-only helpers)
 getStandings(s: GameState): { league: StandingsRow[]; byDivision: Record<Division, StandingsRow[]> }
-getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; assists: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each (assists tiebreak by points)
+getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; assists: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each (assists tiebreak by points) — REGULAR SEASON only (s.stats)
+// Postseason leaders from the separate s.playoffStats store (top 10 each); empty before/without a playoff run.
+getPlayoffLeaders(s: GameState): { points: SeasonStatLine[]; goalies: SeasonStatLine[] }
 // cap/space reported on the SAME basis the engine enforces: during 'offseason'
 // cap = next season's cap and capYear = seasonYear+1; otherwise current season.
 // `used` is COMMITTED cap in the offseason (helpers.committedCapUsed): expiring
@@ -100,10 +105,21 @@ autoCompleteDraft(s: GameState): GameState              // autodraft ALL remaini
 getDraftBoard(s: GameState): { onClock: string; pickNumber: number; available: Player[]; results: {pick:number; team:string; playerName:string}[] }
 // during 'freeAgency': day-based; each advanceFreeAgencyDay, AI teams sign players.
 // Optional trailing `ntc` behaves as in resignPlayer.
+// signFreeAgent ALSO works during the REGULAR season: leftover UFAs stay signable
+// all year (cap checked on capForPhase/capUsedForPhase — current cap in-season,
+// next/committed in the offseason; roster max 23; contract yearsLeft INCLUDES the
+// current season). RFAs whose rights are held (FreeAgent.rightsTeam set) are NOT
+// signable this way — they require an offer sheet — and NOBODY signs during the
+// playoffs (rejected). In-season asks also decay ~2%/week (floor 70%).
 signFreeAgent(s: GameState, playerId: string, years: number, capHit: number, ntc?: boolean): { s: GameState; ok: boolean; reason?: string }
-// Live negotiation preview for the UI meter (pure). Works for pool FAs (via asking)
-// and the user's own expiring players (via askingFor). Verdict is one of
-// 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'.
+// OFFER SHEETS (offseason FA step): tender a rival team's qualified RFA. See the
+// "Offer sheets" section below for the match/compensation model.
+tenderOfferSheet(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; matched?: boolean; reason?: string }
+respondToOfferSheet(s: GameState, sheetId: number, match: boolean): { s: GameState; ok: boolean; reason?: string }
+// Live negotiation preview for the UI meter (pure). Works for pool FAs (via asking),
+// offer-sheet targets (effective ask; NTC leverage ignored for sheets), and the
+// user's own expiring players (via askingFor). In-season it applies the ask decay.
+// Verdict is one of 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'.
 getSigningPreview(s: GameState, playerId: string, years: number, capHit: number, ntc: boolean): { effectiveAsk: number; verdict: SigningVerdict }
 advanceFreeAgencyDay(s: GameState): GameState           // ~5 FA days total, then step is done
 
@@ -206,12 +222,28 @@ Roughly 1312 games/season; must sim a full season in well under a second.
 - Playoffs: top 3 per division + 2 wildcards per conference, NHL bracket, best-of-7. Each series is
   played GAME-BY-GAME with the full game-sim machinery (`simPlayoffGameResult` in sim.ts → `playMatch`,
   the shared core behind regular-season `simGame`), so playoff games produce box scores (`GoalEvent`s) and
-  player stats accrue to `s.stats` exactly like the regular season. Home ice alternates 2-2-1-1-1 with the
+  player stats — BUT playoff attribution accrues to `s.playoffStats`, NOT `s.stats` (see "Playoff stats
+  separation"). Home ice alternates 2-2-1-1-1 with the
   higher seed opening at home (games 1,2,5,7). Playoff ties always go to sudden-death OT — never a shootout —
   so `PlayoffGame.endType` is `'REG' | 'OT'`. Each game is appended to `PlayoffSeries.games`. `simPlayoffGame`
   plays ONE game per undecided series (a "playoff night"); `simPlayoffRound` loops nights until the round ends.
   A round completes → the next call (or `simPlayoffRound`) seeds the next round from consecutive winner pairs.
   Legacy saves without a `games` array don't crash (game index falls back to `highWins + lowWins`).
+
+## Playoff stats separation (`s.stats` vs `s.playoffStats`)
+
+- Regular-season and playoff player stats live in TWO stores, both keyed by playerId: `s.stats` (the 82-game
+  season) and `s.playoffStats` (the postseason). `helpers.statStore(s)` returns `s.playoffStats` when
+  `s.phase === 'playoffs'` (lazily initialised to `{}`), else `s.stats`; `ensureStat` writes through it, so ALL
+  attribution in sim.ts (skater G/A/+-/PIM/GP and goalie lines) automatically lands in the right store with no
+  per-call branching. `startPlayoffs` sets `s.playoffStats = {}`; `startNextSeason` clears both (`s.stats = {}`,
+  `s.playoffStats = undefined`). This fixes the "93 GP" bug where playoff games pushed season/career totals past 82.
+- Regular-season GP is additionally CLAMPED at 82 in `playMatch`: a player who changes teams mid-season (trade /
+  in-season signing) can otherwise catch a new club's games-in-hand and drift past 82. Playoff GP is uncapped.
+- Downstream consumers read `s.stats` ONLY: `getLeaders`, awards / `SeasonSummary` / `topScorers`, and the
+  careers archive (`archiveCareerSeasons`) — so nothing double-counts and archived seasons never exceed 82 GP.
+  `getPlayoffLeaders(s)` exposes the postseason store for the UI. Persistence: both fields are optional, so
+  legacy saves load unchanged.
 
 ## Player development (`src/engine/development.ts`) — run each offseason
 
@@ -258,8 +290,45 @@ Roughly 1312 games/season; must sim a full season in well under a second.
 - **FA pool composition**: the pool is dominated by REAL players (the 35 seeded UFAs + anyone who walked). Only
   a handful of depth-tier fillers (<= 72 OVR) are generated — at most ~8 league-wide, and only when the pool is
   thin (< 25). rosterCheck "Journeyman" fills go straight onto AI rosters and never enter the FA pool.
-- AI FA logic per FA day: each AI team with cap space + roster need signs best available fitting need; stars sign days 1-2.
+- AI FA logic per FA day: each AI team with cap space + roster need signs best available fitting need; stars sign days 1-2. AI never signs a `rightsTeam` RFA outright (offer sheets only).
 - Every roster must end offseason with 20-23 players, >= 2 G, >= 6 D, >= 12 F; AI auto-fixes with cheap generated depth signings ("Journeyman" pool) if short.
+- **Leftover UFAs stay signable in-season (task 3)**: `startNextSeason` does NOT wipe the FA pool — it keeps
+  unsigned real UFAs (dropping only retired players and generated `FA-`/`JMN-` fillers) so they persist through
+  the year. `signFreeAgent` works in phase 'regular' (current-cap basis, roster max 23, `yearsLeft` includes the
+  current season; rejected during the playoffs and for `rightsTeam` RFAs). Unsigned vets get hungrier: their
+  effective ask decays ~2% per elapsed sim-week (`contracts.seasonAskDecay`, floor 70%). Each sim-week an AI team
+  with an injury hole (>= 2 injured) and cap room may sign the best fitting leftover UFA
+  (`maybeAiInSeasonSigning`), so the pool realistically thins.
+
+## Offer sheets — restricted free agents (`src/engine/freeAgency.ts`)
+
+The RFA flow (offseason 'resign' → 'freeAgency'):
+
+- **Qualification (not auto-re-sign)**: in `prepareResign`, an AI team's expiring RFA (`contract.expiry === 'RFA'`
+  or age < 27 at expiry) is NOT re-signed — it is pushed into `s.freeAgents` with `rightsTeam` = its club (asking
+  computed as usual). Exception: a genuine franchise RFA (>= 87 OVR) re-signs outright (clubs never risk them).
+  UFAs keep the old keep/walk logic. The user's own unsigned RFAs are likewise QUALIFIED (`rightsTeam = userTeam`)
+  in `finalizeResign` rather than walking for free.
+- **`signFreeAgent` rejects `rightsTeam` players** ("requires an offer sheet").
+- **User tenders — `tenderOfferSheet(s, playerId, years, capHit)`**: the offer must be >= the player's effective
+  ask (NTC leverage ignored for sheets); the user must have cap/roster room AND own the compensation picks. The
+  rights team MATCHES with probability: base 80% if the deal fits under next cap, −8% per 5% overpay above the
+  ask, floored at 25%; a deal they can't fit is never matched (0). Matched → player re-signs with the rights team
+  at YOUR terms (`matched: true`). Unmatched → player joins the user at those terms and the user pays draft-pick
+  **compensation** to the rights team (`matched: false`).
+- **Compensation tiers by AAV** ($M): `< 1.5` none; `1.5–3` a 3rd; `3–4.5` a 2nd; `4.5–7` a 1st; `7–9` a 1st + a
+  3rd; `> 9` a 1st + a 2nd + a 3rd. Picks are the payer's earliest-available owned picks of each round; if the
+  user lacks a required round, the tender is rejected up front with a clear reason.
+- **AI-to-AI & AI-to-user (`maybeAiOfferSheets`, ~35%/FA day → ~1-2 league-wide)**: an AI buyer with cap room,
+  roster room, and the comp picks goes after a random qualified RFA. On another AI team's RFA it resolves at once
+  (same match logic). On the USER's RFA it arrives as a `PendingOfferSheet` in `s.pendingSheets` (news item).
+- **User responds — `respondToOfferSheet(s, sheetId, match)`**: match → re-sign at the sheet's terms (must fit
+  cap/roster, else error); decline → the player joins the AI team and the USER receives the pick compensation
+  from that team's picks (best-available fallback if it lacks the exact round). Unanswered sheets AUTO-DECLINE at
+  FA end. Sheets whose player has left are pruned each FA day.
+- **End of FA step (`finalizeOfferSheets`)**: unclaimed qualified RFAs auto-re-sign with their rights team at ask
+  (they never walk for free); a rights team that can't fit one releases him as a true UFA (rosterCheck / next
+  season handles). Both `s.pendingSheets` and `s.playoffStats` are transient and optional (legacy saves load fine).
 
 ## Draft (`src/engine/draft.ts`)
 
@@ -321,6 +390,15 @@ draft finishes.
   Pick value: R1 ≈ 70-OVR-prospect equivalent scaled by expected slot (use owner's current standing), R2 ≈ third of R1, R3 ≈ 40% of R2.
 - AI accepts if `valueReceived >= valueGiven * 1.05` AND fits strategy (contenders want now-value, rebuilders want picks/prospects/U24)
   AND cap works both ways AND roster sizes stay legal. `verdict` strings: "insulting", "not close", "close — sweeten it", "accepted".
+- **Realistic package sizing (task 4)**: real NHL trades are small (the biggest ever moved 13 pieces across BOTH
+  sides), so `evaluateTrade`/`executeTrade` (and `respondToOffer`) enforce HARD LIMITS — max **6 assets per side**
+  (players + prospects + picks combined) and max **11 total** across both sides — rejecting oversize offers with
+  "Too many pieces — real trades max out around six a side." A side's package is valued with **diminishing
+  returns**: assets are sorted by individual value and weighted `1.0, 0.9, 0.78, 0.62, 0.45, 0.3` (nth-best
+  counts less), so a pile of depth can never equal a star. This applies consistently in `evaluateTrade`, AI
+  acceptance, `getAiTradeSuggestion(For)`, `getTradeOptionsFor`, and incoming-offer generation (`packageValue`).
+  AI-BUILT packages prefer COMPACT deals: biggest-piece-first assembly capped at **3 pieces per side** (4 only for
+  true blockbusters — a target worth > ~2 first-rounders).
 - `getAiTradeSuggestion`: builds a fair offer around a player the partner would move by strategy.
 - `getAiTradeSuggestionFor(partner, playerId)`: same machinery, seeded on a specific player (user pays for a
   partner player / partner pays for a user player).

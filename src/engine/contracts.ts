@@ -103,6 +103,15 @@ export function extensionEffectiveAsk(ask: Asking, p: Player, years: number, ntc
   return Math.max(0.775, Math.round(base * (1 - LOYALTY_DISCOUNT) * 1000) / 1000)
 }
 
+/** In-season asking softener (task 3): unsigned free agents get hungrier as the
+ *  season wears on. Effective ask decays ~2% per elapsed sim-week, floored at 70%
+ *  of the original. Only applies during the regular season; 1.0 otherwise. */
+export function seasonAskDecay(s: GameState): number {
+  if (s.phase !== 'regular') return 1
+  const weeks = Math.floor(s.day / 7)
+  return Math.max(0.7, 1 - 0.02 * weeks)
+}
+
 export type SigningVerdict = 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'
 
 /** Descriptive verdict for a UI negotiation meter, given the offer ratio vs the
@@ -136,7 +145,11 @@ export function getSigningPreview(
 ): { effectiveAsk: number; verdict: SigningVerdict } {
   const fa = s.freeAgents.find((x) => x.id === playerId) as FreeAgent | undefined
   if (fa) {
-    const eff = effectiveAsk(fa.asking, fa, years, ntc)
+    // Offer-sheet targets (rightsTeam set) ignore NTC leverage — a sheet is a
+    // straight overpay, no clause to bargain with. Regular UFAs get the in-season
+    // asking decay applied to the effective ask.
+    const useNtc = fa.rightsTeam ? false : ntc
+    const eff = Math.max(0.775, Math.round(effectiveAsk(fa.asking, fa, years, useNtc) * seasonAskDecay(s) * 1000) / 1000)
     return { effectiveAsk: eff, verdict: signingVerdict(capHit / eff, fa.age < 27) }
   }
   const p = s.teams[s.userTeam]?.roster.find((x) => x.id === playerId)

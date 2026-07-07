@@ -51,6 +51,7 @@ export function startPlayoffs(s: GameState, rng: Rng): void {
   }
   s.playoffs = all
   s.phase = 'playoffs'
+  s.playoffStats = {} // playoff attribution accrues here, separate from the 82-game s.stats
   s.pendingOffers = [] // regular-season trade offers expire at season end
 }
 

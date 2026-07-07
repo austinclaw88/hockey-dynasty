@@ -3,6 +3,7 @@
 import type { GameState } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { simDay, healInjuries } from './sim.ts'
+import { maybeAiInSeasonSigning } from './freeAgency.ts'
 import { maybeAiAiTrade, maybeGenerateUserOffers, pruneOffers } from './trades.ts'
 import { startPlayoffs } from './playoffs.ts'
 import { aiMidSeasonExtensions } from './extensions.ts'
@@ -24,7 +25,10 @@ export function advanceRegularDays(s: GameState, days: number, rng: Rng): void {
   const target = Math.min(s.day + days, lastGameDay(s) + 1)
   for (let d = s.day; d < target; d++) {
     simDay(s, d, rng)
-    if ((d + 1) % 7 === 0) healInjuries(s)
+    if ((d + 1) % 7 === 0) {
+      healInjuries(s)
+      maybeAiInSeasonSigning(s, rng) // leftover UFAs realistically thin over the year
+    }
     maybeAiAiTrade(s, rng)
     maybeGenerateUserOffers(s, rng, d, false)
     aiMidSeasonExtensions(s, d, rng)

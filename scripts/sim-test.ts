@@ -20,6 +20,7 @@ import {
   advanceOffseason,
   getStandings,
   getLeaders,
+  getPlayoffLeaders,
   getCapUsage,
   getResignAsking,
   resignPlayer,
@@ -28,12 +29,17 @@ import {
   autoCompleteDraft,
   effectiveLines,
   getSigningPreview,
+  signFreeAgent,
+  tenderOfferSheet,
   extendPlayer,
   getFantasyBoard,
   autoCompleteFantasyDraft,
   toggleTradeBlock,
   respondToOffer,
   executeTrade,
+  evaluateTrade,
+  getAiTradeSuggestion,
+  getTradeOptionsFor,
 } from '../src/engine/api.ts'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -178,6 +184,91 @@ function onTeam(s: GameState, abbr: string, id: string): boolean {
   const t = s.teams[abbr]
   return !!t && (t.roster.some((p) => p.id === id) || t.prospects.some((p) => p.id === id))
 }
+
+// One-time flags so the offer-sheet / in-season-signing exercises fire once.
+let offerSheetTested = false
+let inSeasonSignTested = false
+let playoffRejectTested = false
+
+/** Compensation rounds owed for an offer sheet of the given AAV — mirrors the
+ *  engine's tier table so the test can assert the right picks moved. */
+function compRoundsFor(aav: number): number[] {
+  if (aav < 1.5) return []
+  if (aav < 3) return [3]
+  if (aav < 4.5) return [2]
+  if (aav < 7) return [1]
+  if (aav < 9) return [1, 3]
+  return [1, 2, 3]
+}
+
+/** Task 4: hard piece limits + compact AI packages. An 8-depth-players-for-a-star
+ *  dump must be rejected outright by evaluateTrade, and every AI-generated
+ *  suggestion / option must be compact (<=4 pieces a side). */
+function exerciseTradeLimits(s: GameState, userTeam: string): void {
+  const partnerAbbr = Object.keys(s.teams).find((a) => a !== userTeam)
+  if (partnerAbbr) {
+    const partner = s.teams[partnerAbbr]
+    const star = [...partner.roster].filter((p) => !p.contract?.ntc).sort((a, b) => b.overall - a.overall)[0]
+    const depth = s.teams[userTeam].roster.filter((p) => !p.contract?.ntc).sort((a, b) => a.overall - b.overall).slice(0, 8)
+    if (star && depth.length === 8) {
+      const offer = { from: userTeam, to: partnerAbbr, fromPlayers: depth.map((p) => p.id), toPlayers: [star.id], fromPicks: [], toPicks: [] }
+      const ev = evaluateTrade(s, offer)
+      assert(!ev.accept, `8-for-1 depth dump should be rejected by evaluateTrade (verdict "${ev.verdict}")`)
+    }
+  }
+  const compact = (o: { fromPlayers: string[]; fromPicks: unknown[]; toPlayers: string[]; toPicks: unknown[] } | null, label: string): void => {
+    if (!o) return
+    const fromN = o.fromPlayers.length + o.fromPicks.length
+    const toN = o.toPlayers.length + o.toPicks.length
+    assert(fromN <= 4 && toN <= 4, `${label} has >4 pieces a side (${fromN}/${toN})`)
+  }
+  for (const partner of Object.keys(s.teams)) {
+    if (partner === userTeam) continue
+    compact(getAiTradeSuggestion(s, partner), `AI suggestion vs ${partner}`)
+  }
+  const shopPlayer = s.teams[userTeam].roster.find((p) => !p.contract?.ntc && p.overall >= 78)
+  if (shopPlayer) for (const o of getTradeOptionsFor(s, shopPlayer.id)) compact(o, `trade option for ${shopPlayer.name}`)
+}
+
+/** Task 2: exercise one USER offer sheet during the freeAgency step. Find an RFA
+ *  whose rights another team holds, tender at 1.2x his ask, and assert the outcome
+ *  is either a MATCH (player stays with the rights team) or an ACQUISITION (player
+ *  joins the user and compensation picks moved). League stays cap-legal after. */
+function exerciseOfferSheet(s: GameState, userTeam: string): GameState {
+  // Prefer a target whose 1.2x offer lands in a compensation tier (so the
+  // pick-movement path is exercised when acquired), then cheapest-first so the
+  // user can afford at least one.
+  const compTier = (ask: number): boolean => compRoundsFor(Math.round(ask * 1.2 * 1000) / 1000).length > 0
+  const cand = s.freeAgents
+    .filter((fa) => fa.rightsTeam && fa.rightsTeam !== userTeam && !!s.teams[fa.rightsTeam])
+    .sort((a, b) => Number(compTier(b.asking.capHit)) - Number(compTier(a.asking.capHit)) || a.asking.capHit - b.asking.capHit)
+  for (const fa of cand) {
+    const rtAbbr = fa.rightsTeam as string
+    const years = fa.asking.years
+    const offer = Math.round(fa.asking.capHit * 1.2 * 1000) / 1000
+    const beforePicks = s.teams[rtAbbr].picks.length
+    const r = tenderOfferSheet(s, fa.id, years, offer)
+    if (!r.ok) continue // e.g. user lacks cap / comp picks for this target — try next
+    const ns = r.s
+    if (r.matched) {
+      assert(onTeam(ns, rtAbbr, fa.id), `offer sheet MATCHED: ${fa.name} should remain on ${rtAbbr}`)
+    } else {
+      assert(onTeam(ns, userTeam, fa.id), `offer sheet ACQUIRED: ${fa.name} should be on ${userTeam}`)
+      const rounds = compRoundsFor(offer)
+      if (rounds.length > 0) {
+        assert(
+          ns.teams[rtAbbr].picks.length === beforePicks + rounds.length,
+          `offer-sheet compensation: ${rtAbbr} picks ${beforePicks}→${ns.teams[rtAbbr].picks.length} (expected +${rounds.length})`,
+        )
+      }
+    }
+    const cap = getCapUsage(ns, userTeam)
+    assert(cap.used <= cap.cap + 0.001, `user over cap after offer sheet (${cap.used.toFixed(1)}/${cap.cap})`)
+    console.log(`Offer sheet: ${userTeam} tendered ${fa.name} (${rtAbbr}) at ${offer.toFixed(2)}M x${years} → ${r.matched ? 'MATCHED (kept by ' + rtAbbr + ')' : 'ACQUIRED by ' + userTeam}`)
+    return ns
+  }
+  return s
+}
 /** Every pending offer must reference resolvable assets on the expected rosters. */
 function assertOffersResolvable(s: GameState, when: string): void {
   for (const po of s.pendingOffers) {
@@ -185,6 +276,10 @@ function assertOffersResolvable(s: GameState, when: string): void {
     const fromOk = po.offer.fromPlayers.every((id) => onTeam(s, po.offer.from, id))
     const toOk = po.offer.toPlayers.every((id) => onTeam(s, po.offer.to, id))
     assert(fromOk && toOk, `pending offer ${po.id} references a departed player (${when})`)
+    // Task 4: AI-generated offers must be compact — never more than 4 pieces a side.
+    const fromN = po.offer.fromPlayers.length + po.offer.fromPicks.length
+    const toN = po.offer.toPlayers.length + po.offer.toPicks.length
+    assert(fromN <= 4 && toN <= 4, `pending offer ${po.id} has >4 pieces a side (${fromN}/${toN}) (${when})`)
   }
 }
 /** Stars must not be let go to free agency by the AI re-sign pass. */
@@ -268,6 +363,10 @@ function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
       }
       // Autodraft all remaining user picks + let AI finish the order (task 5).
       s = autoCompleteDraft(s)
+    } else if (step === 'freeAgency' && !offerSheetTested) {
+      // Task 2: exercise a user offer sheet on a rival's RFA (once, first FA step).
+      offerSheetTested = true
+      s = exerciseOfferSheet(s, s.userTeam)
     }
     s = advanceOffseason(s)
   }
@@ -304,6 +403,9 @@ function main(): void {
     // pick via the API and confirm rosters/prospect lists stay legal (item 6).
     if (season === 0) exerciseProspectTrade((next) => (s = next), s, userTeam)
 
+    // Task 4: trade-size hard limits + compact AI packages.
+    if (season === 0) exerciseTradeLimits(s, userTeam)
+
     // Task 3: mid-season contract extension of a user player in his final year.
     if (season === 0) s = exerciseExtension(s, userTeam)
 
@@ -324,6 +426,24 @@ function main(): void {
         if (r.ok) s = r.s
         assertOffersResolvable(s, `${seasonYear} post-respond`)
       }
+      // Task 3: a leftover UFA must be signable DURING the regular season (~day 28+).
+      if (!inSeasonSignTested && s.phase === 'regular' && s.day >= 28) {
+        const fa = s.freeAgents.find((x) => !x.rightsTeam)
+        const cap = fa ? getCapUsage(s, userTeam) : null
+        if (fa && cap && cap.space > fa.asking.capHit + 0.01 && s.teams[userTeam].roster.length < 23) {
+          const r = signFreeAgent(s, fa.id, fa.asking.years, fa.asking.capHit)
+          if (r.ok) {
+            s = r.s
+            inSeasonSignTested = true
+            assert(onTeam(s, userTeam, fa.id), `in-season signing: ${fa.name} should join ${userTeam}`)
+            const c = getCapUsage(s, userTeam)
+            assert(c.used <= c.cap + 0.001, `user over cap after in-season signing (${c.used.toFixed(1)}/${c.cap})`)
+            const n = s.teams[userTeam].roster.length
+            assert(n >= 20 && n <= 23, `user roster ${n} illegal after in-season signing`)
+            console.log(`In-season signing: ${userTeam} signed leftover UFA ${fa.name} on day ${s.day} (${seasonYear})`)
+          }
+        }
+      }
     }
     if (s.phase === 'regular') s = simToEndOfSeason(s)
     const simMs = Date.now() - simStart
@@ -335,6 +455,16 @@ function main(): void {
       assert(row.pts >= 30 && row.pts <= 145, `${row.team} has ${row.pts} pts (expect 30-145) in ${seasonYear}`)
     }
     assert(s.phase === 'playoffs', `phase should be playoffs after regular season (${seasonYear})`)
+
+    // Task 3: signing a free agent during the playoffs must be rejected.
+    if (!playoffRejectTested) {
+      const fa = s.freeAgents.find((x) => !x.rightsTeam)
+      if (fa) {
+        const r = signFreeAgent(s, fa.id, fa.asking.years, fa.asking.capHit)
+        assert(!r.ok, `signing during the playoffs should be rejected (${fa.name}) in ${seasonYear}`)
+        playoffRejectTested = true
+      }
+    }
 
     // Scoring leader sanity + NaN scan.
     const leaders = getLeaders(s)
@@ -401,6 +531,22 @@ function main(): void {
     assert(!!summary && !!summary.cupWinner, `a Cup winner should exist for ${seasonYear}`)
     const leaderName = leaders.points[0] ? nameOf(s, leaders.points[0].playerId) : '?'
 
+    // Task 1: playoff stats are SEPARATE from the 82-game regular season — no
+    // regular-season line inflates past 82 GP, and playoffStats holds plausible
+    // postseason totals (the Cup winner's top scorer typically has 8+; loose >=4).
+    for (const line of Object.values(s.stats)) {
+      assert(line.gp <= 82, `regular-season GP ${line.gp} > 82 for ${line.playerId} in ${seasonYear}`)
+    }
+    assert(!!s.playoffStats, `playoffStats should exist after a playoff run in ${seasonYear}`)
+    const ploff = getPlayoffLeaders(s)
+    assert(ploff.points.length > 0, `playoff scoring leaders should be populated in ${seasonYear}`)
+    let cupTop = 0
+    for (const p of s.teams[summary.cupWinner].roster) {
+      const pl = s.playoffStats?.[p.id]
+      if (pl && p.pos !== 'G') cupTop = Math.max(cupTop, pl.points)
+    }
+    assert(cupTop >= 4, `${summary.cupWinner} (Cup winner) top playoff scorer ${cupTop} pts (expect >=4) in ${seasonYear}`)
+
     // Calder must go to a TRUE rookie: at award time the winner had no prior
     // season (year < award year) with > 25 GP in the career archive. Careers
     // carry the season year, so this stays checkable after later seasons archive.
@@ -459,6 +605,7 @@ function main(): void {
   const maxSeasons = careerIds.reduce((m, id) => Math.max(m, s.careers[id].length), 0)
   assert(maxSeasons >= 5, `some player should have 5+ archived seasons (max was ${maxSeasons})`)
   let careerNaN = false
+  let careerGpOver = false
   for (const id of careerIds) {
     for (const cs of s.careers[id]) {
       const ok =
@@ -466,9 +613,14 @@ function main(): void {
         (cs.wins === undefined || isNum(cs.wins)) && (cs.losses === undefined || isNum(cs.losses)) && (cs.otl === undefined || isNum(cs.otl)) &&
         (cs.shutouts === undefined || isNum(cs.shutouts)) && (cs.gaa === undefined || isNum(cs.gaa)) && (cs.svPct === undefined || isNum(cs.svPct))
       if (!ok) careerNaN = true
+      // Bundled real NHL history (year < START_YEAR) is source data and may carry
+      // a traded player's combined 83-84 GP line; only IN-SIM seasons are checked.
+      if (cs.year >= 2026 && cs.gp > 82) careerGpOver = true
     }
   }
   assert(!careerNaN, 'no NaN should appear in any archived career line')
+  // Task 1: sim-archived seasons draw from regular-season stats only — never > 82 GP.
+  assert(!careerGpOver, 'no in-sim archived career line should exceed 82 GP (playoff stats stay separate)')
 
   if (failures === 0) console.log('\nALL ASSERTIONS PASSED ✔')
   else {

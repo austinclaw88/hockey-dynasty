@@ -15,6 +15,8 @@ export interface EngineExtras {
   _draftResults?: DraftResult[]
   /** Monotonic counter backing PendingOffer.id so ids never collide across drops. */
   _nextOfferId?: number
+  /** Monotonic counter backing PendingOfferSheet.id so ids never collide. */
+  _nextSheetId?: number
   /** Real projected draft class (data/draft-2027.json) threaded in via newGame,
    *  used to seed the FIRST in-game entry draft. Undefined/empty => generated. */
   _draft2027?: DraftClassFile
@@ -119,11 +121,24 @@ export function rosterCounts(team: TeamState): { f: number; d: number; g: number
   return { f, d, g, total: team.roster.length }
 }
 
+/** The stat store for the CURRENT phase: playoff games accrue into a SEPARATE
+ *  `s.playoffStats` map so the 82-game regular-season `s.stats` (and everything
+ *  downstream — awards, leaders, careers) never inflates past 82 GP. Anything
+ *  outside the playoffs writes to `s.stats`. */
+export function statStore(s: GameState): Record<string, SeasonStatLine> {
+  if (s.phase === 'playoffs') {
+    if (!s.playoffStats) s.playoffStats = {}
+    return s.playoffStats
+  }
+  return s.stats
+}
+
 export function ensureStat(s: GameState, id: string): SeasonStatLine {
-  let line = s.stats[id]
+  const store = statStore(s)
+  let line = store[id]
   if (!line) {
     line = { playerId: id, gp: 0, goals: 0, assists: 0, points: 0, plusMinus: 0, pim: 0 }
-    s.stats[id] = line
+    store[id] = line
   }
   return line
 }

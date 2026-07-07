@@ -10,7 +10,7 @@ import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
 import { advancePlayoffRound, playPlayoffNight } from './playoffs.ts'
 import { enterOffseason, advanceOffseasonStep, doResignPlayer, doLetWalk, getResignAsking as getResignAskingCore } from './offseason.ts'
 import { doDraftPlayer, draftBoard, doAutoDraftPick, doAutoCompleteDraft, type DraftBoard } from './draft.ts'
-import { doSignFreeAgent, aiFreeAgencyDay } from './freeAgency.ts'
+import { doSignFreeAgent, aiFreeAgencyDay, doTenderOfferSheet, doRespondToOfferSheet } from './freeAgency.ts'
 import { getSigningPreview as getSigningPreviewCore, type SigningVerdict } from './contracts.ts'
 import { doExtendPlayer } from './extensions.ts'
 import { fantasyBoard, doFantasyPick, doAutoFantasyPick, doAutoCompleteFantasyDraft, type FantasyBoard } from './fantasy.ts'
@@ -122,6 +122,24 @@ export function signFreeAgent(s: GameState, playerId: string, years: number, cap
  *  Works for pool free agents and the user's own expiring players. Pure. */
 export function getSigningPreview(s: GameState, playerId: string, years: number, capHit: number, ntc: boolean): { effectiveAsk: number; verdict: SigningVerdict } {
   return getSigningPreviewCore(s, playerId, years, capHit, ntc)
+}
+/** User tenders an offer sheet to another team's restricted free agent (a pool FA
+ *  with rightsTeam set). The offer must be at least the player's effective ask, and
+ *  the user must own the draft picks the AAV-tiered compensation requires. Returns
+ *  `matched: true` when the rights team matches (player stays there at your terms),
+ *  or `matched: false` when the player joins you and compensation is paid. */
+export function tenderOfferSheet(s: GameState, playerId: string, years: number, capHit: number): { s: GameState; ok: boolean; matched?: boolean; reason?: string } {
+  const st = clone(s)
+  const rng = new Rng(st.rngState)
+  const r = doTenderOfferSheet(st, playerId, years, capHit, rng)
+  st.rngState = rng.state
+  return { s: st, ok: r.ok, matched: r.matched, reason: r.reason }
+}
+/** User matches (match=true) or declines an AI-tendered offer sheet on one of their
+ *  RFAs. Match re-signs the player at the sheet's terms (must fit cap); decline
+ *  sends him to the AI team and pays the user pick compensation. */
+export function respondToOfferSheet(s: GameState, sheetId: number, match: boolean): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st, rng) => doRespondToOfferSheet(st, sheetId, match, rng))
 }
 export function advanceFreeAgencyDay(s: GameState): GameState {
   return withRng(s, (st, rng) => {
@@ -279,6 +297,24 @@ export function getLeaders(s: GameState): { points: SeasonStatLine[]; goals: Sea
   const assists = [...skaters].sort((a, b) => b.assists - a.assists || b.points - a.points).slice(0, 20)
   const goalieLeaders = [...goalies].sort((a, b) => (b.svPct ?? 0) - (a.svPct ?? 0) || (b.wins ?? 0) - (a.wins ?? 0)).slice(0, 20)
   return { points, goals, assists, goalies: goalieLeaders }
+}
+
+/** Top-10 playoff scorers and goalies from `s.playoffStats` (the postseason stat
+ *  store kept separate from the 82-game regular season). Empty before/without a
+ *  playoff run. Pure. */
+export function getPlayoffLeaders(s: GameState): { points: SeasonStatLine[]; goalies: SeasonStatLine[] } {
+  const store = s.playoffStats ?? {}
+  const skaters: SeasonStatLine[] = []
+  const goalies: SeasonStatLine[] = []
+  for (const id of Object.keys(store)) {
+    const line = store[id]
+    const pos = positionOf(s, id)
+    if (pos === 'G') goalies.push(line)
+    else if (pos) skaters.push(line)
+  }
+  const points = [...skaters].sort((a, b) => b.points - a.points || b.goals - a.goals).slice(0, 10)
+  const goalieLeaders = [...goalies].sort((a, b) => (b.wins ?? 0) - (a.wins ?? 0) || (b.svPct ?? 0) - (a.svPct ?? 0)).slice(0, 10)
+  return { points, goalies: goalieLeaders }
 }
 
 export function getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number } {

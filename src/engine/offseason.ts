@@ -9,7 +9,7 @@ import { askingFor, signingOutcome, effectiveAsk, type Asking } from './contract
 import { runDevelopment } from './development.ts'
 import { generateName, pickNationality } from './names.ts'
 import { buildDraftOrder, generateDraftClass, autoAdvanceDraft, finishDraft } from './draft.ts'
-import { prepareFreeAgency, aiFreeAgencyDay, toFreeAgent } from './freeAgency.ts'
+import { prepareFreeAgency, aiFreeAgencyDay, toFreeAgent, finalizeOfferSheets } from './freeAgency.ts'
 import { buildSeasonSummary } from './awards.ts'
 import { buildSchedule } from './schedule.ts'
 
@@ -55,6 +55,19 @@ export function prepareResign(s: GameState, rng: Rng): void {
     for (const p of expiring) {
       const ask = askingFor(p, cap)
       const canFit = committed + ask.capHit <= cap + 0.001
+      const isRFA = p.contract?.expiry === 'RFA' || p.age < 27
+      // Restricted free agents are QUALIFIED, not auto-re-signed: they enter the
+      // pool with rights held by their club so rivals can only take them via an
+      // offer sheet (match + pick compensation). The lone exception is a genuine
+      // franchise RFA (>= 87 OVR) — a club never risks losing him, so he re-signs
+      // outright. UFAs keep the existing keep/walk logic.
+      if (isRFA && p.overall < 87) {
+        team.roster = team.roster.filter((x) => x.id !== p.id)
+        const fa = toFreeAgent(p, cap)
+        fa.rightsTeam = abbr
+        s.freeAgents.push(fa)
+        continue
+      }
       let keep: boolean
       if (p.overall >= 85) {
         keep = canFit // franchise players are near-automatic; only walk if impossible
@@ -125,7 +138,14 @@ function finalizeResign(s: GameState): void {
   const team = s.teams[s.userTeam]
   const cap = nextCap(s.seasonYear)
   const walking = team.roster.filter((p) => p.contract && p.contract.yearsLeft <= 0)
-  for (const p of walking) s.freeAgents.push(toFreeAgent(p, cap))
+  for (const p of walking) {
+    const fa = toFreeAgent(p, cap)
+    // The user's unsigned RFAs are QUALIFIED (rights held by the user) rather than
+    // walking for free — rivals must tender an offer sheet, which arrives as a
+    // PendingOfferSheet the user can match or decline for compensation.
+    if (p.contract?.expiry === 'RFA' || p.age < 27) fa.rightsTeam = s.userTeam
+    s.freeAgents.push(fa)
+  }
   team.roster = team.roster.filter((p) => !(p.contract && p.contract.yearsLeft <= 0))
 }
 
@@ -254,8 +274,13 @@ export function startNextSeason(s: GameState, rng: Rng): void {
   s.seasonYear += 1
   // Clear per-season transient state.
   s.stats = {}
+  s.playoffStats = undefined // playoff stats are per-season; the next playoffs re-init
   s.playoffs = undefined
-  s.freeAgents = []
+  s.pendingSheets = undefined // offer sheets do not carry across seasons
+  // Leftover UNSIGNED free agents persist into the season so they remain signable
+  // (task 3). Drop retired players and generated depth fillers (FA-/JMN- ids) so
+  // the pool doesn't accrete stale synthetic entries; keep real walked veterans.
+  s.freeAgents = s.freeAgents.filter((fa) => !fa.retired && !fa.rightsTeam && !/^(FA|JMN)-/.test(fa.id))
   s.draftClass = []
   s.draftOrder = undefined
   ext(s)._draftResults = undefined
@@ -303,6 +328,7 @@ export function advanceOffseasonStep(s: GameState, rng: Rng): void {
         maybeGenerateUserOffers(s, rng, s.day, true)
         s.day++
       }
+      finalizeOfferSheets(s) // auto-decline stray sheets + auto-re-sign unclaimed RFAs
       rosterCheck(s, rng)
       startNextSeason(s, rng)
       break
