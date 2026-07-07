@@ -5,7 +5,7 @@ import { ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { askingFor, signingOutcome, effectiveAsk, seasonAskDecay } from './contracts.ts'
 import { generateName, pickNationality } from './names.ts'
-import { currentCap, nextCap, committedCapUsed, teamCapUsed, capForPhase, capUsedForPhase, rosterCounts, isForward, pushNews, ext } from './helpers.ts'
+import { currentCap, nextCap, committedCapUsed, teamCapUsed, capForPhase, capUsedForPhase, rosterCounts, isForward, pushNews, ext, registerName } from './helpers.ts'
 
 export function toFreeAgent(p: Player, cap: number): FreeAgent {
   const fa: FreeAgent = { ...p, contract: null, injuryWeeks: 0, asking: askingFor(p, cap) }
@@ -48,7 +48,9 @@ export function prepareFreeAgency(s: GameState, rng: Rng): void {
   const fillers = s.freeAgents.length < POOL_MIN ? Math.min(MAX_FILLERS, POOL_MIN - s.freeAgents.length) : 0
   const start = s.freeAgents.length
   for (let i = 0; i < fillers; i++) {
-    s.freeAgents.push(generateVeteranFA(rng, cap, s.seasonYear, start + i))
+    const filler = generateVeteranFA(rng, cap, s.seasonYear, start + i)
+    registerName(s, filler)
+    s.freeAgents.push(filler)
   }
   // Sort by overall so "best available" is meaningful for the UI.
   s.freeAgents.sort((a, b) => b.overall - a.overall)

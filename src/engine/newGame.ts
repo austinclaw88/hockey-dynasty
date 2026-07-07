@@ -93,6 +93,12 @@ export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAge
     tradeBlock: [],
     pendingOffers: [],
   }
+  // Permanent name registry — retired players stay resolvable in history.
+  s.names = {}
+  for (const t of Object.values(s.teams)) {
+    for (const p of [...t.roster, ...t.prospects]) s.names[p.id] = p.name
+  }
+  for (const f of seededFreeAgents) s.names[f.id] = f.name
   // Thread the real projected 2027 draft class onto private state; the first
   // in-game entry draft (June 2027) seeds from it. Empty/absent => fully generated.
   if (draft2027 && draft2027.players.length > 0) ext(s)._draft2027 = draft2027

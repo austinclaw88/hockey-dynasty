@@ -162,6 +162,12 @@ export function pruneTradeBlock(s: GameState): void {
   s.tradeBlock = s.tradeBlock.filter((id) => ids.has(id))
 }
 
+/** Record a player's name in the permanent registry (survives retirement). */
+export function registerName(s: GameState, p: { id: string; name: string }): void {
+  if (!s.names) s.names = {}
+  s.names[p.id] = p.name
+}
+
 export function pushNews(s: GameState, text: string): void {
   s.news.unshift({ day: s.day, seasonYear: s.seasonYear, text })
   // Cap the log so saves stay small.

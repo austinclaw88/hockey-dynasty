@@ -195,8 +195,8 @@ export interface BoxGoalLine {
 }
 
 /** Resolve a player id to a display name using the full player index. */
-export function nameFor(idx: Map<string, PlayerRef>, id: string): string {
-  return idx.get(id)?.player.name ?? 'Unknown'
+export function nameFor(idx: Map<string, PlayerRef>, id: string, s?: GameState): string {
+  return idx.get(id)?.player.name ?? s?.names?.[id] ?? prettifyId(id)
 }
 
 /** Build the resolved, in-order goal lines for a game's box score. */
@@ -204,7 +204,7 @@ export function boxScoreLines(s: GameState, game: Game, idx: Map<string, PlayerR
   if (!game.goals) return []
   return game.goals.map((ev) => ({
     team: ev.team,
-    scorer: nameFor(idx, ev.scorerId),
+    scorer: nameFor(idx, ev.scorerId, s),
     assists: ev.assistIds.map((a) => nameFor(idx, a)),
   }))
 }
@@ -310,4 +310,11 @@ export function buildScoringLog(s: GameState, playerId: string): ScoringLogRow[]
     rows.push({ game, opp: home ? game.away : game.home, home, g, a })
   }
   return rows.sort((x, y) => y.game.day - x.game.day)
+}
+
+/** Last-resort display name from an id slug like 'BUF-thompson2' -> 'Thompson'. */
+export function prettifyId(id: string): string {
+  const part = id.split('-').slice(1).join('-').replace(/\d+$/, '')
+  if (!part) return 'Unknown'
+  return part.charAt(0).toUpperCase() + part.slice(1)
 }

@@ -125,6 +125,29 @@ export function runDevelopment(s: GameState, rng: Rng): DevReport {
     }
     team.roster = survivorsRoster
     team.prospects = survivorsProspects
+    prunestagnantProspects(s, team, abbr)
   }
   return report
+}
+
+/** Prospect pools must not balloon: stagnant prospects age out of the system,
+ *  and the pool is capped at 14 (worst potential released first). */
+function prunestagnantProspects(s: GameState, team: TeamState, abbr: string): void {
+  const stagnant = (p: Player): boolean => p.age >= 25 || (p.age >= 23 && p.potential <= 76)
+  const released: Player[] = []
+  team.prospects = team.prospects.filter((p) => {
+    if (stagnant(p)) {
+      released.push(p)
+      return false
+    }
+    return true
+  })
+  if (team.prospects.length > 14) {
+    const sorted = [...team.prospects].sort((a, b) => b.potential - a.potential || b.overall - a.overall)
+    const cut = new Set(sorted.slice(14).map((p) => p.id))
+    team.prospects = team.prospects.filter((p) => !cut.has(p.id) || (released.push(p), false))
+  }
+  if (abbr === s.userTeam && released.length > 0) {
+    pushNews(s, `Prospect system: ${released.map((p) => p.name).join(', ')} ${released.length > 1 ? 'have' : 'has'} moved on from the organization.`)
+  }
 }

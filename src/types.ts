@@ -281,6 +281,8 @@ export interface GameState {
   userLines?: LineAssignments
   /** Offer sheets tendered to the user's RFAs, awaiting match/decline */
   pendingSheets?: PendingOfferSheet[]
+  /** Permanent id -> name registry so departed/retired players stay resolvable */
+  names?: Record<string, string>
   /** Playoff stat lines, kept separate from the 82-game season (keyed by playerId) */
   playoffStats?: Record<string, SeasonStatLine>
   /** 'fantasy' = rosters were built via the dynasty fantasy draft */

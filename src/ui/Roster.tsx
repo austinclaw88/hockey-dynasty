@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { GameState, Player, LineAssignments } from '../types'
-import { callUp, sendDown, getCapUsage, getStandings, toggleTradeBlock, setUserLines, effectiveLines } from '../engine'
+import { callUp, sendDown, getCapUsage, getStandings, toggleTradeBlock, setUserLines, effectiveLines, releaseProspect } from '../engine'
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge, TeamLogo } from './components'
 import { PlayerModal } from './PlayerModal'
 import { TradeOptionsModal } from './TradeOptions'
@@ -327,9 +327,27 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
             <div className="modal-actions">
               <div className="row">
                 {selIsProspect ? (
-                  <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id, selPlayer.name)}>
-                    Call Up to NHL
-                  </button>
+                  <>
+                    <button className="btn btn-good" onClick={() => doCallUp(selPlayer.id, selPlayer.name)}>
+                      Call Up to NHL
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        if (!window.confirm(`Release ${selPlayer.name} from the organization? This cannot be undone.`)) return
+                        const r = releaseProspect(s, selPlayer.id)
+                        if (r.ok) {
+                          setSel(null)
+                          apply(r.s)
+                          pushToast('success', `${selPlayer.name} released.`)
+                        } else {
+                          pushToast('error', r.reason ?? 'Could not release.')
+                        }
+                      }}
+                    >
+                      Release
+                    </button>
+                  </>
                 ) : canSendDown(selPlayer) ? (
                   <button className="btn btn-danger" onClick={() => doSendDown(selPlayer.id, selPlayer.name)}>
                     Send Down to Juniors

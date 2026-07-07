@@ -19,7 +19,7 @@ import { rosterCounts, buildPlayerIndex } from './util'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 import { useUI } from './uiContext'
 import { SliderField, NtcToggle, NegotiationFeedback } from './negotiation'
-import { OfferModal, OfferSheetModal, IncomingSheetsPanel, submitOfferSheet, RosterStatusStrip, rosterStatus, needsList } from './signing'
+import { OfferModal, OfferSheetModal, IncomingSheetsPanel, submitOfferSheet, RosterStatusStrip, rosterStatus, needsList, canAffordSheet } from './signing'
 import { ROSTER_MIN, ROSTER_MAX, SEASONS_TOTAL } from '../types'
 
 const OFFSEASON_CAP_NOTE = 'Signings count against next season’s cap.'
@@ -552,9 +552,11 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
   const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
   const [query, setQuery] = useState('')
   const [confirmFinish, setConfirmFinish] = useState(false)
+  const [hideUnaffordable, setHideUnaffordable] = useState(false)
   const status = rosterStatus(s.teams[s.userTeam].roster)
   const fas = [...s.freeAgents]
     .filter((p) => matchesPos(p, posF) && p.name.toLowerCase().includes(query.trim().toLowerCase()))
+    .filter((p) => !hideUnaffordable || !p.rightsTeam || canAffordSheet(s, p))
     // Overall desc; at equal overall, real players sort above generated filler.
     .sort((a, b) => b.overall - a.overall || Number(isGeneratedFA(a.id)) - Number(isGeneratedFA(b.id)))
 
@@ -622,6 +624,10 @@ function FreeAgencyStep({ s, apply }: { s: GameState; apply: (n: GameState) => v
           title={`Available Free Agents · ${fas.length}`}
           right={
             <div className="row" style={{ gap: 8 }}>
+              <label className="hint" style={{ display: 'inline-flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}>
+                <input type="checkbox" checked={hideUnaffordable} onChange={(e) => setHideUnaffordable(e.target.checked)} />
+                Hide sheets I can't afford
+              </label>
               <PosFilter value={posF} onChange={setPosF} />
               <SearchInput value={query} onChange={setQuery} placeholder="Search FAs" />
             </div>

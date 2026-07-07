@@ -30,6 +30,15 @@ export function hydrateStaticData(s: GameState): GameState {
   if (s.seasonYear <= 2027 && !ext(s)._draft2027 && DRAFT_2027.players.length > 0) {
     ext(s)._draft2027 = DRAFT_2027
   }
+  // Legacy saves: build the name registry from everyone still findable.
+  if (!s.names) {
+    s.names = {}
+    for (const t of Object.values(s.teams)) {
+      for (const p of [...t.roster, ...t.prospects]) s.names[p.id] = p.name
+    }
+    for (const f of s.freeAgents) s.names[f.id] = f.name
+    for (const d of s.draftClass) s.names[d.id] = d.name
+  }
   // One-time repair for saves created before playoff stats were separated:
   // regular-season lines (current + archived careers) had playoff GP baked in.
   // Clamp GP to 82; merged playoff points can't be un-mixed retroactively.
