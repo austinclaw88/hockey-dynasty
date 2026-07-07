@@ -52,8 +52,21 @@ getStandings(s: GameState): { league: StandingsRow[]; byDivision: Record<Divisio
 getLeaders(s: GameState): { points: SeasonStatLine[]; goals: SeasonStatLine[]; assists: SeasonStatLine[]; goalies: SeasonStatLine[] } // top 20 each (assists tiebreak by points)
 // cap/space reported on the SAME basis the engine enforces: during 'offseason'
 // cap = next season's cap and capYear = seasonYear+1; otherwise current season.
+// `used` is COMMITTED cap in the offseason (helpers.committedCapUsed): expiring
+// players still on the roster carry a dead 0-year hit that is NOT counted, so
+// re-signing one below his old AAV correctly REDUCES space (the old teamCapUsed
+// counted those dead hits and made space jump the wrong way). All offseason-phase
+// cap math (re-sign, sign FA, offseason trades, callUp, roster fix) uses committed
+// cap; in-season keeps teamCapUsed since no expired deals exist mid-season.
 getCapUsage(s: GameState, team: string): { used: number; cap: number; space: number; capYear: number }
 findPlayer(s: GameState, id: string): { player: Player; team?: string } | null
+
+// lines — manual line management for the USER team (see Simulation model below).
+// setUserLines validates ids against the user roster (invalid ids dropped to '');
+// null clears back to full-auto. effectiveLines returns the resolved, all-slots-
+// filled lineup (user lines honoured, others auto) the UI displays and the sim runs.
+setUserLines(s: GameState, lines: LineAssignments | null): GameState
+effectiveLines(s: GameState, team: string): LineAssignments
 
 // offseason — call advanceOffseason() to move through steps in order:
 // awards -> development -> resign -> draft -> freeAgency -> rosterCheck -> next season (phase 'regular')
@@ -111,15 +124,28 @@ deleteSave(): void
 
 No play-by-play. Each game is resolved statistically:
 
-1. **Team strength** from the ACTIVE roster (healthy, best players auto-selected: 12 F, 6 D, starter G by overall):
+0. **Lineup selection** (`effectiveLines(s, team)`): the ACTIVE lineup is 12 F / 6 D / starter+backup G.
+   Every team is full-auto (best healthy players by overall) EXCEPT the user team when `s.userLines` is set:
+   each valid slot entry (player on roster, healthy, right position group — any F fills any F slot, D fills D,
+   G fills G) is honoured; empty/invalid slots auto-fill from the best remaining player. `effectiveLines`
+   returns the fully-resolved assignment (all slots filled, unfillable = '') that the UI shows and the sim
+   drives. Auto-fill draws best-by-overall, so a team with no manual lines resolves to the exact old lineup.
+1. **Team strength** from the effective lineup IN SLOT ORDER (so line placement, not raw overall, drives it):
    - `off = 0.65 * wAvg(top9 F overalls) + 0.35 * wAvg(top4 D overalls)` (weight top-3 F double)
    - `def = 0.55 * wAvg(top6 D) + 0.45 * wAvg(top12 F)`
-   - `goalie = starter overall` (backup starts ~25% of games, tracked so goalie stats split)
+   - `goalie = effective starter overall` (backup starts ~25% of games, tracked so goalie stats split)
 2. **Expected goals**: league mean 3.05/team/game, scaled: `xg = 3.05 * 1.10^((off_A - def_B)/6) * 1.08^((78 - goalie_B)/6)`, clamp [1.4, 5.2]. Home team +4% xg.
 3. Sample goals from Poisson. If tied after regulation, one team wins in OT/SO (60/40 OT vs SO, better team 55%).
 4. **Attribution**: each goal assigned to a scorer on the winning-of-that-goal team weighted by
    `(overall - 55)^2` with forwards 4x D weight; 0-2 assists similarly. Each weight is multiplied by a
-   per-skater **production factor = ageFactor × formFactor** (cached per game, not per goal):
+   per-skater factor = **production factor × line-slot usage multiplier** (cached per game, not per goal).
+   The **usage multiplier** makes playing time real — folded into BOTH goal and assist weights:
+   forwards L1 ×1.08 / L2 ×1.02 / L3 ×0.96 / L4 ×0.94; defense P1 ×1.04 / P2 ×1.0 / P3 ×0.96. Each group's
+   multipliers average ≈1 so the aggregate F/D scoring balance (and league mean) is preserved — only the
+   distribution shifts toward the top lines. (The values are tuned mild: the specified ×1.35/×1.3-scale
+   constants over-concentrated scoring and broke the leader/best-D realism bands, since attribution feeds
+   next season's form + development and the concentration compounds.) The **production factor = ageFactor ×
+   formFactor**:
    - ageFactor: peak 21-31 ×1.0, 32-33 ×0.9, 34-35 ×0.78, 36-37 ×0.62, 38+ ×0.5, under-21 ×0.85.
    - formFactor: from the player's most recent archived season (`s.careers`, incl. real history), ppg-driven
      `clamp(0.75 + ppg*0.35, 0.8, 1.25)` with >= 20 GP last season; no data => 1.0.
@@ -150,6 +176,12 @@ Roughly 1312 games/season; must sim a full season in well under a second.
   - 33-35: -3..-1
   - 36+: -5..-2
   - Goalies: shift all bands +2 years (develop later, last longer).
+- **Playing time accelerates development**: for a skater aged <= 23 whose `potential > overall`, last season's
+  usage biases the growth roll by ±1 (still capped at potential). Usage is read from `effectiveLines` of the
+  team's END-of-season roster (before anyone is developed/removed): a **top-6 F or top-4 D** slot → **+1**
+  (grows faster toward potential); **scratched / pressbox** (not in the 18-skater lineup) → **-1**; middle-of-
+  lineup or prospects (not in the NHL lineup at all) → neutral. So giving a young player more minutes — e.g.
+  promoting him to a top line via `setUserLines` — makes him reach his ceiling faster. Goalies unaffected.
 - **Retirement**: after decline, players retire with probability: age>=41 always; 38+ 60%; 35+ if overall<74 50%; any 33+ with overall<70 40%.
 - Prospects with overall >= 72 get auto-promoted by AI teams if roster space; user promotes manually.
 

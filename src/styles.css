@@ -2457,3 +2457,244 @@ input:focus {
     flex-wrap: wrap;
   }
 }
+
+/* ============================================================
+   Line editor (Roster) — editable lineup grid
+   ============================================================ */
+.lines-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lines-status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+}
+.lines-status .lines-pick {
+  color: var(--team2);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+.line-group {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.line-label {
+  min-width: 26px;
+  display: flex;
+  align-items: center;
+  color: var(--text-faint);
+  font-weight: 800;
+  font-size: 11px;
+}
+
+/* A single lineup slot: position label above a tappable chip. */
+.lineup-chip {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 84px;
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  background: var(--card-2);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+  transition: border-color 0.12s, background 0.12s;
+}
+.lineup-chip:hover {
+  background: var(--card-hover);
+  border-color: var(--team);
+}
+/* Manual (user-pinned) picks read solid + team-tinted. */
+.lineup-chip.manual {
+  background: color-mix(in srgb, var(--team) 18%, var(--card-2));
+  border-color: color-mix(in srgb, var(--team) 55%, var(--border-2));
+}
+/* Auto slots read quieter, with a dashed edge. */
+.lineup-chip.auto {
+  border-style: dashed;
+  border-color: var(--border-2);
+}
+.lineup-chip.empty {
+  opacity: 0.6;
+  justify-content: center;
+}
+.lineup-chip.sel {
+  outline: 2px solid var(--team2);
+  outline-offset: 1px;
+  border-color: var(--team2);
+}
+
+.lineup-chip .chip-name {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.lineup-chip .chip-ovr {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--text-dim);
+}
+.lineup-chip .chip-inj {
+  color: var(--bad);
+  font-weight: 800;
+}
+.lineup-chip .chip-none {
+  color: var(--text-faint);
+}
+/* Tiny AUTO badge in the chip corner. */
+.lineup-chip .chip-flag {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: var(--text-faint);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 3px;
+  line-height: 1.4;
+}
+
+.lines-hint {
+  font-size: 11.5px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Eligible-players list shown when a slot is selected. */
+.eligible-panel {
+  margin-top: 4px;
+  padding: 10px;
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  background: var(--card-2);
+}
+.eligible-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.eligible-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.eligible-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  min-height: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+}
+.eligible-chip:hover:not(:disabled) {
+  border-color: var(--team);
+  background: var(--card-hover);
+}
+.eligible-chip .chip-ovr {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--text-dim);
+}
+.eligible-chip.here {
+  border-color: color-mix(in srgb, var(--team) 55%, var(--border-2));
+  background: color-mix(in srgb, var(--team) 14%, var(--card));
+}
+.eligible-chip.inj {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.eligible-chip .chip-inj {
+  color: var(--bad);
+  font-weight: 800;
+}
+
+/* ---- Trade-inquiry button (secondary accent, distinct from block/shop) ---- */
+.btn-inquiry {
+  background: color-mix(in srgb, #6f7bff 16%, transparent);
+  border-color: color-mix(in srgb, #6f7bff 55%, transparent);
+  color: #a9b2ff;
+}
+.btn-inquiry:hover:not(:disabled) {
+  background: color-mix(in srgb, #6f7bff 26%, transparent);
+  border-color: #6f7bff;
+}
+
+/* ============================================================
+   Scoring log table (PlayerModal)
+   ============================================================ */
+.scoring-log td,
+.scoring-log th {
+  padding: 6px 10px;
+}
+.scoring-log tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--card-2) 55%, transparent);
+}
+.scoring-log tbody tr:hover {
+  background: var(--card-hover);
+}
+.scoring-log .log-opp {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.scoring-log .log-opp .ha {
+  color: var(--text-faint);
+  font-weight: 700;
+  min-width: 8px;
+}
+.scoring-log .log-opp .opp-abbr {
+  font-weight: 600;
+}
+.scoring-log .log-date {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.scoring-log .log-pts {
+  font-weight: 800;
+}
+.scoring-log tfoot .log-totals td {
+  border-top: 2px solid var(--border-2);
+  border-bottom: none;
+  font-weight: 800;
+  background: var(--card);
+  position: sticky;
+  bottom: 0;
+}
+.log-caption {
+  font-size: 10.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}

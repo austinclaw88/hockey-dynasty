@@ -39,10 +39,8 @@ export function WhatWouldItTakeModal({
           fallback={<span className="crest" style={{ background: partnerTeam?.color ?? '#444' }}>{partner}</span>}
         />
         <div className="modal-title">
-          <h3>What would it take?</h3>
-          <div className="meta">
-            {subject ? `Acquiring ${subject.name} from ${partnerTeam?.name ?? partner}` : partnerTeam?.name ?? partner}
-          </div>
+          <h3>Trade inquiry{subject ? `: ${subject.name}` : ''}</h3>
+          <div className="meta">{partnerTeam?.name ?? partner}’s asking price:</div>
         </div>
         <button className="modal-close" onClick={onClose} aria-label="Close">
           ×
@@ -83,7 +81,7 @@ function WwitBody({
   const wantPicks = offer.fromPicks
   return (
     <>
-      <div className="mini-title">{partnerTeam?.name ?? partner} would want:</div>
+      <div className="mini-title">In return, {partnerTeam?.name ?? partner} would want:</div>
       <div className="wwit-assets">
         {wantPlayers.length === 0 && wantPicks.length === 0 ? (
           <div className="hint">Just a roster spot — they’d take futures.</div>

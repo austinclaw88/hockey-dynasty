@@ -79,6 +79,27 @@ export function teamCapUsed(team: TeamState): number {
   for (const p of team.roster) total += p.contract?.capHit ?? 0
   return Math.round(total * 1000) / 1000
 }
+/** Cap committed for the NEXT season: like teamCapUsed but EXCLUDES contracts
+ *  that have already expired (yearsLeft <= 0). During the offseason 'resign' step
+ *  a team's expiring players still sit on the roster carrying their old cap hit
+ *  even though those dollars are gone — counting them would double-charge the cap
+ *  and make re-signing below the old AAV wrongly INCREASE displayed space. All
+ *  offseason-phase cap math uses this; in-season keeps teamCapUsed (no expired
+ *  deals exist mid-season). */
+export function committedCapUsed(team: TeamState): number {
+  let total = 0
+  for (const p of team.roster) {
+    if (p.contract && p.contract.yearsLeft <= 0) continue
+    total += p.contract?.capHit ?? 0
+  }
+  return Math.round(total * 1000) / 1000
+}
+/** Cap USED on the same basis the engine enforces for the current phase:
+ *  offseason excludes expired deals (committedCapUsed), everything else counts
+ *  every roster contract (teamCapUsed). Mirrors capForPhase for the ceiling. */
+export function capUsedForPhase(s: GameState, team: TeamState): number {
+  return s.phase === 'offseason' ? committedCapUsed(team) : teamCapUsed(team)
+}
 
 /** Count roster by position group. */
 export function rosterCounts(team: TeamState): { f: number; d: number; g: number; total: number } {

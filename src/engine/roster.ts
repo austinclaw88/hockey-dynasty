@@ -1,7 +1,7 @@
 // Roster moves: call up prospects / send players down.
 import type { GameState } from '../types.ts'
 import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
-import { capForPhase, teamCapUsed, rosterCounts, pruneTradeBlock } from './helpers.ts'
+import { capForPhase, capUsedForPhase, rosterCounts, pruneTradeBlock } from './helpers.ts'
 
 export function doCallUp(s: GameState, playerId: string): { ok: boolean; reason?: string } {
   const team = s.teams[s.userTeam]
@@ -11,7 +11,7 @@ export function doCallUp(s: GameState, playerId: string): { ok: boolean; reason?
   const p = team.prospects[idx]
   const cap = capForPhase(s)
   const capHit = p.contract?.capHit ?? 0.95
-  if (teamCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
+  if (capUsedForPhase(s, team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
   team.prospects.splice(idx, 1)
   if (!p.contract) p.contract = { capHit: 0.95, yearsLeft: 3, expiry: 'RFA' }
   team.roster.push(p)

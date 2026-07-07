@@ -2,6 +2,7 @@
 import type { GameState, Player, TeamState } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { clamp, isGoalie, pushNews } from './helpers.ts'
+import { effectiveLines } from './sim.ts'
 
 /** Progression/regression delta range by (goalie-shifted) age. */
 function bandDelta(age: number, goalie: boolean, rng: Rng): number {
@@ -31,10 +32,46 @@ function performanceAdj(s: GameState, p: Player): number {
   return 0
 }
 
-function developPlayer(s: GameState, p: Player, rng: Rng): void {
+/** Playing-time bias on the growth roll (item 3): a young, still-developing
+ *  skater who logged top-6 F / top-4 D minutes last season gets +1 (grows
+ *  faster toward potential); one scratched to the pressbox (not in the 18-skater
+ *  lineup) gets -1. Applied only to age<=23 skaters whose potential exceeds
+ *  overall; the potential cap still holds. Prospects/goalies: neutral. */
+function usageBias(team: TeamState, s: GameState): Map<string, number> {
+  const lines = effectiveLines(s, team.abbrev)
+  const inLineup = new Set<string>()
+  const top = new Set<string>()
+  lines.forwards.forEach((line, li) => {
+    for (const id of line) {
+      if (!id) continue
+      inLineup.add(id)
+      if (li < 2) top.add(id) // top-6 F = lines 1-2
+    }
+  })
+  lines.defense.forEach((pair, pi) => {
+    for (const id of pair) {
+      if (!id) continue
+      inLineup.add(id)
+      if (pi < 2) top.add(id) // top-4 D = pairs 1-2
+    }
+  })
+  const map = new Map<string, number>()
+  for (const p of team.roster) {
+    if (isGoalie(p)) continue
+    if (top.has(p.id)) map.set(p.id, 1)
+    else if (!inLineup.has(p.id)) map.set(p.id, -1)
+    else map.set(p.id, 0)
+  }
+  return map
+}
+
+function developPlayer(s: GameState, p: Player, rng: Rng, bias = 0): void {
+  const seasonAge = p.age // age during the season just played (usage was earned at this age)
   p.age += 1
   const goalie = isGoalie(p)
   let delta = bandDelta(p.age, goalie, rng) + performanceAdj(s, p)
+  // Playing time accelerates (or stalls) development for young, unfinished skaters.
+  if (!goalie && seasonAge <= 23 && p.potential > p.overall) delta += bias
   // Young players progress toward potential, never exceeding it.
   p.overall = clamp(p.overall + delta, 25, 99)
   if (p.age >= 27) {
@@ -64,13 +101,16 @@ export function runDevelopment(s: GameState, rng: Rng): DevReport {
   const report: DevReport = { changes: [], retirements: [] }
   for (const abbr of Object.keys(s.teams)) {
     const team: TeamState = s.teams[abbr]
+    // Usage bias is measured from the FINAL (end-of-season) lineup, before any
+    // player is developed/removed — roster players only; prospects stay neutral.
+    const bias = usageBias(team, s)
     const survivorsRoster: Player[] = []
     const survivorsProspects: Player[] = []
     for (const list of [team.roster, team.prospects] as const) {
       const keep = list === team.roster ? survivorsRoster : survivorsProspects
       for (const p of list) {
         const before = p.overall
-        developPlayer(s, p, rng)
+        developPlayer(s, p, rng, bias.get(p.id) ?? 0)
         if (p.overall !== before) {
           report.changes.push({ id: p.id, name: p.name, team: abbr, from: before, to: p.overall })
         }

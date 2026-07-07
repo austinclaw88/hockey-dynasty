@@ -2,7 +2,7 @@
 import type { GameState, Player, DraftPick, TeamState, TradeOffer } from '../types.ts'
 import { ROSTER_MAX, ROSTER_MIN } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { capForPhase, teamCapUsed, rosterCounts, pushNews, pruneTradeBlock, ext } from './helpers.ts'
+import { capForPhase, capUsedForPhase, rosterCounts, pushNews, pruneTradeBlock, ext } from './helpers.ts'
 import { askingFor } from './contracts.ts'
 import { computeStandings, sortRows } from './standings.ts'
 
@@ -97,7 +97,7 @@ export function evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolea
   const givenBackRoster = givenBack.players.filter((p) => partner.roster.includes(p))
   const receivedRoster = received.players.filter((p) => s.teams[offer.from].roster.includes(p))
   const partnerRosterCount = partner.roster.length - givenBackRoster.length + receivedRoster.length
-  const partnerCapAfter = teamCapUsed(partner) - givenBackRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0) + receivedRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0)
+  const partnerCapAfter = capUsedForPhase(s, partner) - givenBackRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0) + receivedRoster.reduce((a, p) => a + (p.contract?.capHit ?? 0), 0)
   const capOk = partnerCapAfter <= cap + 0.001
   const rosterOk = partnerRosterCount >= ROSTER_MIN - 3 && partnerRosterCount <= ROSTER_MAX
 
@@ -233,8 +233,8 @@ function tradeLegalBothWays(s: GameState, offer: TradeOffer, cap: number): boole
   const partnerRosterAfter = partner.roster.length - userGetsRoster.length + userGivesRoster.length
   if (userRosterAfter < ROSTER_MIN || userRosterAfter > ROSTER_MAX) return false
   if (partnerRosterAfter < ROSTER_MIN || partnerRosterAfter > ROSTER_MAX) return false
-  const userCapAfter = teamCapUsed(user) - rosterCapOf(user, userGivesRoster) + rosterCapOf(partner, userGetsRoster)
-  const partnerCapAfter = teamCapUsed(partner) - rosterCapOf(partner, userGetsRoster) + rosterCapOf(user, userGivesRoster)
+  const userCapAfter = capUsedForPhase(s, user) - rosterCapOf(user, userGivesRoster) + rosterCapOf(partner, userGetsRoster)
+  const partnerCapAfter = capUsedForPhase(s, partner) - rosterCapOf(partner, userGetsRoster) + rosterCapOf(user, userGivesRoster)
   if (userCapAfter > cap + 0.001) return false
   if (partnerCapAfter > cap + 0.001) return false
   return true
@@ -539,7 +539,7 @@ export function maybeAiAiTrade(s: GameState, rng: Rng): void {
 
   const target = [...seller.roster].filter((p) => !p.contract?.ntc && p.age >= 28 && p.overall >= 78).sort((a, b) => b.overall - a.overall)[0]
   if (!target || !target.contract) return
-  if (teamCapUsed(buyer) + target.contract.capHit > cap + 0.001) return
+  if (capUsedForPhase(s, buyer) + target.contract.capHit > cap + 0.001) return
   const pick = buyer.picks.find((pk) => pk.round === 1) ?? buyer.picks[0]
   if (!pick) return
 

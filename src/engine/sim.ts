@@ -1,5 +1,5 @@
 // Statistical game simulation with player-level attribution. No play-by-play.
-import type { GameState, Game, Player, TeamState } from '../types.ts'
+import type { GameState, Game, Player, TeamState, LineAssignments } from '../types.ts'
 import type { Rng } from './rng.ts'
 import {
   clamp,
@@ -25,6 +25,80 @@ interface TeamGameCtx {
 
 function sortedByOverall(players: Player[]): Player[] {
   return [...players].sort((a, b) => b.overall - a.overall)
+}
+
+// ---- line assignments -----------------------------------------------------
+// Line-slot usage multipliers folded into scoring attribution (goal + assist
+// weights alike). Higher lines produce more, so promoting a young player to L1
+// meaningfully raises his output. Auto-selected lineups order by overall, so the
+// multipliers roughly preserve the league scoring mean.
+const FWD_LINE_MULT = [1.08, 1.02, 0.96, 0.94] // L1..L4 (avg ≈ 1, so aggregate scoring is preserved)
+const DEF_PAIR_MULT = [1.04, 1.0, 0.96] // P1..P3
+
+type PosGroup = 'F' | 'D' | 'G'
+function groupOf(p: Player): PosGroup {
+  return isGoalie(p) ? 'G' : isDefense(p) ? 'D' : 'F'
+}
+
+/** Resolve a team's lineup to fully-filled slots. When `manual` is supplied
+ *  (the user's saved lines), each slot entry that names a healthy roster player
+ *  of the correct position group is honoured; empty/invalid slots fall back to
+ *  the best remaining healthy player. Every slot the roster can fill is filled;
+ *  unfillable slots stay ''. Auto-fill draws from best-by-overall, so a manual =
+ *  undefined resolution reproduces the pure auto lineup exactly. */
+function resolveLineup(team: TeamState, manual: LineAssignments | undefined): LineAssignments {
+  const byId = new Map(team.roster.map((p) => [p.id, p]))
+  const healthy = team.roster.filter(isHealthy)
+  const fwdPool = sortedByOverall(healthy.filter(isForward))
+  const defPool = sortedByOverall(healthy.filter(isDefense))
+  let goaliePool = sortedByOverall(healthy.filter(isGoalie))
+  if (goaliePool.length === 0) goaliePool = sortedByOverall(team.roster.filter(isGoalie)) // emergency: dress an injured G
+
+  const used = new Set<string>()
+  const takeManual = (id: string | undefined, group: PosGroup): string | null => {
+    if (!id || used.has(id)) return null
+    const p = byId.get(id)
+    if (!p || !isHealthy(p) || groupOf(p) !== group) return null
+    used.add(id)
+    return id
+  }
+  const takeAuto = (pool: Player[]): string => {
+    for (const p of pool) {
+      if (!used.has(p.id)) {
+        used.add(p.id)
+        return p.id
+      }
+    }
+    return ''
+  }
+  const fillSlot = (id: string | undefined, group: PosGroup, pool: Player[]): string => {
+    return takeManual(id, group) ?? takeAuto(pool)
+  }
+
+  const forwards: string[][] = []
+  for (let line = 0; line < 4; line++) {
+    const row: string[] = []
+    for (let slot = 0; slot < 3; slot++) row.push(fillSlot(manual?.forwards?.[line]?.[slot], 'F', fwdPool))
+    forwards.push(row)
+  }
+  const defense: string[][] = []
+  for (let pair = 0; pair < 3; pair++) {
+    const row: string[] = []
+    for (let slot = 0; slot < 2; slot++) row.push(fillSlot(manual?.defense?.[pair]?.[slot], 'D', defPool))
+    defense.push(row)
+  }
+  const goalies = [fillSlot(manual?.goalies?.[0], 'G', goaliePool), fillSlot(manual?.goalies?.[1], 'G', goaliePool)]
+  return { forwards, defense, goalies }
+}
+
+/** Resolved, all-slots-filled lineup for a team. The USER team honours
+ *  `s.userLines` (when present); every other team is full-auto. Pure — the UI
+ *  displays this and the sim drives attribution from it. */
+export function effectiveLines(s: GameState, team: string): LineAssignments {
+  const t = s.teams[team]
+  if (!t) return { forwards: [[], [], [], []], defense: [[], [], []], goalies: ['', ''] }
+  const manual = team === s.userTeam ? s.userLines : undefined
+  return resolveLineup(t, manual)
 }
 
 /** Age-based scoring production factor: peaks 21-31, declines with age; rookies
@@ -54,30 +128,59 @@ function productionFactor(s: GameState, p: Player): number {
   return ageFactor(p.age) * formFactor(s, p)
 }
 
-/** Roster-derived offense/defense ratings from the best healthy players. */
+/** Roster-derived offense/defense ratings + line-slot-weighted attribution from
+ *  the team's effective lineup (user lines honoured; others auto). Slot order —
+ *  not raw overall — drives the top-line weighting and per-player usage factor,
+ *  so line placement is what makes 'playing time' real. */
 function buildCtx(s: GameState, team: TeamState, rng: Rng): TeamGameCtx {
-  const healthy = team.roster.filter(isHealthy)
-  const fwd = sortedByOverall(healthy.filter(isForward))
-  const def = sortedByOverall(healthy.filter(isDefense))
-  let goalies = sortedByOverall(healthy.filter(isGoalie))
-  if (goalies.length === 0) goalies = sortedByOverall(team.roster.filter(isGoalie)) // emergency
+  const lines = effectiveLines(s, team.abbrev)
+  const byId = new Map(team.roster.map((p) => [p.id, p]))
 
-  const top9F = fwd.slice(0, 9).map((p) => p.overall)
-  const top4D = def.slice(0, 4).map((p) => p.overall)
-  const top6D = def.slice(0, 6).map((p) => p.overall)
-  const top12F = fwd.slice(0, 12).map((p) => p.overall)
+  // Flatten forward/defense slots IN LINE ORDER, pairing each with its usage mult.
+  const fwdSlots: Player[] = []
+  const fwdMult: number[] = []
+  lines.forwards.forEach((line, li) => {
+    for (const id of line) {
+      const p = byId.get(id)
+      if (p) {
+        fwdSlots.push(p)
+        fwdMult.push(FWD_LINE_MULT[li])
+      }
+    }
+  })
+  const defSlots: Player[] = []
+  const defMult: number[] = []
+  lines.defense.forEach((pair, pi) => {
+    for (const id of pair) {
+      const p = byId.get(id)
+      if (p) {
+        defSlots.push(p)
+        defMult.push(DEF_PAIR_MULT[pi])
+      }
+    }
+  })
+
+  const top9F = fwdSlots.slice(0, 9).map((p) => p.overall)
+  const top4D = defSlots.slice(0, 4).map((p) => p.overall)
+  const top6D = defSlots.slice(0, 6).map((p) => p.overall)
+  const top12F = fwdSlots.slice(0, 12).map((p) => p.overall)
 
   const off = 0.65 * weightedAvg(top9F, 3, 2) + 0.35 * avg(top4D)
   const defRating = 0.55 * avg(top6D) + 0.45 * avg(top12F)
 
-  // Goalie: backup starts ~25% of games when available.
-  let goalie: Player | null = goalies[0] ?? null
-  if (goalies.length > 1 && rng.chance(0.25)) goalie = goalies[1]
+  // Goalie: the effective starter carries the ~75% start share; the backup (if
+  // dressed) starts ~25% of games.
+  const starter = byId.get(lines.goalies[0]) ?? null
+  const backup = byId.get(lines.goalies[1]) ?? null
+  let goalie: Player | null = starter
+  if (backup && rng.chance(0.25)) goalie = backup
 
-  const scorers = [...fwd.slice(0, 12), ...def.slice(0, 6)]
-  // Cache the production factor per scorer once per game (never per goal).
+  const scorers = [...fwdSlots, ...defSlots]
+  // Cache each scorer's weight factor once per game: production (age × form) ×
+  // line-slot usage multiplier. Folded into BOTH goal and assist weights.
   const factors = new Map<string, number>()
-  for (const p of scorers) factors.set(p.id, productionFactor(s, p))
+  for (let i = 0; i < fwdSlots.length; i++) factors.set(fwdSlots[i].id, productionFactor(s, fwdSlots[i]) * fwdMult[i])
+  for (let i = 0; i < defSlots.length; i++) factors.set(defSlots[i].id, productionFactor(s, defSlots[i]) * defMult[i])
   return { off, def: defRating, goalie, scorers, factors }
 }
 
