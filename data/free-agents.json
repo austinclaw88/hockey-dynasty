@@ -314,6 +314,16 @@
       "overall": 72,
       "potential": 72,
       "contract": null,
-      "nationality": "FIN" }
+      "nationality": "FIN" },
+    { "id": "FA-jarry",
+      "name": "Tristan Jarry",
+      "pos": "G",
+      "age": 31,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "contract": null,
+      "nationality": "CAN",
+      "history": [{"year": 2021, "team": "PIT", "gp": 58, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 34, "losses": 18, "otl": 6, "shutouts": 3, "gaa": 2.42, "svPct": 0.919}, {"year": 2022, "team": "PIT", "gp": 44, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 24, "losses": 13, "otl": 6, "shutouts": 3, "gaa": 2.9, "svPct": 0.909}, {"year": 2023, "team": "PIT", "gp": 51, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 23, "losses": 21, "otl": 6, "shutouts": 3, "gaa": 3.02, "svPct": 0.903}, {"year": 2024, "team": "PIT", "gp": 47, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 22, "losses": 19, "otl": 5, "shutouts": 1, "gaa": 3.05, "svPct": 0.899}, {"year": 2025, "team": "EDM", "gp": 57, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 22, "losses": 24, "otl": 5, "shutouts": 2, "gaa": 3.05, "svPct": 0.895}] }
   ]
 }
