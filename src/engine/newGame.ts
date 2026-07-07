@@ -6,6 +6,7 @@ import { Rng, seedFrom } from './rng.ts'
 import { buildSchedule } from './schedule.ts'
 import { avg, nextCap, ext } from './helpers.ts'
 import { toFreeAgent } from './freeAgency.ts'
+import { autoAdvance } from './fantasy.ts'
 
 function hydratePlayer(raw: Omit<Player, 'injuryWeeks' | 'retired'>): Player {
   return { ...raw, injuryWeeks: 0, retired: false }
@@ -122,6 +123,10 @@ export function newGameFantasyCore(userTeam: string, data: TeamDataFile[], faPoo
   s.mode = 'fantasy'
   s.phase = 'fantasyDraft'
   s.fantasyDraft = { order, pickIndex: 0, pool, rounds: 23 }
+  // The draft must open with the user on the clock — run AI picks up to them.
+  const advRng = new Rng(s.rngState)
+  autoAdvance(s, advRng)
+  s.rngState = advRng.state
   s.news = [{ day: 0, seasonYear: s.seasonYear, text: `Fantasy draft: every NHL player is available. Build your ${s.teams[userTeam].city} ${s.teams[userTeam].name} from scratch.` }]
   return s
 }

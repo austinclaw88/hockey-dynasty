@@ -170,7 +170,7 @@ function aiPick(s: GameState, abbr: string, rng: Rng): Player | null {
 }
 
 /** Advance AI picks until the user is on the clock or the draft completes. */
-function autoAdvance(s: GameState, rng: Rng): void {
+export function autoAdvance(s: GameState, rng: Rng): void {
   let guard = 0
   const max = s.fantasyDraft!.order.length * s.fantasyDraft!.rounds + 40
   while (!draftComplete(s) && guard++ < max) {
@@ -231,7 +231,12 @@ export function doFantasyPick(s: GameState, playerId: string, rng: Rng): { ok: b
 export function doAutoFantasyPick(s: GameState, rng: Rng): void {
   const fd = s.fantasyDraft
   if (!fd || s.phase !== 'fantasyDraft') return
-  if (onClockTeam(s) !== s.userTeam) return
+  // Deadlock-proof: if it's an AI team's turn, first advance to the user.
+  if (onClockTeam(s) !== s.userTeam) {
+    autoAdvance(s, rng)
+    if (draftComplete(s) || s.phase !== 'fantasyDraft') return
+    if (onClockTeam(s) !== s.userTeam) return
+  }
   if (!aiPick(s, s.userTeam, rng)) fd.pickIndex += 1
   autoAdvance(s, rng)
 }

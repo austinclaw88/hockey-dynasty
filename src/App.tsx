@@ -4,6 +4,7 @@ import type { TradeOffer } from './engine'
 import { newGame, newGameFantasy, loadGame, saveGame, hasSave, deleteSave, getStandings, findPlayer } from './engine'
 import { Header } from './ui/Header'
 import { TabNav } from './ui/TabNav'
+import { Rail } from './ui/Rail'
 import type { TabKey, TabDef } from './ui/TabNav'
 import { TeamSelect } from './ui/TeamSelect'
 import type { GameMode } from './ui/TeamSelect'
@@ -194,36 +195,39 @@ export default function App() {
 
   return (
     <UIContext.Provider value={{ pushToast, openTeam, startTrade, openPlayer, whatWouldItTake }}>
-      <div className="app" style={rootStyle}>
-        <Header s={state} userRow={userRow} />
-        <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
-        <main className="app-main">
-          {inFantasyDraft ? (
-            activeTab === 'players' ? <Players s={state} /> : <FantasyDraft s={state} apply={apply} />
-          ) : (
-            <>
-              {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
-              {activeTab === 'roster' && <Roster s={state} apply={apply} />}
-              {activeTab === 'players' && <Players s={state} />}
-              {activeTab === 'standings' && <Standings s={state} />}
-              {activeTab === 'leaders' && <Leaders s={state} />}
-              {activeTab === 'trades' && (
-                <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
-              )}
-              {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
-              {activeTab === 'offseason' && (
-                <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
-              )}
-              {activeTab === 'history' && <History s={state} />}
-            </>
-          )}
+      <div className="app has-rail" style={rootStyle}>
+        <Rail s={state} userRow={userRow} tabs={tabs} active={activeTab} onChange={setTab} />
+        <div className="app-body">
+          <Header s={state} userRow={userRow} />
+          <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
+          <main className="app-main">
+            {inFantasyDraft ? (
+              activeTab === 'players' ? <Players s={state} /> : <FantasyDraft s={state} apply={apply} />
+            ) : (
+              <>
+                {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
+                {activeTab === 'roster' && <Roster s={state} apply={apply} />}
+                {activeTab === 'players' && <Players s={state} />}
+                {activeTab === 'standings' && <Standings s={state} />}
+                {activeTab === 'leaders' && <Leaders s={state} />}
+                {activeTab === 'trades' && (
+                  <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
+                )}
+                {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
+                {activeTab === 'offseason' && (
+                  <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
+                )}
+                {activeTab === 'history' && <History s={state} />}
+              </>
+            )}
 
-          <div style={{ marginTop: 40, textAlign: 'center' }}>
-            <button className="btn btn-ghost btn-sm" onClick={abandon} title="Delete save and return to team select">
-              Abandon dynasty
-            </button>
-          </div>
-        </main>
+            <div style={{ marginTop: 40, textAlign: 'center' }}>
+              <button className="btn btn-ghost btn-sm" onClick={abandon} title="Delete save and return to team select">
+                Abandon dynasty
+              </button>
+            </div>
+          </main>
+        </div>
       </div>
 
       {viewTeam && state.teams[viewTeam] && (

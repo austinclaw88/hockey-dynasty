@@ -1,18 +1,66 @@
 import { useMemo, useState } from 'react'
 import type { GameState, Player, LineAssignments } from '../types'
-import { callUp, sendDown, getCapUsage, toggleTradeBlock, setUserLines, effectiveLines } from '../engine'
-import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge } from './components'
+import { callUp, sendDown, getCapUsage, getStandings, toggleTradeBlock, setUserLines, effectiveLines } from '../engine'
+import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge, TeamLogo } from './components'
 import { PlayerModal } from './PlayerModal'
 import { TradeOptionsModal } from './TradeOptions'
 import { ExtensionModal } from './ExtensionModal'
-import { fmtM, potArrow, posGroup } from './format'
-import { isHealthy, buildPlayerIndex } from './util'
+import { fmtM, fmtRecord, potArrow, posGroup } from './format'
+import { isHealthy, buildPlayerIndex, teamOverall, capZone } from './util'
 import { useUI } from './uiContext'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 
 type SortKey = 'name' | 'pos' | 'age' | 'overall' | 'potential' | 'capHit' | 'yearsLeft' | 'points' | 'goals' | 'assists'
 
 const canSendDown = (p: Player) => p.age <= 25 && p.overall <= 78
+
+const STRATEGY_LABEL: Record<GameState['teams'][string]['strategy'], string> = {
+  contend: 'Contender',
+  retool: 'Retooling',
+  rebuild: 'Rebuilding',
+}
+
+/** Team identity band that heads the roster page (record · cap · strategy). */
+function RosterHeader({ s }: { s: GameState }) {
+  const team = s.teams[s.userTeam]
+  const cap = getCapUsage(s, s.userTeam)
+  const row = getStandings(s).league.find((r) => r.team === s.userTeam)
+  const space = Math.round((cap.cap - cap.used) * 100) / 100
+  return (
+    <div className="roster-band">
+      <div className="roster-band-id">
+        <TeamLogo team={team} size={44} fallback={<span className="hero-crest">{team.abbrev}</span>} />
+        <div>
+          <div className="roster-band-eyebrow">
+            Roster
+            <span className={`strat-chip strat-${team.strategy}`}>{STRATEGY_LABEL[team.strategy]}</span>
+          </div>
+          <div className="roster-band-name">
+            {team.city} {team.name}
+          </div>
+        </div>
+      </div>
+      <div className="roster-band-stats">
+        {row && (
+          <div className="rb-stat">
+            <div className="rb-k">Record</div>
+            <div className="rb-v">{fmtRecord(row.w, row.l, row.otl)}</div>
+          </div>
+        )}
+        <div className="rb-stat">
+          <div className="rb-k">Team OVR</div>
+          <div className="rb-v">{teamOverall(team.roster).toFixed(1)}</div>
+        </div>
+        <div className={`rb-stat rb-cap ${capZone(cap.used, cap.cap)}`}>
+          <div className="rb-k">Cap Space</div>
+          <div className="rb-v">
+            {space >= 0 ? fmtM(space) : `-${fmtM(Math.abs(space))}`}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => void }) {
   const team = s.teams[s.userTeam]
@@ -80,8 +128,10 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
 
   return (
     <div className="stack">
+      <RosterHeader s={s} />
+      <div className="roster-body">
       <Card
-        title={`Roster · ${sorted.length}${sorted.length !== team.roster.length ? ` / ${team.roster.length}` : ''}`}
+        title={`Skaters & Goalies · ${sorted.length}${sorted.length !== team.roster.length ? ` / ${team.roster.length}` : ''}`}
         right={
           <div className="row" style={{ gap: 8 }}>
             <PosFilter value={posF} onChange={setPosF} />
@@ -171,7 +221,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
           </div>
         </Card>
 
-        <div className="grid dash-grid">
+        <div className="roster-side stack">
           <LinesEditor s={s} apply={apply} pushToast={pushToast} />
           <Card title="Salary Cap">
             <div className="card-pad">
@@ -184,6 +234,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
             </div>
           </Card>
         </div>
+      </div>
 
       <Card title={`Prospects · ${team.prospects.length}`}>
         {team.prospects.length === 0 ? (

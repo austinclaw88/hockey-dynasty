@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import type { GameState, Game } from '../types'
+import type { GameState, Game, StandingsRow } from '../types'
 import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
 import { Card, CapBar, TeamLogo, TeamLink } from './components'
 import { BoxScoreModal } from './BoxScore'
 import { LiveGameModal } from './LiveGame'
 import { ScheduleModal } from './ScheduleModal'
 import { nextGames, recentGames, teamOverall, dayLabel } from './util'
-import { seasonLabel, ordinal } from './format'
+import { seasonLabel, ordinal, fmtRecord } from './format'
 import type { TabKey } from './TabNav'
 
 const DEADLINE_DAY = 120
@@ -40,6 +40,7 @@ export function Dashboard({
   const standings = getStandings(s)
   const divRows = standings.byDivision[team.division] ?? []
   const rank = divRows.findIndex((r) => r.team === s.userTeam) + 1
+  const userRow = standings.league.find((r) => r.team === s.userTeam)
   const cap = getCapUsage(s, s.userTeam)
   const upcoming = nextGames(s, s.userTeam, 5)
   const regularDone = !s.schedule.some((g) => !g.played)
@@ -62,57 +63,75 @@ export function Dashboard({
     if (played && played.played) setLiveGame(played)
   }
 
+  const nextGame = upcoming[0]
+
   return (
-    <div className="stack">
-      <PhaseBanner s={s} onNavigate={onNavigate} regularDone={regularDone} />
-
-      <div className="tiles">
-        <Tile k="Division Rank" v={rank > 0 ? ordinal(rank) : '—'} sub={team.division} />
-        <Tile k="Points" v={String(userPts(standings, s.userTeam))} sub={`${gp(standings, s.userTeam)} GP`} />
-        <Tile k="Team Overall" v={teamOverall(team.roster).toFixed(1)} sub="avg top 20" />
-        <Tile k="Day" v={`${s.day}`} sub={dayLabel(s.day)} />
-      </div>
-
-      {canSim && (
-        <Card title="Simulate">
-          <div className="card-pad row sim-buttons">
-            {todayGame && (
-              <button className="btn btn-accent" disabled={busy} onClick={playToday} title="Play out today's game period by period">
-                🏒 Play Today’s Game
-              </button>
+    <div className="dash">
+      {/* Hero scoreboard band — no card chrome; sits on the base. */}
+      <section className="hero">
+        <div className="hero-id">
+          <div className="hero-eyebrow">
+            <span>{seasonLabel(s.seasonYear)}</span>
+            <span className="dot">·</span>
+            <span>{phaseEyebrow(s, regularDone)}</span>
+            {rank > 0 && (
+              <>
+                <span className="dot">·</span>
+                <span>
+                  {ordinal(rank)} in {team.division}
+                </span>
+              </>
             )}
-            <button className="btn btn-primary" disabled={busy} onClick={() => sim(1)}>
-              Sim Day
-            </button>
-            <button className="btn" disabled={busy} onClick={() => sim(7)}>
-              Sim Week
-            </button>
-            <button className="btn" disabled={busy} onClick={() => sim(30)}>
-              Sim Month
-            </button>
-            <button
-              className="btn"
-              disabled={busy || s.day >= DEADLINE_DAY}
-              onClick={() => sim(DEADLINE_DAY - s.day)}
-              title="Trade deadline is day 120"
-            >
-              Sim to Deadline
-            </button>
-            <button className="btn" disabled={busy} onClick={() => apply(simToEndOfSeason(s))}>
-              Sim to End of Season
-            </button>
           </div>
-        </Card>
-      )}
+          <div className="hero-team">
+            <TeamLogo team={team} size={54} fallback={<span className="hero-crest">{team.abbrev}</span>} />
+            <div className="hero-team-names">
+              <div className="hero-city">{team.city}</div>
+              <div className="hero-name">{team.name}</div>
+            </div>
+          </div>
+          {userRow && (
+            <div className="hero-record">
+              <span className="hero-rec-num">{fmtRecord(userRow.w, userRow.l, userRow.otl)}</span>
+              <span className="hero-rec-sub">
+                {userRow.pts} PTS · {userRow.gp} GP · {teamOverall(team.roster).toFixed(1)} OVR
+              </span>
+            </div>
+          )}
+        </div>
 
-      <FormStrip s={s} onOpenBox={setBoxGame} />
+        <div className="hero-action">
+          <HeroAction
+            s={s}
+            regularDone={regularDone}
+            nextGame={nextGame}
+            todayGame={!!todayGame}
+            busy={busy}
+            canSim={canSim}
+            onPlay={playToday}
+            onSim={sim}
+            onSimEnd={() => apply(simToEndOfSeason(s))}
+            onNavigate={onNavigate}
+          />
+        </div>
+      </section>
 
-      <div className="grid dash-grid">
-        <Card title="News & Transactions">
-          <NewsFeed s={s} />
-        </Card>
+      <div className="dash-cols">
+        {/* LEFT — division snapshot + form + recent results */}
+        <div className="dash-col stack">
+          <StandingsSnapshot rows={divRows} userTeam={s.userTeam} teams={s.teams} onNavigate={onNavigate} />
+          <FormCard s={s} onOpenBox={setBoxGame} />
+        </div>
 
-        <div className="stack">
+        {/* CENTER — news feed */}
+        <div className="dash-col stack">
+          <Card title="News & Transactions">
+            <NewsFeed s={s} />
+          </Card>
+        </div>
+
+        {/* RIGHT — offers, cap, upcoming */}
+        <div className="dash-col stack">
           <OffersCard s={s} onNavigate={onNavigate} />
 
           <Card title="Salary Cap">
@@ -167,6 +186,202 @@ export function Dashboard({
   )
 }
 
+function phaseEyebrow(s: GameState, regularDone: boolean): string {
+  if (s.phase === 'playoffs') return 'Playoffs'
+  if (s.phase === 'offseason') return 'Offseason'
+  if (s.phase === 'over') return 'Dynasty Complete'
+  if (regularDone) return 'Regular Season Complete'
+  return 'Regular Season'
+}
+
+/**
+ * Right side of the hero. During the regular season it's the next-game panel
+ * plus integrated Play/Sim controls; in other phases it's the phase CTA.
+ */
+function HeroAction({
+  s,
+  regularDone,
+  nextGame,
+  todayGame,
+  busy,
+  canSim,
+  onPlay,
+  onSim,
+  onSimEnd,
+  onNavigate,
+}: {
+  s: GameState
+  regularDone: boolean
+  nextGame?: Game
+  todayGame: boolean
+  busy: boolean
+  canSim: boolean
+  onPlay: () => void
+  onSim: (days: number) => void
+  onSimEnd: () => void
+  onNavigate: (t: TabKey) => void
+}) {
+  if (s.phase === 'playoffs' || (regularDone && s.phase === 'regular')) {
+    return (
+      <div className="hero-cta">
+        <div className="hero-cta-text">
+          <div className="hero-cta-title">{regularDone ? 'Regular season complete' : 'Playoffs are underway'}</div>
+          <p>{regularDone ? 'Seeds are set — time for the postseason.' : 'Best-of-7 bracket. Advance round by round.'}</p>
+        </div>
+        <button className="btn btn-primary btn-lg btn-mblock" onClick={() => onNavigate('playoffs')}>
+          {regularDone ? 'Enter Playoffs →' : 'Go to Playoffs →'}
+        </button>
+      </div>
+    )
+  }
+  if (s.phase === 'offseason') {
+    return (
+      <div className="hero-cta">
+        <div className="hero-cta-text">
+          <div className="hero-cta-title">The offseason has begun</div>
+          <p>Awards, development, re-signings, the draft and free agency await.</p>
+        </div>
+        <button className="btn btn-primary btn-lg btn-mblock" onClick={() => onNavigate('offseason')}>
+          Go to Offseason Hub →
+        </button>
+      </div>
+    )
+  }
+  if (s.phase === 'over') {
+    return (
+      <div className="hero-cta">
+        <div className="hero-cta-text">
+          <div className="hero-cta-title">Your dynasty is complete</div>
+          <p>Ten seasons in the books. Review the legacy you built.</p>
+        </div>
+        <button className="btn btn-primary btn-lg btn-mblock" onClick={() => onNavigate('history')}>
+          View History →
+        </button>
+      </div>
+    )
+  }
+
+  // Regular season: next-game marquee + control deck.
+  const opp = nextGame ? s.teams[nextGame.home === s.userTeam ? nextGame.away : nextGame.home] : undefined
+  const oppAbbrev = nextGame ? (nextGame.home === s.userTeam ? nextGame.away : nextGame.home) : undefined
+  const home = nextGame ? nextGame.home === s.userTeam : false
+  return (
+    <div className="hero-play">
+      <div className="hero-next-label">Next Game</div>
+      {nextGame && opp ? (
+        <div className="hero-next">
+          <span className="hero-next-when">{dayLabel(nextGame.day)}</span>
+          <span className="hero-next-ha">{home ? 'vs' : '@'}</span>
+          <TeamLink abbrev={oppAbbrev} className="hero-next-opp">
+            <TeamLogo team={opp} size={30} />
+            <span className="hero-next-name">{opp.name}</span>
+          </TeamLink>
+          <span className="hero-next-str">OVR {teamOverall(opp.roster).toFixed(0)}</span>
+        </div>
+      ) : (
+        <div className="hero-next hero-next-empty">No games remaining.</div>
+      )}
+      {canSim && (
+        <div className="hero-controls-deck">
+          {todayGame && (
+            <button className="btn btn-accent" disabled={busy} onClick={onPlay} title="Play out today's game period by period">
+              🏒 Play Today’s Game
+            </button>
+          )}
+          <button className="btn btn-primary" disabled={busy} onClick={() => onSim(1)}>
+            Sim Day
+          </button>
+          <button className="btn" disabled={busy} onClick={() => onSim(7)}>
+            Sim Week
+          </button>
+          <button className="btn" disabled={busy} onClick={() => onSim(30)}>
+            Sim Month
+          </button>
+          <button
+            className="btn"
+            disabled={busy || s.day >= DEADLINE_DAY}
+            onClick={() => onSim(DEADLINE_DAY - s.day)}
+            title="Trade deadline is day 120"
+          >
+            To Deadline
+          </button>
+          <button className="btn" disabled={busy} onClick={onSimEnd}>
+            To Season End
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/** Compact division standings window with the playoff cutline (top 3). */
+function StandingsSnapshot({
+  rows,
+  userTeam,
+  teams,
+  onNavigate,
+}: {
+  rows: StandingsRow[]
+  userTeam: string
+  teams: GameState['teams']
+  onNavigate: (t: TabKey) => void
+}) {
+  const userIdx = rows.findIndex((r) => r.team === userTeam)
+  // Show a 4-row window that always includes the user; keep the top of the
+  // table so the playoff cutline (after 3rd) reads as a reference line.
+  let window: { row: StandingsRow; place: number }[]
+  if (userIdx <= 3) {
+    window = rows.slice(0, 4).map((row, i) => ({ row, place: i + 1 }))
+  } else {
+    window = [
+      ...rows.slice(0, 3).map((row, i) => ({ row, place: i + 1 })),
+      { row: rows[userIdx], place: userIdx + 1 },
+    ]
+  }
+  return (
+    <Card
+      title="Division"
+      right={
+        <button className="btn btn-sm btn-ghost" onClick={() => onNavigate('standings')}>
+          Full Table
+        </button>
+      }
+    >
+      <div className="table-wrap">
+        <table className="tbl snapshot-tbl">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th className="num">GP</th>
+              <th className="num">PTS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {window.map(({ row, place }) => {
+              const t = teams[row.team]
+              const cut = place === 3 // playoff line under 3rd
+              return (
+                <tr key={row.team} className={`${row.team === userTeam ? 'me' : ''} ${cut ? 'cutline' : ''}`}>
+                  <td className="num muted">{place}</td>
+                  <td>
+                    <TeamLink abbrev={row.team} className="team-link-inline">
+                      <TeamLogo team={t} size={18} />
+                      <span>{t?.abbrev ?? row.team}</span>
+                    </TeamLink>
+                  </td>
+                  <td className="num">{row.gp}</td>
+                  <td className="num">{row.pts}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </Card>
+  )
+}
+
 function OffersCard({ s, onNavigate }: { s: GameState; onNavigate: (t: TabKey) => void }) {
   const offers = s.pendingOffers
   return (
@@ -199,149 +414,77 @@ function OffersCard({ s, onNavigate }: { s: GameState; onNavigate: (t: TabKey) =
   )
 }
 
-function FormStrip({ s, onOpenBox }: { s: GameState; onOpenBox: (g: Game) => void }) {
+function FormCard({ s, onOpenBox }: { s: GameState; onOpenBox: (g: Game) => void }) {
   const last10 = [...recentGames(s, s.userTeam, 10)].reverse() // most recent last
   const last5 = recentGames(s, s.userTeam, 5) // newest first
-  if (last10.length === 0) return null
-  return (
-    <div className="grid dash-grid">
-      <Card title="Form — Last 10">
-        <div className="card-pad">
-          <div className="form-strip">
-            {last10.map((g) => {
-              const r = resultFor(g, s.userTeam)
-              const oppAbbrev = g.home === s.userTeam ? g.away : g.home
-              const opp = s.teams[oppAbbrev]
-              const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
-              const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
-              return (
-                <span
-                  key={g.id}
-                  className={`form-sq ${r.toLowerCase()}`}
-                  title={`${r} ${forGoals}-${oppGoals} vs ${opp?.name ?? oppAbbrev}${
-                    g.endType && g.endType !== 'REG' ? ` (${g.endType})` : ''
-                  }`}
-                >
-                  {r === 'OTL' ? 'O' : r}
-                </span>
-              )
-            })}
-          </div>
-        </div>
+  if (last10.length === 0) {
+    return (
+      <Card title="Form">
+        <div className="news-empty">No games played yet.</div>
       </Card>
-      <Card title="Recent Results">
-        {last5.length === 0 ? (
-          <div className="news-empty">No games played yet.</div>
-        ) : (
-          last5.map((g) => {
+    )
+  }
+  return (
+    <Card title="Form — Last 10">
+      <div className="card-pad" style={{ paddingBottom: 8 }}>
+        <div className="form-strip">
+          {last10.map((g) => {
             const r = resultFor(g, s.userTeam)
             const oppAbbrev = g.home === s.userTeam ? g.away : g.home
             const opp = s.teams[oppAbbrev]
-            const home = g.home === s.userTeam
             const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
             const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
             return (
-              <div
-                className="game-row clickable-row"
+              <span
                 key={g.id}
-                role="button"
-                tabIndex={0}
-                title="View box score"
-                onClick={() => onOpenBox(g)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') onOpenBox(g)
-                }}
+                className={`form-sq ${r.toLowerCase()}`}
+                title={`${r} ${forGoals}-${oppGoals} vs ${opp?.name ?? oppAbbrev}${
+                  g.endType && g.endType !== 'REG' ? ` (${g.endType})` : ''
+                }`}
               >
-                <span className={`result-pill ${r.toLowerCase()}`}>{r}</span>
-                <span className="game-when">{dayLabel(g.day)}</span>
-                <TeamLink abbrev={oppAbbrev} className="game-opp-link">
-                  <TeamLogo team={opp} size={20} />
-                  <span className="game-opp">
-                    <span className="ha">{home ? 'vs' : '@'}</span>
-                    {opp?.name ?? oppAbbrev}
-                  </span>
-                </TeamLink>
-                <span className="strength num">
-                  {forGoals}-{oppGoals}
-                  {g.endType && g.endType !== 'REG' ? ` ${g.endType}` : ''}
-                </span>
-              </div>
+                {r === 'OTL' ? 'O' : r}
+              </span>
             )
-          })
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function PhaseBanner({
-  s,
-  onNavigate,
-  regularDone,
-}: {
-  s: GameState
-  onNavigate: (t: TabKey) => void
-  regularDone: boolean
-}) {
-  if (s.phase === 'playoffs') {
-    return (
-      <div className="banner playoffs">
-        <div className="banner-body">
-          <h4>Playoffs are underway</h4>
-          <p>Best-of-7 bracket. Advance your run round by round.</p>
+          })}
         </div>
-        <button className="btn btn-primary btn-lg" onClick={() => onNavigate('playoffs')}>
-          Go to Playoffs →
-        </button>
       </div>
-    )
-  }
-  if (s.phase === 'offseason') {
-    return (
-      <div className="banner">
-        <div className="banner-body">
-          <h4>The offseason has begun</h4>
-          <p>Awards, development, re-signings, the draft and free agency await.</p>
-        </div>
-        <button className="btn btn-primary btn-lg" onClick={() => onNavigate('offseason')}>
-          Go to Offseason Hub →
-        </button>
-      </div>
-    )
-  }
-  if (s.phase === 'over') {
-    return (
-      <div className="banner over">
-        <div className="banner-body">
-          <h4>Your dynasty is complete</h4>
-          <p>Ten seasons in the books. Review the legacy you built.</p>
-        </div>
-        <button className="btn btn-primary btn-lg" onClick={() => onNavigate('history')}>
-          View History →
-        </button>
-      </div>
-    )
-  }
-  if (regularDone) {
-    return (
-      <div className="banner playoffs">
-        <div className="banner-body">
-          <h4>Regular season complete</h4>
-          <p>Seeds are set. Time for the postseason.</p>
-        </div>
-        <button className="btn btn-primary btn-lg" onClick={() => onNavigate('playoffs')}>
-          Enter Playoffs →
-        </button>
-      </div>
-    )
-  }
-  return (
-    <div className="banner">
-      <div className="banner-body">
-        <h4>{seasonLabel(s.seasonYear)} — chasing the Cup</h4>
-        <p>Manage the roster, work the phones, and sim toward the playoffs.</p>
-      </div>
-    </div>
+      <div className="form-recent-head">Recent Results</div>
+      {last5.map((g) => {
+        const r = resultFor(g, s.userTeam)
+        const oppAbbrev = g.home === s.userTeam ? g.away : g.home
+        const opp = s.teams[oppAbbrev]
+        const home = g.home === s.userTeam
+        const forGoals = g.home === s.userTeam ? g.homeGoals ?? 0 : g.awayGoals ?? 0
+        const oppGoals = g.home === s.userTeam ? g.awayGoals ?? 0 : g.homeGoals ?? 0
+        return (
+          <div
+            className="game-row clickable-row"
+            key={g.id}
+            role="button"
+            tabIndex={0}
+            title="View box score"
+            onClick={() => onOpenBox(g)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onOpenBox(g)
+            }}
+          >
+            <span className={`result-pill ${r.toLowerCase()}`}>{r}</span>
+            <span className="game-when">{dayLabel(g.day)}</span>
+            <TeamLink abbrev={oppAbbrev} className="game-opp-link">
+              <TeamLogo team={opp} size={20} />
+              <span className="game-opp">
+                <span className="ha">{home ? 'vs' : '@'}</span>
+                {opp?.name ?? oppAbbrev}
+              </span>
+            </TeamLink>
+            <span className="strength num">
+              {forGoals}-{oppGoals}
+              {g.endType && g.endType !== 'REG' ? ` ${g.endType}` : ''}
+            </span>
+          </div>
+        )
+      })}
+    </Card>
   )
 }
 
@@ -360,22 +503,4 @@ function NewsFeed({ s }: { s: GameState }) {
       ))}
     </div>
   )
-}
-
-function Tile({ k, v, sub }: { k: string; v: string; sub?: string }) {
-  return (
-    <div className="tile">
-      <div className="k">{k}</div>
-      <div className="v">
-        {v} {sub && <small>{sub}</small>}
-      </div>
-    </div>
-  )
-}
-
-function userPts(st: ReturnType<typeof getStandings>, team: string): number {
-  return st.league.find((r) => r.team === team)?.pts ?? 0
-}
-function gp(st: ReturnType<typeof getStandings>, team: string): number {
-  return st.league.find((r) => r.team === team)?.gp ?? 0
 }
