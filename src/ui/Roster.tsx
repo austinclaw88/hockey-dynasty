@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import type { GameState, Player } from '../types'
-import { callUp, sendDown, getCapUsage, toggleTradeBlock } from '../engine'
+import { useMemo, useState } from 'react'
+import type { GameState, Player, LineAssignments } from '../types'
+import { callUp, sendDown, getCapUsage, toggleTradeBlock, setUserLines, effectiveLines } from '../engine'
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge } from './components'
 import { PlayerModal } from './PlayerModal'
 import { TradeOptionsModal } from './TradeOptions'
 import { fmtM, potArrow, posGroup } from './format'
-import { autoLines, isHealthy } from './util'
-import type { ForwardSlot } from './util'
+import { isHealthy, buildPlayerIndex } from './util'
 import { useUI } from './uiContext'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 
@@ -166,7 +165,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
         </Card>
 
         <div className="grid dash-grid">
-          <LinesCard team={team} onPick={setSel} s={s} />
+          <LinesEditor s={s} apply={apply} pushToast={pushToast} />
           <Card title="Salary Cap">
             <div className="card-pad">
               <CapBar
@@ -307,75 +306,233 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   )
 }
 
-function LinesCard({ team, onPick, s }: { team: GameState['teams'][string]; onPick: (id: string) => void; s: GameState }) {
-  const lines = autoLines(team.roster)
-  const chip = (p: Player) => (
-    <button
-      key={p.id}
-      className="tag"
-      style={{ cursor: 'pointer' }}
-      onClick={() => onPick(p.id)}
-      title={`${p.name} · ${p.overall} OVR`}
-    >
-      {p.name.split(' ').slice(-1)[0]} {p.overall}
-    </button>
-  )
-  const slotChip = (fs: ForwardSlot, key: string) => {
-    const p = fs.player
-    if (!p) {
-      return (
-        <span key={key} className="line-slot">
-          <span className="slot-pos">{fs.slot}</span>
-          <span className="tag slot-empty">—</span>
-        </span>
-      )
+type LineSection = 'F' | 'D' | 'G'
+interface SlotRef {
+  sec: LineSection
+  i: number
+  j: number
+}
+
+const FWD_POS = ['LW', 'C', 'RW']
+const DEF_POS = ['LD', 'RD']
+const GOALIE_POS = ['S', 'B']
+
+const lastName = (name: string) => name.split(' ').slice(-1)[0]
+const sameSlot = (a: SlotRef, b: SlotRef) => a.sec === b.sec && a.i === b.i && a.j === b.j
+
+function slotLabel(slot: SlotRef): string {
+  if (slot.sec === 'F') return FWD_POS[slot.j] ?? ''
+  if (slot.sec === 'D') return DEF_POS[slot.j] ?? ''
+  return GOALIE_POS[slot.j] ?? 'G'
+}
+
+/** Position group a slot accepts, for the eligible-players list. */
+function slotGroup(sec: LineSection): Player['pos'][] {
+  if (sec === 'F') return ['C', 'LW', 'RW']
+  if (sec === 'D') return ['D']
+  return ['G']
+}
+
+/**
+ * Editable lines panel. Renders the ENGINE's fully-resolved lineup
+ * (effectiveLines) so injuries/auto-fill are already reflected, and writes any
+ * edit straight back with setUserLines. Slots the user hasn't pinned show an
+ * AUTO badge; pinned picks render as solid manual chips.
+ */
+function LinesEditor({
+  s,
+  apply,
+  pushToast,
+}: {
+  s: GameState
+  apply: (n: GameState) => void
+  pushToast: (kind: 'success' | 'error', text: string) => void
+}) {
+  const team = s.teams[s.userTeam]
+  const idx = useMemo(() => buildPlayerIndex(s), [s])
+  const eff = effectiveLines(s, s.userTeam)
+  const ul = s.userLines
+  const custom = !!ul
+  const [sel, setSel] = useState<SlotRef | null>(null)
+
+  const effAt = (slot: SlotRef): string => {
+    if (slot.sec === 'F') return eff.forwards[slot.i]?.[slot.j] ?? ''
+    if (slot.sec === 'D') return eff.defense[slot.i]?.[slot.j] ?? ''
+    return eff.goalies[slot.j] ?? ''
+  }
+  const isOverride = (slot: SlotRef): boolean => {
+    if (!ul) return false
+    if (slot.sec === 'F') return !!ul.forwards?.[slot.i]?.[slot.j]
+    if (slot.sec === 'D') return !!ul.defense?.[slot.i]?.[slot.j]
+    return !!ul.goalies?.[slot.j]
+  }
+
+  const baseGrid = (): LineAssignments => ({
+    forwards: [0, 1, 2, 3].map((i) => [0, 1, 2].map((j) => ul?.forwards?.[i]?.[j] ?? '')),
+    defense: [0, 1, 2].map((i) => [0, 1].map((j) => ul?.defense?.[i]?.[j] ?? '')),
+    goalies: [ul?.goalies?.[0] ?? '', ul?.goalies?.[1] ?? ''],
+  })
+  const writeSlot = (grid: LineAssignments, slot: SlotRef, id: string) => {
+    if (slot.sec === 'F') grid.forwards[slot.i][slot.j] = id
+    else if (slot.sec === 'D') grid.defense[slot.i][slot.j] = id
+    else grid.goalies[slot.j] = id
+  }
+  const clearId = (grid: LineAssignments, id: string) => {
+    grid.forwards.forEach((ln) => ln.forEach((v, j) => v === id && (ln[j] = '')))
+    grid.defense.forEach((ln) => ln.forEach((v, j) => v === id && (ln[j] = '')))
+    grid.goalies.forEach((v, j) => v === id && (grid.goalies[j] = ''))
+  }
+
+  function onSlotTap(slot: SlotRef) {
+    if (!sel) {
+      setSel(slot)
+      return
     }
-    const offPos = p.pos !== fs.slot
+    if (sameSlot(sel, slot)) {
+      setSel(null)
+      return
+    }
+    if (sel.sec !== slot.sec) {
+      // Can't swap across forward/defense/goalie groups — reselect instead.
+      setSel(slot)
+      return
+    }
+    const grid = baseGrid()
+    const a = effAt(sel)
+    const b = effAt(slot)
+    writeSlot(grid, sel, b)
+    writeSlot(grid, slot, a)
+    apply(setUserLines(s, grid))
+    setSel(null)
+  }
+
+  function onAssign(p: Player) {
+    if (!sel || !isHealthy(p)) return
+    const grid = baseGrid()
+    clearId(grid, p.id)
+    writeSlot(grid, sel, p.id)
+    apply(setUserLines(s, grid))
+    setSel(null)
+  }
+
+  function resetToAuto() {
+    apply(setUserLines(s, null))
+    setSel(null)
+    pushToast('success', 'Lines reset to auto.')
+  }
+
+  const eligible = sel
+    ? team.roster
+        .filter((p) => slotGroup(sel.sec).includes(p.pos))
+        .sort((a, b) => Number(!isHealthy(a)) - Number(!isHealthy(b)) || b.overall - a.overall)
+    : []
+
+  const renderSlot = (slot: SlotRef) => {
+    const id = effAt(slot)
+    const p = id ? idx.get(id)?.player : undefined
+    const override = isOverride(slot)
+    const selected = sel != null && sameSlot(sel, slot)
+    const injured = p != null && !isHealthy(p)
+    const label = slotLabel(slot)
+    const offPos = p != null && slot.sec === 'F' && p.pos !== label
     return (
-      <span key={p.id} className="line-slot">
-        <span className="slot-pos">{fs.slot}</span>
+      <span key={`${slot.sec}${slot.i}-${slot.j}`} className="line-slot">
+        <span className="slot-pos">{label}</span>
         <button
-          className="tag"
-          style={{ cursor: 'pointer' }}
-          onClick={() => onPick(p.id)}
-          title={`${p.name} · ${p.pos} · ${p.overall} OVR${offPos ? ` (playing ${fs.slot})` : ''}`}
+          type="button"
+          className={`lineup-chip ${override ? 'manual' : 'auto'}${selected ? ' sel' : ''}${p ? '' : ' empty'}`}
+          onClick={() => onSlotTap(slot)}
+          title={
+            p
+              ? `${p.name} · ${p.pos} · ${p.overall} OVR${override ? ' · pinned' : ' · auto'}`
+              : 'Empty slot — tap to fill'
+          }
         >
-          {p.name.split(' ').slice(-1)[0]} {p.overall}
-          {offPos && <span className="slot-off"> {p.pos}</span>}
+          {p ? (
+            <>
+              <span className="chip-name">{lastName(p.name)}</span>
+              <span className="chip-ovr">{p.overall}</span>
+              {offPos && <span className="slot-off">{p.pos}</span>}
+              {injured && <span className="chip-inj" title="Injured">✚</span>}
+              {!override && <span className="chip-flag">AUTO</span>}
+            </>
+          ) : (
+            <span className="chip-none">—</span>
+          )}
         </button>
       </span>
     )
   }
+
   return (
-    <Card title="Auto Lines">
-      <div className="card-pad" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {lines.forwards.map((ln, i) => (
-          <LineRow key={`f${i}`} label={`L${i + 1}`}>
-            {ln.map((fs, j) => slotChip(fs, `f${i}-${j}`))}
-          </LineRow>
+    <Card
+      title="Lines"
+      right={
+        <button className="btn btn-sm btn-ghost" disabled={!custom} onClick={resetToAuto}>
+          Reset to Auto
+        </button>
+      }
+    >
+      <div className="card-pad lines-editor">
+        <div className="lines-status">
+          {custom ? 'Custom lines — auto-saved' : 'Auto lines'}
+          {sel && <span className="lines-pick"> · pick a player or slot for {slotLabel(sel)}</span>}
+        </div>
+
+        {[0, 1, 2, 3].map((i) => (
+          <div className="line-group" key={`f${i}`}>
+            <span className="line-label">L{i + 1}</span>
+            {[0, 1, 2].map((j) => renderSlot({ sec: 'F', i, j }))}
+          </div>
         ))}
-        {lines.defense.map((pr, i) => (
-          <LineRow key={`d${i}`} label={`P${i + 1}`}>
-            {pr.map(chip)}
-          </LineRow>
+        {[0, 1, 2].map((i) => (
+          <div className="line-group" key={`d${i}`}>
+            <span className="line-label">P{i + 1}</span>
+            {[0, 1].map((j) => renderSlot({ sec: 'D', i, j }))}
+          </div>
         ))}
-        <LineRow label="G">{lines.goalies.map(chip)}</LineRow>
-        {lines.scratches.length > 0 && (
-          <LineRow label="Scr">{lines.scratches.map(chip)}</LineRow>
+        <div className="line-group">
+          <span className="line-label">G</span>
+          {[0, 1].map((j) => renderSlot({ sec: 'G', i: 0, j }))}
+        </div>
+
+        <div className="lines-hint">Top-line minutes boost scoring — and help young players develop faster.</div>
+
+        {sel && (
+          <div className="eligible-panel">
+            <div className="eligible-head">
+              <span>
+                Tap a player for <strong>{slotLabel(sel)}</strong>
+              </span>
+              <button className="btn btn-sm btn-ghost" onClick={() => setSel(null)}>
+                Cancel
+              </button>
+            </div>
+            <div className="eligible-list">
+              {eligible.map((p) => {
+                const inj = !isHealthy(p)
+                const dressed = effAt(sel) === p.id
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className={`eligible-chip${inj ? ' inj' : ''}${dressed ? ' here' : ''}`}
+                    disabled={inj}
+                    onClick={() => onAssign(p)}
+                    title={`${p.name} · ${p.pos} · ${p.overall} OVR`}
+                  >
+                    <PosTag pos={p.pos} />
+                    <span className="chip-name">{lastName(p.name)}</span>
+                    <span className="chip-ovr">{p.overall}</span>
+                    {inj && <span className="chip-inj">✚</span>}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
         )}
       </div>
     </Card>
-  )
-}
-
-function LineRow({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div className="row" style={{ gap: 6 }}>
-      <span className="k" style={{ minWidth: 30, color: 'var(--text-faint)', fontWeight: 700, fontSize: 11 }}>
-        {label}
-      </span>
-      {children}
-    </div>
   )
 }
 

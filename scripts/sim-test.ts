@@ -166,12 +166,24 @@ function runOffseason(s: GameState, checkNoStarFA: boolean): GameState {
     if (checkNoStarFA) assertNoStarFreeAgents(s, `offseason step ${step ?? '?'}`)
     assertOffersResolvable(s, `offseason step ${step ?? '?'}`)
     if (step === 'resign') {
-      // Re-sign every expiring player at their asking price.
+      // Re-sign every expiring player at their asking price. Cap-bug assertion:
+      // committed `used` must rise by EXACTLY the new AAV and never fall (an
+      // expiring player's dead 0-year hit must not be counted).
       const expiring = s.teams[s.userTeam].roster.filter((p) => p.contract && p.contract.yearsLeft <= 0).map((p) => p.id)
       for (const id of expiring) {
         const ask = getResignAsking(s, id)
+        const beforeUsed = getCapUsage(s, s.userTeam).used
         const r = resignPlayer(s, id, ask.years, ask.capHit)
-        if (r.ok) s = r.s
+        if (r.ok) {
+          s = r.s
+          const afterUsed = getCapUsage(s, s.userTeam).used
+          const newAAV = s.teams[s.userTeam].roster.find((p) => p.id === id)?.contract?.capHit ?? 0
+          assert(afterUsed >= beforeUsed - 0.001, `resign: cap used decreased (${beforeUsed.toFixed(3)}→${afterUsed.toFixed(3)}) for ${id}`)
+          assert(
+            Math.abs(afterUsed - beforeUsed - newAAV) <= 0.001,
+            `resign: cap used should rise by new AAV ${newAAV.toFixed(3)} but rose ${(afterUsed - beforeUsed).toFixed(3)} for ${id}`,
+          )
+        }
       }
     } else if (step === 'draft') {
       // Make user picks: best available by potential.

@@ -3,7 +3,7 @@
 import type { GameState, Player, TeamState } from '../types.ts'
 import { SEASONS_TOTAL, ROSTER_MIN, ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { nextCap, teamCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } from './helpers.ts'
+import { nextCap, committedCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } from './helpers.ts'
 import { maybeGenerateUserOffers } from './trades.ts'
 import { askingFor, signingOutcome, type Asking } from './contracts.ts'
 import { runDevelopment } from './development.ts'
@@ -49,11 +49,9 @@ export function prepareResign(s: GameState, rng: Rng): void {
     // AI re-signs in DESCENDING overall so stars are prioritised for scarce cap.
     expiring.sort((a, b) => b.overall - a.overall)
     // Cap already committed to players who are NOT expiring (their deals carry
-    // over); expiring deals free up. Track re-signings as we make them.
-    let committed = 0
-    for (const p of team.roster) {
-      if (p.contract && p.contract.yearsLeft > 0) committed += p.contract.capHit
-    }
+    // over); expiring deals free up. committedCapUsed skips the yearsLeft<=0
+    // expiring players still on the roster. Track re-signings as we make them.
+    let committed = committedCapUsed(team)
     for (const p of expiring) {
       const ask = askingFor(p, cap)
       const canFit = committed + ask.capHit <= cap + 0.001
@@ -93,8 +91,10 @@ export function doResignPlayer(s: GameState, playerId: string, years: number, ca
   const p = team.roster.find((x) => x.id === playerId)
   if (!p || !p.contract || p.contract.yearsLeft > 0) return { ok: false, reason: 'Player is not an expiring free agent.' }
   const cap = nextCap(s.seasonYear)
-  // Cap check (their expiring 0-year deal contributes nothing).
-  if (teamCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
+  // Cap check against COMMITTED cap only: every expiring player (this one and any
+  // others still awaiting a decision) carries a dead 0-year hit that must not be
+  // counted — committedCapUsed skips them, so re-signing reflects real space.
+  if (committedCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
   const ask = askingFor(p, cap)
   const isRFA = p.age < 27 || p.contract.expiry === 'RFA'
   if (isRFA) {
@@ -167,7 +167,7 @@ function fixRoster(s: GameState, team: TeamState, rng: Rng, isUser: boolean): vo
   const shedOverCap = (): void => {
     // Bring under cap by waiving lowest-overall (respecting position minimums).
     let guard = 0
-    while (teamCapUsed(team) > cap + 0.001 && team.roster.length > ROSTER_MIN && guard++ < 40) {
+    while (committedCapUsed(team) > cap + 0.001 && team.roster.length > ROSTER_MIN && guard++ < 40) {
       const c = rosterCounts(team)
       const removable = [...team.roster]
         .sort((a, b) => a.overall - b.overall)
@@ -196,14 +196,14 @@ function fixRoster(s: GameState, team: TeamState, rng: Rng, isUser: boolean): vo
   for (let round = 0; round < 3; round++) {
     shedOverCap()
     fillMinimums()
-    if (teamCapUsed(team) <= cap + 0.001) break
+    if (committedCapUsed(team) <= cap + 0.001) break
   }
   // A team CANNOT end the offseason over the cap. If every position is already
   // at its minimum (nothing left to shed) yet the roster is still over, swap the
   // least valuable non-minimum-salary player for a league-minimum journeyman of
   // the same position until legal. Guaranteed to converge (each swap lowers cap).
   let capGuard = 0
-  while (teamCapUsed(team) > cap + 0.001 && capGuard++ < 40) {
+  while (committedCapUsed(team) > cap + 0.001 && capGuard++ < 40) {
     const victim = [...team.roster].sort((a, b) => a.overall - b.overall).find((p) => (p.contract?.capHit ?? 0) > 0.9)
     if (!victim) break
     team.roster = team.roster.filter((p) => p.id !== victim.id)

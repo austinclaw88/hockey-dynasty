@@ -1,9 +1,10 @@
 // Public engine API (browser + Node safe — no data-file import lives here).
 // Every mutating function clones the input GameState and returns a NEW one so
 // callers never observe in-place mutation. RNG state is threaded via rngState.
-import type { GameState, StandingsRow, SeasonStatLine, Division, Player } from '../types.ts'
+import type { GameState, StandingsRow, SeasonStatLine, Division, Player, LineAssignments } from '../types.ts'
 import { Rng } from './rng.ts'
-import { currentCap, nextCap, teamCapUsed, pruneTradeBlock } from './helpers.ts'
+import { currentCap, nextCap, teamCapUsed, committedCapUsed, pruneTradeBlock } from './helpers.ts'
+import { effectiveLines } from './sim.ts'
 import { standingsView } from './standings.ts'
 import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
 import { advancePlayoffRound } from './playoffs.ts'
@@ -105,6 +106,39 @@ export function sendDown(s: GameState, playerId: string): { s: GameState; ok: bo
   return withResult(s, (st) => doSendDown(st, playerId))
 }
 
+// ---- lines ----------------------------------------------------------------
+/** Resolved, all-slots-filled lineup for a team (user lines honoured, others
+ *  auto). The UI displays this; the sim drives attribution from it. */
+export { effectiveLines }
+/** Set the user team's manual line assignments (null clears to full-auto). Ids
+ *  are validated against the user roster; invalid/foreign ids are silently
+ *  dropped to '' (the sim auto-fills those slots). Returns a NEW GameState. */
+export function setUserLines(s0: GameState, lines: LineAssignments | null): GameState {
+  const s = clone(s0)
+  if (lines === null) {
+    s.userLines = undefined
+    return s
+  }
+  const team = s.teams[s.userTeam]
+  const ids = new Set(team ? team.roster.map((p) => p.id) : [])
+  const keep = (id: string | undefined): string => (id && ids.has(id) ? id : '')
+  const sanitize = (rows: string[][] | undefined, nLines: number, slotLen: number): string[][] => {
+    const out: string[][] = []
+    for (let i = 0; i < nLines; i++) {
+      const row: string[] = []
+      for (let j = 0; j < slotLen; j++) row.push(keep(rows?.[i]?.[j]))
+      out.push(row)
+    }
+    return out
+  }
+  s.userLines = {
+    forwards: sanitize(lines.forwards, 4, 3),
+    defense: sanitize(lines.defense, 3, 2),
+    goalies: [keep(lines.goalies?.[0]), keep(lines.goalies?.[1])],
+  }
+  return s
+}
+
 // ---- trades ---------------------------------------------------------------
 export function evaluateTrade(s: GameState, offer: TradeOffer): { accept: boolean; verdict: string; delta: number } {
   return evaluateTradeCore(s, offer)
@@ -182,7 +216,10 @@ export function getCapUsage(s: GameState, team: string): { used: number; cap: nu
   const offseason = s.phase === 'offseason'
   const cap = offseason ? nextCap(s.seasonYear) : currentCap(s.seasonYear)
   const capYear = offseason ? s.seasonYear + 1 : s.seasonYear
-  const used = t ? teamCapUsed(t) : 0
+  // Offseason reports COMMITTED cap only: an expiring player's dead 0-year hit is
+  // excluded so re-signing him below his old AAV correctly REDUCES displayed space
+  // (previously the dead hit inflated `used` and space jumped the wrong way).
+  const used = t ? (offseason ? committedCapUsed(t) : teamCapUsed(t)) : 0
   return { used, cap, space: Math.round((cap - used) * 1000) / 1000, capYear }
 }
 

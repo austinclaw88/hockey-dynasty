@@ -4,7 +4,7 @@ import { ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { askingFor, signingOutcome } from './contracts.ts'
 import { generateName, pickNationality } from './names.ts'
-import { currentCap, nextCap, teamCapUsed, rosterCounts, isForward, pushNews } from './helpers.ts'
+import { currentCap, nextCap, committedCapUsed, rosterCounts, isForward, pushNews } from './helpers.ts'
 
 export function toFreeAgent(p: Player, cap: number): FreeAgent {
   const fa: FreeAgent = { ...p, contract: null, injuryWeeks: 0, asking: askingFor(p, cap) }
@@ -85,7 +85,7 @@ export function aiFreeAgencyDay(s: GameState, rng: Rng): void {
     let signings = 0
     const maxSignings = rng.int(1, 2)
     while (signings < maxSignings) {
-      const space = cap - teamCapUsed(team)
+      const space = cap - committedCapUsed(team)
       const counts = rosterCounts(team)
       if (counts.total >= ROSTER_MAX) break
       const need = positionNeed(team)
@@ -121,7 +121,8 @@ export function doSignFreeAgent(s: GameState, playerId: string, years: number, c
   const cap = nextCap(s.seasonYear)
   const team = s.teams[s.userTeam]
   if (rosterCounts(team).total >= ROSTER_MAX) return { ok: false, reason: 'Roster is full (23).' }
-  if (teamCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
+  // Offseason cap basis: exclude any not-yet-resolved expired deals (committed).
+  if (committedCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
   const outcome = signingOutcome(fa.asking, capHit, rng.next())
   if (!outcome.ok) return { ok: false, reason: outcome.reason }
   const expiry: 'RFA' | 'UFA' = fa.age < 27 ? 'RFA' : 'UFA'

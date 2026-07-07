@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import type { GameState, Player, CareerSeason, SeasonStatLine, FreeAgent } from '../types'
-import { Modal, OvrBadge, ExpiryTag } from './components'
+import { Modal, OvrBadge, ExpiryTag, TeamLogo } from './components'
 import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow, seasonLabel } from './format'
 import { buildScoringLog, dayLabel } from './util'
 import { useUI } from './uiContext'
@@ -132,11 +132,11 @@ export function PlayerModal({
         {awayTeam && (
           <div style={{ marginTop: 16 }}>
             <button
-              className="btn btn-primary btn-block"
+              className="btn btn-inquiry btn-block"
               onClick={() => whatWouldItTake(awayTeam, player.id)}
-              title={`Ask ${teamInfo?.name ?? awayTeam} what it would take`}
+              title={`Ask ${teamInfo?.name ?? awayTeam} about a trade for ${player.name}`}
             >
-              💬 What would it take?
+              💬 Ask about a trade
             </button>
           </div>
         )}
@@ -251,38 +251,49 @@ function CareerRow({
 function ScoringLog({ s, player }: { s: GameState; player: Player }) {
   const rows = useMemo(() => buildScoringLog(s, player.id), [s.schedule, player.id])
   if (rows.length === 0) return null
+  const totG = rows.reduce((n, r) => n + r.g, 0)
+  const totA = rows.reduce((n, r) => n + r.a, 0)
   return (
     <>
       <div className="mini-title">Scoring log</div>
-      <div className="table-wrap">
-        <table className="tbl">
+      <div className="table-wrap scoring-scroll">
+        <table className="tbl scoring-log">
           <thead>
             <tr>
               <th>Date</th>
               <th>Opp</th>
               <th className="num">G</th>
               <th className="num">A</th>
-              <th className="num">PTS</th>
+              <th className="num">P</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
               <tr key={r.game.id}>
-                <td>{dayLabel(r.game.day)}</td>
-                <td>
-                  <span className="ha">{r.home ? 'vs' : '@'}</span>
-                  {r.opp}
+                <td className="log-date">{dayLabel(r.game.day)}</td>
+                <td className="log-opp">
+                  <span className="ha">{r.home ? '' : '@'}</span>
+                  <TeamLogo team={s.teams[r.opp]} size={16} />
+                  <span className="opp-abbr">{r.opp}</span>
                 </td>
                 <td className="num">{r.g}</td>
                 <td className="num">{r.a}</td>
-                <td className="num" style={{ fontWeight: 700 }}>
-                  {r.g + r.a}
-                </td>
+                <td className="num log-pts">{r.g + r.a}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr className="log-totals">
+              <td>Total</td>
+              <td className="muted">{rows.length} GP</td>
+              <td className="num">{totG}</td>
+              <td className="num">{totA}</td>
+              <td className="num log-pts">{totG + totA}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
+      <div className="log-caption">Showing scoring games only</div>
     </>
   )
 }
