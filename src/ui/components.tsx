@@ -22,6 +22,14 @@ export function TeamLogo({
   fallback?: ReactNode
 }) {
   const [failed, setFailed] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+  // A hanging request (slow network, proxied env) should not leave a blank
+  // crest — fall back if the logo hasn't loaded within 2.5s.
+  useEffect(() => {
+    if (loaded || failed) return
+    const t = setTimeout(() => setFailed(true), 2500)
+    return () => clearTimeout(t)
+  }, [loaded, failed])
   const abbrev = team?.abbrev
   if (!abbrev || failed) {
     if (fallback !== undefined) return <>{fallback}</>
@@ -48,6 +56,7 @@ export function TeamLogo({
       height={size}
       style={{ width: size, height: size }}
       onError={() => setFailed(true)}
+      onLoad={() => setLoaded(true)}
     />
   )
 }
