@@ -3,7 +3,7 @@
 // callers never observe in-place mutation. RNG state is threaded via rngState.
 import type { GameState, StandingsRow, SeasonStatLine, Division, Player, LineAssignments } from '../types.ts'
 import { Rng } from './rng.ts'
-import { currentCap, nextCap, teamCapUsed, committedCapUsed, pruneTradeBlock } from './helpers.ts'
+import { currentCap, nextCap, teamCapUsed, committedCapUsed, pruneTradeBlock, pushNews } from './helpers.ts'
 import { effectiveLines } from './sim.ts'
 import { standingsView } from './standings.ts'
 import { advanceRegularDays, advanceToEndOfSeason } from './season.ts'
@@ -189,6 +189,18 @@ export function autoCompleteFantasyDraft(s: GameState): GameState {
 }
 
 // ---- roster moves ---------------------------------------------------------
+/** Release one of the user's prospects outright (irreversible). */
+export function releaseProspect(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string } {
+  return withResult(s, (st) => {
+    const team = st.teams[st.userTeam]
+    const p = team.prospects.find((x) => x.id === playerId)
+    if (!p) return { ok: false, reason: 'Not one of your prospects.' }
+    team.prospects = team.prospects.filter((x) => x.id !== playerId)
+    pushNews(st, `${p.name} has been released from the ${st.userTeam} prospect system.`)
+    return { ok: true }
+  })
+}
+
 export function callUp(s: GameState, playerId: string): { s: GameState; ok: boolean; reason?: string } {
   return withResult(s, (st) => doCallUp(st, playerId))
 }

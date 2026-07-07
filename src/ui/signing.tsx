@@ -90,6 +90,20 @@ function roundLabel(r: number): string {
 }
 
 /** Human compensation summary, e.g. "2027 1st + 3rd" or "No compensation". */
+/** Whether the user owns the picks required to sheet this player at his ask. */
+export function canAffordSheet(s: GameState, fa: FreeAgent): boolean {
+  const rounds = compensationRounds(fa.asking.capHit)
+  if (rounds.length === 0) return true
+  const owned = s.teams[s.userTeam].picks.filter((p) => p.owner === s.userTeam)
+  const used = new Set<number>()
+  for (const r of rounds) {
+    const idx = owned.findIndex((p, i) => p.round === r && !used.has(i))
+    if (idx === -1) return false
+    used.add(idx)
+  }
+  return true
+}
+
 export function compensationLabel(aav: number, draftYear: number): string {
   const rounds = compensationRounds(aav)
   if (rounds.length === 0) return 'No compensation'

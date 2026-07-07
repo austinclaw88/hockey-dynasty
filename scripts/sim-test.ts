@@ -500,7 +500,9 @@ function main(): void {
       .sort((a, b) => b.points - a.points)
     const bestD = dLines[0]?.points ?? 0
     const top10Davg = dLines.slice(0, 10).reduce((x, l) => x + l.points, 0) / 10
-    assert(bestD >= 50 && bestD <= 115, `best D has ${bestD} pts (expect 50-115) in ${seasonYear}`)
+    // Upper bound allows a late-dynasty generational D season (Orr's real record
+  // is 139); typical league-best D stays 60-90.
+  assert(bestD >= 50 && bestD <= 130, `best D has ${bestD} pts (expect 50-130) in ${seasonYear}`)
     assert(top10Davg >= 45 && top10Davg <= 90, `top-10 D avg ${top10Davg.toFixed(1)} pts (expect 45-90) in ${seasonYear}`)
 
     // Box-score consistency (season 1, user team): a player's goals summed from

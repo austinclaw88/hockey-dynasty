@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { prettifyId } from './util'
 import type { GameState } from '../types'
 import { Card, Crest, PlayerLink } from './components'
 import { seasonLabel, fmtRecord } from './format'
@@ -175,7 +176,7 @@ function FranchiseRecords({ s }: { s: GameState }) {
     for (const id of Object.keys(s.careers)) {
       for (const cs of s.careers[id]) {
         if (cs.team !== s.userTeam) continue
-        const name = nameFor(id, `#${id.slice(0, 6)}`)
+        const name = nameFor(id, s.names?.[id] ?? prettifyId(id))
         const e = agg.get(id) ?? { id, name, gp: 0, goals: 0, assists: 0, points: 0, seasons: 0 }
         e.gp += cs.gp
         e.goals += cs.goals

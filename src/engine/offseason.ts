@@ -3,7 +3,7 @@
 import type { GameState, Player, TeamState } from '../types.ts'
 import { SEASONS_TOTAL, ROSTER_MIN, ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { nextCap, committedCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } from './helpers.ts'
+import { nextCap, committedCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock, registerName } from './helpers.ts'
 import { maybeGenerateUserOffers } from './trades.ts'
 import { askingFor, signingOutcome, effectiveAsk, type Asking } from './contracts.ts'
 import { runDevelopment } from './development.ts'
@@ -158,6 +158,7 @@ export function prepareDraft(s: GameState, rng: Rng): void {
   const real = file && file.year === draftYear && file.players.length > 0 ? file.players : undefined
   s.draftOrder = buildDraftOrder(s, rng)
   s.draftClass = generateDraftClass(rng, draftYear, real)
+  for (const p of s.draftClass) registerName(s, p)
   ext(s)._draftResults = []
   s.day = 0
   s.offseasonStep = 'draft'
@@ -169,7 +170,7 @@ let jmnCounter = 0
 function makeJourneyman(s: GameState, pos: Player['pos'], rng: Rng): Player {
   const age = rng.int(24, 32)
   const nationality = pickNationality(rng)
-  return {
+  const jm: Player = {
     id: `JMN-${s.seasonYear}-${jmnCounter++}`,
     name: generateName(rng, nationality),
     pos,
@@ -182,6 +183,8 @@ function makeJourneyman(s: GameState, pos: Player['pos'], rng: Rng): Player {
     retired: false,
     contract: { capHit: 0.775, yearsLeft: 1, expiry: age < 27 ? 'RFA' : 'UFA' },
   }
+  registerName(s, jm)
+  return jm
 }
 
 function fixRoster(s: GameState, team: TeamState, rng: Rng, isUser: boolean): void {

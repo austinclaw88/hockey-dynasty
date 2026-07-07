@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { GameState, Player, CareerSeason, SeasonStatLine, FreeAgent } from '../types'
 import { Modal, OvrBadge, ExpiryTag, TeamLogo } from './components'
 import { fmtM, fmtSigned, fmtGaa, fmtSvPct, potArrow, seasonLabel } from './format'
@@ -278,12 +278,22 @@ function CareerRow({
 
 function ScoringLog({ s, player }: { s: GameState; player: Player }) {
   const rows = useMemo(() => buildScoringLog(s, player.id), [s.schedule, player.id])
+  const [showAll, setShowAll] = useState(false)
   if (rows.length === 0) return null
   const totG = rows.reduce((n, r) => n + r.g, 0)
   const totA = rows.reduce((n, r) => n + r.a, 0)
+  // Long seasons make the full log unwieldy — show the latest 8 by default.
+  const visible = showAll ? rows : rows.slice(-8)
   return (
     <>
-      <div className="mini-title">Scoring log</div>
+      <div className="mini-title">
+        Scoring log
+        {rows.length > 8 && (
+          <button className="btn btn-sm btn-ghost log-toggle" onClick={() => setShowAll(!showAll)}>
+            {showAll ? 'Latest 8' : `Show all ${rows.length}`}
+          </button>
+        )}
+      </div>
       <div className="table-wrap scoring-scroll">
         <table className="tbl scoring-log">
           <thead>
@@ -296,7 +306,7 @@ function ScoringLog({ s, player }: { s: GameState; player: Player }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
+            {visible.map((r) => (
               <tr key={r.game.id}>
                 <td className="log-date">{dayLabel(r.game.day)}</td>
                 <td className="log-opp">
