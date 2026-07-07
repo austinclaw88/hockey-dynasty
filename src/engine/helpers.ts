@@ -18,6 +18,11 @@ export interface EngineExtras {
   /** Real projected draft class (data/draft-2027.json) threaded in via newGame,
    *  used to seed the FIRST in-game entry draft. Undefined/empty => generated. */
   _draft2027?: DraftClassFile
+  /** Recent fantasy-draft picks (for the board's "recent" feed). */
+  _fantasyResults?: DraftResult[]
+  /** Season year in which AI mid-season contract extensions have already run
+   *  (so the pass fires at most once per regular season). */
+  _extSeason?: number
 }
 export type ES = GameState & EngineExtras
 

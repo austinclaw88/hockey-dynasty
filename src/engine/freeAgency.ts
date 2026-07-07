@@ -2,7 +2,7 @@
 import type { GameState, Player, FreeAgent, Position, TeamState } from '../types.ts'
 import { ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
-import { askingFor, signingOutcome } from './contracts.ts'
+import { askingFor, signingOutcome, effectiveAsk } from './contracts.ts'
 import { generateName, pickNationality } from './names.ts'
 import { currentCap, nextCap, committedCapUsed, rosterCounts, isForward, pushNews } from './helpers.ts'
 
@@ -15,7 +15,7 @@ export function toFreeAgent(p: Player, cap: number): FreeAgent {
 function generateVeteranFA(rng: Rng, cap: number, year: number, i: number): FreeAgent {
   const roll = rng.next()
   const pos: Position = roll < 0.6 ? (rng.chance(0.5) ? 'C' : rng.chance(0.5) ? 'LW' : 'RW') : roll < 0.85 ? 'D' : 'G'
-  const overall = rng.int(70, 82)
+  const overall = rng.int(68, 72) // depth-tier filler only; real players dominate the pool
   const age = rng.int(27, 35)
   const nationality = pickNationality(rng)
   const p: Player = {
@@ -39,7 +39,12 @@ export function prepareFreeAgency(s: GameState, rng: Rng): void {
   const cap = nextCap(s.seasonYear)
   // Ensure walked players already have asking (they were added during resign).
   s.freeAgents = s.freeAgents.map((fa) => (fa.asking ? fa : toFreeAgent(fa, cap)))
-  const fillers = 30
+  // Real players (35 seeded UFAs + anyone who walked) should DOMINATE the pool.
+  // Only top up with a handful of depth-tier fillers when the pool is genuinely
+  // thin (< 25), and never more than ~8 league-wide (all <= 72 OVR).
+  const POOL_MIN = 25
+  const MAX_FILLERS = 8
+  const fillers = s.freeAgents.length < POOL_MIN ? Math.min(MAX_FILLERS, POOL_MIN - s.freeAgents.length) : 0
   const start = s.freeAgents.length
   for (let i = 0; i < fillers; i++) {
     s.freeAgents.push(generateVeteranFA(rng, cap, s.seasonYear, start + i))
@@ -114,8 +119,9 @@ export function aiFreeAgencyDay(s: GameState, rng: Rng): void {
   }
 }
 
-/** User signs a free agent. Returns ok/reason; mutates `s`. */
-export function doSignFreeAgent(s: GameState, playerId: string, years: number, capHit: number, rng: Rng): { ok: boolean; reason?: string } {
+/** User signs a free agent. Returns ok/reason; mutates `s`. Offering an NTC and
+ *  extra term lower the player's effective ask (see effectiveAsk). */
+export function doSignFreeAgent(s: GameState, playerId: string, years: number, capHit: number, rng: Rng, ntc = false): { ok: boolean; reason?: string } {
   const fa = s.freeAgents.find((x) => x.id === playerId)
   if (!fa) return { ok: false, reason: 'Player is not a free agent.' }
   const cap = nextCap(s.seasonYear)
@@ -123,7 +129,8 @@ export function doSignFreeAgent(s: GameState, playerId: string, years: number, c
   if (rosterCounts(team).total >= ROSTER_MAX) return { ok: false, reason: 'Roster is full (23).' }
   // Offseason cap basis: exclude any not-yet-resolved expired deals (committed).
   if (committedCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
-  const outcome = signingOutcome(fa.asking, capHit, rng.next())
+  const eff = effectiveAsk(fa.asking, fa, years, ntc)
+  const outcome = signingOutcome({ capHit: eff, years }, capHit, rng.next())
   if (!outcome.ok) return { ok: false, reason: outcome.reason }
   const expiry: 'RFA' | 'UFA' = fa.age < 27 ? 'RFA' : 'UFA'
   const player: Player = {
@@ -137,10 +144,10 @@ export function doSignFreeAgent(s: GameState, playerId: string, years: number, c
     nationality: fa.nationality,
     injuryWeeks: 0,
     retired: false,
-    contract: { capHit: Math.round(capHit * 1000) / 1000, yearsLeft: years, expiry },
+    contract: { capHit: Math.round(capHit * 1000) / 1000, yearsLeft: years, expiry, ntc: ntc || undefined },
   }
   team.roster.push(player)
   s.freeAgents = s.freeAgents.filter((x) => x.id !== fa.id)
-  pushNews(s, `${player.name} signs with ${s.userTeam} (${capHit.toFixed(2)}M x${years}).`)
+  pushNews(s, `${player.name} signs with ${s.userTeam} (${capHit.toFixed(2)}M x${years}${ntc ? ', NTC' : ''}).`)
   return { ok: true }
 }

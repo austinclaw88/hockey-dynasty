@@ -1,35 +1,1437 @@
 {
-  "info": { "abbrev": "CBJ", "city": "Columbus", "name": "Blue Jackets", "conference": "East", "division": "Metropolitan", "color": "#002654", "colorSecondary": "#CE1126" },
+  "info": {
+    "abbrev": "CBJ",
+    "city": "Columbus",
+    "name": "Blue Jackets",
+    "conference": "East",
+    "division": "Metropolitan",
+    "color": "#002654",
+    "colorSecondary": "#CE1126"
+  },
   "roster": [
-    { "id": "CBJ-marchenko", "name": "Kirill Marchenko", "pos": "RW", "age": 26, "shoots": "L", "overall": 86, "potential": 88, "nationality": "RUS", "contract": {"capHit": 6.0, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2022, "team": "CBJ", "gp": 59, "goals": 21, "assists": 21, "points": 42, "plusMinus": -1, "pim": 12}, {"year": 2023, "team": "CBJ", "gp": 78, "goals": 23, "assists": 19, "points": 42, "plusMinus": -12, "pim": 20}, {"year": 2024, "team": "CBJ", "gp": 79, "goals": 31, "assists": 43, "points": 74, "plusMinus": 6, "pim": 30}, {"year": 2025, "team": "CBJ", "gp": 76, "goals": 27, "assists": 40, "points": 67, "plusMinus": 7, "pim": 28}] },
-    { "id": "CBJ-fantilli", "name": "Adam Fantilli", "pos": "C", "age": 21, "shoots": "L", "overall": 86, "potential": 92, "nationality": "CAN", "contract": {"capHit": 8.5, "yearsLeft": 8, "expiry": "UFA"}, "history": [{"year": 2023, "team": "CBJ", "gp": 49, "goals": 12, "assists": 15, "points": 27, "plusMinus": -1, "pim": 22}, {"year": 2024, "team": "CBJ", "gp": 82, "goals": 31, "assists": 23, "points": 54, "plusMinus": -11, "pim": 40}, {"year": 2025, "team": "CBJ", "gp": 82, "goals": 24, "assists": 35, "points": 59, "plusMinus": -13, "pim": 38}] },
-    { "id": "CBJ-monahan", "name": "Sean Monahan", "pos": "C", "age": 31, "shoots": "L", "overall": 80, "potential": 80, "nationality": "CAN", "contract": {"capHit": 5.5, "yearsLeft": 3, "expiry": "UFA"}, "history": [{"year": 2021, "team": "CGY", "gp": 65, "goals": 8, "assists": 15, "points": 23, "plusMinus": -21, "pim": 20}, {"year": 2022, "team": "MTL", "gp": 25, "goals": 6, "assists": 11, "points": 17, "plusMinus": -1, "pim": 10}, {"year": 2023, "team": "WPG", "gp": 69, "goals": 19, "assists": 29, "points": 48, "plusMinus": 2, "pim": 22}, {"year": 2024, "team": "CBJ", "gp": 53, "goals": 15, "assists": 42, "points": 57, "plusMinus": 5, "pim": 20}, {"year": 2025, "team": "CBJ", "gp": 78, "goals": 13, "assists": 23, "points": 36, "plusMinus": -6, "pim": 22}] },
-    { "id": "CBJ-coyle", "name": "Charlie Coyle", "pos": "C", "age": 34, "shoots": "R", "overall": 79, "potential": 79, "nationality": "USA", "contract": {"capHit": 6.0, "yearsLeft": 6, "expiry": "UFA"}, "history": [{"year": 2021, "team": "BOS", "gp": 82, "goals": 16, "assists": 28, "points": 44, "plusMinus": 18, "pim": 30}, {"year": 2022, "team": "BOS", "gp": 82, "goals": 16, "assists": 15, "points": 31, "plusMinus": 9, "pim": 40}, {"year": 2023, "team": "BOS", "gp": 82, "goals": 25, "assists": 35, "points": 60, "plusMinus": 16, "pim": 42}, {"year": 2024, "team": "COL", "gp": 80, "goals": 13, "assists": 27, "points": 40, "plusMinus": -3, "pim": 36}, {"year": 2025, "team": "CBJ", "gp": 82, "goals": 20, "assists": 38, "points": 58, "plusMinus": 4, "pim": 30}] },
-    { "id": "CBJ-voronkov", "name": "Dmitri Voronkov", "pos": "LW", "age": 26, "shoots": "L", "overall": 81, "potential": 84, "nationality": "RUS", "contract": {"capHit": 3.5, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2023, "team": "CBJ", "gp": 74, "goals": 18, "assists": 12, "points": 30, "plusMinus": -1, "pim": 40}, {"year": 2024, "team": "CBJ", "gp": 76, "goals": 23, "assists": 24, "points": 47, "plusMinus": 6, "pim": 50}, {"year": 2025, "team": "CBJ", "gp": 63, "goals": 17, "assists": 15, "points": 32, "plusMinus": 3, "pim": 59}] },
-    { "id": "CBJ-sillinger", "name": "Cole Sillinger", "pos": "C", "age": 23, "shoots": "L", "overall": 79, "potential": 84, "nationality": "CAN", "contract": {"capHit": 2.75, "yearsLeft": 2, "expiry": "RFA"}, "history": [{"year": 2021, "team": "CBJ", "gp": 79, "goals": 16, "assists": 15, "points": 31, "plusMinus": -35, "pim": 20}, {"year": 2022, "team": "CBJ", "gp": 64, "goals": 7, "assists": 14, "points": 21, "plusMinus": -20, "pim": 14}, {"year": 2023, "team": "CBJ", "gp": 77, "goals": 8, "assists": 15, "points": 23, "plusMinus": -18, "pim": 20}, {"year": 2024, "team": "CBJ", "gp": 79, "goals": 14, "assists": 19, "points": 33, "plusMinus": -8, "pim": 24}, {"year": 2025, "team": "CBJ", "gp": 80, "goals": 8, "assists": 25, "points": 33, "plusMinus": -5, "pim": 28}] },
-    { "id": "CBJ-johnson", "name": "Kent Johnson", "pos": "C", "age": 23, "shoots": "L", "overall": 81, "potential": 86, "nationality": "CAN", "contract": {"capHit": 2.1, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2021, "team": "CBJ", "gp": 9, "goals": 1, "assists": 2, "points": 3, "plusMinus": 0, "pim": 2}, {"year": 2022, "team": "CBJ", "gp": 79, "goals": 16, "assists": 24, "points": 40, "plusMinus": -25, "pim": 20}, {"year": 2023, "team": "CBJ", "gp": 15, "goals": 2, "assists": 3, "points": 5, "plusMinus": -3, "pim": 4}, {"year": 2024, "team": "CBJ", "gp": 68, "goals": 24, "assists": 33, "points": 57, "plusMinus": 5, "pim": 20}, {"year": 2025, "team": "CBJ", "gp": 76, "goals": 7, "assists": 15, "points": 22, "plusMinus": -8, "pim": 16}] },
-    { "id": "CBJ-chinakhov", "name": "Yegor Chinakhov", "pos": "RW", "age": 25, "shoots": "L", "overall": 78, "potential": 82, "nationality": "RUS", "contract": {"capHit": 2.1, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2021, "team": "CBJ", "gp": 62, "goals": 14, "assists": 7, "points": 21, "plusMinus": -1, "pim": 10}, {"year": 2022, "team": "CBJ", "gp": 20, "goals": 5, "assists": 6, "points": 11, "plusMinus": -5, "pim": 4}, {"year": 2023, "team": "CBJ", "gp": 60, "goals": 15, "assists": 19, "points": 34, "plusMinus": -5, "pim": 14}, {"year": 2024, "team": "CBJ", "gp": 30, "goals": 7, "assists": 8, "points": 15, "plusMinus": -2, "pim": 8}, {"year": 2025, "team": "PIT", "gp": 72, "goals": 21, "assists": 21, "points": 42, "plusMinus": 0, "pim": 20}] },
-    { "id": "CBJ-wood", "name": "Miles Wood", "pos": "LW", "age": 31, "shoots": "L", "overall": 76, "potential": 76, "nationality": "USA", "contract": {"capHit": 2.5, "yearsLeft": 2, "expiry": "UFA"}, "history": [{"year": 2021, "team": "NJD", "gp": 76, "goals": 13, "assists": 16, "points": 29, "plusMinus": -9, "pim": 60}, {"year": 2022, "team": "NJD", "gp": 76, "goals": 13, "assists": 12, "points": 25, "plusMinus": 19, "pim": 50}, {"year": 2023, "team": "COL", "gp": 75, "goals": 12, "assists": 14, "points": 26, "plusMinus": 3, "pim": 50}, {"year": 2024, "team": "COL", "gp": 39, "goals": 6, "assists": 8, "points": 14, "plusMinus": 0, "pim": 30}, {"year": 2025, "team": "CBJ", "gp": 47, "goals": 6, "assists": 8, "points": 14, "plusMinus": -10, "pim": 24}] },
-    { "id": "CBJ-lundestrom", "name": "Isac Lundestrom", "pos": "C", "age": 26, "shoots": "L", "overall": 75, "potential": 76, "nationality": "SWE", "contract": {"capHit": 1.75, "yearsLeft": 2, "expiry": "UFA"}, "history": [{"year": 2021, "team": "ANA", "gp": 66, "goals": 8, "assists": 8, "points": 16, "plusMinus": -14, "pim": 16}, {"year": 2022, "team": "ANA", "gp": 64, "goals": 12, "assists": 7, "points": 19, "plusMinus": -20, "pim": 20}, {"year": 2023, "team": "ANA", "gp": 21, "goals": 4, "assists": 3, "points": 7, "plusMinus": -5, "pim": 8}, {"year": 2024, "team": "ANA", "gp": 79, "goals": 9, "assists": 10, "points": 19, "plusMinus": -10, "pim": 20}, {"year": 2025, "team": "CBJ", "gp": 68, "goals": 4, "assists": 8, "points": 12, "plusMinus": -3, "pim": 4}] },
-    { "id": "CBJ-olivier", "name": "Mathieu Olivier", "pos": "RW", "age": 29, "shoots": "R", "overall": 75, "potential": 75, "nationality": "CAN", "contract": {"capHit": 2.09, "yearsLeft": 2, "expiry": "UFA"}, "history": [{"year": 2021, "team": "NSH", "gp": 60, "goals": 3, "assists": 4, "points": 7, "plusMinus": -2, "pim": 90}, {"year": 2022, "team": "CBJ", "gp": 81, "goals": 6, "assists": 7, "points": 13, "plusMinus": -8, "pim": 90}, {"year": 2023, "team": "CBJ", "gp": 79, "goals": 11, "assists": 10, "points": 21, "plusMinus": 5, "pim": 82}, {"year": 2024, "team": "CBJ", "gp": 74, "goals": 9, "assists": 11, "points": 20, "plusMinus": -5, "pim": 90}, {"year": 2025, "team": "CBJ", "gp": 62, "goals": 15, "assists": 11, "points": 26, "plusMinus": 13, "pim": 101}] },
-    { "id": "CBJ-lomberg", "name": "Ryan Lomberg", "pos": "LW", "age": 31, "shoots": "L", "overall": 74, "potential": 74, "nationality": "CAN", "contract": {"capHit": 1.3, "yearsLeft": 2, "expiry": "UFA"}, "history": [{"year": 2021, "team": "FLA", "gp": 71, "goals": 6, "assists": 6, "points": 12, "plusMinus": 14, "pim": 90}, {"year": 2022, "team": "FLA", "gp": 61, "goals": 3, "assists": 5, "points": 8, "plusMinus": -3, "pim": 80}, {"year": 2023, "team": "FLA", "gp": 68, "goals": 4, "assists": 6, "points": 10, "plusMinus": 5, "pim": 70}, {"year": 2024, "team": "FLA", "gp": 60, "goals": 4, "assists": 8, "points": 12, "plusMinus": 3, "pim": 65}, {"year": 2025, "team": "CGY", "gp": 57, "goals": 4, "assists": 5, "points": 9, "plusMinus": -5, "pim": 59}] },
-    { "id": "CBJ-delbelbelluz", "name": "Luca Del Bel Belluz", "pos": "C", "age": 22, "shoots": "L", "overall": 73, "potential": 79, "nationality": "CAN", "contract": {"capHit": 0.894, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2024, "team": "CBJ", "gp": 15, "goals": 2, "assists": 4, "points": 6, "plusMinus": -3, "pim": 4}, {"year": 2025, "team": "CBJ", "gp": 14, "goals": 0, "assists": 1, "points": 1, "plusMinus": -2, "pim": 2}] },
-    { "id": "CBJ-werenski", "name": "Zach Werenski", "pos": "D", "age": 29, "shoots": "L", "overall": 93, "potential": 93, "nationality": "USA", "contract": {"capHit": 9.583, "yearsLeft": 2, "expiry": "UFA", "ntc": true}, "history": [{"year": 2021, "team": "CBJ", "gp": 68, "goals": 11, "assists": 37, "points": 48, "plusMinus": -6, "pim": 40}, {"year": 2022, "team": "CBJ", "gp": 13, "goals": 2, "assists": 3, "points": 5, "plusMinus": -8, "pim": 10}, {"year": 2023, "team": "CBJ", "gp": 70, "goals": 11, "assists": 46, "points": 57, "plusMinus": -5, "pim": 40}, {"year": 2024, "team": "CBJ", "gp": 81, "goals": 23, "assists": 59, "points": 82, "plusMinus": 11, "pim": 40}, {"year": 2025, "team": "CBJ", "gp": 80, "goals": 22, "assists": 59, "points": 81, "plusMinus": 12, "pim": 42}] },
-    { "id": "CBJ-provorov", "name": "Ivan Provorov", "pos": "D", "age": 29, "shoots": "L", "overall": 82, "potential": 82, "nationality": "RUS", "contract": {"capHit": 8.5, "yearsLeft": 6, "expiry": "UFA"}, "history": [{"year": 2021, "team": "PHI", "gp": 82, "goals": 6, "assists": 21, "points": 27, "plusMinus": -28, "pim": 40}, {"year": 2022, "team": "PHI", "gp": 82, "goals": 6, "assists": 21, "points": 27, "plusMinus": -18, "pim": 50}, {"year": 2023, "team": "CBJ", "gp": 82, "goals": 6, "assists": 23, "points": 29, "plusMinus": -6, "pim": 30}, {"year": 2024, "team": "CBJ", "gp": 82, "goals": 10, "assists": 23, "points": 33, "plusMinus": 5, "pim": 30}, {"year": 2025, "team": "CBJ", "gp": 82, "goals": 9, "assists": 22, "points": 31, "plusMinus": 14, "pim": 40}] },
-    { "id": "CBJ-severson", "name": "Damon Severson", "pos": "D", "age": 32, "shoots": "R", "overall": 77, "potential": 77, "nationality": "CAN", "contract": {"capHit": 6.25, "yearsLeft": 3, "expiry": "UFA"}, "history": [{"year": 2021, "team": "NJD", "gp": 80, "goals": 7, "assists": 21, "points": 28, "plusMinus": -13, "pim": 40}, {"year": 2022, "team": "NJD", "gp": 81, "goals": 7, "assists": 26, "points": 33, "plusMinus": 22, "pim": 40}, {"year": 2023, "team": "CBJ", "gp": 65, "goals": 5, "assists": 23, "points": 28, "plusMinus": -14, "pim": 40}, {"year": 2024, "team": "CBJ", "gp": 80, "goals": 6, "assists": 24, "points": 30, "plusMinus": -5, "pim": 40}, {"year": 2025, "team": "CBJ", "gp": 71, "goals": 8, "assists": 24, "points": 32, "plusMinus": 18, "pim": 34}] },
-    { "id": "CBJ-fabbro", "name": "Dante Fabbro", "pos": "D", "age": 28, "shoots": "R", "overall": 79, "potential": 79, "nationality": "CAN", "contract": {"capHit": 4.0, "yearsLeft": 3, "expiry": "UFA"}, "history": [{"year": 2021, "team": "NSH", "gp": 66, "goals": 3, "assists": 11, "points": 14, "plusMinus": 4, "pim": 30}, {"year": 2022, "team": "NSH", "gp": 65, "goals": 3, "assists": 10, "points": 13, "plusMinus": -5, "pim": 24}, {"year": 2023, "team": "NSH", "gp": 61, "goals": 4, "assists": 12, "points": 16, "plusMinus": 8, "pim": 20}, {"year": 2024, "team": "CBJ", "gp": 82, "goals": 8, "assists": 29, "points": 37, "plusMinus": 10, "pim": 30}, {"year": 2025, "team": "CBJ", "gp": 54, "goals": 4, "assists": 5, "points": 9, "plusMinus": -16, "pim": 18}] },
-    { "id": "CBJ-gudbranson", "name": "Erik Gudbranson", "pos": "D", "age": 34, "shoots": "R", "overall": 74, "potential": 74, "nationality": "CAN", "contract": {"capHit": 1.75, "yearsLeft": 1, "expiry": "UFA"}, "history": [{"year": 2021, "team": "CGY", "gp": 79, "goals": 5, "assists": 12, "points": 17, "plusMinus": 26, "pim": 70}, {"year": 2022, "team": "CBJ", "gp": 81, "goals": 4, "assists": 12, "points": 16, "plusMinus": -18, "pim": 50}, {"year": 2023, "team": "CBJ", "gp": 79, "goals": 2, "assists": 9, "points": 11, "plusMinus": -15, "pim": 50}, {"year": 2024, "team": "CBJ", "gp": 74, "goals": 2, "assists": 8, "points": 10, "plusMinus": -5, "pim": 50}, {"year": 2025, "team": "CBJ", "gp": 37, "goals": 1, "assists": 2, "points": 3, "plusMinus": 6, "pim": 19}] },
-    { "id": "CBJ-mateychuk", "name": "Denton Mateychuk", "pos": "D", "age": 22, "shoots": "L", "overall": 80, "potential": 87, "nationality": "CAN", "contract": {"capHit": 0.894, "yearsLeft": 1, "expiry": "RFA"}, "history": [{"year": 2024, "team": "CBJ", "gp": 45, "goals": 3, "assists": 10, "points": 13, "plusMinus": 5, "pim": 20}, {"year": 2025, "team": "CBJ", "gp": 75, "goals": 13, "assists": 18, "points": 31, "plusMinus": 8, "pim": 26}] },
-    { "id": "CBJ-christiansen", "name": "Jake Christiansen", "pos": "D", "age": 27, "shoots": "L", "overall": 74, "potential": 75, "nationality": "CAN", "contract": {"capHit": 0.85, "yearsLeft": 1, "expiry": "UFA"}, "history": [{"year": 2021, "team": "CBJ", "gp": 15, "goals": 2, "assists": 3, "points": 5, "plusMinus": -3, "pim": 6}, {"year": 2022, "team": "CBJ", "gp": 42, "goals": 4, "assists": 9, "points": 13, "plusMinus": -10, "pim": 14}, {"year": 2023, "team": "CBJ", "gp": 20, "goals": 1, "assists": 4, "points": 5, "plusMinus": -3, "pim": 8}, {"year": 2024, "team": "CBJ", "gp": 40, "goals": 2, "assists": 8, "points": 10, "plusMinus": -2, "pim": 14}, {"year": 2025, "team": "CBJ", "gp": 35, "goals": 0, "assists": 2, "points": 2, "plusMinus": -3, "pim": 10}] },
-    { "id": "CBJ-merzlikins", "name": "Elvis Merzlikins", "pos": "G", "age": 32, "shoots": "L", "overall": 79, "potential": 79, "nationality": "LVA", "contract": {"capHit": 5.4, "yearsLeft": 1, "expiry": "UFA"}, "history": [{"year": 2021, "team": "CBJ", "gp": 56, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 27, "losses": 21, "otl": 5, "shutouts": 1, "gaa": 3.22, "svPct": 0.907}, {"year": 2022, "team": "CBJ", "gp": 41, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 12, "losses": 21, "otl": 5, "shutouts": 0, "gaa": 4.23, "svPct": 0.876}, {"year": 2023, "team": "CBJ", "gp": 43, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 16, "losses": 19, "otl": 6, "shutouts": 2, "gaa": 3.35, "svPct": 0.897}, {"year": 2024, "team": "CBJ", "gp": 55, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 4, "wins": 26, "losses": 21, "otl": 6, "shutouts": 2, "gaa": 2.97, "svPct": 0.897}, {"year": 2025, "team": "CBJ", "gp": 30, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 14, "losses": 11, "otl": 3, "shutouts": 1, "gaa": 3.4, "svPct": 0.883}] },
-    { "id": "CBJ-greaves", "name": "Jet Greaves", "pos": "G", "age": 25, "shoots": "L", "overall": 82, "potential": 86, "nationality": "CAN", "contract": {"capHit": 2.5, "yearsLeft": 3, "expiry": "RFA"}, "history": [{"year": 2023, "team": "CBJ", "gp": 6, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 2, "losses": 3, "otl": 1, "shutouts": 0, "gaa": 3.3, "svPct": 0.9}, {"year": 2024, "team": "CBJ", "gp": 11, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 0, "wins": 6, "losses": 4, "otl": 1, "shutouts": 1, "gaa": 2.83, "svPct": 0.918}, {"year": 2025, "team": "CBJ", "gp": 55, "goals": 0, "assists": 0, "points": 0, "plusMinus": 0, "pim": 2, "wins": 26, "losses": 19, "otl": 9, "shutouts": 2, "gaa": 2.6, "svPct": 0.908}] }
+    {
+      "id": "CBJ-marchenko",
+      "name": "Kirill Marchenko",
+      "pos": "RW",
+      "age": 26,
+      "shoots": "L",
+      "overall": 86,
+      "potential": 88,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 6,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 59,
+          "goals": 21,
+          "assists": 21,
+          "points": 42,
+          "plusMinus": -1,
+          "pim": 12
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 78,
+          "goals": 23,
+          "assists": 19,
+          "points": 42,
+          "plusMinus": -12,
+          "pim": 20
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 31,
+          "assists": 43,
+          "points": 74,
+          "plusMinus": 6,
+          "pim": 30
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 76,
+          "goals": 27,
+          "assists": 40,
+          "points": 67,
+          "plusMinus": 7,
+          "pim": 28
+        }
+      ]
+    },
+    {
+      "id": "CBJ-fantilli",
+      "name": "Adam Fantilli",
+      "pos": "C",
+      "age": 21,
+      "shoots": "L",
+      "overall": 86,
+      "potential": 92,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 8.5,
+        "yearsLeft": 8,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 49,
+          "goals": 12,
+          "assists": 15,
+          "points": 27,
+          "plusMinus": -1,
+          "pim": 22
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 31,
+          "assists": 23,
+          "points": 54,
+          "plusMinus": -11,
+          "pim": 40
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 24,
+          "assists": 35,
+          "points": 59,
+          "plusMinus": -13,
+          "pim": 38
+        }
+      ]
+    },
+    {
+      "id": "CBJ-monahan",
+      "name": "Sean Monahan",
+      "pos": "C",
+      "age": 31,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 5.5,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CGY",
+          "gp": 65,
+          "goals": 8,
+          "assists": 15,
+          "points": 23,
+          "plusMinus": -21,
+          "pim": 20
+        },
+        {
+          "year": 2022,
+          "team": "MTL",
+          "gp": 25,
+          "goals": 6,
+          "assists": 11,
+          "points": 17,
+          "plusMinus": -1,
+          "pim": 10
+        },
+        {
+          "year": 2023,
+          "team": "WPG",
+          "gp": 69,
+          "goals": 19,
+          "assists": 29,
+          "points": 48,
+          "plusMinus": 2,
+          "pim": 22
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 53,
+          "goals": 15,
+          "assists": 42,
+          "points": 57,
+          "plusMinus": 5,
+          "pim": 20
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 78,
+          "goals": 13,
+          "assists": 23,
+          "points": 36,
+          "plusMinus": -6,
+          "pim": 22
+        }
+      ]
+    },
+    {
+      "id": "CBJ-coyle",
+      "name": "Charlie Coyle",
+      "pos": "C",
+      "age": 34,
+      "shoots": "R",
+      "overall": 79,
+      "potential": 79,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 6,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "BOS",
+          "gp": 82,
+          "goals": 16,
+          "assists": 28,
+          "points": 44,
+          "plusMinus": 18,
+          "pim": 30
+        },
+        {
+          "year": 2022,
+          "team": "BOS",
+          "gp": 82,
+          "goals": 16,
+          "assists": 15,
+          "points": 31,
+          "plusMinus": 9,
+          "pim": 40
+        },
+        {
+          "year": 2023,
+          "team": "BOS",
+          "gp": 82,
+          "goals": 25,
+          "assists": 35,
+          "points": 60,
+          "plusMinus": 16,
+          "pim": 42
+        },
+        {
+          "year": 2024,
+          "team": "COL",
+          "gp": 80,
+          "goals": 13,
+          "assists": 27,
+          "points": 40,
+          "plusMinus": -3,
+          "pim": 36
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 20,
+          "assists": 38,
+          "points": 58,
+          "plusMinus": 4,
+          "pim": 30
+        }
+      ]
+    },
+    {
+      "id": "CBJ-voronkov",
+      "name": "Dmitri Voronkov",
+      "pos": "LW",
+      "age": 26,
+      "shoots": "L",
+      "overall": 81,
+      "potential": 84,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 3.5,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 74,
+          "goals": 18,
+          "assists": 12,
+          "points": 30,
+          "plusMinus": -1,
+          "pim": 40
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 76,
+          "goals": 23,
+          "assists": 24,
+          "points": 47,
+          "plusMinus": 6,
+          "pim": 50
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 63,
+          "goals": 17,
+          "assists": 15,
+          "points": 32,
+          "plusMinus": 3,
+          "pim": 59
+        }
+      ]
+    },
+    {
+      "id": "CBJ-sillinger",
+      "name": "Cole Sillinger",
+      "pos": "C",
+      "age": 23,
+      "shoots": "L",
+      "overall": 79,
+      "potential": 84,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.75,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 16,
+          "assists": 15,
+          "points": 31,
+          "plusMinus": -35,
+          "pim": 20
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 64,
+          "goals": 7,
+          "assists": 14,
+          "points": 21,
+          "plusMinus": -20,
+          "pim": 14
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 77,
+          "goals": 8,
+          "assists": 15,
+          "points": 23,
+          "plusMinus": -18,
+          "pim": 20
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 14,
+          "assists": 19,
+          "points": 33,
+          "plusMinus": -8,
+          "pim": 24
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 80,
+          "goals": 8,
+          "assists": 25,
+          "points": 33,
+          "plusMinus": -5,
+          "pim": 28
+        }
+      ]
+    },
+    {
+      "id": "CBJ-johnson",
+      "name": "Kent Johnson",
+      "pos": "C",
+      "age": 23,
+      "shoots": "L",
+      "overall": 81,
+      "potential": 86,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.1,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CBJ",
+          "gp": 9,
+          "goals": 1,
+          "assists": 2,
+          "points": 3,
+          "plusMinus": 0,
+          "pim": 2
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 16,
+          "assists": 24,
+          "points": 40,
+          "plusMinus": -25,
+          "pim": 20
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 15,
+          "goals": 2,
+          "assists": 3,
+          "points": 5,
+          "plusMinus": -3,
+          "pim": 4
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 68,
+          "goals": 24,
+          "assists": 33,
+          "points": 57,
+          "plusMinus": 5,
+          "pim": 20
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 76,
+          "goals": 7,
+          "assists": 15,
+          "points": 22,
+          "plusMinus": -8,
+          "pim": 16
+        }
+      ]
+    },
+    {
+      "id": "CBJ-wood",
+      "name": "Miles Wood",
+      "pos": "LW",
+      "age": 31,
+      "shoots": "L",
+      "overall": 76,
+      "potential": 76,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 2.5,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "NJD",
+          "gp": 76,
+          "goals": 13,
+          "assists": 16,
+          "points": 29,
+          "plusMinus": -9,
+          "pim": 60
+        },
+        {
+          "year": 2022,
+          "team": "NJD",
+          "gp": 76,
+          "goals": 13,
+          "assists": 12,
+          "points": 25,
+          "plusMinus": 19,
+          "pim": 50
+        },
+        {
+          "year": 2023,
+          "team": "COL",
+          "gp": 75,
+          "goals": 12,
+          "assists": 14,
+          "points": 26,
+          "plusMinus": 3,
+          "pim": 50
+        },
+        {
+          "year": 2024,
+          "team": "COL",
+          "gp": 39,
+          "goals": 6,
+          "assists": 8,
+          "points": 14,
+          "plusMinus": 0,
+          "pim": 30
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 47,
+          "goals": 6,
+          "assists": 8,
+          "points": 14,
+          "plusMinus": -10,
+          "pim": 24
+        }
+      ]
+    },
+    {
+      "id": "CBJ-lundestrom",
+      "name": "Isac Lundestrom",
+      "pos": "C",
+      "age": 26,
+      "shoots": "L",
+      "overall": 75,
+      "potential": 76,
+      "nationality": "SWE",
+      "contract": {
+        "capHit": 1.75,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "ANA",
+          "gp": 66,
+          "goals": 8,
+          "assists": 8,
+          "points": 16,
+          "plusMinus": -14,
+          "pim": 16
+        },
+        {
+          "year": 2022,
+          "team": "ANA",
+          "gp": 64,
+          "goals": 12,
+          "assists": 7,
+          "points": 19,
+          "plusMinus": -20,
+          "pim": 20
+        },
+        {
+          "year": 2023,
+          "team": "ANA",
+          "gp": 21,
+          "goals": 4,
+          "assists": 3,
+          "points": 7,
+          "plusMinus": -5,
+          "pim": 8
+        },
+        {
+          "year": 2024,
+          "team": "ANA",
+          "gp": 79,
+          "goals": 9,
+          "assists": 10,
+          "points": 19,
+          "plusMinus": -10,
+          "pim": 20
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 68,
+          "goals": 4,
+          "assists": 8,
+          "points": 12,
+          "plusMinus": -3,
+          "pim": 4
+        }
+      ]
+    },
+    {
+      "id": "CBJ-olivier",
+      "name": "Mathieu Olivier",
+      "pos": "RW",
+      "age": 29,
+      "shoots": "R",
+      "overall": 75,
+      "potential": 75,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.09,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "NSH",
+          "gp": 60,
+          "goals": 3,
+          "assists": 4,
+          "points": 7,
+          "plusMinus": -2,
+          "pim": 90
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 81,
+          "goals": 6,
+          "assists": 7,
+          "points": 13,
+          "plusMinus": -8,
+          "pim": 90
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 11,
+          "assists": 10,
+          "points": 21,
+          "plusMinus": 5,
+          "pim": 82
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 74,
+          "goals": 9,
+          "assists": 11,
+          "points": 20,
+          "plusMinus": -5,
+          "pim": 90
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 62,
+          "goals": 15,
+          "assists": 11,
+          "points": 26,
+          "plusMinus": 13,
+          "pim": 101
+        }
+      ]
+    },
+    {
+      "id": "CBJ-lomberg",
+      "name": "Ryan Lomberg",
+      "pos": "LW",
+      "age": 31,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 1.3,
+        "yearsLeft": 2,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "FLA",
+          "gp": 71,
+          "goals": 6,
+          "assists": 6,
+          "points": 12,
+          "plusMinus": 14,
+          "pim": 90
+        },
+        {
+          "year": 2022,
+          "team": "FLA",
+          "gp": 61,
+          "goals": 3,
+          "assists": 5,
+          "points": 8,
+          "plusMinus": -3,
+          "pim": 80
+        },
+        {
+          "year": 2023,
+          "team": "FLA",
+          "gp": 68,
+          "goals": 4,
+          "assists": 6,
+          "points": 10,
+          "plusMinus": 5,
+          "pim": 70
+        },
+        {
+          "year": 2024,
+          "team": "FLA",
+          "gp": 60,
+          "goals": 4,
+          "assists": 8,
+          "points": 12,
+          "plusMinus": 3,
+          "pim": 65
+        },
+        {
+          "year": 2025,
+          "team": "CGY",
+          "gp": 57,
+          "goals": 4,
+          "assists": 5,
+          "points": 9,
+          "plusMinus": -5,
+          "pim": 59
+        }
+      ]
+    },
+    {
+      "id": "CBJ-delbelbelluz",
+      "name": "Luca Del Bel Belluz",
+      "pos": "C",
+      "age": 22,
+      "shoots": "L",
+      "overall": 73,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.894,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 15,
+          "goals": 2,
+          "assists": 4,
+          "points": 6,
+          "plusMinus": -3,
+          "pim": 4
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 14,
+          "goals": 0,
+          "assists": 1,
+          "points": 1,
+          "plusMinus": -2,
+          "pim": 2
+        }
+      ]
+    },
+    {
+      "id": "CBJ-werenski",
+      "name": "Zach Werenski",
+      "pos": "D",
+      "age": 29,
+      "shoots": "L",
+      "overall": 93,
+      "potential": 93,
+      "nationality": "USA",
+      "contract": {
+        "capHit": 9.583,
+        "yearsLeft": 2,
+        "expiry": "UFA",
+        "ntc": true
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CBJ",
+          "gp": 68,
+          "goals": 11,
+          "assists": 37,
+          "points": 48,
+          "plusMinus": -6,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 13,
+          "goals": 2,
+          "assists": 3,
+          "points": 5,
+          "plusMinus": -8,
+          "pim": 10
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 70,
+          "goals": 11,
+          "assists": 46,
+          "points": 57,
+          "plusMinus": -5,
+          "pim": 40
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 81,
+          "goals": 23,
+          "assists": 59,
+          "points": 82,
+          "plusMinus": 11,
+          "pim": 40
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 80,
+          "goals": 22,
+          "assists": 59,
+          "points": 81,
+          "plusMinus": 12,
+          "pim": 42
+        }
+      ]
+    },
+    {
+      "id": "CBJ-provorov",
+      "name": "Ivan Provorov",
+      "pos": "D",
+      "age": 29,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 82,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 8.5,
+        "yearsLeft": 6,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "PHI",
+          "gp": 82,
+          "goals": 6,
+          "assists": 21,
+          "points": 27,
+          "plusMinus": -28,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "PHI",
+          "gp": 82,
+          "goals": 6,
+          "assists": 21,
+          "points": 27,
+          "plusMinus": -18,
+          "pim": 50
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 6,
+          "assists": 23,
+          "points": 29,
+          "plusMinus": -6,
+          "pim": 30
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 10,
+          "assists": 23,
+          "points": 33,
+          "plusMinus": 5,
+          "pim": 30
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 9,
+          "assists": 22,
+          "points": 31,
+          "plusMinus": 14,
+          "pim": 40
+        }
+      ]
+    },
+    {
+      "id": "CBJ-severson",
+      "name": "Damon Severson",
+      "pos": "D",
+      "age": 32,
+      "shoots": "R",
+      "overall": 77,
+      "potential": 77,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 6.25,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "NJD",
+          "gp": 80,
+          "goals": 7,
+          "assists": 21,
+          "points": 28,
+          "plusMinus": -13,
+          "pim": 40
+        },
+        {
+          "year": 2022,
+          "team": "NJD",
+          "gp": 81,
+          "goals": 7,
+          "assists": 26,
+          "points": 33,
+          "plusMinus": 22,
+          "pim": 40
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 65,
+          "goals": 5,
+          "assists": 23,
+          "points": 28,
+          "plusMinus": -14,
+          "pim": 40
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 80,
+          "goals": 6,
+          "assists": 24,
+          "points": 30,
+          "plusMinus": -5,
+          "pim": 40
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 71,
+          "goals": 8,
+          "assists": 24,
+          "points": 32,
+          "plusMinus": 18,
+          "pim": 34
+        }
+      ]
+    },
+    {
+      "id": "CBJ-fabbro",
+      "name": "Dante Fabbro",
+      "pos": "D",
+      "age": 28,
+      "shoots": "R",
+      "overall": 79,
+      "potential": 79,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 4,
+        "yearsLeft": 3,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "NSH",
+          "gp": 66,
+          "goals": 3,
+          "assists": 11,
+          "points": 14,
+          "plusMinus": 4,
+          "pim": 30
+        },
+        {
+          "year": 2022,
+          "team": "NSH",
+          "gp": 65,
+          "goals": 3,
+          "assists": 10,
+          "points": 13,
+          "plusMinus": -5,
+          "pim": 24
+        },
+        {
+          "year": 2023,
+          "team": "NSH",
+          "gp": 61,
+          "goals": 4,
+          "assists": 12,
+          "points": 16,
+          "plusMinus": 8,
+          "pim": 20
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 82,
+          "goals": 8,
+          "assists": 29,
+          "points": 37,
+          "plusMinus": 10,
+          "pim": 30
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 54,
+          "goals": 4,
+          "assists": 5,
+          "points": 9,
+          "plusMinus": -16,
+          "pim": 18
+        }
+      ]
+    },
+    {
+      "id": "CBJ-gudbranson",
+      "name": "Erik Gudbranson",
+      "pos": "D",
+      "age": 34,
+      "shoots": "R",
+      "overall": 74,
+      "potential": 74,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 1.75,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CGY",
+          "gp": 79,
+          "goals": 5,
+          "assists": 12,
+          "points": 17,
+          "plusMinus": 26,
+          "pim": 70
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 81,
+          "goals": 4,
+          "assists": 12,
+          "points": 16,
+          "plusMinus": -18,
+          "pim": 50
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 79,
+          "goals": 2,
+          "assists": 9,
+          "points": 11,
+          "plusMinus": -15,
+          "pim": 50
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 74,
+          "goals": 2,
+          "assists": 8,
+          "points": 10,
+          "plusMinus": -5,
+          "pim": 50
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 37,
+          "goals": 1,
+          "assists": 2,
+          "points": 3,
+          "plusMinus": 6,
+          "pim": 19
+        }
+      ]
+    },
+    {
+      "id": "CBJ-mateychuk",
+      "name": "Denton Mateychuk",
+      "pos": "D",
+      "age": 22,
+      "shoots": "L",
+      "overall": 80,
+      "potential": 87,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.894,
+        "yearsLeft": 1,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 45,
+          "goals": 3,
+          "assists": 10,
+          "points": 13,
+          "plusMinus": 5,
+          "pim": 20
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 75,
+          "goals": 13,
+          "assists": 18,
+          "points": 31,
+          "plusMinus": 8,
+          "pim": 26
+        }
+      ]
+    },
+    {
+      "id": "CBJ-christiansen",
+      "name": "Jake Christiansen",
+      "pos": "D",
+      "age": 27,
+      "shoots": "L",
+      "overall": 74,
+      "potential": 75,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.85,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CBJ",
+          "gp": 15,
+          "goals": 2,
+          "assists": 3,
+          "points": 5,
+          "plusMinus": -3,
+          "pim": 6
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 42,
+          "goals": 4,
+          "assists": 9,
+          "points": 13,
+          "plusMinus": -10,
+          "pim": 14
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 20,
+          "goals": 1,
+          "assists": 4,
+          "points": 5,
+          "plusMinus": -3,
+          "pim": 8
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 40,
+          "goals": 2,
+          "assists": 8,
+          "points": 10,
+          "plusMinus": -2,
+          "pim": 14
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 35,
+          "goals": 0,
+          "assists": 2,
+          "points": 2,
+          "plusMinus": -3,
+          "pim": 10
+        }
+      ]
+    },
+    {
+      "id": "CBJ-merzlikins",
+      "name": "Elvis Merzlikins",
+      "pos": "G",
+      "age": 32,
+      "shoots": "L",
+      "overall": 79,
+      "potential": 79,
+      "nationality": "LVA",
+      "contract": {
+        "capHit": 5.4,
+        "yearsLeft": 1,
+        "expiry": "UFA"
+      },
+      "history": [
+        {
+          "year": 2021,
+          "team": "CBJ",
+          "gp": 56,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 27,
+          "losses": 21,
+          "otl": 5,
+          "shutouts": 1,
+          "gaa": 3.22,
+          "svPct": 0.907
+        },
+        {
+          "year": 2022,
+          "team": "CBJ",
+          "gp": 41,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 12,
+          "losses": 21,
+          "otl": 5,
+          "shutouts": 0,
+          "gaa": 4.23,
+          "svPct": 0.876
+        },
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 43,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 16,
+          "losses": 19,
+          "otl": 6,
+          "shutouts": 2,
+          "gaa": 3.35,
+          "svPct": 0.897
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 55,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 4,
+          "wins": 26,
+          "losses": 21,
+          "otl": 6,
+          "shutouts": 2,
+          "gaa": 2.97,
+          "svPct": 0.897
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 30,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 14,
+          "losses": 11,
+          "otl": 3,
+          "shutouts": 1,
+          "gaa": 3.4,
+          "svPct": 0.883
+        }
+      ]
+    },
+    {
+      "id": "CBJ-greaves",
+      "name": "Jet Greaves",
+      "pos": "G",
+      "age": 25,
+      "shoots": "L",
+      "overall": 82,
+      "potential": 86,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 2.5,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "history": [
+        {
+          "year": 2023,
+          "team": "CBJ",
+          "gp": 6,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 0,
+          "wins": 2,
+          "losses": 3,
+          "otl": 1,
+          "shutouts": 0,
+          "gaa": 3.3,
+          "svPct": 0.9
+        },
+        {
+          "year": 2024,
+          "team": "CBJ",
+          "gp": 11,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 0,
+          "wins": 6,
+          "losses": 4,
+          "otl": 1,
+          "shutouts": 1,
+          "gaa": 2.83,
+          "svPct": 0.918
+        },
+        {
+          "year": 2025,
+          "team": "CBJ",
+          "gp": 55,
+          "goals": 0,
+          "assists": 0,
+          "points": 0,
+          "plusMinus": 0,
+          "pim": 2,
+          "wins": 26,
+          "losses": 19,
+          "otl": 9,
+          "shutouts": 2,
+          "gaa": 2.6,
+          "svPct": 0.908
+        }
+      ]
+    }
   ],
   "prospects": [
-    { "id": "CBJ-lindstrom", "name": "Cayden Lindstrom", "pos": "C", "age": 20, "shoots": "L", "overall": 67, "potential": 88, "nationality": "CAN", "contract": {"capHit": 0.925, "yearsLeft": 3, "expiry": "RFA"}, "devLeague": "AHL" },
-    { "id": "CBJ-dumais", "name": "Jordan Dumais", "pos": "RW", "age": 22, "shoots": "R", "overall": 68, "potential": 80, "nationality": "CAN", "contract": {"capHit": 0.847, "yearsLeft": 2, "expiry": "RFA"}, "devLeague": "AHL" },
-    { "id": "CBJ-elick", "name": "Charlie Elick", "pos": "D", "age": 20, "shoots": "R", "overall": 62, "potential": 80, "nationality": "CAN", "contract": {"capHit": 0.918, "yearsLeft": 3, "expiry": "RFA"}, "devLeague": "CHL" },
-    { "id": "CBJ-hemming", "name": "Oscar Hemming", "pos": "C", "age": 18, "shoots": "L", "overall": 62, "potential": 82, "nationality": "FIN", "contract": {"capHit": 0.925, "yearsLeft": 3, "expiry": "RFA"}, "devLeague": "NCAA" },
-    { "id": "CBJ-jsmith", "name": "Jackson Smith", "pos": "D", "age": 19, "shoots": "L", "overall": 63, "potential": 82, "nationality": "CAN", "contract": {"capHit": 0.918, "yearsLeft": 3, "expiry": "RFA"}, "devLeague": "CHL" },
-    { "id": "CBJ-andreyanov", "name": "Pyotr Andreyanov", "pos": "G", "age": 19, "shoots": "L", "overall": 62, "potential": 84, "nationality": "RUS", "contract": {"capHit": 0.918, "yearsLeft": 3, "expiry": "RFA"}, "devLeague": "KHL" }
+    {
+      "id": "CBJ-lindstrom",
+      "name": "Cayden Lindstrom",
+      "pos": "C",
+      "age": 20,
+      "shoots": "L",
+      "overall": 67,
+      "potential": 88,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "devLeague": "AHL"
+    },
+    {
+      "id": "CBJ-dumais",
+      "name": "Jordan Dumais",
+      "pos": "RW",
+      "age": 22,
+      "shoots": "R",
+      "overall": 68,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.847,
+        "yearsLeft": 2,
+        "expiry": "RFA"
+      },
+      "devLeague": "AHL"
+    },
+    {
+      "id": "CBJ-elick",
+      "name": "Charlie Elick",
+      "pos": "D",
+      "age": 20,
+      "shoots": "R",
+      "overall": 62,
+      "potential": 80,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.918,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "devLeague": "CHL"
+    },
+    {
+      "id": "CBJ-hemming",
+      "name": "Oscar Hemming",
+      "pos": "C",
+      "age": 18,
+      "shoots": "L",
+      "overall": 62,
+      "potential": 82,
+      "nationality": "FIN",
+      "contract": {
+        "capHit": 0.925,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "devLeague": "NCAA"
+    },
+    {
+      "id": "CBJ-jsmith",
+      "name": "Jackson Smith",
+      "pos": "D",
+      "age": 19,
+      "shoots": "L",
+      "overall": 63,
+      "potential": 82,
+      "nationality": "CAN",
+      "contract": {
+        "capHit": 0.918,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "devLeague": "CHL"
+    },
+    {
+      "id": "CBJ-andreyanov",
+      "name": "Pyotr Andreyanov",
+      "pos": "G",
+      "age": 19,
+      "shoots": "L",
+      "overall": 62,
+      "potential": 84,
+      "nationality": "RUS",
+      "contract": {
+        "capHit": 0.918,
+        "yearsLeft": 3,
+        "expiry": "RFA"
+      },
+      "devLeague": "KHL"
+    }
   ]
 }

@@ -5,7 +5,7 @@ import { SEASONS_TOTAL, ROSTER_MIN, ROSTER_MAX } from '../types.ts'
 import type { Rng } from './rng.ts'
 import { nextCap, committedCapUsed, rosterCounts, pushNews, ext, pruneTradeBlock } from './helpers.ts'
 import { maybeGenerateUserOffers } from './trades.ts'
-import { askingFor, signingOutcome, type Asking } from './contracts.ts'
+import { askingFor, signingOutcome, effectiveAsk, type Asking } from './contracts.ts'
 import { runDevelopment } from './development.ts'
 import { generateName, pickNationality } from './names.ts'
 import { buildDraftOrder, generateDraftClass, autoAdvanceDraft, finishDraft } from './draft.ts'
@@ -86,7 +86,7 @@ export function getResignAsking(s: GameState, playerId: string): Asking {
   return askingFor(p, cap)
 }
 
-export function doResignPlayer(s: GameState, playerId: string, years: number, capHit: number, rng: Rng): { ok: boolean; reason?: string } {
+export function doResignPlayer(s: GameState, playerId: string, years: number, capHit: number, rng: Rng, ntc = false): { ok: boolean; reason?: string } {
   const team = s.teams[s.userTeam]
   const p = team.roster.find((x) => x.id === playerId)
   if (!p || !p.contract || p.contract.yearsLeft > 0) return { ok: false, reason: 'Player is not an expiring free agent.' }
@@ -96,15 +96,18 @@ export function doResignPlayer(s: GameState, playerId: string, years: number, ca
   // counted — committedCapUsed skips them, so re-signing reflects real space.
   if (committedCapUsed(team) + capHit > cap + 0.001) return { ok: false, reason: 'Not enough cap space.' }
   const ask = askingFor(p, cap)
+  // Offering an NTC / extra term lowers the effective ask (see effectiveAsk).
+  const eff = effectiveAsk(ask, p, years, ntc)
   const isRFA = p.age < 27 || p.contract.expiry === 'RFA'
   if (isRFA) {
-    if (capHit < ask.capHit * 0.9) return { ok: false, reason: 'Offer too low — RFA will not sign.' }
+    if (capHit < eff * 0.9) return { ok: false, reason: 'Offer too low — RFA will not sign.' }
   } else {
-    const outcome = signingOutcome(ask, capHit, rng.next())
+    const outcome = signingOutcome({ capHit: eff, years }, capHit, rng.next())
     if (!outcome.ok) return { ok: false, reason: outcome.reason }
   }
-  p.contract = { capHit: Math.round(capHit * 1000) / 1000, yearsLeft: years, expiry: p.age < 27 ? 'RFA' : 'UFA', ntc: p.contract.ntc }
-  pushNews(s, `${p.name} re-signs with ${s.userTeam} (${capHit.toFixed(2)}M x${years}).`)
+  // An offered NTC carries onto the deal; otherwise keep whatever he already had.
+  p.contract = { capHit: Math.round(capHit * 1000) / 1000, yearsLeft: years, expiry: p.age < 27 ? 'RFA' : 'UFA', ntc: ntc || p.contract.ntc }
+  pushNews(s, `${p.name} re-signs with ${s.userTeam} (${capHit.toFixed(2)}M x${years}${ntc ? ', NTC' : ''}).`)
   return { ok: true }
 }
 

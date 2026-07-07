@@ -1,6 +1,8 @@
-import type { GameState, PlayoffSeries } from '../types'
-import { simPlayoffRound } from '../engine'
+import { useState } from 'react'
+import type { GameState, PlayoffSeries, PlayoffGame, Game } from '../types'
+import { simPlayoffRound, simPlayoffGame } from '../engine'
 import { Card, TeamLogo, TeamLink } from './components'
+import { BoxScoreModal } from './BoxScore'
 
 const ROUND_NAME: Record<number, string> = {
   1: 'First Round',
@@ -9,7 +11,24 @@ const ROUND_NAME: Record<number, string> = {
   4: 'Stanley Cup Final',
 }
 
+/** Adapt a stored PlayoffGame to the Game shape the BoxScoreModal renders. */
+function toGame(series: PlayoffSeries, pg: PlayoffGame, i: number): Game {
+  const away = pg.home === series.high ? series.low : series.high
+  return {
+    id: series.round * 100000 + (series.high.charCodeAt(0) << 8) + i,
+    day: 184 + i,
+    home: pg.home,
+    away,
+    played: true,
+    homeGoals: pg.homeGoals,
+    awayGoals: pg.awayGoals,
+    endType: pg.endType,
+    goals: pg.goals,
+  }
+}
+
 export function Playoffs({ s, apply, busy }: { s: GameState; apply: (n: GameState) => void; busy: boolean }) {
+  const [boxGame, setBoxGame] = useState<Game | null>(null)
   const series = s.playoffs ?? []
   if (series.length === 0) {
     return (
@@ -35,16 +54,24 @@ export function Playoffs({ s, apply, busy }: { s: GameState; apply: (n: GameStat
             <h4>🏆 {s.teams[champion]?.city} {s.teams[champion]?.name} win the Stanley Cup!</h4>
             <p>{champion === s.userTeam ? 'Your franchise are champions.' : 'Head to the offseason to keep building.'}</p>
           </div>
+          <button className="btn btn-primary btn-lg" disabled={busy} onClick={() => apply(simPlayoffRound(s))}>
+            Continue to Offseason →
+          </button>
         </div>
       ) : (
         <div className="banner playoffs">
           <div className="banner-body">
             <h4>{ROUND_NAME[activeRound] ?? 'Playoffs'}</h4>
-            <p>Best-of-7 series. Sim the round to advance the bracket.</p>
+            <p>Best-of-7 series. Sim game by game, or blitz the whole round.</p>
           </div>
-          <button className="btn btn-primary btn-lg" disabled={busy || allDone} onClick={() => apply(simPlayoffRound(s))}>
-            Sim Round
-          </button>
+          <div className="row" style={{ gap: 8 }}>
+            <button className="btn btn-primary btn-lg" disabled={busy || allDone} onClick={() => apply(simPlayoffGame(s))}>
+              Sim Next Games
+            </button>
+            <button className="btn btn-lg" disabled={busy || allDone} onClick={() => apply(simPlayoffRound(s))}>
+              Sim Round
+            </button>
+          </div>
         </div>
       )}
 
@@ -55,33 +82,40 @@ export function Playoffs({ s, apply, busy }: { s: GameState; apply: (n: GameStat
             {series
               .filter((x) => x.round === r)
               .map((x, i) => (
-                <SeriesCard key={`${r}-${i}`} series={x} s={s} />
+                <SeriesCard key={`${r}-${i}`} series={x} s={s} onOpenGame={setBoxGame} />
               ))}
           </div>
         ))}
       </div>
+
+      {boxGame && <BoxScoreModal s={s} game={boxGame} onClose={() => setBoxGame(null)} />}
     </div>
   )
 }
 
-function SeriesCard({ series, s }: { series: PlayoffSeries; s: GameState }) {
+function SeriesCard({
+  series,
+  s,
+  onOpenGame,
+}: {
+  series: PlayoffSeries
+  s: GameState
+  onOpenGame: (g: Game) => void
+}) {
   const highT = s.teams[series.high]
   const lowT = s.teams[series.low]
   const highWon = series.winner === series.high
   const lowWon = series.winner === series.low
   const me = series.high === s.userTeam || series.low === s.userTeam
+  const games = series.games ?? []
   return (
-    <div className="series">
+    <div className={`series ${me ? 'series-mine' : ''}`}>
       <div className={`series-team ${series.winner ? (highWon ? 'win' : 'lose') : ''} ${series.high === s.userTeam ? 'me-series' : ''}`}>
         <TeamLink abbrev={series.high} className="series-team-link">
           <TeamLogo
             team={highT}
             size={22}
-            fallback={
-              <span className="mini-crest" style={{ background: highT?.color ?? '#444' }}>
-                {series.high}
-              </span>
-            }
+            fallback={<span className="mini-crest" style={{ background: highT?.color ?? '#444' }}>{series.high}</span>}
           />
           <span>{highT ? highT.name : series.high}</span>
         </TeamLink>
@@ -92,20 +126,40 @@ function SeriesCard({ series, s }: { series: PlayoffSeries; s: GameState }) {
           <TeamLogo
             team={lowT}
             size={22}
-            fallback={
-              <span className="mini-crest" style={{ background: lowT?.color ?? '#444' }}>
-                {series.low}
-              </span>
-            }
+            fallback={<span className="mini-crest" style={{ background: lowT?.color ?? '#444' }}>{series.low}</span>}
           />
           <span>{lowT ? lowT.name : series.low}</span>
         </TeamLink>
         <span className="swins">{series.lowWins}</span>
       </div>
-      {me && !series.winner && (
-        <div style={{ padding: '4px 12px', fontSize: 11, color: 'var(--team2)', background: 'color-mix(in srgb, var(--team) 12%, transparent)' }}>
-          Your series
+
+      {games.length > 0 && (
+        <div className="series-games">
+          {games.map((g, i) => {
+            const winner = g.homeGoals > g.awayGoals ? g.home : toGame(series, g, i).away
+            const hi = Math.max(g.homeGoals, g.awayGoals)
+            const lo = Math.min(g.homeGoals, g.awayGoals)
+            return (
+              <button
+                key={i}
+                type="button"
+                className="series-game"
+                title={`Game ${i + 1} · played at ${g.home} · view box score`}
+                onClick={() => onOpenGame(toGame(series, g, i))}
+              >
+                <span className="sg-num">G{i + 1}</span>
+                <span className="sg-win">{winner}</span>
+                <span className="sg-score">{hi}–{lo}</span>
+                {g.endType !== 'REG' && <span className="sg-ot">{g.endType}</span>}
+                <span className="sg-home">@{g.home}</span>
+              </button>
+            )
+          })}
         </div>
+      )}
+
+      {me && !series.winner && (
+        <div className="series-mine-tag">Your series</div>
       )}
     </div>
   )

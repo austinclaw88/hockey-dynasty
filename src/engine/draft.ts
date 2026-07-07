@@ -5,7 +5,15 @@ import { generateName, pickNationality } from './names.ts'
 import { clamp, ext, rosterCounts, pushNews, type DraftResult } from './helpers.ts'
 import { reverseStandingsOrder } from './standings.ts'
 
-const CLASS_SIZE = 72
+// Three rounds (96 picks: 32 teams x 3) plus margin for undrafted depth.
+const CLASS_SIZE = 110
+const ROUNDS = 3
+
+/** Round (1-based) that draft slot `slot` belongs to, given the full order length. */
+function roundOfSlot(orderLen: number, slot: number): number {
+  const perRound = orderLen / ROUNDS
+  return Math.min(ROUNDS, Math.floor(slot / perRound) + 1)
+}
 
 /** Generate `n` fictional prospects for slots [start, start+n). */
 function generateProspects(rng: Rng, year: number, start: number, n: number): Player[] {
@@ -22,11 +30,24 @@ function generateProspects(rng: Rng, year: number, start: number, n: number): Pl
   const players: Player[] = []
   for (let k = 0; k < n; k++) {
     const i = start + k // global rank slot (0 = franchise talent)
+    // Keep the gem bands FIXED (same count of franchise/top-6 talents regardless
+    // of class size — do not triple the gems). Extra picks land in the mid and
+    // late-round depth tiers (late-3rd prospects ~55-62 OVR / 70-80 potential).
     let potential: number
-    if (i < 3) potential = rng.int(90, 96)
-    else if (i < 13) potential = rng.int(83, 89)
-    else potential = rng.int(68, 82)
-    const overall = clamp(potential - rng.int(10, 28), 55, 72)
+    let overall: number
+    if (i < 3) {
+      potential = rng.int(90, 96)
+      overall = clamp(potential - rng.int(10, 28), 55, 72)
+    } else if (i < 13) {
+      potential = rng.int(83, 89)
+      overall = clamp(potential - rng.int(10, 28), 55, 72)
+    } else if (i < 60) {
+      potential = rng.int(68, 82)
+      overall = clamp(potential - rng.int(10, 28), 55, 72)
+    } else {
+      potential = rng.int(70, 80)
+      overall = clamp(potential - rng.int(12, 22), 55, 62)
+    }
     const nationality = pickNationality(rng)
     const pos = positions[k]
     players.push({
@@ -101,8 +122,8 @@ export function buildDraftOrder(s: GameState, rng: Rng): string[] {
     const [winner] = round1.splice(winnerIdx, 1)
     round1.unshift(winner)
   }
-  // Round 2 uses the same order.
-  return [...round1, ...round1]
+  // Rounds 2 and 3 reuse the same reverse-standings order.
+  return [...round1, ...round1, ...round1]
 }
 
 /** Scouting value used by AI to rank prospects (blend + slight need bias). */
@@ -120,7 +141,7 @@ function elcContract(): NonNullable<Player['contract']> {
 function ownerOfSlot(s: GameState, slot: number): string {
   const order = s.draftOrder!
   const originalTeam = order[slot]
-  const round = slot < order.length / 2 ? 1 : 2
+  const round = roundOfSlot(order.length, slot)
   const year = s.seasonYear + 1
   for (const abbr of Object.keys(s.teams)) {
     if (s.teams[abbr].picks.some((pk) => pk.year === year && pk.round === round && pk.originalTeam === originalTeam)) {
@@ -151,7 +172,7 @@ function assignPlayer(s: GameState, owner: string, player: Player, slot: number)
 export function aiDraftPick(s: GameState, slot: number, rng: Rng): void {
   const owner = ownerOfSlot(s, slot)
   const originalTeam = s.draftOrder![slot]
-  const round = slot < s.draftOrder!.length / 2 ? 1 : 2
+  const round = roundOfSlot(s.draftOrder!.length, slot)
   const need = rosterCounts(s.teams[owner])
   let best: Player | null = null
   let bestVal = -Infinity
@@ -214,10 +235,59 @@ export function doDraftPlayer(s: GameState, playerId: string, rng: Rng): void {
   const player = s.draftClass.find((p) => p.id === playerId)
   if (!player) return
   const originalTeam = order[s.day]
-  const round = s.day < order.length / 2 ? 1 : 2
+  const round = roundOfSlot(order.length, s.day)
   s.draftClass = s.draftClass.filter((p) => p.id !== player.id)
   assignPlayer(s, s.userTeam, player, s.day)
   removePick(s, s.userTeam, originalTeam, round)
   s.day++
   autoAdvanceDraft(s, rng)
+}
+
+/** Potential-weighted board value used to rank the best available prospect. */
+function boardValue(p: Player): number {
+  return p.potential * 0.7 + p.overall * 0.3
+}
+
+function bestAvailable(s: GameState): Player | undefined {
+  let best: Player | undefined
+  let bestVal = -Infinity
+  for (const p of s.draftClass) {
+    const v = boardValue(p)
+    if (v > bestVal) {
+      bestVal = v
+      best = p
+    }
+  }
+  return best
+}
+
+/** Autodraft the user's CURRENT pick with the best available prospect by
+ *  potential-weighted board value, then let AI continue to the next user slot.
+ *  No-op unless the user is on the clock in the draft step. */
+export function doAutoDraftPick(s: GameState, rng: Rng): void {
+  const order = s.draftOrder
+  if (!order || s.day >= order.length) return
+  if (ownerOfSlot(s, s.day) !== s.userTeam) return
+  const best = bestAvailable(s)
+  if (!best) return
+  doDraftPlayer(s, best.id, rng)
+}
+
+/** Autodraft ALL remaining user picks (best available each time) and let the AI
+ *  finish the round order until the draft is complete. */
+export function doAutoCompleteDraft(s: GameState, rng: Rng): void {
+  const order = s.draftOrder
+  if (!order) return
+  let guard = 0
+  while (s.day < order.length && guard++ < order.length + 5) {
+    if (s.draftClass.length === 0) {
+      s.day = order.length
+      break
+    }
+    if (ownerOfSlot(s, s.day) === s.userTeam) doAutoDraftPick(s, rng)
+    else {
+      aiDraftPick(s, s.day, rng)
+      s.day++
+    }
+  }
 }

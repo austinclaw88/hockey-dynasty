@@ -1,5 +1,5 @@
 // Statistical game simulation with player-level attribution. No play-by-play.
-import type { GameState, Game, Player, TeamState, LineAssignments } from '../types.ts'
+import type { GameState, Game, GoalEvent, Player, TeamState, LineAssignments, Position } from '../types.ts'
 import type { Rng } from './rng.ts'
 import {
   clamp,
@@ -42,10 +42,14 @@ function groupOf(p: Player): PosGroup {
 
 /** Resolve a team's lineup to fully-filled slots. When `manual` is supplied
  *  (the user's saved lines), each slot entry that names a healthy roster player
- *  of the correct position group is honoured; empty/invalid slots fall back to
- *  the best remaining healthy player. Every slot the roster can fill is filled;
- *  unfillable slots stay ''. Auto-fill draws from best-by-overall, so a manual =
- *  undefined resolution reproduces the pure auto lineup exactly. */
+ *  of the correct position GROUP is honoured wherever the user put it (a manual
+ *  center on the wing stays there). Empty/invalid slots are AUTO-filled to the
+ *  correct on-ice position: forwards.[line] = [LW, C, RW] — the C slot (index 1)
+ *  draws the best remaining true center, LW (0) the best LW, RW (2) the best RW,
+ *  and only when a position pool is exhausted does an off-position forward fill
+ *  the slot (last resort). Lines fill L1-first so the top trio is the best of
+ *  each position. Defense pairs are [LD, RD]: slot 0 prefers a left-shot D, slot
+ *  1 a right-shot D. Every slot the roster can fill is filled; the rest stay ''. */
 function resolveLineup(team: TeamState, manual: LineAssignments | undefined): LineAssignments {
   const byId = new Map(team.roster.map((p) => [p.id, p]))
   const healthy = team.roster.filter(isHealthy)
@@ -62,7 +66,7 @@ function resolveLineup(team: TeamState, manual: LineAssignments | undefined): Li
     used.add(id)
     return id
   }
-  const takeAuto = (pool: Player[]): string => {
+  const takeFrom = (pool: Player[]): string => {
     for (const p of pool) {
       if (!used.has(p.id)) {
         used.add(p.id)
@@ -71,23 +75,58 @@ function resolveLineup(team: TeamState, manual: LineAssignments | undefined): Li
     }
     return ''
   }
-  const fillSlot = (id: string | undefined, group: PosGroup, pool: Player[]): string => {
-    return takeManual(id, group) ?? takeAuto(pool)
+
+  // ---- forwards: position-aware, line-by-line, off-position as a last resort.
+  const slotPos: Position[] = ['LW', 'C', 'RW'] // forwards[line] = [LW, C, RW]
+  const manualFwd: boolean[][] = [[], [], [], []]
+  const forwards: string[][] = [[], [], [], []]
+  // Pass A: honour manual picks, then fill each slot from its TRUE position pool.
+  for (let line = 0; line < 4; line++) {
+    for (let slot = 0; slot < 3; slot++) {
+      const m = takeManual(manual?.forwards?.[line]?.[slot], 'F')
+      if (m) {
+        forwards[line][slot] = m
+        manualFwd[line][slot] = true
+      } else {
+        forwards[line][slot] = takeFrom(fwdPool.filter((p) => p.pos === slotPos[slot]))
+      }
+    }
+  }
+  // Pass B: any slot still empty (its position pool ran dry) takes the best
+  // remaining forward of ANY position — off-position fill is the last resort.
+  for (let line = 0; line < 4; line++) {
+    for (let slot = 0; slot < 3; slot++) {
+      if (!forwards[line][slot]) forwards[line][slot] = takeFrom(fwdPool)
+    }
   }
 
-  const forwards: string[][] = []
-  for (let line = 0; line < 4; line++) {
-    const row: string[] = []
-    for (let slot = 0; slot < 3; slot++) row.push(fillSlot(manual?.forwards?.[line]?.[slot], 'F', fwdPool))
-    forwards.push(row)
-  }
-  const defense: string[][] = []
+  // ---- defense: [LD, RD] with a shot-side preference. Fill best-by-overall
+  // (unchanged pair assignment, so ratings are unaffected — within-pair order
+  // does not change top-4/top-6 slicing), then, for fully-auto pairs, put the
+  // left-shot on LD (slot 0) and right-shot on RD (slot 1).
+  const manualDef: boolean[][] = [[], [], []]
+  const defense: string[][] = [[], [], []]
   for (let pair = 0; pair < 3; pair++) {
-    const row: string[] = []
-    for (let slot = 0; slot < 2; slot++) row.push(fillSlot(manual?.defense?.[pair]?.[slot], 'D', defPool))
-    defense.push(row)
+    for (let slot = 0; slot < 2; slot++) {
+      const m = takeManual(manual?.defense?.[pair]?.[slot], 'D')
+      if (m) {
+        defense[pair][slot] = m
+        manualDef[pair][slot] = true
+      } else {
+        defense[pair][slot] = takeFrom(defPool)
+      }
+    }
   }
-  const goalies = [fillSlot(manual?.goalies?.[0], 'G', goaliePool), fillSlot(manual?.goalies?.[1], 'G', goaliePool)]
+  for (let pair = 0; pair < 3; pair++) {
+    if (manualDef[pair][0] || manualDef[pair][1]) continue // respect user's placement
+    const ld = byId.get(defense[pair][0])
+    const rd = byId.get(defense[pair][1])
+    if (ld && rd && ld.shoots === 'R' && rd.shoots === 'L') {
+      defense[pair] = [defense[pair][1], defense[pair][0]]
+    }
+  }
+
+  const goalies = [takeManual(manual?.goalies?.[0], 'G') ?? takeFrom(goaliePool), takeManual(manual?.goalies?.[1], 'G') ?? takeFrom(goaliePool)]
   return { forwards, defense, goalies }
 }
 
@@ -267,10 +306,10 @@ function regulationPeriod(rng: Rng): 1 | 2 | 3 {
 }
 
 /** Attribute `goals` for the scoring team: credit stat lines AND record each
- *  goal into the game's box score (same scorer/assists — attributed once).
+ *  goal into the box score `box` (same scorer/assists — attributed once).
  *  When `otWinner` is true the LAST attributed goal is the overtime winner and
  *  gets period 4; all other goals are regulation (periods 1-3). */
-function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng, otWinner: boolean): void {
+function attributeGoals(s: GameState, box: GoalEvent[], teamAbbrev: string, ctx: TeamGameCtx, conceding: TeamGameCtx, goals: number, rng: Rng, otWinner: boolean): void {
   const factorOf = (p: Player): number => ctx.factors.get(p.id) ?? 1
   const goalW = (p: Player): number => goalWeight(p) * factorOf(p)
   const assistW = (p: Player): number => assistWeight(p) * factorOf(p)
@@ -298,7 +337,7 @@ function attributeGoals(s: GameState, game: Game, teamAbbrev: string, ctx: TeamG
       assistIds.push(helper.id)
     }
     const period: 1 | 2 | 3 | 4 = otWinner && g === goals - 1 ? 4 : regulationPeriod(rng)
-    game.goals!.push({ team: teamAbbrev, scorerId: scorer.id, assistIds, period })
+    box.push({ team: teamAbbrev, scorerId: scorer.id, assistIds, period })
     // Conceding team: charge a few on-ice skaters -1.
     const onIce = rng.shuffle([...conceding.scorers]).slice(0, Math.min(3, conceding.scorers.length))
     for (const p of onIce) ensureStat(s, p.id).plusMinus--
@@ -329,10 +368,20 @@ function maybeInjure(s: GameState, team: TeamState, ctx: TeamGameCtx, rng: Rng):
   pushNews(s, `${victim.name} (${team.abbrev}) injured — out ${victim.injuryWeeks} week${victim.injuryWeeks > 1 ? 's' : ''}.`)
 }
 
-/** Simulate one game in place, writing result + player stats into `s`. */
-export function simGame(s: GameState, game: Game, rng: Rng): void {
-  const home = s.teams[game.home]
-  const away = s.teams[game.away]
+/** Result of one simulated game: final score, how it ended, and the full box
+ *  score (every scored goal). Player stat lines are already credited into `s`. */
+export interface PlayedGame {
+  homeGoals: number
+  awayGoals: number
+  endType: 'REG' | 'OT' | 'SO'
+  goals: GoalEvent[]
+}
+
+/** Simulate one game between two teams, crediting player stats into `s` and
+ *  returning the score + box score. `allowShootout` false forces every tie to
+ *  overtime (playoff games never end in a shootout). The home team gets the
+ *  home-ice scoring edge. Shared by the regular-season and playoff sims. */
+function playMatch(s: GameState, home: TeamState, away: TeamState, rng: Rng, allowShootout: boolean): PlayedGame {
   const hc = buildCtx(s, home, rng)
   const ac = buildCtx(s, away, rng)
   const gH = hc.goalie ? hc.goalie.overall : 74
@@ -357,7 +406,8 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
     const homeBetter = strH >= strA
     const winProb = homeBetter ? 0.55 : 0.45
     homeWon = rng.chance(winProb)
-    endType = rng.chance(0.6) ? 'OT' : 'SO'
+    // Playoffs (allowShootout=false): sudden-death OT always, never a shootout.
+    endType = allowShootout ? (rng.chance(0.6) ? 'OT' : 'SO') : 'OT'
     if (homeWon) goalsH++
     else goalsA++
     if (endType === 'OT') {
@@ -372,11 +422,7 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
     attribA = goalsA
   }
 
-  game.homeGoals = goalsH
-  game.awayGoals = goalsA
-  game.endType = endType
-  game.played = true
-  game.goals = [] // box score for this game (regular season only)
+  const box: GoalEvent[] = [] // box score for this game
 
   // GP for active players + starting goalie.
   for (const p of hc.scorers) ensureStat(s, p.id).gp++
@@ -386,8 +432,8 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
 
   // Attribution: regulation goals spread across periods 1-3; the OT winner (if
   // any) is the final attributed goal for its team and gets period 4.
-  attributeGoals(s, game, game.home, hc, ac, attribH, rng, otWinner === 'H')
-  attributeGoals(s, game, game.away, ac, hc, attribA, rng, otWinner === 'A')
+  attributeGoals(s, box, home.abbrev, hc, ac, attribH, rng, otWinner === 'H')
+  attributeGoals(s, box, away.abbrev, ac, hc, attribA, rng, otWinner === 'A')
 
   // Goalie decisions. GA counts scored goals only (shootout decider excluded),
   // so goalie GA stays consistent with the summed skater goals + box score.
@@ -398,6 +444,27 @@ export function simGame(s: GameState, game: Game, rng: Rng): void {
 
   maybeInjure(s, home, hc, rng)
   maybeInjure(s, away, ac, rng)
+
+  return { homeGoals: goalsH, awayGoals: goalsA, endType, goals: box }
+}
+
+/** Simulate one regular-season game in place, writing result + player stats
+ *  into `s` (box score attached to the Game). */
+export function simGame(s: GameState, game: Game, rng: Rng): void {
+  const res = playMatch(s, s.teams[game.home], s.teams[game.away], rng, true)
+  game.homeGoals = res.homeGoals
+  game.awayGoals = res.awayGoals
+  game.endType = res.endType
+  game.played = true
+  game.goals = res.goals
+}
+
+/** Simulate one playoff game between `homeAbbrev` (home ice) and `awayAbbrev`.
+ *  Ties always resolve in overtime (no shootout), so endType is 'REG' | 'OT'.
+ *  Player stats accrue to `s` exactly like a regular-season game. */
+export function simPlayoffGameResult(s: GameState, homeAbbrev: string, awayAbbrev: string, rng: Rng): { homeGoals: number; awayGoals: number; endType: 'REG' | 'OT'; goals: GoalEvent[] } {
+  const res = playMatch(s, s.teams[homeAbbrev], s.teams[awayAbbrev], rng, false)
+  return { homeGoals: res.homeGoals, awayGoals: res.awayGoals, endType: res.endType === 'SO' ? 'OT' : res.endType, goals: res.goals }
 }
 
 /** Play every unplayed game scheduled for `day`. */
@@ -414,33 +481,4 @@ export function healInjuries(s: GameState): void {
       if (p.injuryWeeks && p.injuryWeeks > 0) p.injuryWeeks = Math.max(0, p.injuryWeeks - 1)
     }
   }
-}
-
-/** Best-of-7 playoff series sim (no player stat attribution). Returns winner. */
-export function simSeries(s: GameState, high: string, low: string, rng: Rng): { winner: string; highWins: number; lowWins: number } {
-  const hc = buildCtx(s, s.teams[high], rng)
-  const lc = buildCtx(s, s.teams[low], rng)
-  const gH = hc.goalie ? hc.goalie.overall : 74
-  const gL = lc.goalie ? lc.goalie.overall : 74
-  let highWins = 0
-  let lowWins = 0
-  let gameNo = 0
-  while (highWins < 4 && lowWins < 4) {
-    // Home ice for higher seed in games 1,2,5,7 (0-indexed 0,1,4,6).
-    const highHome = gameNo === 0 || gameNo === 1 || gameNo === 4 || gameNo === 6
-    const xgHigh = expectedGoals(hc.off, lc.def, gL, highHome)
-    const xgLow = expectedGoals(lc.off, hc.def, gH, !highHome)
-    let a = rng.poisson(xgHigh)
-    let b = rng.poisson(xgLow)
-    if (a === b) {
-      const highBetter = hc.off - lc.def >= lc.off - hc.def
-      const highWinsGame = rng.chance(highBetter ? 0.55 : 0.45)
-      if (highWinsGame) a++
-      else b++
-    }
-    if (a > b) highWins++
-    else lowWins++
-    gameNo++
-  }
-  return { winner: highWins > lowWins ? high : low, highWins, lowWins }
 }

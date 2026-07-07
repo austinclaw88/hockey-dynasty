@@ -32,7 +32,8 @@ function teamRank(s: GameState, abbrev: string): number {
 export function pickValue(s: GameState, pick: DraftPick): number {
   const rank = teamRank(s, pick.originalTeam) // worse team -> earlier pick -> more value
   const r1 = Math.max(2, 8 - (32 - rank) * 0.18)
-  return pick.round === 1 ? r1 : r1 * 0.33
+  // R2 ~ a third of an R1; R3 ~ 40% of an R2.
+  return pick.round === 1 ? r1 : pick.round === 2 ? r1 * 0.33 : r1 * 0.33 * 0.4
 }
 
 function sumPlayers(s: GameState, team: string, ids: string[], cap: number): { val: number; players: Player[] } {

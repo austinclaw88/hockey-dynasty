@@ -21,13 +21,14 @@ function inferStrategy(roster: Player[]): 'contend' | 'retool' | 'rebuild' {
   return 'retool'
 }
 
-/** Natural draft picks (2 rounds) for every upcoming draft in the dynasty. */
+/** Natural draft picks (3 rounds) for every upcoming draft in the dynasty. */
 function initialPicks(abbrev: string): DraftPick[] {
   const picks: DraftPick[] = []
   // Drafts run in the offseason after each season: years START_YEAR+1 .. +SEASONS_TOTAL.
   for (let y = START_YEAR + 1; y <= START_YEAR + SEASONS_TOTAL; y++) {
     picks.push({ year: y, round: 1, originalTeam: abbrev, owner: abbrev })
     picks.push({ year: y, round: 2, originalTeam: abbrev, owner: abbrev })
+    picks.push({ year: y, round: 3, originalTeam: abbrev, owner: abbrev })
   }
   return picks
 }
@@ -96,5 +97,31 @@ export function newGame(userTeam: string, data: TeamDataFile[], faPool?: FreeAge
   if (draft2027 && draft2027.players.length > 0) ext(s)._draft2027 = draft2027
   s.schedule = buildSchedule(teams, rng)
   s.rngState = rng.state
+  return s
+}
+
+/** Dynasty FANTASY draft mode: build the league exactly as `newGame`, then pull
+ *  EVERY team's NHL roster players (keeping their real contracts) into a single
+ *  draft pool and start a 23-round snake draft. Prospects, draft picks and the FA
+ *  pool stay attached to their original clubs. The schedule is (re)built when the
+ *  draft completes (see fantasy.ts), so it is cleared here. */
+export function newGameFantasyCore(userTeam: string, data: TeamDataFile[], faPool?: FreeAgentPoolFile, draft2027?: DraftClassFile): GameState {
+  const s = newGame(userTeam, data, faPool, draft2027)
+  const pool: Player[] = []
+  for (const abbr of Object.keys(s.teams)) {
+    const team = s.teams[abbr]
+    for (const p of team.roster) pool.push(p)
+    team.roster = []
+  }
+  // Roughly best-first so an auto/AI board reads sensibly.
+  pool.sort((a, b) => b.overall - a.overall)
+  const rng = new Rng(s.rngState)
+  const order = rng.shuffle(Object.keys(s.teams).slice())
+  s.rngState = rng.state
+  s.schedule = [] // rebuilt at draft completion
+  s.mode = 'fantasy'
+  s.phase = 'fantasyDraft'
+  s.fantasyDraft = { order, pickIndex: 0, pool, rounds: 23 }
+  s.news = [{ day: 0, seasonYear: s.seasonYear, text: `Fantasy draft: every NHL player is available. Build your ${s.teams[userTeam].city} ${s.teams[userTeam].name} from scratch.` }]
   return s
 }

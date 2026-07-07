@@ -1,17 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { GameState, Player } from './types'
 import type { TradeOffer } from './engine'
-import { newGame, loadGame, saveGame, hasSave, deleteSave, getStandings, findPlayer } from './engine'
+import { newGame, newGameFantasy, loadGame, saveGame, hasSave, deleteSave, getStandings, findPlayer } from './engine'
 import { Header } from './ui/Header'
 import { TabNav } from './ui/TabNav'
 import type { TabKey, TabDef } from './ui/TabNav'
 import { TeamSelect } from './ui/TeamSelect'
+import type { GameMode } from './ui/TeamSelect'
 import { Dashboard } from './ui/Dashboard'
 import { Roster } from './ui/Roster'
+import { Players } from './ui/Players'
 import { Standings } from './ui/Standings'
 import { Leaders } from './ui/Leaders'
 import { Trades } from './ui/Trades'
 import { Playoffs } from './ui/Playoffs'
+import { FantasyDraft } from './ui/FantasyDraft'
+import { Celebration } from './ui/Celebration'
 import { OffseasonHub } from './ui/OffseasonHub'
 import type { DevSnapshot } from './ui/OffseasonHub'
 import { History } from './ui/History'
@@ -33,6 +37,7 @@ export default function App() {
   const [tradeIntent, setTradeIntent] = useState<TradeIntent | null>(null)
   const [viewPlayer, setViewPlayer] = useState<{ player: Player; team?: string } | null>(null)
   const [wwit, setWwit] = useState<{ partner: string; playerId: string } | null>(null)
+  const [celebration, setCelebration] = useState<number | null>(null)
   const toastId = useRef(0)
   const nonce = useRef(0)
 
@@ -81,12 +86,38 @@ export default function App() {
     }
   }, [state])
 
+  // Stanley Cup celebration: fire the moment the user's team clinches (final
+  // series concludes) or on entering the offseason as the recorded champion.
+  // A per-season sessionStorage flag prevents re-showing after a reload.
+  useEffect(() => {
+    if (!state) return
+    let champSeason: number | null = null
+    if (state.phase === 'playoffs') {
+      const fin = state.playoffs?.find((x) => x.round === 4 && x.winner === state.userTeam)
+      if (fin) champSeason = state.seasonYear
+    } else if (state.phase === 'offseason' || state.phase === 'over') {
+      const last = state.history[state.history.length - 1]
+      if (last && last.cupWinner === state.userTeam) champSeason = last.year
+    }
+    if (champSeason != null) {
+      const key = `hd-cup-${state.userTeam}-${champSeason}`
+      try {
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, '1')
+          setCelebration(champSeason)
+        }
+      } catch {
+        setCelebration((c) => c ?? champSeason)
+      }
+    }
+  }, [state])
+
   function apply(next: GameState) {
     setState(next)
   }
 
-  function startNewGame(abbrev: string) {
-    const g = newGame(abbrev)
+  function startNewGame(abbrev: string, mode: GameMode) {
+    const g = mode === 'fantasy' ? newGameFantasy(abbrev) : newGame(abbrev)
     setDevSnap({})
     prevPhase.current = g.phase
     setTab('dashboard')
@@ -128,21 +159,31 @@ export default function App() {
   const team = state.teams[state.userTeam]
   const userRow = getStandings(state).league.find((r) => r.team === state.userTeam)
 
+  const inFantasyDraft = state.phase === 'fantasyDraft'
   const pendingCount = state.pendingOffers.length
-  const tabs: TabDef[] = [
-    { key: 'dashboard', label: 'Dashboard' },
-    { key: 'roster', label: 'Roster' },
-    { key: 'standings', label: 'Standings' },
-    { key: 'leaders', label: 'Leaders' },
-    { key: 'trades', label: 'Trades', badge: pendingCount > 0 ? String(pendingCount) : undefined },
-  ]
-  if (state.phase === 'playoffs' || (state.playoffs && state.playoffs.length > 0)) {
-    tabs.push({ key: 'playoffs', label: 'Playoffs', badge: state.phase === 'playoffs' ? '●' : undefined })
+  let tabs: TabDef[]
+  if (inFantasyDraft) {
+    tabs = [
+      { key: 'dashboard', label: 'Fantasy Draft', badge: '●' },
+      { key: 'players', label: 'Players' },
+    ]
+  } else {
+    tabs = [
+      { key: 'dashboard', label: 'Dashboard' },
+      { key: 'roster', label: 'Roster' },
+      { key: 'players', label: 'Players' },
+      { key: 'standings', label: 'Standings' },
+      { key: 'leaders', label: 'Leaders' },
+      { key: 'trades', label: 'Trades', badge: pendingCount > 0 ? String(pendingCount) : undefined },
+    ]
+    if (state.phase === 'playoffs' || (state.playoffs && state.playoffs.length > 0)) {
+      tabs.push({ key: 'playoffs', label: 'Playoffs', badge: state.phase === 'playoffs' ? '●' : undefined })
+    }
+    if (state.phase === 'offseason') {
+      tabs.push({ key: 'offseason', label: 'Offseason', badge: '●' })
+    }
+    tabs.push({ key: 'history', label: 'History' })
   }
-  if (state.phase === 'offseason') {
-    tabs.push({ key: 'offseason', label: 'Offseason', badge: '●' })
-  }
-  tabs.push({ key: 'history', label: 'History' })
 
   const activeTab = tabs.some((t) => t.key === tab) ? tab : 'dashboard'
 
@@ -157,18 +198,25 @@ export default function App() {
         <Header s={state} userRow={userRow} />
         <TabNav tabs={tabs} active={activeTab} onChange={setTab} />
         <main className="app-main">
-          {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
-          {activeTab === 'roster' && <Roster s={state} apply={apply} />}
-          {activeTab === 'standings' && <Standings s={state} />}
-          {activeTab === 'leaders' && <Leaders s={state} />}
-          {activeTab === 'trades' && (
-            <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
+          {inFantasyDraft ? (
+            activeTab === 'players' ? <Players s={state} /> : <FantasyDraft s={state} apply={apply} />
+          ) : (
+            <>
+              {activeTab === 'dashboard' && <Dashboard s={state} apply={apply} onNavigate={setTab} busy={false} />}
+              {activeTab === 'roster' && <Roster s={state} apply={apply} />}
+              {activeTab === 'players' && <Players s={state} />}
+              {activeTab === 'standings' && <Standings s={state} />}
+              {activeTab === 'leaders' && <Leaders s={state} />}
+              {activeTab === 'trades' && (
+                <Trades s={state} apply={apply} intent={tradeIntent} onConsumeIntent={() => setTradeIntent(null)} />
+              )}
+              {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
+              {activeTab === 'offseason' && (
+                <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
+              )}
+              {activeTab === 'history' && <History s={state} />}
+            </>
           )}
-          {activeTab === 'playoffs' && <Playoffs s={state} apply={apply} busy={false} />}
-          {activeTab === 'offseason' && (
-            <OffseasonHub s={state} apply={apply} devSnap={devSnap} onSnapshot={setDevSnap} />
-          )}
-          {activeTab === 'history' && <History s={state} />}
 
           <div style={{ marginTop: 40, textAlign: 'center' }}>
             <button className="btn btn-ghost btn-sm" onClick={abandon} title="Delete save and return to team select">
@@ -197,6 +245,9 @@ export default function App() {
           onClose={() => setWwit(null)}
           onLoad={(offer) => startTrade(offer.to, offer)}
         />
+      )}
+      {celebration != null && (
+        <Celebration s={state} seasonYear={celebration} onClose={() => setCelebration(null)} />
       )}
       <ToastViewport toasts={toasts} onDismiss={dismissToast} />
     </UIContext.Provider>

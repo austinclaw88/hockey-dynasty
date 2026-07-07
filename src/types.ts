@@ -132,10 +132,22 @@ export interface StandingsRow {
 }
 
 export type Phase =
+  | 'fantasyDraft' // optional pre-season fantasy draft (dynasty draft mode)
   | 'regular' // day-by-day sim of the 82-game season
   | 'playoffs' // 16-team bracket, best-of-7
   | 'offseason' // retirement, development, re-sign own expiring, draft, free agency
   | 'over' // 10 seasons complete
+
+/** One completed playoff game within a series. */
+export interface PlayoffGame {
+  /** Abbrev of the home team for this game */
+  home: string
+  homeGoals: number
+  awayGoals: number
+  endType: 'REG' | 'OT'
+  /** Box score (scorer/assists/period), same shape as regular-season games */
+  goals?: GoalEvent[]
+}
 
 export interface PlayoffSeries {
   round: number // 1..4
@@ -144,6 +156,8 @@ export interface PlayoffSeries {
   highWins: number
   lowWins: number
   winner?: string
+  /** Game-by-game results, in order played (absent on legacy saves) */
+  games?: PlayoffGame[]
 }
 
 export interface SeasonSummary {
@@ -251,6 +265,19 @@ export interface GameState {
   pendingOffers: PendingOffer[]
   /** Manual line assignments for the user's team; absent = full auto */
   userLines?: LineAssignments
+  /** 'fantasy' = rosters were built via the dynasty fantasy draft */
+  mode?: 'standard' | 'fantasy'
+  /** Transient fantasy-draft state (phase === 'fantasyDraft' only) */
+  fantasyDraft?: {
+    /** Snake-draft team order for round 1 (reverses each round) */
+    order: string[]
+    /** 0-based overall pick pointer */
+    pickIndex: number
+    /** Undrafted player pool, roughly best-first */
+    pool: Player[]
+    /** Total rounds (each team drafts this many players) */
+    rounds: number
+  }
 }
 
 /** Salary cap in $M by season start year. */
