@@ -4,6 +4,7 @@ import { callUp, sendDown, getCapUsage, toggleTradeBlock, setUserLines, effectiv
 import { Card, OvrBadge, PosTag, CapBar, ExpiryTag, Flag, ShopBadge } from './components'
 import { PlayerModal } from './PlayerModal'
 import { TradeOptionsModal } from './TradeOptions'
+import { ExtensionModal } from './ExtensionModal'
 import { fmtM, potArrow, posGroup } from './format'
 import { isHealthy, buildPlayerIndex } from './util'
 import { useUI } from './uiContext'
@@ -18,6 +19,7 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
   const { pushToast, startTrade } = useUI()
   const [sel, setSel] = useState<string | null>(null)
   const [optsFor, setOptsFor] = useState<string | null>(null)
+  const [extendFor, setExtendFor] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const [sort, setSort] = useState<{ key: SortKey; dir: 1 | -1 }>({ key: 'overall', dir: -1 })
   const [posF, setPosF] = useState<'ALL' | 'F' | 'D' | 'G'>('ALL')
@@ -122,6 +124,11 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                       <td className="name-cell">
                         {p.name}
                         {onBlock && <ShopBadge />}
+                        {p.contract?.yearsLeft === 1 && (
+                          <span className="ntc-tag" style={{ marginLeft: 6, color: 'var(--bad)', borderColor: 'color-mix(in srgb, var(--bad) 45%, transparent)' }} title="Contract expires after this season">
+                            EXP
+                          </span>
+                        )}
                         {!isHealthy(p) && <span className="ntc-tag" style={{ marginLeft: 6 }}>INJ</span>}
                         {p.contract?.ntc && <span className="ntc-tag">NTC</span>}{' '}
                         <Flag nat={p.nationality} />
@@ -280,6 +287,11 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
                   <span className="hint">Roster player · not waiver/send-down eligible.</span>
                 )}
               </div>
+              {!selIsProspect && s.phase === 'regular' && selPlayer.contract?.yearsLeft === 1 && (
+                <button className="btn btn-block btn-good" onClick={() => setExtendFor(selPlayer.id)}>
+                  ✍ Offer Extension
+                </button>
+              )}
               <button
                 className={`btn btn-block ${block.has(selPlayer.id) ? 'btn-good' : 'btn-primary'}`}
                 onClick={() => doToggleBlock(selPlayer)}
@@ -302,6 +314,11 @@ export function Roster({ s, apply }: { s: GameState; apply: (n: GameState) => vo
           onLoad={(offer) => startTrade(offer.to, offer)}
         />
       )}
+
+      {extendFor && (() => {
+        const p = team.roster.find((x) => x.id === extendFor)
+        return p ? <ExtensionModal s={s} player={p} apply={apply} onClose={() => setExtendFor(null)} /> : null
+      })()}
     </div>
   )
 }

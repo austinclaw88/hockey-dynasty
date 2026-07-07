@@ -4,6 +4,7 @@ import { getStandings, getCapUsage, simDays, simToEndOfSeason } from '../engine'
 import { Card, CapBar, TeamLogo, TeamLink } from './components'
 import { BoxScoreModal } from './BoxScore'
 import { LiveGameModal } from './LiveGame'
+import { ScheduleModal } from './ScheduleModal'
 import { nextGames, recentGames, teamOverall, dayLabel } from './util'
 import { seasonLabel, ordinal } from './format'
 import type { TabKey } from './TabNav'
@@ -35,6 +36,7 @@ export function Dashboard({
   const team = s.teams[s.userTeam]
   const [boxGame, setBoxGame] = useState<Game | null>(null)
   const [liveGame, setLiveGame] = useState<Game | null>(null)
+  const [showSchedule, setShowSchedule] = useState(false)
   const standings = getStandings(s)
   const divRows = standings.byDivision[team.division] ?? []
   const rank = divRows.findIndex((r) => r.team === s.userTeam) + 1
@@ -124,7 +126,14 @@ export function Dashboard({
             </div>
           </Card>
 
-          <Card title="Next 5 Games">
+          <Card
+            title="Next 5 Games"
+            right={
+              <button className="btn btn-sm btn-ghost" onClick={() => setShowSchedule(true)}>
+                Full Schedule
+              </button>
+            }
+          >
             {upcoming.length === 0 ? (
               <div className="news-empty">No games remaining.</div>
             ) : (
@@ -153,6 +162,7 @@ export function Dashboard({
 
       {boxGame && <BoxScoreModal s={s} game={boxGame} onClose={() => setBoxGame(null)} />}
       {liveGame && <LiveGameModal s={s} game={liveGame} onClose={() => setLiveGame(null)} />}
+      {showSchedule && <ScheduleModal s={s} onClose={() => setShowSchedule(false)} />}
     </div>
   )
 }

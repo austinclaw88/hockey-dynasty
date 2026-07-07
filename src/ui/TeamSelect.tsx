@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { TEAM_DATA } from '../data'
 import type { TeamDataFile } from '../types'
 import { teamOverall, rosterCapHit } from './util'
@@ -6,15 +6,18 @@ import { fmtM } from './format'
 import { DIVISIONS } from './util'
 import { TeamLogo } from './components'
 
+export type GameMode = 'standard' | 'fantasy'
+
 export function TeamSelect({
   onSelect,
   onContinue,
   hasSave,
 }: {
-  onSelect: (abbrev: string) => void
+  onSelect: (abbrev: string, mode: GameMode) => void
   onContinue: () => void
   hasSave: boolean
 }) {
+  const [mode, setMode] = useState<GameMode>('standard')
   const cards = useMemo(() => {
     return [...TEAM_DATA]
       .map((t) => ({
@@ -37,6 +40,34 @@ export function TeamSelect({
             </button>
           </div>
         )}
+
+        <div className="ts-mode">
+          <div className="ts-mode-toggle" role="tablist" aria-label="Game mode">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === 'standard'}
+              className={`ts-mode-btn ${mode === 'standard' ? 'active' : ''}`}
+              onClick={() => setMode('standard')}
+            >
+              Standard
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={mode === 'fantasy'}
+              className={`ts-mode-btn ${mode === 'fantasy' ? 'active' : ''}`}
+              onClick={() => setMode('fantasy')}
+            >
+              Fantasy Draft
+            </button>
+          </div>
+          <p className="ts-mode-note">
+            {mode === 'standard'
+              ? 'Take over your franchise as it stands today and run it for 10 seasons.'
+              : 'Every NHL player enters one big draft — you draft your whole roster from scratch, then play it out.'}
+          </p>
+        </div>
       </div>
 
       {DIVISIONS.map((div) => {
@@ -49,7 +80,13 @@ export function TeamSelect({
             </div>
             <div className="team-grid">
               {inDiv.map((c) => (
-                <TeamCard key={c.file.info.abbrev} data={c.file} ovr={c.ovr} cap={c.cap} onSelect={onSelect} />
+                <TeamCard
+                  key={c.file.info.abbrev}
+                  data={c.file}
+                  ovr={c.ovr}
+                  cap={c.cap}
+                  onSelect={(abbrev) => onSelect(abbrev, mode)}
+                />
               ))}
             </div>
           </div>

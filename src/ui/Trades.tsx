@@ -172,6 +172,24 @@ export function Trades({
                 </option>
               ))}
             </select>
+            <div className="spacer" />
+            <button className="btn btn-ghost" onClick={() => { reset(); setNotice(null) }}>
+              Clear
+            </button>
+          </div>
+
+          <SelectedStrip
+            idx={idx}
+            userName={userTeam.name}
+            partnerName={partnerTeam?.name ?? 'Partner'}
+            fromPlayers={fromPlayers}
+            toPlayers={toPlayers}
+            focus={focus}
+            onRemoveFrom={(id) => setFromPlayers((p) => toggle(p, id))}
+            onRemoveTo={(id) => setToPlayers((p) => toggle(p, id))}
+          />
+
+          <div className="row" style={{ marginTop: 12 }}>
             <button className="btn" disabled={!allowed.ok} onClick={askAi}>
               Ask AI for an offer
             </button>
@@ -190,10 +208,6 @@ export function Trades({
                 🔎 Find trade offers
               </button>
             )}
-            <div className="spacer" />
-            <button className="btn btn-ghost" onClick={() => { reset(); setNotice(null) }}>
-              Clear
-            </button>
           </div>
           {partnerTeam && (
             <p className="hint" style={{ marginTop: 10, marginBottom: 0 }}>
@@ -273,6 +287,90 @@ export function Trades({
             setNotice({ kind: 'ok', text: 'Loaded offer into the trade machine.' })
           }}
         />
+      )}
+    </div>
+  )
+}
+
+// ---------------- Selected players strip ----------------
+
+/**
+ * Removable name-chips for the players currently on each side of the deal, so
+ * "Build deal around X" / evaluate always make obvious WHO is involved. The
+ * build-around focus player is highlighted.
+ */
+function SelectedStrip({
+  idx,
+  userName,
+  partnerName,
+  fromPlayers,
+  toPlayers,
+  focus,
+  onRemoveFrom,
+  onRemoveTo,
+}: {
+  idx: ReturnType<typeof buildPlayerIndex>
+  userName: string
+  partnerName: string
+  fromPlayers: Set<string>
+  toPlayers: Set<string>
+  focus: string | null
+  onRemoveFrom: (id: string) => void
+  onRemoveTo: (id: string) => void
+}) {
+  const from = [...fromPlayers]
+  const to = [...toPlayers]
+  if (from.length === 0 && to.length === 0) {
+    return (
+      <div className="sel-strip empty">
+        <span className="hint">No players selected yet — pick from either side to build the deal.</span>
+      </div>
+    )
+  }
+  return (
+    <div className="sel-strip">
+      <SelSide label={`${userName} send`} kind="give" ids={from} idx={idx} focus={focus} onRemove={onRemoveFrom} />
+      <SelSide label={`${partnerName} send`} kind="get" ids={to} idx={idx} focus={focus} onRemove={onRemoveTo} />
+    </div>
+  )
+}
+
+function SelSide({
+  label,
+  kind,
+  ids,
+  idx,
+  focus,
+  onRemove,
+}: {
+  label: string
+  kind: 'give' | 'get'
+  ids: string[]
+  idx: ReturnType<typeof buildPlayerIndex>
+  focus: string | null
+  onRemove: (id: string) => void
+}) {
+  return (
+    <div className="sel-side">
+      <div className={`offer-label ${kind}`}>{label}</div>
+      {ids.length === 0 ? (
+        <span className="hint">—</span>
+      ) : (
+        <div className="chip-wrap">
+          {ids.map((id) => {
+            const p = idx.get(id)?.player
+            return (
+              <span key={id} className={`sel-chip ${focus === id ? 'focus' : ''}`}>
+                {p && <PosTag pos={p.pos} />}
+                <span className="a-name">{p?.name ?? id}</span>
+                {p && <OvrBadge overall={p.overall} />}
+                <button className="block-remove" title="Remove from deal" onClick={() => onRemove(id)}>
+                  ×
+                </button>
+              </span>
+            )
+          })}
+        </div>
       )}
     </div>
   )

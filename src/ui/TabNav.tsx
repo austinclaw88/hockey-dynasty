@@ -1,6 +1,7 @@
 export type TabKey =
   | 'dashboard'
   | 'roster'
+  | 'players'
   | 'standings'
   | 'leaders'
   | 'trades'

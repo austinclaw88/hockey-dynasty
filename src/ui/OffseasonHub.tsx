@@ -10,7 +10,6 @@ import {
   signFreeAgent,
   advanceFreeAgencyDay,
   getCapUsage,
-  getSigningPreview,
   autoDraftPick,
   autoCompleteDraft,
 } from '../engine'
@@ -19,6 +18,7 @@ import { fmtM, seasonLabel } from './format'
 import { rosterCounts, buildPlayerIndex } from './util'
 import { PosFilter, matchesPos, SearchInput } from './filters'
 import { useUI } from './uiContext'
+import { SliderField, NtcToggle, NegotiationFeedback } from './negotiation'
 import { ROSTER_MIN, ROSTER_MAX, SEASONS_TOTAL } from '../types'
 
 const OFFSEASON_CAP_NOTE = 'Signings count against next season’s cap.'
@@ -771,81 +771,7 @@ function TileMini({ k, v, ok }: { k: string; v: number; ok: boolean }) {
 
 // ---------------- shared ----------------
 
-function SliderField({ label, min, max, step, value, onChange }: { label: string; min: number; max: number; step: number; value: number; onChange: (n: number) => void }) {
-  return (
-    <div className="field" style={{ minWidth: 180, flex: 1 }}>
-      <label>{label}</label>
-      <input type="range" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} />
-    </div>
-  )
-}
-
-// ---------------- negotiation shared ----------------
-
 /** Generated filler free agents carry an `FA-` id; real players do not. */
 function isGeneratedFA(id: string): boolean {
   return /^FA-/.test(id)
-}
-
-type Verdict = 'certain' | 'likely' | 'coin flip' | 'unlikely' | 'rejected'
-const VERDICT_ORDER: Verdict[] = ['certain', 'likely', 'coin flip', 'unlikely', 'rejected']
-
-/** A styled "include no-trade clause" switch with helper text. */
-function NtcToggle({ ntc, onChange }: { ntc: boolean; onChange: (v: boolean) => void }) {
-  return (
-    <label className="ntc-switch">
-      <span className={`switch ${ntc ? 'on' : ''}`} role="switch" aria-checked={ntc}>
-        <input type="checkbox" checked={ntc} onChange={(e) => onChange(e.target.checked)} />
-        <span className="knob" />
-      </span>
-      <span className="ntc-switch-text">
-        <span className="ntc-switch-label">Include no-trade clause</span>
-        <span className="hint">Sweetens the deal — veterans may accept less money.</span>
-      </span>
-    </label>
-  )
-}
-
-/** 5-state acceptance meter, color coded green → red. */
-function AcceptanceMeter({ verdict }: { verdict: Verdict }) {
-  const idx = VERDICT_ORDER.indexOf(verdict)
-  return (
-    <div className="accept-meter" data-verdict={verdict}>
-      <div className="accept-segs" aria-hidden>
-        {VERDICT_ORDER.map((v, i) => (
-          <span key={v} className={`seg seg-${i} ${i === idx ? 'active' : ''}`} />
-        ))}
-      </div>
-      <div className="accept-label">{verdict}</div>
-    </div>
-  )
-}
-
-/** Live signing feedback: effective ask + acceptance meter for the current offer. */
-function NegotiationFeedback({
-  s,
-  playerId,
-  years,
-  capHit,
-  ntc,
-}: {
-  s: GameState
-  playerId: string
-  years: number
-  capHit: number
-  ntc: boolean
-}) {
-  const preview = getSigningPreview(s, playerId, years, capHit, ntc)
-  return (
-    <div className="nego-feedback">
-      <div className="nego-ask">
-        <span className="k">Effective ask</span>
-        <span className="v">
-          {fmtM(preview.effectiveAsk)} × {years}yr
-          {ntc && <span className="ntc-tag">NTC</span>}
-        </span>
-      </div>
-      <AcceptanceMeter verdict={preview.verdict as Verdict} />
-    </div>
-  )
 }

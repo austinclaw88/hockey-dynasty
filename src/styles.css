@@ -2892,3 +2892,303 @@ input:focus {
   letter-spacing: 0.5px;
   margin-top: 4px;
 }
+
+/* ============================================================
+   Feature wave: mode toggle · fantasy draft · playoff game logs ·
+   trade selected-chips · Stanley Cup celebration
+   ============================================================ */
+
+/* ---- Team-select mode toggle (Standard / Fantasy Draft) ---- */
+.ts-mode {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.ts-mode-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.ts-mode-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.12s, color 0.12s;
+}
+.ts-mode-btn.active {
+  background: var(--team);
+  color: #fff;
+}
+.ts-mode-note {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 13px;
+  max-width: 560px;
+  text-align: center;
+}
+
+/* ---- Fantasy draft pick ticker ---- */
+.draft-ticker-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.ticker-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.ticker-pick.me {
+  background: color-mix(in srgb, var(--team) 20%, var(--card-2));
+  border-color: color-mix(in srgb, var(--team) 55%, transparent);
+}
+.ticker-pick .tp-num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  color: var(--text-faint);
+}
+.ticker-pick .tp-name {
+  font-weight: 600;
+}
+
+/* ---- Playoff series game log ---- */
+.series.series-mine {
+  border-color: color-mix(in srgb, var(--team) 55%, var(--border));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--team) 30%, transparent);
+}
+.series-games {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+.series-game {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text);
+  text-align: left;
+  transition: background 0.12s;
+}
+.series-game:last-child {
+  border-bottom: none;
+}
+.series-game:hover {
+  background: var(--card-hover);
+}
+.series-game .sg-num {
+  font-weight: 800;
+  color: var(--text-faint);
+  min-width: 22px;
+}
+.series-game .sg-win {
+  font-weight: 800;
+  min-width: 34px;
+}
+.series-game .sg-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.series-game .sg-ot {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--gold);
+}
+.series-game .sg-home {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+.series-mine-tag {
+  padding: 4px 12px;
+  font-size: 11px;
+  color: var(--team2);
+  background: color-mix(in srgb, var(--team) 12%, transparent);
+}
+
+/* ---- Trade machine: selected players strip ---- */
+.sel-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card-2);
+}
+.sel-strip.empty {
+  display: block;
+  padding: 10px 12px;
+}
+.sel-side {
+  min-width: 0;
+}
+.sel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border-2);
+  border-radius: 999px;
+  padding: 3px 6px 3px 8px;
+  font-size: 12.5px;
+}
+.sel-chip.focus {
+  border-color: var(--team);
+  background: color-mix(in srgb, var(--team) 18%, var(--card));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--team) 45%, transparent);
+}
+.sel-chip .a-name {
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .sel-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Stanley Cup celebration overlay ---- */
+.cup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--cup1) 78%, #000) 0%, #05070b 70%),
+    #05070b;
+  animation: cup-fade 0.4s ease;
+}
+@keyframes cup-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.cup-card {
+  width: 100%;
+  max-width: 620px;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--cup1) 30%, rgba(20, 24, 32, 0.9)), rgba(12, 15, 20, 0.92));
+  border: 1px solid color-mix(in srgb, var(--cup2) 45%, transparent);
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  padding: 32px 28px 28px;
+}
+.cup-trophy {
+  font-size: 76px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 18px color-mix(in srgb, var(--gold) 60%, transparent));
+  animation: cup-pop 0.5s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+@keyframes cup-pop {
+  from { transform: scale(0.3); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.cup-kicker {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.cup-title {
+  margin: 8px 0 4px;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.3px;
+  line-height: 1.12;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+}
+.cup-record {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  margin-top: 6px;
+}
+.cup-run {
+  margin: 18px auto 0;
+  max-width: 420px;
+  text-align: left;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 10px 0;
+}
+.cup-run-head {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.cup-run-leg {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+}
+.cup-run-round {
+  font-weight: 700;
+  min-width: 130px;
+  color: rgba(255, 255, 255, 0.75);
+}
+.cup-run-opp {
+  flex: 1;
+  font-weight: 600;
+}
+.cup-run-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+.cup-scorer {
+  margin-top: 14px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+.cup-continue {
+  margin-top: 22px;
+}
+
+@media (max-width: 720px) {
+  .cup-title {
+    font-size: 22px;
+  }
+  .cup-trophy {
+    font-size: 60px;
+  }
+  .cup-run-round {
+    min-width: 96px;
+  }
+}
