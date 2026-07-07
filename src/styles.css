@@ -7,19 +7,23 @@
   --team: #2a6cff;
   --team2: #ffffff;
 
-  --bg: #0e1116;
-  --bg-2: #0b0e13;
-  --card: #161b22;
-  --card-2: #1c232c;
-  --card-hover: #202834;
-  --border: #262d38;
-  --border-2: #313a47;
+  /* Chosen cold neutrals — an arena at night, not a default admin gray.
+     base -> surface -> raised, separated by light hairline seams. */
+  --bg: #0b0e13;
+  --bg-2: #070a0e; /* inset / scoreboard-panel darker step */
+  --card: #12161d; /* surface */
+  --card-2: #1a202a; /* raised */
+  --card-hover: #1f2732;
+  --border: rgba(255, 255, 255, 0.07); /* hairline seam */
+  --border-2: rgba(255, 255, 255, 0.13); /* stronger seam */
 
   --text: #e7ecf2;
   --text-dim: #9aa6b4;
   --text-faint: #64707e;
 
-  --gold: #d4af37;
+  /* Fixed brand neutral-gold — reserved for elite moments only
+     (90+ OVR, trophies, the Cup). Not a general accent. */
+  --gold: #c9a24b;
   --green: #3fb950;
   --teal: #29a3a3;
   --gray: #8b97a5;
@@ -31,16 +35,50 @@
   --up: #3fb950;
   --down: #e5534b;
 
-  --radius: 10px;
-  --radius-sm: 6px;
-  --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  /* Flat broadcast surfaces — corners barely rounded. */
+  --radius: 3px;
+  --radius-sm: 2px;
+  --shadow: 0 10px 34px rgba(0, 0, 0, 0.5);
+
+  /* Broadcast-graphic rhythm: whitespace steps on an 8px scale. */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 16px;
+  --s4: 24px;
 
   /* Height of the sticky header — the tab bar sticks directly below it.
      Overridden in the mobile media query where the header compresses. */
-  --header-h: 76px;
+  --header-h: 78px;
 
-  --mono: 'SF Mono', 'Roboto Mono', 'Menlo', 'Consolas', ui-monospace, monospace;
+  /* Scoreboard numerals — the identity move: tabular monospace everywhere a
+     stat, score, or rating is shown. */
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
   --sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Uppercase "eyebrow" label treatment reused across the app. */
+  --eyebrow-ls: 0.08em;
+}
+
+/* Every numeric context uses the scoreboard mono face with tabular figures. */
+.num,
+.mono,
+.ovr,
+.tile .v,
+.header-record .big,
+.kv .cell .v,
+.team-card .tc-stats .v,
+.strength,
+.series-team .swins,
+.box-team-goals,
+.live-score-nums,
+.series-game .sg-score,
+.nego-ask .v,
+.cup-run-score,
+.tbl td.num,
+.tbl th.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
 }
 
 * {
@@ -99,9 +137,12 @@ button {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: linear-gradient(120deg, var(--team) 0%, color-mix(in srgb, var(--team) 68%, #000) 100%);
-  border-bottom: 3px solid var(--team2);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(120deg, var(--team) 0%, color-mix(in srgb, var(--team) 62%, #05070b) 100%);
+  /* Jersey hem: a thin secondary/white stripe below a thick team-color band. */
+  border-bottom: 2px solid var(--team2);
+  box-shadow:
+    inset 0 -6px 0 0 var(--team),
+    0 3px 14px rgba(0, 0, 0, 0.5);
 }
 
 .header-inner {
@@ -188,13 +229,13 @@ button {
 
 .pill {
   display: inline-block;
-  padding: 2px 9px;
-  border-radius: 999px;
-  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 10.5px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: rgba(0, 0, 0, 0.3);
+  letter-spacing: var(--eyebrow-ls);
+  background: rgba(0, 0, 0, 0.32);
   color: #fff;
 }
 
@@ -202,7 +243,7 @@ button {
 
 .tabs {
   background: var(--bg-2);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-2);
   position: sticky;
   top: var(--header-h);
   z-index: 15;
@@ -221,12 +262,14 @@ button {
   background: none;
   border: none;
   color: var(--text-dim);
-  padding: 11px 14px;
-  font-size: 13px;
-  font-weight: 600;
+  padding: 12px 15px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
   border-bottom: 2px solid transparent;
   white-space: nowrap;
-  transition: color 0.12s, border-color 0.12s;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .tab:hover {
@@ -249,10 +292,14 @@ button {
 
 /* ---------------- Cards & layout ---------------- */
 
+/* Primary panel: flat surface, no outer border. A 2px team-color top edge
+   reads like a broadcast lower-third. Separation comes from the background
+   step against the base and the hairline seam under the header. */
 .card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border: none;
+  border-top: 2px solid var(--team);
+  border-radius: 0 0 var(--radius) var(--radius);
   overflow: hidden;
 }
 
@@ -260,8 +307,9 @@ button {
   padding: 16px;
 }
 
+/* Section header as an uppercase eyebrow sitting ON the seam. */
 .card-head {
-  padding: 12px 16px;
+  padding: 11px 16px;
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -271,11 +319,23 @@ button {
 
 .card-head h3 {
   margin: 0;
-  font-size: 13px;
+  font-size: 11.5px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: var(--eyebrow-ls);
   color: var(--text-dim);
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* Broadcast tick before the eyebrow label. */
+.card-head h3::before {
+  content: '';
+  width: 3px;
+  height: 12px;
+  background: var(--team);
+  flex: none;
 }
 
 .grid {
@@ -305,8 +365,9 @@ button {
 }
 
 .section-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 0 0 4px;
 }
 
@@ -339,11 +400,13 @@ button {
   background: var(--card-2);
   border: 1px solid var(--border-2);
   color: var(--text);
-  padding: 8px 14px;
+  padding: 8px 15px;
   border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  transition: background 0.12s, border-color 0.12s, transform 0.05s;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.06s ease, color 0.15s ease;
 }
 
 .btn:hover:not(:disabled) {
@@ -362,12 +425,13 @@ button {
 
 .btn-primary {
   background: var(--team);
-  border-color: var(--team);
+  border-color: color-mix(in srgb, var(--team) 60%, #000);
   color: #fff;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.28);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--team) 85%, #fff);
+  background: color-mix(in srgb, var(--team) 86%, #fff);
 }
 
 .btn-lg {
@@ -392,7 +456,24 @@ button {
 
 .btn-ghost {
   background: none;
-  border-color: var(--border);
+  border-color: var(--border-2);
+}
+
+/* Sim buttons become a recessed "control deck" strip on the dashboard. */
+.sim-buttons {
+  margin: -16px;
+  padding: 14px 16px;
+  background: var(--bg-2);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.03);
+  gap: 8px;
+}
+.sim-buttons .btn {
+  background: var(--card-2);
+  border-color: var(--border-2);
+}
+.sim-buttons .btn-primary {
+  background: var(--team);
+  border-color: color-mix(in srgb, var(--team) 60%, #000);
 }
 
 /* ---------------- Tables ---------------- */
@@ -411,15 +492,16 @@ table.tbl {
   text-align: left;
   color: var(--text-faint);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 10.5px;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 9px 10px;
-  border-bottom: 1px solid var(--border);
+  letter-spacing: var(--eyebrow-ls);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-2);
   white-space: nowrap;
   position: sticky;
   top: 0;
-  background: var(--card);
+  /* Compressed header strip, darker than the rows. */
+  background: var(--bg-2);
 }
 
 .tbl th.sortable {
@@ -444,11 +526,11 @@ table.tbl {
 }
 
 .tbl tbody tr {
-  transition: background 0.1s;
+  transition: background 0.15s ease;
 }
 
 .tbl tbody tr:hover {
-  background: var(--card-hover);
+  background: color-mix(in srgb, var(--team) 10%, transparent);
 }
 
 .tbl tr.clickable {
@@ -472,7 +554,9 @@ table.tbl {
 }
 
 .name-cell {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
 }
 
 .group-label {
@@ -499,22 +583,26 @@ table.tbl {
 
 /* ---------------- OVR badges ---------------- */
 
+/* Angular clipped scoreboard chip — a cut corner instead of a rounded rect. */
 .ovr {
   display: inline-block;
-  min-width: 30px;
+  min-width: 32px;
   text-align: center;
-  padding: 2px 6px;
-  border-radius: 5px;
+  padding: 3px 7px;
+  border-radius: 0;
   font-weight: 800;
   font-size: 12.5px;
-  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
   border: 1px solid transparent;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
 }
 
+/* Elite: 90+ gets the fixed brand-gold treatment with a hairline glow. */
 .ovr-gold {
-  background: color-mix(in srgb, var(--gold) 22%, transparent);
-  color: var(--gold);
-  border-color: color-mix(in srgb, var(--gold) 50%, transparent);
+  background: color-mix(in srgb, var(--gold) 26%, #1a150a);
+  color: color-mix(in srgb, var(--gold) 88%, #fff);
+  border-color: color-mix(in srgb, var(--gold) 70%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent);
 }
 
 .ovr-green {
@@ -545,13 +633,14 @@ table.tbl {
   display: inline-block;
   min-width: 26px;
   text-align: center;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
   color: var(--text-dim);
   background: var(--card-2);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 1px 5px;
+  border: 1px solid var(--border-2);
+  border-radius: 2px;
+  padding: 2px 5px;
 }
 
 .flag {
@@ -768,14 +857,14 @@ table.tbl {
 
 .tag {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: var(--eyebrow-ls);
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: 2px;
   background: var(--card-2);
   color: var(--text-dim);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-2);
 }
 
 .tag.rfa {
@@ -832,37 +921,49 @@ table.tbl {
 
 /* ---------------- Stat tiles ---------------- */
 
+/* Tight stat rail — scoreboard panels butted close together. */
 .tiles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
+  gap: 2px;
 }
 
+/* Inset darker scoreboard panel: recessed against the base, mono readout. */
 .tile {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
+  background: var(--bg-2);
+  border: none;
+  border-radius: 0;
+  padding: 12px 14px 13px;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+.tiles > .tile:first-child {
+  border-top-left-radius: var(--radius);
+}
+.tiles > .tile:last-child {
+  border-top-right-radius: var(--radius);
 }
 
 .tile .k {
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
+  letter-spacing: var(--eyebrow-ls);
   color: var(--text-faint);
+  font-weight: 700;
 }
 
 .tile .v {
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  margin-top: 2px;
+  letter-spacing: -0.01em;
+  margin-top: 3px;
+  color: #f2f5f9;
 }
 
 .tile .v small {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-dim);
   font-weight: 600;
+  letter-spacing: 0;
 }
 
 /* ---------------- News feed ---------------- */
@@ -942,13 +1043,14 @@ table.tbl {
 /* ---------------- Phase banner ---------------- */
 
 .banner {
-  border-radius: var(--radius);
+  border-radius: 0 0 var(--radius) var(--radius);
   padding: 16px 18px;
   display: flex;
   align-items: center;
   gap: 16px;
-  border: 1px solid var(--border-2);
-  background: linear-gradient(120deg, color-mix(in srgb, var(--team) 30%, var(--card)), var(--card));
+  border: none;
+  border-top: 2px solid var(--team);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--team) 24%, var(--card)), var(--card) 70%);
 }
 
 .banner .banner-body {
@@ -967,8 +1069,8 @@ table.tbl {
 }
 
 .banner.playoffs {
-  background: linear-gradient(120deg, rgba(212, 175, 55, 0.22), var(--card));
-  border-color: color-mix(in srgb, var(--gold) 40%, transparent);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--gold) 20%, var(--card)), var(--card) 72%);
+  border-top-color: var(--gold);
 }
 
 .banner.over {
@@ -989,15 +1091,43 @@ table.tbl {
 }
 
 .ts-hero h1 {
-  font-size: 34px;
+  font-size: 40px;
   font-weight: 900;
   margin: 0 0 6px;
-  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 
 .ts-hero p {
   color: var(--text-dim);
   margin: 0;
+}
+
+/* Division eyebrow with a leading team-neutral rule (team-select + roster groups). */
+.ts-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  color: var(--text-dim);
+}
+.ts-div::before {
+  content: '';
+  width: 3px;
+  height: 13px;
+  background: var(--team, #5a6472);
+  flex: none;
+}
+.ts-div::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
 .ts-continue {
@@ -1015,21 +1145,26 @@ table.tbl {
 .team-card {
   --tc: #444;
   text-align: left;
+  color: var(--text);
   background: var(--card);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--tc);
-  border-radius: var(--radius);
+  border: none;
+  /* Broadcast lower-third: a team-color band across the top edge. */
+  border-top: 3px solid var(--tc);
+  border-radius: 0 0 var(--radius) var(--radius);
   padding: 14px;
-  transition: transform 0.1s, border-color 0.12s, background 0.12s;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .team-card:hover {
   transform: translateY(-2px);
-  background: var(--card-hover);
-  border-color: var(--tc);
+  background: var(--card-2);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--tc) 55%, transparent),
+    0 8px 22px rgba(0, 0, 0, 0.4);
 }
 
 .team-card .tc-top {
@@ -1056,13 +1191,17 @@ table.tbl {
 }
 
 .team-card .tc-city {
-  font-size: 12px;
+  font-size: 10.5px;
   color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: var(--eyebrow-ls);
+  font-weight: 700;
 }
 
 .team-card .tc-team {
   font-weight: 800;
-  font-size: 15px;
+  font-size: 16px;
+  letter-spacing: -0.01em;
 }
 
 .team-card .tc-stats {
@@ -1076,13 +1215,16 @@ table.tbl {
 .team-card .tc-stats .k {
   color: var(--text-faint);
   text-transform: uppercase;
-  font-size: 10px;
-  letter-spacing: 0.5px;
+  font-size: 9.5px;
+  letter-spacing: var(--eyebrow-ls);
+  font-weight: 700;
 }
 
 .team-card .tc-stats .v {
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+  color: #eef2f7;
+  margin-top: 1px;
 }
 
 /* ---------------- Modal ---------------- */
@@ -1367,16 +1509,17 @@ input:focus {
 }
 
 .award {
-  background: linear-gradient(140deg, rgba(212, 175, 55, 0.14), var(--card));
-  border: 1px solid color-mix(in srgb, var(--gold) 30%, transparent);
-  border-radius: var(--radius);
+  background: linear-gradient(140deg, color-mix(in srgb, var(--gold) 16%, var(--card)), var(--card) 70%);
+  border: none;
+  border-top: 2px solid var(--gold);
+  border-radius: 0 0 var(--radius) var(--radius);
   padding: 14px;
 }
 
 .award .trophy {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: var(--eyebrow-ls);
   color: var(--gold);
   font-weight: 800;
 }
@@ -1402,17 +1545,20 @@ input:focus {
 
 .round-col h4 {
   margin: 0 0 10px;
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: var(--eyebrow-ls);
   color: var(--text-dim);
+  font-weight: 800;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
 }
 
 .series {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   overflow: hidden;
 }
 
@@ -1503,13 +1649,16 @@ input:focus {
 }
 
 .subtab {
-  background: var(--card);
-  border: 1px solid var(--border);
+  background: var(--card-2);
+  border: 1px solid var(--border-2);
   color: var(--text-dim);
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 12.5px;
+  padding: 7px 15px;
+  border-radius: 2px;
+  font-size: 11.5px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .subtab.active {
@@ -1652,13 +1801,15 @@ input:focus {
 
 .chip {
   background: var(--card-2);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-2);
   color: var(--text-dim);
-  padding: 4px 11px;
-  border-radius: 999px;
-  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 2px;
+  font-size: 11px;
   font-weight: 700;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
 .chip:hover:not(.active) {
@@ -2851,11 +3002,8 @@ input:focus {
 .scoring-log th {
   padding: 6px 10px;
 }
-.scoring-log tbody tr:nth-child(even) {
-  background: color-mix(in srgb, var(--card-2) 55%, transparent);
-}
 .scoring-log tbody tr:hover {
-  background: var(--card-hover);
+  background: color-mix(in srgb, var(--team) 10%, transparent);
 }
 .scoring-log .log-opp {
   display: flex;
@@ -2908,21 +3056,23 @@ input:focus {
 }
 .ts-mode-toggle {
   display: inline-flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  gap: 3px;
+  padding: 3px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 3px;
 }
 .ts-mode-btn {
   background: none;
   border: none;
   color: var(--text-dim);
-  padding: 8px 20px;
-  border-radius: 999px;
-  font-size: 13px;
+  padding: 8px 22px;
+  border-radius: 2px;
+  font-size: 11.5px;
   font-weight: 700;
-  transition: background 0.12s, color 0.12s;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .ts-mode-btn.active {
   background: var(--team);

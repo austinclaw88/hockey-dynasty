@@ -75,9 +75,7 @@ export function TeamSelect({
         if (inDiv.length === 0) return null
         return (
           <div key={div} style={{ marginBottom: 24 }}>
-            <div className="section-sub" style={{ marginBottom: 8, fontWeight: 700 }}>
-              {div}
-            </div>
+            <div className="ts-div">{div}</div>
             <div className="team-grid">
               {inDiv.map((c) => (
                 <TeamCard
